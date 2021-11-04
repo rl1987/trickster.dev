@@ -1,8 +1,8 @@
-baseURL = "https://risotto.joeroe.io"
+baseURL = "https://trickster.dev/"
 theme = "risotto"
-title = "risotto demo"
-author = "Joe Roe"
-copyright = "© 2021 Joe Roe"
+title = "Trickster Dev"
+author = "rl1987"
+#copyright = "© 2021 rl1987"
 paginate = 3
 languageCode = "en"
 DefaultContentLanguage = "en"
@@ -22,9 +22,9 @@ mode = "dark-mode"
 
 # Sidebar: about/bio
 [params.about]
-title = "risotto"
-description = "A [hugo](https://gohugo.io) theme inspired by terminal ricing."
-logo = "images/rice.svg"
+title = "Trickster Dev"
+description = "Code level discussion of web scraping, gray hat automation, growth hacking and bounty hunting"
+#logo = "images/rice.svg"
 
 # Sidebar: social links
 # Available icon sets:
@@ -36,10 +36,10 @@ icon = "fab fa-github"
 title = "GitHub"
 url = "https://github.com/joeroe/risotto"
 
-[[params.socialLinks]]
-icon = "fas fa-envelope"
-title = "Email"
-url = "mailto:example@example.com"
+#[[params.socialLinks]]
+#icon = "fas fa-envelope"
+#title = "Email"
+#url = "mailto:example@example.com"
 
 [[params.socialLinks]]
 icon = "ai ai-orcid"
