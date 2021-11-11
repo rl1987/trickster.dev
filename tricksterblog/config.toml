@@ -31,21 +31,6 @@ description = "Code level discussion of web scraping, gray hat automation, growt
 # * FontAwesome 5 <https://fontawesome.com/> ('fas fa-' or 'fab-fa' for brands)
 # * Academicons <https://jpswalsh.github.io/academicons> ('ai ai-')
 
-[[params.socialLinks]]
-icon = "fab fa-github"
-title = "GitHub"
-url = "https://github.com/joeroe/risotto"
-
-#[[params.socialLinks]]
-#icon = "fas fa-envelope"
-#title = "Email"
-#url = "mailto:example@example.com"
-
-[[params.socialLinks]]
-icon = "ai ai-orcid"
-title = "ORCID"
-url = "https://orcid.org/0000-0001-2345-6789"
-
 [menu]
 
   [[menu.main]]
