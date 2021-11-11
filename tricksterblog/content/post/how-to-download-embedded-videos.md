@@ -41,7 +41,7 @@ $ youtube-dl "https://player.vimeo.com/video/401113675?muted=1&autoplay=1&&title
 [download] Destination: WEBINAR - NO ENCORE-401113675.fhls-fastly_skyfire_sep-2762.mp4
 ```
 
-However, you may want to download multiple embedded videos. Our second example is [Drop Service Mafia course page](https://dropservicemafia.com/free-course/) with multiple Youtube videos that we may want download to have something to watch during that inter-continental flight that we will be taking when Bali finally opens.
+However, you may want to download multiple embedded videos. Our second example is [Drop Service Mafia course page](https://dropservicemafia.com/free-course/) with multiple Youtube videos that we may want download to have something to watch during that inter-continental flight that people will be taking when Bali finally opens.
 
 The first video is MP4 file embedded via `<video>` tag and can be downloaded with curl or wget.
 
@@ -53,5 +53,54 @@ Similarly to previous example, we have Youtube videos embedded into HTML code of
 
 We could download these one by one, but let's be smarter about this. Let's write a small Python script that will scrape the Youtube URLs of embedded videos and then let youtube-dl download them.
 
+One thing to note here is that the iframe with Youtube URL at `src` attribute is not present in the HTML code that get downloaded from the server and is created by client-side Javascript. For each video, we get the an element like this:
 
+```
+<div class="elementor-element elementor-element-f28e248 elementor-aspect-ratio-169 elementor-widget elementor-widget-video" data-id="f28e248" data-element_type="widget" data-settings="{&quot;youtube_url&quot;:&quot;https:\/\/www.youtube.com\/watch?v=WDBlE0XeGGw&quot;,&quot;video_type&quot;:&quot;youtube&quot;,&quot;controls&quot;:&quot;yes&quot;,&quot;aspect_ratio&quot;:&quot;169&quot;}" data-widget_type="video.default">
+```
+
+Note that Youtube URL is present in the JSON string in one of the attribute values.
+
+The code to scrape Youtube URLs and save them into the file is the following.
+
+```python
+#!/usr/bin/python3
+
+import json
+
+import requests
+from lxml import html
+
+
+def main():
+    resp = requests.get("https://dropservicemafia.com/free-course/")
+
+    tree = html.fromstring(resp.text)
+
+    video_divs = tree.xpath('//div[@data-widget_type="video.default"]')
+
+    out_f = open("urls.txt", "w")
+
+    for video_div in video_divs:
+        settings_json = video_div.get("data-settings")
+        settings_dict = json.loads(settings_json)
+
+        youtube_url = settings_dict.get("youtube_url")
+        if youtube_url is None:
+            continue
+
+        out_f.write(youtube_url + "\n")
+
+    out_f.close()
+
+
+if __name__ == "__main__":
+    main()
+```
+
+Running this scripts gives urls.txt file containing video links that we can launch youtube-dl with:
+
+```
+$ youtube-dl --batch-file=urls.txt
+```
 
