@@ -13,9 +13,7 @@ As our first example, let us [Funnelscripts landing page](https://funnelscripts.
 
 [First image](/2021-11-11_17.31.39.png)
 
-Or do they really? Let's register for the webinar and try to see beyond the facade.
-
-Few minutes later, we are able to see what appears to be the stream of the webinar.
+Or do they really? Let's register for the webinar and try to see beyond the facade. Few minutes later, we are able to see what appears to be the stream of the webinar.
 
 [Second image](/2021-11-11_17.43.12.png)
 
@@ -41,7 +39,8 @@ $ youtube-dl "https://player.vimeo.com/video/401113675?muted=1&autoplay=1&&title
 [download] Destination: WEBINAR - NO ENCORE-401113675.fhls-fastly_skyfire_sep-2762.mp4
 ```
 
-However, you may want to download multiple embedded videos. Our second example is [Drop Service Mafia course page](https://dropservicemafia.com/free-course/) with multiple Youtube videos that we may want download to have something to watch during that inter-continental flight that people will be taking when Bali finally opens.
+However, you may want to download multiple embedded videos. Our second example is [Drop Service Mafia course page](https://dropservicemafia.com/free-course/).
+There's multiple Youtube videos we may want downloaded to have something to watch during an inter-continental flight that people will be taking when Bali finally re-opens.
 
 The first video is MP4 file embedded via `<video>` tag and can be downloaded with curl or wget.
 
@@ -49,7 +48,7 @@ The first video is MP4 file embedded via `<video>` tag and can be downloaded wit
 
 Similarly to previous example, we have Youtube videos embedded into HTML code of the page.
 
-[Fifth image](/2021-11-11_18.09.37.png)
+[Fifth image](/2021-11-11_18.15.46.png)
 
 We could download these one by one, but let's be smarter about this. Let's write a small Python script that will scrape the Youtube URLs of embedded videos and then let youtube-dl download them.
 
