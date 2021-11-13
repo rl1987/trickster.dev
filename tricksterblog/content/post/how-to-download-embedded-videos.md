@@ -100,6 +100,13 @@ if __name__ == "__main__":
 Running this scripts gives urls.txt file containing video links that we can launch youtube-dl with:
 
 ```
-$ youtube-dl --batch-file=urls.txt
+$ youtube-dl --batch-file=urls.txt --ignore-errors
 ```
+
+We are launching youtube-dl with `--ignore-errors` since we want the tool not to stop when it runs into some of the videos that were privated.
+
+Lately youtube-dl has been rather slow, but there are new projects emerging that are building on the same concept:
+
+* [yt-dlc](https://github.com/blackjack4494/yt-dlc)
+* [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 
