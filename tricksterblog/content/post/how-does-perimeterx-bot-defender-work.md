@@ -3,7 +3,7 @@ author = "rl1987"
 title = "How does PerimeterX Bot Defender work"
 date = "2021-11-22"
 draft = true
-tags = ["scraping", "anti-bot", "security""]
+tags = ["scraping", "anti-bot", "security"]
 +++
 
 PerimeterX is a prominent vendor of anti-bot technology. It is used by portals such as Zillow, Crunchbase, StockX and many others.
