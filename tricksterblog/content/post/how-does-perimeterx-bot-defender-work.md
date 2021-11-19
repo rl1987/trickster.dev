@@ -7,8 +7,8 @@ tags = ["scraping", "anti-bot", "security"]
 +++
 
 PerimeterX is a prominent vendor of anti-bot technology. It is used by portals such as Zillow, Crunchbase, StockX and many others.
-
-WRITEME: some more introduction
+Many developers working on web scraping or automation scripts have ran into PerimeterX Human Challenge - a proprietary CAPTCHA that
+involves pressing and holding a HTML element and does not seem to solvable by any of the CAPTCHA solving services.
 
 PerimeterX has registered the following US patents:
 
