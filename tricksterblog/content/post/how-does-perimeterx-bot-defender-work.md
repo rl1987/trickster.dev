@@ -12,9 +12,9 @@ WRITEME: some more introduction
 
 PerimeterX has registered the following US patents:
 
-* US 10,708,287B2 - ANALYZING CLIENT APPLICATION BEHAVIOR TO DETECT ANOMALIES AND PREVENT ACCESS
-* US 10,951,627B2 - SECURING ORDERED RESOURCE ACCESS
-* US 2021/064685A1 - IDENTIFYING A SCRIPT THAT ORIGINATES SYNCHRONOUS AND ASYNCHRONOUS ACTIONS (pending application)
+* [US 10,708,287B2](https://patents.google.com/patent/US20190173900A1/en?assignee=perimeterx&oq=perimeterx) - ANALYZING CLIENT APPLICATION BEHAVIOR TO DETECT ANOMALIES AND PREVENT ACCESS
+* [US 10,951,627B2](https://patents.google.com/patent/US20180109540A1/en?assignee=perimeterx&oq=perimeterx) - SECURING ORDERED RESOURCE ACCESS
+* [US 2021/064685A1](https://patents.google.com/patent/US20210064685A1/en?assignee=perimeterx&oq=perimeterx) - IDENTIFYING A SCRIPT THAT ORIGINATES SYNCHRONOUS AND ASYNCHRONOUS ACTIONS (pending application)
 
 Let us take a look into these patents to discover key working principles of PerimeterX bot mitigation technology.
 
