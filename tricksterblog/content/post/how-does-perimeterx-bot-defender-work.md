@@ -96,21 +96,21 @@ monitoring calls to `sync()` function:
 
 ```javascript
 let initiatorScript = null; 
-function getCurentScript(){
-  if(document.curentScript) {
+function getCurentScript() {
+  if (document.curentScript) {
     return document.curentScript;
   } else {
     // if there no script that is curently being processed - 
-    // /then document.curentScript is nul 
+    // then document.curentScript is null
     return initiatorScript;
   } 
 }
 // hold a reference to the original sync API function 
 const realSyncAPI = window['sync']; 
 window['sync'] = function(url) {
-  // use 'document.curentScript' to record whichs script 
+  // use 'document.curentScript' to record which script 
   // initiated the call to sync() 
-  capture('sync',getCurentScript()); 
+  capture('sync', getCurentScript()); 
   // now cal the original sync API to perform its natural
   // behavior in the browser as it was being overwriten 
   return realSyncAPI(url);
