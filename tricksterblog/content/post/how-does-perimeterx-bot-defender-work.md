@@ -14,7 +14,7 @@ PerimeterX has registered the following US patents:
 
 * US 10,708,287B2 - ANALYZING CLIENT APPLICATION BEHAVIOR TO DETECT ANOMALIES AND PREVENT ACCESS
 * US 10,951,627B2 - SECURING ORDERED RESOURCE ACCESS
-* US 2021/064685A1 - IDENTIFYING A SCRIPT THAT ORIGINATES SYNCHRONOUS AND ASYNCHRONOUS ACTIONS
+* US 2021/064685A1 - IDENTIFYING A SCRIPT THAT ORIGINATES SYNCHRONOUS AND ASYNCHRONOUS ACTIONS (pending application)
 
 Let us take a look into these patents to discover key working principles of PerimeterX bot mitigation technology.
 
@@ -76,4 +76,35 @@ US 10,951,627B2
 US 2021/064685A1 
 ----------------
 
+As discussed before, PerimeterX Security Module perform client side activity monitoring to keep watching for anomalous behaviour
+once access has been granted. This patent application is about implementing API call monitoring in frontent JavaScript
+environment. PerimeterX code overwrites JS functions that it wants to monitor with wrapper code that takes note of API call 
+and calls the original function. In case of async actions, callbacks are overwritten in the same way. This lets identification 
+of the exact JS script that called a given JS function.  The patent application provides a following example code for 
+monitoring calls to `sync()` function:
 
+```javascript
+let initiatorScript = null; 
+function getCurentScript(){
+  if(document.curentScript) {
+    return document.curentScript;
+  } else {
+    // if there no script that is curently being processed - 
+    // /then document.curentScript is nul 
+    return initiatorScript;
+  } 
+}
+// hold a reference to the original sync API function 
+const realSyncAPI = window['sync']; 
+window['sync'] = function(url) {
+  // use 'document.curentScript' to record whichs script 
+  // initiated the call to sync() 
+  capture('sync',getCurentScript()); /
+  // now cal the original sync API to perform its natural
+  // behavior in the browser as it was being overwriten 
+  return realSyncAPI(url);
+};
+```
+
+If extra JS is running in the browser (because of e.g. XSS attack or automation), PerimeterX is able to detect it through this
+kind of monitoring.
