@@ -73,6 +73,17 @@ but Security Module is integrated in the form of native mobile SDK. Everything e
 US 10,951,627B2 
 ---------------
 
+Web applications protected by PerimeterX may be loading some content (images, data, etc.) from servers other than the primary
+web server. Entities deploying PerimeterX may want these requests to be covered by anti-botting countermeasures as well. This
+patent extends the idea from previous one to address this requirement. 
+
+The idea here is that primary web server issues something called Risk Token that has to be provided to secondary servers to
+authorize resource access (e.g. as HTTP cookie or URL parameter value). This token is generated from parameters describing 
+the request with client side identifiers and expiration date. It may also include client session ID or some further information. 
+To prevent forging, token is cryptographically signed by using HMAC or other cryptographic technique.
+
+Resource servers are able to perform verification of the provided token and deny access to the resources if verification fails.
+
 US 2021/064685A1 
 ----------------
 
