@@ -110,7 +110,7 @@ const realSyncAPI = window['sync'];
 window['sync'] = function(url) {
   // use 'document.curentScript' to record whichs script 
   // initiated the call to sync() 
-  capture('sync',getCurentScript()); /
+  capture('sync',getCurentScript()); 
   // now cal the original sync API to perform its natural
   // behavior in the browser as it was being overwriten 
   return realSyncAPI(url);
