@@ -67,6 +67,9 @@ This also enables PerimeterX to cut off the client session if anomalous activiti
 were done. Furthermore, Security Token is provided to Application Server that might deny the access based on security score.
 This is done through Security Enforcement Module that developers are integrating with Application Server.
 
+Note that PerimeterX can also cover mobile apps. When it is integrated with mobile app systems, Security Loader is not present,
+but Security Module is integrated in the form of native mobile SDK. Everything else works the same.
+
 US 10,951,627B2 
 ---------------
 
