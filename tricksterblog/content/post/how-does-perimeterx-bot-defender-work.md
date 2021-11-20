@@ -6,7 +6,7 @@ draft = true
 tags = ["scraping", "anti-bot", "security"]
 +++
 
-PerimeterX is a prominent vendor of anti-bot technology. It is used by portals such as Zillow, Crunchbase, StockX and many others.
+PerimeterX is a prominent vendor of anti-bot technology, used by portals such as Zillow, Crunchbase, StockX and many others.
 Many developers working on web scraping or automation scripts have ran into PerimeterX Human Challenge - a proprietary CAPTCHA that
 involves pressing and holding a HTML element and does not seem to solvable by any of the CAPTCHA solving services.
 
@@ -36,7 +36,7 @@ from PerimeterX is being included in the HTML document being downloaded. This co
 the browser is rendering the page, Security Loader downloads and executes further JavaScript code called Security Module.
 It is retrieved from PerimeterX backend with some parameters on what tests to run in the browser. The purpose of
 Security Module is to look for things that may be useful as signal for automation and to check if browsers JavaScript
-environment isn't anomalous in some ways. Things that Security Module may check includes:
+environment isn't anomalous in some ways. Things that Security Module may check include:
 
 * JavaScript engine
 * HTML elements
@@ -58,14 +58,14 @@ with web application being protected.
 At this point, if security score is high enough PerimeterX may allow the browser to access the resources (with some further
 monitoring during the client session). However, the analysis may not be conclusive, which may prompt further tests that may
 involve actions from the use (e.g. CAPTCHA solving). Based on the results of these additional tests, PerimeterX may allow
-or deny further access to the web app.
+or deny further access to the web app. The code that allows or denies access is called Security Enforcement Module and is 
+integrated with Application Server.
 
 When PerimeterX allows an access, it issues Security Token which is cryptographically signed object that contains security score
 with information on passed and failed tests. During the client session, Security Module continues to run and provides information
 on client side activity to PerimeterX. This enabled further training of ML models and also updates security score if needed.
 This also enables PerimeterX to cut off the client session if anomalous activities are detected some time after the initial tests
 were done. Furthermore, Security Token is provided to Application Server that might deny the access based on security score.
-This is done through Security Enforcement Module that developers are integrating with Application Server.
 
 Note that PerimeterX can also cover mobile apps. When it is integrated with mobile app systems, Security Loader is not present,
 but Security Module is integrated in the form of native mobile SDK. Everything else works the same.
@@ -119,3 +119,5 @@ window['sync'] = function(url) {
 
 If extra JS is running in the browser (because of e.g. XSS attack or automation), PerimeterX is able to detect it through this
 kind of monitoring.
+
+To be continued...
