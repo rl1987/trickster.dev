@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "How does PerimeterX Bot Defender work"
-date = "2021-11-22"
-draft = true
+date = "2021-11-20"
 tags = ["scraping", "anti-bot", "security"]
 +++
 
