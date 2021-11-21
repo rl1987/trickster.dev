@@ -24,3 +24,11 @@ is the practice of crafting inputs for GPT-3 with the objective of acquiring an 
 The simplest way to experiment with GPT-3 is to use the [Playground](https://beta.openai.com/playground). You enter your
 prompt into the big text field and press the green button to generate an output. Let us go through various
 configuration options on the right hand side.
+
+WRITEME: discuss configuration options.
+
+WRITEME: provide examples of basic prompts and outputs.
+
+WRITEME: introduce Python API and basic usage
+
+WRITEME: introduce OpenAI CLI tool
