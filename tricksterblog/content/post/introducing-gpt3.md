@@ -6,11 +6,11 @@ draft = true
 tags = ["ai", "gpt3"]
 +++
 
-GPT-3 is large-scale natural language processing system based on deep learning and developer by 
+GPT-3 is a large scale natural language processing system based on deep learning and developer by 
 OpenAI. It is now generally available for developers and curious people.
 
 GPT-3 is the kind of AI that works exclusively on text. Text is both input and output for GPT-3. 
-One can provide questions and instructions in plain English and receive fairly coherent responses. However GPT-3 is not:
+One can provide questions and instructions in plain English and receive fairly coherent responses. However, GPT-3 is not:
 
 * HAL from _2001: Space Odyssey_
 * Project 2501 from _Ghost In the Shell_
@@ -18,22 +18,22 @@ One can provide questions and instructions in plain English and receive fairly c
 * AM from _I Have No Mouth And I Must Scream_
 
 What GPT-3 is a tool AI (as opposed to agent AI). Given textual input (prompt) it gives an output based on both the input 
-and all the datasets it was trained with. Quality of output is strongly dependant on quality of input. Prompt Engineering
-(also known as Prompt Design or Prompt Programming) is the practice of crafting inputs for GPT-3 with the objective of 
-acquiring an output of sufficiently high quality.
+and all the datasets it was trained with. The quality of output is strongly dependant on the quality of input. Prompt Engineering
+(also known as Prompt Design or Prompt Programming) is the practice of crafting inputs for GPT-3 to acquire an output of 
+sufficiently high quality.
 
 The simplest way to experiment with GPT-3 is to use the [Playground](https://beta.openai.com/playground). You enter your
 prompt into the big text field and press the green button to generate an output. Let us go through various
-configuration options on the right hand side.
+configuration options on the right-hand side.
 
-Engine is the sub-model of GPT-3. There are 4 base engines available (ordered from most to least powerful):
+The engine is the sub-model of GPT-3. There are 4 base engines available (ordered from most to least powerful):
 
 1. `davinci`
 2. `curie`
 3. `babbage`
 4. `ada`
 
-Using more powerful engine cost more time and credits than using less powerful ones. Base engines are meant for general-purpose
+Using a more powerful engine cost more time and credits than using a less powerful one. Base engines are meant for general-purpose
 tasks. 
 
 Instruct engines are made to understand and follow instructions. At this point, there are 3 of them:
@@ -42,24 +42,24 @@ Instruct engines are made to understand and follow instructions. At this point, 
 2. `davinci-instruct-beta`
 3. `curie-instruct-beta`
 
-Temperature slider controls how random and creative the responses will be. For tasks and questions that have very clear, definite
+The temperature slider controls how random and creative the responses will be. For tasks and questions that have very clear, definite
 answers we want to set temperature to 0. For maximum creativity, we want it to be 1.
 
 Response length is measured in tokens (one token is approx. 4 English letters). 
 
 Stop sequences are up to 4 strings that will terminate the generation of output.
 
-Top P is a lot like temperature, but defined in terms of token probabilities. If we set it to 0.1 it will consider only tokens
+Top P is a lot like temperature but defined in terms of token probabilities. If we set it to 0.1 it will consider only tokens
 that are within 10% of probability mass.
 
-Frequency penalty let us make repetitions less like by penalising tokens based on their frequency in the already generated text.
+Frequency penalty let us make repetitions less like by penalizing tokens based on their frequency in the already generated text.
 
-Presence penalty is similar to frequencey penalty, but it penalises tokens based on their presence (not frequency) in the text
+Presence penalty is similar to frequencey penalty, but it penalizes tokens based on their presence (not frequency) in the text
 generated so far.
 
-"Best of" option will make the model generates a given amount of outputs and will choose a best one out of them.
+"Best of" option will make the model generates a given amount of outputs and will choose the best one out of them.
 
-If we wanted, we can enable Playground to visualise probabilities of tokens in the generated text.
+If we wanted, we can enable Playground to visualize probabilities of tokens in the generated text.
 
 "Inject start text" and "Inject restart text" deal with prompts that will appear when GPT-3 is used as chatbot - see Chat example.
 
@@ -135,7 +135,7 @@ Let's push this angle of questioning a bit further and introduce what Douglas Ho
 
 Well, that went nowhere real quick.
 
-Let's try doing something bit more practical by switching to `davinci-instruct-beta-v3` engine and asking it the following:
+Let's try doing something a bit more practical by switching to `davinci-instruct-beta-v3` engine and asking it the following:
 
 > **Write a Facebook ad copy for handheld holographic projector**
 > 
