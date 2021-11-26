@@ -1,6 +1,6 @@
 +++
 author = "rl1987"
-title = "Introducing GPT-3: playground and API"
+title = "Introducing GPT-3: Playground and API"
 date = "2021-11-30"
 draft = true
 tags = ["ai", "gpt3"]
@@ -20,7 +20,8 @@ One can provide questions and instructions in plain English and receive fairly c
 What GPT-3 is a tool AI (as opposed to agent AI). Given textual input (prompt) it gives an output based on both the input 
 and all the datasets it was trained with. The quality of output is strongly dependant on the quality of input. Prompt Engineering
 (also known as Prompt Design or Prompt Programming) is the practice of crafting inputs for GPT-3 to acquire an output of 
-sufficiently high quality.
+sufficiently high quality. Some say that this will be a new kind of computer programming and that crafting prompts for systems like
+GPT-3 will become an established occupation in the future.
 
 The simplest way to experiment with GPT-3 is to use the [Playground](https://beta.openai.com/playground). You enter your
 prompt into the big text field and press the green button to generate an output. Let us go through various
@@ -61,7 +62,7 @@ generated so far.
 
 If we wanted, we can enable Playground to visualize probabilities of tokens in the generated text.
 
-"Inject start text" and "Inject restart text" deal with prompts that will appear when GPT-3 is used as chatbot - see Chat example.
+"Inject start text" and "Inject restart text" deal with prompts that will appear when GPT-3 is used as chatbot - see [Chat](https://beta.openai.com/playground/p/default-chat) example.
 
 Let us use default settings to play with the model a little.
 
