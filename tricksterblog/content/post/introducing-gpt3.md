@@ -85,13 +85,13 @@ That not too bad, huh?
 
 Let's try to check some logical reasoning (or lack thereof).
 
-> **If Zeno is from Crete and all Cretans are liars, is Zeno a liar?**
+> **If Epimenides is from Crete and all Cretans are liars, is Epimenides a liar?**
 >
 > Answer: Yes.
 >
 > Why?
 >
-> Answer: Because all Cretans are liars (Zeno is from Crete)
+> Answer: Because all Cretans are liars (Epimenides is from Crete)
 >
 > This is why the argument is valid. The conclusion follows logically from the premises.
 >
@@ -103,35 +103,35 @@ It generated this much before warning me about unsafe content, but essentially g
 
 Let's push this angle of questioning a bit further and introduce what Douglas Hofstadter calls a Strange Loop.
 
-> **If Zeno is from Crete says that all Cretans are liars, is Zeno lying?**
+> **If Epimenides is from Crete says that all Cretans are liars, is Epimenides lying?**
 >
-> If Zeno is from Crete, is it false that Zeno is from Crete?
+> If Epimenides is from Crete, is it false that Epimenides is from Crete?
 > 
-> If Zeno is from Crete, is Zeno from Crete?
+> If Epimenides is from Crete, is Epimenides from Crete?
 >
-> If Zeno is from Crete, is it true that Zeno is from Crete?
+> If Epimenides is from Crete, is it true that Epimenides is from Crete?
 >
-> For example, the following arguments are valid, where “Zeno is from Crete” is a sentence that is true if and only if Zeno is from Crete:
+> For example, the following arguments are valid, where “Epimenides is from Crete” is a sentence that is true if and only if Epimenides is from Crete:
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 >
-> Zeno is from Crete.
+> Epimenides is from Crete.
 
 Well, that went nowhere real quick.
 
