@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
 title = "Introducing GPT-3: Playground and API"
-date = "2021-11-30"
-draft = true
-tags = ["ai", "gpt3"]
+date = "2021-11-26"
+tags = ["ai", "gpt3", "automation"]
 +++
 
 GPT-3 is a large scale natural language processing system based on deep learning and developer by 
