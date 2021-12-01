@@ -15,7 +15,12 @@ is not as hostile towards automation as other platforms and even provides a rela
 
 Let us try automating against Reddit API with Python to build a poor mans Howitzer with Python.
 
-TODO: review public APIs we will be using and introduce PRAW module.
+Before we start, it is important to have a pre-warmed/pre-used account that we're willing to burn. The I got one from 
+[Accfarm](https://accfarm.com/buy-reddit-accounts/softreg-reddit-accounts) has over 1000 karma (I paid close to
+$40 for it). Reddit will not allow DM'ing users if the account is freshly created.
+
+[PRAW](https://praw.readthedocs.io/en/stable/index.html) is a Python module that wraps Reddit API calls into Pythonic
+interface and takes care of OAuth flow for us. We will be using it for automation.
 
 TODO: write code for scraping users and explain it.
 
