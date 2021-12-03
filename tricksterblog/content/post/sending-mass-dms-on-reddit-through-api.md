@@ -218,5 +218,42 @@ if __name__ == "__main__":
 
 ```
 
-TODO: run some experiments and discuss results 
+We instantiate a `Reddit` object and ask the user to input DM subject via standard input.
+Then we read a template of the message from m message.txt and usernames (one per line) from users.txt.
+We replace `{{username}}` in a template with actual user name to personalise a message. I could have used jinja2 for this,
+but this is just a simple experimental script that does not warrant bringing a full-powered templating engine into the
+picture.
+
+Now we try posting the message by calling `try_posting` function. This function returns a boolean value:
+
+* True if posting succeeded or if target user is invalid (no need to retry)
+* False if posting failed for some reason other than target user being invalid.
+
+If all goes well, the API call in `try` block does not throw any exceptions and we can proceed to next user.
+But it turns out that Reddit API has a hidden rate limit on sending direct messages. When we hit that rate limit, we
+are getting an exception of class 
+[`praw.exceptions.RedditAPIException`](https://praw.readthedocs.io/en/latest/code_overview/exceptions.html#praw.exceptions.RedditAPIException)
+that will have one or more sub-exceptions available in list at `items` property. To detect rate limiting, we
+iterate across this list and check if there's a subexception with `error_type` equal to `RATELIMIT` string.
+
+When converted to string, it will read something like the following:
+
+```
+praw.exceptions.RedditAPIException: RATELIMIT: "Looks like you've been doing that a lot. Take a break for 3 minutes before trying again." on field 'ratelimit'
+```
+
+This gives us delay duration in minutes or seconds. We do a little bit of string processing to dig out the delay value and 
+call `time.sleep()` with it before trying to post again.
+
+If something is wrong with the target user we will get subexception with `error_type` being equal to `INVALID_USER`. We
+make sure to skip this user and refrain from further attempts to message them.
+
+In the `main()` function we also check `limits` dictionary in [`Auth`](https://praw.readthedocs.io/en/stable/code_overview/other/auth.html)
+object that PRAW fills from the HTTP headers. This turned out to be unnecessary for our use case, as we have much tighter rate
+limits for DM'ing people than the "official" Reddit rate limit of 30 requests per minute.
+
+I managed to get this stuff working, but wasn't able to growth hack my way to wealth as Reddit suspended the account
+for 3 days. However it does seem to work more or less fine on a sufficiently small scale, as long as the account is pre-warmed
+and has some karma. API requests to send messages were instantly rejected on the freshly created account.
+
 
