@@ -60,10 +60,163 @@ reddit = praw.Reddit("bot", user_agent="some user agent")
 We only have to pass in the praw.ini file section name and PRAW will read credentials from that section.
 
 To message some users, we first have to have a list of users to message. Thus we write a quick script that searches given
-subreddits by a given search query.
+subreddits by a given search query and saves the results into CSV file.
 
+```python
+#!/usr/bin/python3
 
-TODO: write code for messaging users and explain it.
+import csv
+from datetime import datetime
+from pprint import pprint
+import sys
+
+import praw
+
+USER_AGENT = "automations"
+
+FIELDNAMES = [ "subreddit", "username", "title", "selftext", "datetime" ]
+OUTPUT_CSV_PATH = "posts.csv"
+
+def iso_timestamp_from_unix_time(unix_time):
+    dt = datetime.fromtimestamp(unix_time)
+    return dt.isoformat()
+
+def scrape_subreddit(reddit, query, subreddit_name):
+    sr = reddit.subreddit(display_name=subreddit_name)
+
+    for s in sr.search(query, limit=None):
+        row = {
+            "subreddit": subreddit_name,
+            "username" : s.author.name,
+            "title": s.title,
+            "selftext": s.selftext.replace("\n", " "),
+            "datetime": iso_timestamp_from_unix_time(s.created_utc),
+        }
+
+        yield row
+
+def main():
+    if len(sys.argv) != 3:
+        print("{} <query> <subreddit1,subreddit2,...>".format(sys.argv[0]))
+        print("Use subreddit names with /r/ - e.g. 'webscraping', not '/r/webscraping'")
+        return
+
+    query = sys.argv[1]
+    subreddit_names = sys.argv[2].split(",")
+
+    reddit = praw.Reddit("bot", user_agent=USER_AGENT)
+
+    out_f = open(OUTPUT_CSV_PATH, "w", encoding="utf-8")
+
+    csv_writer = csv.DictWriter(out_f, fieldnames=FIELDNAMES, lineterminator="\n")
+    csv_writer.writeheader()
+
+    for subreddit_name in subreddit_names:
+        for row in scrape_subreddit(reddit, query, subreddit_name):
+            pprint(row)
+
+            csv_writer.writerow(row)
+
+    out_f.close()
+    
+if __name__ == "__main__":
+    main()
+```
+
+As you can see, PRAW module nicely wraps Reddit API into object-oriented Python and makes things fairly easy for us.
+
+When we run this, we get a CSV file with rows similar to the following:
+
+```
+subreddit,username,title,selftext,datetime
+webscraping,Raghu1990,Can I scrape price target history from marketbeat.com ? Preferably using python.,,2021-11-27T00:50:17
+webscraping,omarsika,How to access all data from api jQuery using python?,"Help please, I have this url here that I need to scrape for an assignment [https://www.lesmiraculeux.com/pages/store-locator](https://www.lesmiraculeux.com/pages/store-locator)  I was able to get this get request from Postman, but no matter how much I play around with the parameters or headers I can only get 100 results.   Here is the callback function settings - [https://stockist.co/api/v1/u8403/widget.js?callback=\_stockistConfigCallback](https://stockist.co/api/v1/u8403/widget.js?callback=_stockistConfigCallback)  Best I was able to do was input a list of coordinates and dedupe, is there a way to get the jQuery to return all the results instead of just 100?  Thank you!    > url = ""https://stockist.co/api/v1/u8403/locations/search?callback=jQuery&tag=u8403&latitude=48.88936919246074&longitude=2.3697855000000168""            payload={}      headers = {            'authority': 'stockist.co',            'sec-ch-ua': '""Google Chrome"";v=""95"", ""Chromium"";v=""95"", "";Not A Brand"";v=""99""',            'sec-ch-ua-mobile': '?0',            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36',            'sec-ch-ua-platform': '""Windows""',            'accept': '*/*',            'sec-fetch-site': 'cross-site',            'sec-fetch-mode': 'no-cors',            'sec-fetch-dest': 'script',            'referer': 'https://www.lesmiraculeux.com/',            'accept-language': 'en-US,en;q=0.9'}          response = requests.request(""GET"", url, headers=headers, data=payload)       data = response.content[11:-2]      stores = {'name':[], 'address':[],'zipcode':[],'city':[], 'lat':[],'long':[]}      for i in json.loads(data)['locations']:              stores['name'].append(i['name'])              stores['address'].append(i['address_line_1'])              stores['zipcode'].append(i['postal_code'])              stores['city'].append(i['city'])              stores['lat'].append(i['latitude'])              stores['long'].append(i['longitude'])            df = pd.DataFrame(stores)      df.head()",2021-11-27T21:48:42
+...
+```
+
+We purposely include data about the post as we want to be able to evaluate data quality for growth hacking purposes. However, to
+send direct messages only the second column is needed. Thus we run the following command on Unix (macOS in this case) to extract
+it:
+
+```
+cat posts.csv | tail -n +2 | awk -F "," '{ print $2 }' | sort | uniq > users.txt 
+```
+
+Note that sort(1) has to be just before uniq(1) in the pipeline. Duplicate username filtering will not work otherwise.
+
+The code to mass DM the Reddit users is as follows:
+
+```python
+#!/usr/bin/python3
+
+import time
+
+import praw
+import prawcore
+
+USER_AGENT = "automations"
+
+def try_posting(reddit, username, subject, message):
+    try:
+        reddit.redditor(username).message(subject, message)
+    except praw.exceptions.RedditAPIException as e:
+        for subexception in e.items:
+            if subexception.error_type == "RATELIMIT":
+                error_str = str(subexception)
+                print(error_str)
+
+                if 'minute' in error_str:
+                    delay = error_str.split('for ')[-1].split(' minute')[0]
+                    delay = int(delay) * 60.0
+                else:
+                    delay = error_str.split('for ')[-1].split(' second')[0]
+                    delay = int(delay)
+
+                time.sleep(delay)
+            elif subexception.error_type == 'INVALID_USER':
+                return True
+
+        return False
+    except Exception as e:
+        print(e)
+        return False
+
+    return True
+
+def main():
+    reddit = praw.Reddit("bot", user_agent=USER_AGENT)
+    
+    subject = input("Subject: ")
+
+    in_f = open("message.txt", "r", encoding="utf-8")
+    templ = in_f.read()
+    in_f.close()
+
+    in_f = open("users.txt", "r", encoding="utf-8")
+
+    for username in in_f:
+        username = username.strip()
+        print(username)
+        
+        message = templ.replace("{{username}}", username)
+        
+        while True:
+            if try_posting(reddit, username, subject, message):
+                break
+            
+        print(reddit.auth.limits)
+
+        if reddit.auth.limits['remaining'] == 0:
+            timeout = reddit.auth.limits['reset_timestamp'] - time.time()
+            print("Used up requests in current time window - sleeping for {} seconds".format(timeout))
+            time.sleep(timeout)
+
+    in_f.close()
+
+if __name__ == "__main__":
+    main()
+
+```
 
 TODO: run some experiments and discuss results 
 
