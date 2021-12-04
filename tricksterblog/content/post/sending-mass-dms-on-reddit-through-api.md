@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Sending mass DMs on Reddit through API: a small experiment"
-date = "2021-12-05"
-draft = true
+date = "2021-12-04"
 tags = ["automation", "growth-hacking", "python"]
 +++
 
