@@ -15,7 +15,7 @@ is not as hostile towards automation as other platforms and even provides a rela
 
 Let us try automating against Reddit API with Python to build a poor mans Howitzer with Python.
 
-Before we start, it is important to have a pre-warmed/pre-used account that we're willing to burn. The I got one from 
+Before we start, it is important to have a pre-warmed/pre-used account that we're willing to burn. The one I got from
 [Accfarm](https://accfarm.com/buy-reddit-accounts/softreg-reddit-accounts) has over 1000 karma (I paid close to
 $40 for it). Reddit will not allow DM'ing users if the account is freshly created.
 
@@ -39,8 +39,8 @@ reddit = praw.Reddit(
 )
 ```
 
-However this entails hardcoding credentials into the Python script, which is generally a bad practice. We want to have a separate
-configuration file for credentials that the code would read. PRAW let's us have a praw.ini file that can have contents like the 
+However, this entails hardcoding credentials into the Python script, which is generally a bad practice. We want to have a separate
+configuration file for credentials that the code would read. PRAW can read a praw.ini file with contents like the 
 following:
 
 ```
@@ -51,7 +51,7 @@ username=[REDACTED]
 password=[REDACTED]
 ```
 
-Once that is available in the same directory as our code, we can initialize the `Reddit` object like this:
+Once this file is available in the same directory as our code, we can initialize the `Reddit` object like this:
 
 ```python
 reddit = praw.Reddit("bot", user_agent="some user agent")
@@ -60,7 +60,7 @@ reddit = praw.Reddit("bot", user_agent="some user agent")
 We only have to pass in the praw.ini file section name and PRAW will read credentials from that section.
 
 To message some users, we first have to have a list of users to message. Thus we write a quick script that searches given
-subreddits by a given search query and saves the results into CSV file.
+subreddits by a given search query and saves the results into a CSV file.
 
 ```python
 #!/usr/bin/python3
@@ -152,7 +152,6 @@ The code to mass DM the Reddit users is as follows:
 import time
 
 import praw
-import prawcore
 
 USER_AGENT = "automations"
 
@@ -220,20 +219,20 @@ if __name__ == "__main__":
 
 We instantiate a `Reddit` object and ask the user to input DM subject via standard input.
 Then we read a template of the message from m message.txt and usernames (one per line) from users.txt.
-We replace `{{username}}` in a template with actual user name to personalise a message. I could have used jinja2 for this,
+We replace `{{username}}` in a template with an actual user name to personalize a message. I could have used jinja2 for this,
 but this is just a simple experimental script that does not warrant bringing a full-powered templating engine into the
 picture.
 
 Now we try posting the message by calling `try_posting` function. This function returns a boolean value:
 
-* True if posting succeeded or if target user is invalid (no need to retry)
+* True if posting succeeded or if the target user is invalid (no need to retry)
 * False if posting failed for some reason other than target user being invalid.
 
 If all goes well, the API call in `try` block does not throw any exceptions and we can proceed to next user.
 But it turns out that Reddit API has a hidden rate limit on sending direct messages. When we hit that rate limit, we
 are getting an exception of class 
 [`praw.exceptions.RedditAPIException`](https://praw.readthedocs.io/en/latest/code_overview/exceptions.html#praw.exceptions.RedditAPIException)
-that will have one or more sub-exceptions available in list at `items` property. To detect rate limiting, we
+that will have one or more sub-exceptions available in the list at `items` property. To detect rate limiting, we
 iterate across this list and check if there's a subexception with `error_type` equal to `RATELIMIT` string.
 
 When converted to string, it will read something like the following:
@@ -252,8 +251,8 @@ In the `main()` function we also check `limits` dictionary in [`Auth`](https://p
 object that PRAW fills from the HTTP headers. This turned out to be unnecessary for our use case, as we have much tighter rate
 limits for DM'ing people than the "official" Reddit rate limit of 30 requests per minute.
 
-I managed to get this stuff working, but wasn't able to growth hack my way to wealth as Reddit suspended the account
-for 3 days. However it does seem to work more or less fine on a sufficiently small scale, as long as the account is pre-warmed
+I managed to get this stuff working but wasn't able to growth hack my way to wealth as Reddit suspended the account
+for 3 days. However, it does seem to work more or less fine on a sufficiently small scale, as long as the account is pre-warmed
 and has some karma. API requests to send messages were instantly rejected on the freshly created account.
 
 
