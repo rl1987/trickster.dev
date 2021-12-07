@@ -21,3 +21,11 @@ communications and censorship circumvention.
 
 WRITEME: explain Tor and Onion Services
 
+WRITEME: explain Tor Control protocol and command to create ephemeral HS
+
+TODO: write a Python script based on Stem to create ephemeral HS
+
+TODO: develop a Docker (Compose) configuration
+
+WRITEME: wrap things up and warn against doing this in corporate networks.
+
