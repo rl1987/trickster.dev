@@ -23,9 +23,52 @@ WRITEME: explain Tor and Onion Services
 
 WRITEME: explain Tor Control protocol and command to create ephemeral HS
 
-TODO: write a Python script based on Stem to create ephemeral HS
+```python
+#!/usr/bin/python3
 
-TODO: develop a Docker (Compose) configuration
+from stem.control import Controller
+
+import http.server
+import os
+import subprocess
+import sys
+
+def main():
+    controller = Controller.from_port()
+    controller.authenticate()
+    response = controller.create_ephemeral_hidden_service({80: 8080}, await_publication=True)
+
+    assert(len(response.service_id) > 0)
+
+    onion_url = "http://" + response.service_id + ".onion"
+    print(onion_url, file=sys.stderr)
+
+    os.chdir("tricksterblog/")
+
+    subprocess.run(["hugo", "--baseURL", onion_url])
+
+    os.chdir("public/")
+
+    subprocess.run(["python3", "-m", "http.server", "8080"])
+
+
+if __name__ == "__main__":
+    main()
+
+```
+
+```dockerfile
+FROM debian:11
+
+RUN apt-get update && apt-get install -y python3 python3-pip hugo tor
+RUN pip3 install stem
+
+ADD . /trickster.dev
+WORKDIR /trickster.dev
+
+ENTRYPOINT bash -c "tor --RunAsDaemon 1 --ControlPort 9051 && python3 run_onion_service.py"
+
+```
 
 WRITEME: wrap things up and warn against doing this in corporate networks.
 
