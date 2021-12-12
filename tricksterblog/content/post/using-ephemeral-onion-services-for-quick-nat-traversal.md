@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Using ephemeral Onion Services for quick NAT traversal"
-date = "2021-12-15"
-draft = true
+date = "2021-12-12"
 tags = ["privacy", "devops"]
 +++
 
