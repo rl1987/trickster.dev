@@ -112,6 +112,8 @@ Admittedly there's some opportunities for optimisation here, as the size of resu
 image is over 700 MB. However the code in this post is meant to be only a demonstration for
 using Tor to expose a server in a NATted network.
 
+[Screenshot](/2021-12-12_14.27.47.png)
+
 Lastly, I would not recommend doing this in corporate networks, as your IT department and 
 security people might disapprove. Not only this solution can be considered to be Shadow IT, but
 using Tor in corporate environment might raise suspicions of data exfiltration. Proceed with
