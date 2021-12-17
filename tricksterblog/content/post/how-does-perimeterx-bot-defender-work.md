@@ -87,7 +87,7 @@ US 2021/064685A1
 ----------------
 
 As discussed before, PerimeterX Security Module perform client side activity monitoring to keep watching for anomalous behaviour
-once access has been granted. This patent application is about implementing API call monitoring in frontent JavaScript
+once access has been granted. This patent application is about implementing API call monitoring in frontend JavaScript
 environment. PerimeterX code overwrites JS functions that it wants to monitor with wrapper code that takes note of API call 
 and calls the original function. In case of async actions, callbacks are overwritten in the same way. This lets identification 
 of the exact JS script that called a given JS function.  The patent application provides a following example code for 
