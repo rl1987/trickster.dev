@@ -41,7 +41,7 @@ Google also supports usage of Boolean operators in search queries, for example:
 ethics AND (OSINT OR cybersecurity)
 ```
 
-Google dorking is using advanced search queries to find finds that are not necessarily meant to be exposed
+Google dorking is using advanced search queries to find things that are not necessarily meant to be exposed
 to the public internet. For example, to find some web cams, one might search:
 
 ```
@@ -56,7 +56,63 @@ when evaluating the security of systems they are protecting. Some of these queri
 private keys.  I don't recommend using these for any malicious or questionable purposes, but if a site has a 
 bug bounty program it might be worthwhile to report it.
 
-WRITEME: introduce programmatic search API
+How can one automate Google dorking? One way is to simply scrape Google search engine results pages. Google
+does not exactly like that and will throw a captcha at you if they detect too many requests too quickly from a
+single IP address. However, as long as one is using a proper proxy pool Google SERP scraping is not difficult
+and can be done with not too much effort by knowing a little XPath/CSS and using somehing like Python with 
+[lxml](https://lxml.de/) module.
+
+Another way is to use one of the many SERP scraping SaaS solutions, like:
+
+* [ZenSerp](https://zenserp.com/)
+* [SerpAPI](https://serpapi.com/)
+* [DataForSEO](https://dataforseo.com/)
+* [BrightData Search Engine Crawler](https://brightdata.com/products/search-engine-crawler)
+
+These options are fairly obvious to developers working with scraping and automation projects. However, there is
+third, relatively obscure option. Little known fact is that Google search has an API, kind of. They call this
+[Programmable Search](https://developers.google.com/custom-search). It's meant as a way to let people integrate
+Google search engine into their own sites. If you have seen sites having a widget to search content with Google
+then this is how these sites are integrating with Google. Note that only first 100 of search per day are free,
+but after that Google will bill you $5 per 1000 queries.
+
+To set up your access to this API you need to follow the following steps. 
+
+First, you need to set up a Custom Search Engine at [Programmable Search control panel](https://programmablesearchengine.google.com/create/new).
+Don't worry too much about what to put into "Sites to search" textfield, as you will be able to edit them later.
+If you have a particular domain for site you want to search (e.g. from a bug bounty platform) it would be useful
+to limit results to that. Alternative, you can put in bunch of wildcard entries for multiple popular TLDs:
+
+```
+*.gov
+*.edu
+*.com
+*.net
+*.org
+```
+
+Type in some name into "Name of the search engine" textfield. Solve the captcha and press CREATE button. 
+Now choose the search engine you just created under "Edit search engine" text on left hand side of 
+the page.  If needed, flip a "Search the entire web" switch in the settings. Note the search engine 
+ID as we will need it for API requests.
+
+Press "Get Started" button on "Custom Search JSON API" row. This will take you to page called
+[Custom Search JSON API: Introduction](https://developers.google.com/custom-search/v1/introduction).
+Press "Get a key" button that will let you choose a Google Cloud project. Create new one if needed.
+Once the project is selected, you will be given the API key.
+
+Google provides an [API reference](https://developers.google.com/custom-search/v1/reference/rest/v1/cse/list)
+with all the parameters, but for the simplest API call we only need the following:
+
+* `cx` - search engine ID.
+* `key` - API key.
+* `q` - search query.
+
+The following curl snippet exemplifies API call that we are interested in:
+
+```
+$ curl "https://www.googleapis.com/customsearch/v1?key=[REDACTED]&cx=[REDACTED]&q=secret"
+```
 
 WRITEME: discuss extra features that are only available on programmatic search
 
