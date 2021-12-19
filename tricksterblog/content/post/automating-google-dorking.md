@@ -177,4 +177,6 @@ If needed, you can use `start` and `num` parameters to get more pages
 from API. However, you are allowed to get only up to 100 results per query
 even if there are more available. 
 
-WRITEME: discuss extra features that are only available on programmatic search
+You may also want to check out Google's 
+[Knowledge Graph Search API](https://developers.google.com/knowledge-graph)
+that allows one to search for entities like people, companies, places and so on.
