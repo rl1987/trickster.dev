@@ -14,7 +14,7 @@ On more black hat side of things, bots have been used to launch harassment campa
 We are interested in gray hat automation here and will be looking into developing a chat bot that connects to one or more channels as a regular
 user. This can be used for growth hacking purposes if one is trying to promote an offer that is of interest to gaming community.
 
-Little known fact is that good old Internet Relay Chat protocol for the chat functionality, but wraps the IRC connections in WebSockets to
+Little known fact is that Twitch uses the good old Internet Relay Chat protocol for the chat functionality, but wraps the IRC connections in WebSockets to
 make it compatible with web browser. Twitch implementation of IRC is mostly compliant to [RFC1459](https://datatracker.ietf.org/doc/html/rfc1459.html)
 with some differences regarding authentication - see [Chatbots and IRC Guide](https://dev.twitch.tv/docs/irc/guide) at Twitch developer portal.
 In fact, it is possible to use Irssi or other IRC client with Twitch. 
