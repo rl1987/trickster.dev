@@ -136,5 +136,16 @@ The response to this GraphQL query is the following:
 
 We find the numeric channel ID in the nested JSON string and can extract it.
 
+Once we have followed a channel, we need to make a WebSocket connection to `wss://irc-ws.chat.twitch.tv/` and send the following 
+IRC messages:
+
+1. `CAP REQ :twitch.tv/tags twitch.tv/commands` - this enables Twitch specific IRC commands.
+2. `PASS` message with `oauth:` prepended to auth token we received when creating a session with username and password.
+3. `NICK` message with your username.
+4. `USER` message with your username. Does not seem to be strictly necessary, but Twitch frontend sends this and we will send it as well.
+5. `JOIN` message with channel name that you get from stream URL. For example if stream URL is `https://twitch.tv/foo`, then this ould be `JOIN #foo`.
+
+After sending all these messages, we will be receiving and sending messages in IRC wire format. See RFC1459 for more details.
+
 TODO: develop a complete script that implements a basic chatbot
 
