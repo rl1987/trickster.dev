@@ -154,12 +154,9 @@ detects a string `!test`, it responds with hardcoded message. For the WebSocket 
 ```python
 #!/usr/bin/python3
 
-import csv
 import logging
 import json
-import os
 import uuid
-from urllib.parse import urlparse
 
 import requests
 import websocket
