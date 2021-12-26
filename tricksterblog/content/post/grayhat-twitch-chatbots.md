@@ -10,7 +10,7 @@ Twitch is a popular video streaming platform platform originally developed for g
 It enables viewers to use chat rooms associated with video streams to communicate amongst each other and with the streamer. Chat bots for these
 chatrooms can be used for legitimate uses cases such as moderations, polls, ranking boards and so on. Twitch is allowing such usage, but requires
 passing a [verification process](https://dev.twitch.tv/docs/irc/guide#verified-bots) for chat bot software to be used in production at scale.
-On more black hat side of things, they have been used to launch harassment campaigns (hate raids) against streamers and content creators. 
+On more black hat side of things, bots have been used to launch harassment campaigns (hate raids) against streamers and content creators. 
 We are interested in gray hat automation here and will be looking into developing a chat bot that connects to one or more channels as a regular
 user. This can be used for growth hacking purposes if one is trying to promote an offer that is of interest to gaming community.
 
@@ -46,19 +46,95 @@ The latter is relatively common and can be addressed as follows.
 
 TODO: add screenshot
 
-If Twitch asks for verification code, we need to send another request to the same. JSON dictionary in the payload has to be
-updated with the following:
+If Twitch asks for verification code, we need to send another request to the same API endpoint. JSON dictionary in the payload
+has to be updated with the following:
 
 * `captcha` key points to dictionary with single key-value pair:
   * `proof` is value for `captcha_proof` key from response to previous request.
 * `twitchguard_code` is the code that was sent through email.
 
 Once we submit this payload quickly enough (there's some time out on Twitch side that will cause it to ask for another confirmation
-if we're being too slow), we receive a response containing the authentication token at key `access_token`. Furthermore, we also
-receive some new cookies that we have too keep for further communications with Twitch.
+if we're being too slow), we receive a response with JSON dictionary containing the authentication token at key `access_token`.
+Furthermore, we also receive some new cookies that we have too keep for further communications with Twitch.
 
+Now we need to join a channel. To explore the API dance, I encourage you to join a live stream on Twitch and see what API messages
+are appearing in Network tab of Chrome DevTools (switch to "Fetch/XHR" to see only the stuff we're interested in here).
+You will see a lot of API calls to `https://gql.twitch.tv/gql`, most of which are related to things other than chat (video stream
+playback, etc.). To be able to post chat messages to most channels, one has to follow a channel first, which is accomplished by
+API call with the following payload:
 
-WRITEME: joining the channel via websocket
+```json
+[
+    {
+        "operationName": "FollowButton_FollowUser",
+        "variables": {
+            "input": {
+                "disableNotifications": false,
+                "targetID": "24070690"
+            }
+        },
+        "extensions": {
+            "persistedQuery": {
+                "version": 1,
+                "sha256Hash": "800e7346bdf7e5278a3c1d3f21b2b56e2639928f86815677a7126b093b2fdd08"
+            }
+        }
+    },
+    {
+        "operationName": "AvailableEmotesForChannel",
+        "variables": {
+            "channelID": "24070690",
+            "withOwner": true
+        },
+        "extensions": {
+            "persistedQuery": {
+                "version": 1,
+                "sha256Hash": "b9ce64d02e26c6fe9adbfb3991284224498b295542f9c5a51eacd3610e659cfb"
+            }
+        }
+    }
+]
+```
+
+In this example, number `24070690` is unique numeric ID for the channel we want to join. Yet it does not appear anywhere in
+Twitch page URL, which in this case is https://www.twitch.tv/pedguin. How does the frontend code get this number?
+
+Let's go back to the first API call that is made when stream page is being loaded. It has the following payload:
+
+```json
+{
+    "operationName": "PlaybackAccessToken_Template",
+    "query": "query PlaybackAccessToken_Template($login: String!, $isLive: Boolean!, $vodID: ID!, $isVod: Boolean!, $playerType: String!) {  streamPlaybackAccessToken(channelName: $login, params: {platform: \"web\", playerBackend: \"mediaplayer\", playerType: $playerType}) @include(if: $isLive) {    value    signature    __typename  }  videoPlaybackAccessToken(id: $vodID, params: {platform: \"web\", playerBackend: \"mediaplayer\", playerType: $playerType}) @include(if: $isVod) {    value    signature    __typename  }}",
+    "variables": {
+        "isLive": true,
+        "login": "pedguin",
+        "isVod": false,
+        "vodID": "",
+        "playerType": "site"
+    }
+}
+```
+
+The response to this GraphQL query is the following:
+
+```json
+{
+    "data": {
+        "streamPlaybackAccessToken": {
+            "value": "{\"adblock\":false,\"authorization\":{\"forbidden\":false,\"reason\":\"\"},\"blackout_enabled\":false,\"channel\":\"pedguin\",\"channel_id\":24070690,\"chansub\":{\"restricted_bitrates\":[],\"view_until\":1924905600},\"ci_gb\":false,\"geoblock_reason\":\"\",\"device_id\":\"twitch-web-wall-mason\",\"expires\":1640538149,\"extended_history_allowed\":false,\"game\":\"\",\"hide_ads\":false,\"https_required\":true,\"mature\":false,\"partner\":false,\"platform\":\"web\",\"player_type\":\"site\",\"private\":{\"allowed_to_view\":true},\"privileged\":false,\"role\":\"\",\"server_ads\":true,\"show_ads\":true,\"subscriber\":false,\"turbo\":false,\"user_id\":[REDACTED],\"user_ip\":\"[REDACTED]\",\"version\":2}",
+            "signature": "4992225a5ea06184d4c6c6c1187a77de55f1b7e8",
+            "__typename": "PlaybackAccessToken"
+        }
+    },
+    "extensions": {
+        "durationMilliseconds": 68,
+        "operationName": "PlaybackAccessToken_Template",
+        "requestID": "01FQVSYG7KR0K7850XKBV27C1A"
+    }
+}
+```
+
+We find the numeric channel ID in the nested JSON string and can extract it.
 
 TODO: develop a complete script that implements a basic chatbot
 
