@@ -6,5 +6,13 @@ draft = true
 tags = ["python", "automation"]
 +++
 
-WRITEME
+WRITEME: introduction and motivation
+
+WRITEME: Twitch chat protocols
+
+WRITEME: programmatically logging in and getting an auth token
+
+WRITEME: joining the channel via websocket
+
+TODO: develop a complete script that implements a basic chatbot
 
