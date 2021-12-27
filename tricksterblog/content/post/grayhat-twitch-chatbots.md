@@ -148,6 +148,9 @@ IRC messages:
 After sending all these messages, we will be receiving and sending messages in IRC wire format. See RFC1459 and related RFCs for 
 more details.
 
+You may notice that JSON payload contain SHA256 hash values. It is fine to reuse intercepted hash values in your code, as they don't
+seem to depend on any other parts of payload.
+
 The following code implement all the API flows we have discussed so far and provides a simple chat bot functionality: whenever it
 detects a string `!test`, it responds with hardcoded message. For the WebSocket part, we use `websocket_client` module from PIP.
 
@@ -365,4 +368,5 @@ The following improvements could made for this code:
 * Captcha solver integration for the cases when Twitch does ask for captcha.
 * Email auto-verification.
 * Randomization/spinning of response message so that Twitch does not discard it if multiple responses are sent in short timeframe.
+* Storing the authentication token in some local file so that the script would not need to perform login step every time it starts.
 
