@@ -6,11 +6,11 @@ draft = true
 tags = ["python", "automation"]
 +++
 
-Twitch is a popular video streaming platform platform originally developed for gamers, but now acquired by Amazon expanding beyond gaming community.
-It enables viewers to use chat rooms associated with video streams to communicate amongst each other and with the streamer. Chat bots for these
-chatrooms can be used for legitimate uses cases such as moderations, polls, ranking boards and so on. Twitch is allowing such usage, but requires
-passing a [verification process](https://dev.twitch.tv/docs/irc/guide#verified-bots) for chat bot software to be used in production at scale.
-On more black hat side of things, bots have been used to launch harassment campaigns (hate raids) against streamers and content creators. 
+Twitch is a popular video streaming platform originally developed for gamers, but now expanding beyond gaming community.
+It enables viewers to use chat rooms associated with video streams to communicate amongst each other and with the streamer. Chatbots for these
+chatrooms can be used for legitimate uses cases such as moderations, polls, ranking boards, and so on. Twitch is allowing such usage but requires
+passing a [verification process](https://dev.twitch.tv/docs/irc/guide#verified-bots) for chatbot software to be used in production at scale.
+On a more black hat side of things, bots have been used to launch harassment campaigns (hate raids) against streamers and content creators. 
 We are interested in gray hat automation here and will be looking into developing a chat bot that connects to one or more channels as a regular
 user. This can be used for growth hacking purposes if one is trying to promote an offer that is of interest to gaming community.
 
@@ -364,5 +364,5 @@ The following improvements could made for this code:
 * Proxy support.
 * Captcha solver integration for the cases when Twitch does ask for captcha.
 * Email auto-verification.
-* Randomisation/spinning of response message so that Twitch does not discard it if multiple responses are sent in short timeframe.
+* Randomization/spinning of response message so that Twitch does not discard it if multiple responses are sent in short timeframe.
 
