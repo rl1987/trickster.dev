@@ -22,7 +22,7 @@ In fact, it is possible to use Irssi or other IRC client with Twitch.
 To see IRC messages being sent and received on Twitch chat connection, one can simply check the Network tab via Chrome DevTools and filter by 
 WebSocket (choose WS from the options at the top).
 
-TODO: add screenshot
+[Screenshot](/2021-12-26_16.12.44.png)
 
 The white hat approach would be to register an app at Twitch and implement OAuth or OpenID Connect flow as described in 
 [Authentication section](https://dev.twitch.tv/docs/authentication) of Twitch developer documentation. We are going to skip this
@@ -44,7 +44,7 @@ However this request may fail with response code 400. If this happens, we either
 to submit verification code that was emailed to the user. The former case is relatively rare and will not be covered by this post.
 The latter is relatively common and can be addressed as follows.
 
-TODO: add screenshot
+[Screenshot](/2021-12-26_17.36.06.png)
 
 If Twitch asks for verification code, we need to send another request to the same API endpoint. JSON dictionary in the payload
 has to be updated with the following:
