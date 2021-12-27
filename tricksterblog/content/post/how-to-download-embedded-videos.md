@@ -9,7 +9,7 @@ When wandering across the World Wide Web, many netizens have come across pages c
 
 Turns out, it can (with a little bit of help from the user). Let me show how.
 
-As our first example, let us [Funnelscripts landing page](https://funnelscripts.com/funnelscripts-webclass). No matter when you open the page, you will see the time ticking down the last few minutes to the presentation. Global market never sleeps. The same applies to Russel Brunson and his elderly friend. No matter the date and time, they are ready to give you a webinar on their SaaS product.
+As our first example, let us explore the [Funnelscripts landing page](https://funnelscripts.com/funnelscripts-webclass). No matter when you open the page, you will see the time ticking down the last few minutes to the presentation. Global market never sleeps. The same applies to Russel Brunson and his elderly friend. No matter the date and time, they are ready to give you a webinar on their SaaS product.
 
 [First image](/2021-11-11_17.31.39.png)
 
