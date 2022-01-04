@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Python Web Scraping: tips and tricks"
-date = "2022-01-05"
-draft = true
+date = "2022-01-04"
 tags = ["python", "web-scraping"]
 +++
 
