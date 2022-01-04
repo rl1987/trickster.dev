@@ -10,8 +10,8 @@ Use pandas `read_html()` to parse HTML tables (when possible)
 -----------------------------------------------------------
 
 Some pages you might be scraping might include old-school HTML `<table>` elements with tabular data.
-Theres'a an easy way to extract data from pages like this with into Pandas dataframes (although you may need to
-cleanup it afterwards):
+There's an easy way to extract data from pages like this with into Pandas dataframes (although you may need to
+clean up it afterward):
 
 ```python
 >>> import pandas as pd
@@ -274,7 +274,7 @@ References
   55. https://scrapinghub.com/
 ```
 
-If you are doing some Natural Language Processing and do not want to spent too much time on web scraping it might
+If you are doing some Natural Language Processing and do not want to spend too much time on web scraping it might
 be a helpful shortcut to call a command like this through Python `subprocess` module.
 
 Use `multiprocessing.dummy` for easy multithreading of highly parallel tasks
@@ -285,7 +285,7 @@ module. However, web scraping scripts are typically I/O bound and not CPU bound.
 distribute workload across threads, not processes. Luckily, Python developers were kind enough to provide us
 with [`multiprocessing.dummy`](https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing.dummy)
 module that has the same API as `multiprocessing`, but will create and use a pool of worker threads instead.
-For example, one could initialise a thread pool object and call the `map()` method with two arguments: 1) function
+For example, one could initialize a thread pool object and call the `map()` method with two arguments: 1) function
 to scrape single page and 2) list of page URLs. The thread pool will automatically run the requests concurrently and
 return a list of results. You may not want to wait for all results to come at once and may prefer to incrementally receive
 them as they become ready. This can be achieved with `imap()` method of `ThreadPool`.
