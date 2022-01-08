@@ -286,11 +286,26 @@ Red Bull Spect Magnetron Slick Goggles
 Red Bull Spect Magnetron-019 Goggles
 ```
 
+Like with XPath, JSONPath query always yield an array of results even if there is only one match.
+
 Since JSONPath standard is still being developed and does not have a proper standard we will not discuss it further.
 However, I would advice to keep it in mind for future use when it is more established.
 
 JSONPointer - format for querying JSON documents
 ------------------------------------------------
 
-WRITEME
+JSONPointer, described in [RFC6901](https://datatracker.ietf.org/doc/html/rfc6901) is a rather simple a way to
+query JSON documents, similar to very limited subset of XPath. It is implemented by 
+[jsonpointer](https://github.com/stefankoegl/python-json-pointer) module that is available from PIP.
+
+JSON pointer can be used in Python as follows:
+
+```
+>>> from jsonpointer import resolve_pointer
+>>> resolve_pointer(json_dict, '/products/0/title')
+'Red Bull KTM Racing Team Colorswitch Hat'
+```
+
+Unfortunately, it is very limited and does not provide support for things like recursive search, iteration and wildcards.
+As such, JSONPointer is applicable only to fairly basic use cases. Think of it as a path within JSON tree structure.
 
