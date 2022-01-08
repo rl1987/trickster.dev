@@ -220,7 +220,74 @@ To learn more about jq, see:
 JSONPath - equivalent of XPath for JSON
 ---------------------------------------
 
-WRITEME
+For extracting fields from XML document there is XPath query language that enables developers to narrow down the
+exact parts of XML tree they need extracted. Proposal 
+[draft-ietf-jsonpath-base-02](https://www.ietf.org/archive/id/draft-ietf-jsonpath-base-02.txt) proposes
+JSONPath - the XPath equivalent for JSON.
+
+Let us experiment with [jsonpath-ng](https://github.com/h2non/jsonpath-ng) - a Python module that implements JSONPath.
+
+First, let us launch a Python REPL and load the JSON file we have downloaded:
+
+```
+$ python3
+Python 3.9.9 (main, Nov 21 2021, 03:22:47) 
+[Clang 12.0.0 (clang-1200.0.32.29)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import json
+>>> in_f = open("products.json", "r")
+>>> json_dict = json.load(in_f)
+>>> in_f.close()
+```
+
+Also, let us import some stuff from jsonpath-ng module:
+
+```
+>>> from jsonpath_ng import jsonpath, parse
+```
+
+Now, let's find product titles with JSONPath:
+
+```
+>>> jsonpath_expr = parse("products[*].title")
+>>> matches = jsonpath_expr.find(json_dict)
+>>> for m in matches:
+...     print(m.value)
+...
+Red Bull KTM Racing Team Colorswitch Hat
+Red Bull KTM Racing Team Stone Flat Hat
+Red Bull KTM Racing Team Twist Flat Hat
+Red Bull KTM Racing Team Women's Official Teamline T-Shirt
+Red Bull KTM Racing Team Official Teamline T-Shirt
+Red Bull KTM Racing Team Official Teamline Polo Shirt
+Red Bull KTM Racing Team Official Teamline Shirt
+Red Bull KTM Racing Team Official Teamline Hoodie
+Red Bull KTM Racing Team Half Zip Sweater
+Red Bull KTM Racing Team Official Teamline Softshell Jacket
+Red Bull KTM Racing Team Official Teamline Windbreaker
+Red Bull KTM Racing Team Official Teamline Winter Jacket
+Red Bull KTM Racing Team Athletic Hat
+Red Bull KTM Racing Team New Era 9FIFTY Stretch Hat
+RB Leipzig Arrow Drink Bottle
+Wings for Life Lokai Bracelet
+Red Bull KTM Racing Team Pop Socket
+Red Bull KTM Racing Team Sticker Pack
+Red Bull KTM Racing Team Musquin No Tee
+New York Red Bulls Mitchell & Ness Classic Snapback
+Red Bull Rampage Camo Women's Tank
+Red Bull KTM Factory Racing Knit Runner
+Red Bull KTM Factory Racing Logo Tee
+Red Bull KTM Racing Team Sticker
+Red Bull Spect Solo Goggles
+Red Bull Soar Goggles
+Red Bull Spect Sight Goggles
+Red Bull Spect Rush Goggles
+Red Bull Spect Magnetron Slick Goggles
+Red Bull Spect Magnetron-019 Goggles
+```
+
+Since JSONPath standard is still being developed and does not have a proper standard we will not discuss it further.
+However, I would advice to keep it in mind for future use when it is more established.
 
 JSONPointer - format for querying JSON documents
 ------------------------------------------------
