@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Easier JSON wrangling with jq, JSONPath and JSONPointer"
 date = "2022-01-09"
-draft = true
 tags = ["automation", "python"]
 +++
 
