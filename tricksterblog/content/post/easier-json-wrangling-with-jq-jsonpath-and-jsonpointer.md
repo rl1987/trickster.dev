@@ -309,3 +309,11 @@ JSON pointer can be used in Python as follows:
 Unfortunately, it is very limited and does not provide support for things like recursive search, iteration and wildcards.
 As such, JSONPointer is applicable only to fairly basic use cases. Think of it as a path within JSON tree structure.
 
+Honorary mention: JSON Patch
+----------------------------
+
+JSON Patch ([RFC6902](https://datatracker.ietf.org/doc/html/rfc6902)) is a way to express modifications you need to get done
+in JSON document (adding, removing, replacing and moving parts of the tree). For Python programmers, there is `jsonpatch`
+module available on PIP.
+
+
