@@ -15,7 +15,7 @@ To examplify API scraping, we will be extracting a list of ongoing anime TV seri
 [MyAnimeList Official](https://apps.apple.com/us/app/myanimelist-official/id1469330778) app. The part of the app we are
 interested in is "This Season" subtab in "Seasonal" tab.
 
-TODO: add screenshot
+[App screenshot](/IMG_55B9BF6431CC-1.png)
 
 The tool we will be using for intercepting HTTP traffic is called [mitmproxy](https://mitmproxy.org/). It is a little
 HTTP proxy server that can be launched on your computer and provide a way to inspect and modify the HTTP traffic even
@@ -35,11 +35,14 @@ At this point, we are only concerned about HTTP flows that consist of HTTP reque
 attention to what HTTP flows correspond to which action performed on the app. Occasionally you may want to press Z key
 to clean up the flow list, so that the exact flows you want to see for specific action appear on the top of new list.
 
-TODO: add screenshots with mitmproxy
+[List of flows](/2022-01-18_15.56.04.png)
 
 We can navigate flow list with arrow keys and press Enter on the entry that we want to inspect closer. If we want to 
 export requests, responses or both to a file that can be either curl(1) snippet or raw representation of HTTP messages, we
 can press the E key and mitmproxy will present a menu with several choices.
+
+[Flow details - request](/2022-01-18_15.57.25.png)
+[Flow details - response](/2022-01-18_15.57.32.png)
 
 We discover that data about currently airing anime TV series is loaded via the following API request:
 
@@ -63,6 +66,8 @@ where the app gets these from.
 
 Luckily for us, the app makes the following request that gets a JSON response with list of seasons, one of which is marked as
 current.
+
+[Seasons API response](/2022-01-18_17.38.04.png)
 
 ```
 GET https://api.myanimelist.net/v3/anime/season HTTP/2.0
@@ -225,4 +230,4 @@ if __name__ == "__main__":
 
 ```
 
-TODO: add screenshot with CSV file
+[Resulting CSV file opened in LibreOffice](/2022-01-18_17.41.49.png)
