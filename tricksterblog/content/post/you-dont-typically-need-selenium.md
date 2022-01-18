@@ -7,7 +7,7 @@ tags = ["python", "automation"]
 +++
 
 First, let us presume that we want to develop code to extract structured information from web pages that
-may or may not be doing a lot of API calls from client side JavaScript. We are not trying to develop a
+may or may not be doing a lot of API calls from client-side JavaScript. We are not trying to develop a
 general crawler like Googlebot. We don't mind writing some code that would be specific for each site we
 are scraping (e.g. some Scrapy spiders or Python scripts).
 
@@ -20,8 +20,8 @@ However, introducing Selenium into your web scraping systems brings the followin
 need them. This also has scalability implications for your web scraping activities.
 * Stability issues due to race conditions between your code and client-side JavaScript code that runs in the 
 browser. Developers who have used Selenium are painfully familiar with `WebDriverException`, 
-`StaleElementReferenceException` errors, timeouts and difficulties getting simulated user events working reliably.
-* Blocking evasion difficulties. Since you are running an entire web browser in a way regular user would
+`StaleElementReferenceException` errors, timeouts, and difficulties getting simulated user events working reliably.
+* Blocking evasion difficulties. Since you are running an entire web browser in a way a regular user would
 not (possibly in a headless mode) there are many ways that automation is being performed. For example,
 the site could check `window.navigator.webdriver` boolean value and so on. To some extent, this can
 be mitigated by [patching the web driver binary](https://stackoverflow.com/questions/33225947/can-a-website-detect-when-you-are-using-selenium-with-chromedriver/41220267)
@@ -29,13 +29,13 @@ or using projects like [undetected-chromedriver](https://github.com/ultrafunkams
 and [selenium-stealth](https://github.com/diprajpatra/selenium-stealth).
 
 How can one ditch Selenium and avoid these problems? For almost all sites, the answer is rather simple.
-You open the DevTools and do a little bit of reverse engineering, besides viewing web page source before
+You open the DevTools and do a little bit of reverse engineering, besides viewing a web page source before
 it gets processed by client-side JS code. When you click a link or button on the page, what requests are 
-seen in the Network tab? Is it plain old HTTP GET request that simply fetches the next page? Is it some
-nasty form submission via HTTP POST request that legacy ASP.NET sites tend to implement? Is it REST API
-request that fetches new data so that it could be rendered on existing DOM? Is it GraphQL request?
-Perhaps there is more complex API flow consisting of more back-and-forth between client and server?
-If there is CSRF token somewhere in request, where does the browser take it from? Is there hidden
+seen in the Network tab? Is it a plain old HTTP GET request that simply fetches the next page? Is it some
+nasty form submission via HTTP POST request that legacy ASP.NET sites tend to implement? Is it a REST API
+request that fetches new data so that it could be rendered on existing DOM? Is it a GraphQL request?
+Perhaps there is a more complex API flow consisting of more back-and-forth between client and server?
+If there is a CSRF token somewhere in request, where does the browser take it from? Is there hidden
 `<input>` with that token or is it hardcoded somewhere in JS snippet in the page? If specific cookies
 are necessary for API calls to succeed, look earlier in the communication history to see where they
 come from. If you submit a login form, what does the server return to the browser? Is it some HTTP
