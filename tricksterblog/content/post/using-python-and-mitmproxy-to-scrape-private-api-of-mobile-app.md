@@ -7,11 +7,11 @@ tags = ["python", "mitmproxy", "scraping"]
 +++
 
 Web scraping is a widely known way to gather information from external sources. However, it is not the only way. Another way
-is API scraping. We define API scraping as activity of automatically extracting data from reverse engineered private APIs.
-In this post we will go through an example of reverse engineering private API of a mobile app and developing a simple API
-scraping script that reproduces API calls to extract the exact information that app is showing on mobile device.
+is API scraping. We define API scraping as the activity of automatically extracting data from reverse engineered private APIs.
+In this post, we will go through an example of the reverse engineering private API of a mobile app and developing a simple API
+scraping script that reproduces API calls to extract the exact information that the app is showing on the mobile device.
 
-To examplify API scraping, we will be extracting a list of ongoing anime TV series form 
+To exemplify API scraping, we will be extracting a list of ongoing anime TV series form 
 [MyAnimeList Official](https://apps.apple.com/us/app/myanimelist-official/id1469330778) app. The part of the app we are
 interested in is "This Season" subtab in "Seasonal" tab.
 
@@ -31,13 +31,13 @@ Youtube videos detailing on how to do this with both iOS and Android devices. Yo
 Once mitmproxy is running in the local network and iPhone is configured to pass HTTP requests through mitmproxy instance,
 we are ready to do some reverse engineering of API communications. We start by performing user actions on the app and see
 requests appearing in mitmproxy flow list. In mitmproxy parlance, flow is a collection of inter-related network messages. 
-At this point, we are only concerned about HTTP flows that consist of HTTP request and corresponding response. Pay close
-attention to what HTTP flows correspond to which action performed on the app. Occasionally you may want to press Z key
-to clean up the flow list, so that the exact flows you want to see for specific action appear on the top of new list.
+At this point, we are only concerned about HTTP flows that consist of HTTP requests and corresponding responses. Pay close
+attention to what HTTP flows correspond to which action is performed on the app. Occasionally you may want to press Z key
+to clean up the flow list so that the exact flows you want to see for specific action appear on the top of new list.
 
 [List of flows](/2022-01-18_15.56.04.png)
 
-We can navigate flow list with arrow keys and press Enter on the entry that we want to inspect closer. If we want to 
+We can navigate the flow list with arrow keys and press Enter on the entry that we want to inspect closer. If we want to 
 export requests, responses or both to a file that can be either curl(1) snippet or raw representation of HTTP messages, we
 can press the E key and mitmproxy will present a menu with several choices.
 
@@ -57,14 +57,14 @@ accept-encoding: gzip, deflate, br
 content-length: 0
 ```
 
-Let us discuss what we see here. This is rather straightforward call to RESTful API that asks for JSON response that can be
-compressed. `User-Agent` header is custom to the app. `x-mal-client-id` seems to be API key that is hardcoded into the app
-and that we will be reusing in our script. API call is to `/v3/anime` endpoint with bunch of URL parameters narrowing down the
-exact data the app wants to receive. Notably, it has `start_season_season` parameter with value `winter` and `start_season_year`
-parameter with value `2022`. We don't want to hardcode these parameters and will be looking into earlier API calls to see 
+Let us discuss what we see here. This is a rather straightforward call to RESTful API that asks for a JSON response that can be
+compressed. `User-Agent` header is custom to the app. `x-mal-client-id` seems to be an API key that is hardcoded into the app
+and that we will be reusing in our script. The API call is to `/v3/anime` endpoint with a bunch of URL parameters narrowing down the
+exact data the app wants to receive. Notably, it has `start_season_season` parameter with the value `winter` and `start_season_year`
+parameter with the value `2022`. We don't want to hardcode these parameters and will be looking into earlier API calls to see 
 where the app gets these from. 
 
-Luckily for us, the app makes the following request that gets a JSON response with list of seasons, one of which is marked as
+Luckily for us, the app makes the following request that gets a JSON response with a list of seasons, one of which is marked as
 current.
 
 [Seasons API response](/2022-01-18_17.38.04.png)
@@ -144,7 +144,7 @@ response = requests.get('https://api.myanimelist.net/v3/anime', headers=headers,
 ```
 
 Now we have the building blocks ready to write a Python script that reproduces both API calls, parses JSON responses, extracts
-the data fields we are interested in and saves them into CSV file. Take a look at the following code.
+the data fields we are interested in, and saves them into  CSV file. Take a look at the following code.
 
 ```python
 #!/usr/bin/python3
