@@ -231,3 +231,11 @@ if __name__ == "__main__":
 ```
 
 [Resulting CSV file opened in LibreOffice](/2022-01-18_17.41.49.png)
+
+Could the very same information be scraped from the website? Of course. However, we were able to get it from
+mobile app backend in a pre-structured way which is not always easy when scraping the website. Furthermore,
+the approach we are using in this example is widely applicable to many mobile apps even if they don't have
+a corresponding website and can be further extended into automating actions that the user would otherwise
+be doing manually. Some applications attempt to prevent API scraping by implementing X.509 certificate 
+pinning, but there are ways to defeat it.
+
