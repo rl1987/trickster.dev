@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Using Python and mitmproxy to scrape private API of mobile app"
 date = "2022-01-19"
-draft = true
 tags = ["python", "mitmproxy", "scraping"]
 +++
 
