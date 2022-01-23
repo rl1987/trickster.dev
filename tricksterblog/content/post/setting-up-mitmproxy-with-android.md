@@ -26,7 +26,7 @@ given some textfields for proxy address and port. Under "Proxy hostname", enter 
 computer. In the "Proxy port" field, enter 8080. Leave everything else as-is and press Save.
 
 Open Chrome in your Android system and go to [mitm.it](https://mitm.it). Press the green button under
-Android label. A modal dialog will pop up and ask for certicate name - enter "mitmproxy" and press
+Android label. A modal dialog will pop up and ask for certificate name - enter "mitmproxy" and press
 "OK" button. Go back to Settings app and go to "Security" -> "Encryption and credentials" ->
 "Trusted credentials". Verify that "mitmproxy" certificate is available in the User tab.
 

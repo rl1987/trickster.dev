@@ -43,7 +43,7 @@ operating system, there will be a platform-specific way to do this:
 * On macOS and some Linux systems, run ifconfig and note the IP address for your primary 
 network interface that you are using (something like `eth0` or `en0`). You can also check GUI
 settings app (on macOS, IP address is available at Settings -> Network -> Your primary network).
-* On Windows, it will be avaible in the output of `ipconfig` command and also in the network
+* On Windows, it will be available in the output of `ipconfig` command and also in the network
 settings GUI.
 * On some Linux systems, it will be available in the output of `ip addr` command.
 
