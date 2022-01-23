@@ -39,7 +39,7 @@ Have mitmproxy running for the next steps.
 Find out your IP address of your local computer *within the local subnet*. Depending on your 
 operating system, there will be a platform-specific way to do this:
 
-* On macOS and some Linux systems, run ifconfig and note the IP address for your primary 
+* On macOS and some Linux systems, run `ifconfig` and note the IP address for your primary 
 network interface that you are using (something like `eth0` or `en0`). You can also check GUI
 settings app (on macOS, IP address is available at Settings -> Network -> Your primary network).
 * On Windows, it will be available in the output of `ipconfig` command and also in the network
