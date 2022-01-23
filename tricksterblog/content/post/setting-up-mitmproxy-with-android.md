@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Setting up mitmproxy with Android"
 date = "2022-01-23"
-draft = true
-tags = ["automation", "python", "security"]
+tags = ["automation", "security"]
 +++
 
 In the [previous post](/post/setting-up-mitmproxy-with-ios15/), instructions were provided on 

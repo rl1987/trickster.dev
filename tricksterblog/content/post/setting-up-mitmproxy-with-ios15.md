@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Setting up mitmproxy with iOS 15"
 date = "2022-01-23"
-draft = true
-tags = ["automation", "python", "security"]
+tags = ["automation", "security"]
 +++
 
 [mitmproxy](https://mitmproxy.org/) is an open source proxy server developed for launching 
