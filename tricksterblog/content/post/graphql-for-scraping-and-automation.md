@@ -34,4 +34,38 @@ When working with scraping and automation, it is not uncommon to come across Gra
 implement communications between client and server parts of various systems. Shopify, Product Hunt, GOAT
 are prominent examples of major companies that use GraphQL.
 
+To get familiar with GraphQL, let us launch [starwars-server](https://github.com/apollographql/starwars-server) - 
+a toy project that is based on [Apollo](https://github.com/apollographql/apollo-server.git) GraphQL
+server and exposes a simple web interface to test various requests. For the data model it uses 
+[Star Wars schema](https://github.com/apollographql/starwars-server/blob/main/data/swapiSchema.js#L27) that
+I encourage you to read through to get familiar with how GraphQL schema can be declared. Notice the 
+similarity to data models in object-oriented software and reuse of OOP concepts: interfaces, inheritance,
+instance variables.
+
+There are three types of requests you can send to GraphQL API:
+
+* Queries for reading data.
+* Mutations for modifying data.
+* Subscriptions for opening a notification channel for changes of data (typically this is implemented through
+a WebSocket connection).
+
+Let us try each of these. In the schema, we have a `Query` type that encompasses all the entities we can request
+directly to use as entrypoints in object graph. 
+
+```graphql
+type Query {
+  hero(episode: Episode): Character
+  reviews(episode: Episode!): [Review]
+  search(text: String): [SearchResult]
+  character(id: ID!): Character
+  droid(id: ID!): Droid
+  human(id: ID!): Human
+  starship(id: ID!): Starship
+}
+```
+
+For example, `hero()` is a function you can call to get a single character.
+
+Note that some arguments are marked as necessary with an exclamation mark - meaning the client is not
+allowed to skip them.
 
