@@ -25,7 +25,7 @@ and spread out the outgoing traffic through large number of exit IP addresses.
 There are the following main categories of proxies.
 
 * Datacenter proxies that reroute traffic through datacenter and public cloud systems. Good enough to evade simple rate-limiting
-and IP-based blocking, but insufficient when dealing with more advanced countermeasures. However they can very cheap.
+and IP-based blocking, but insufficient when dealing with more advanced countermeasures. However they are very cheap.
 * ISP proxies from providers that have deals with ISPs and can use IP addresses from residential ranges. More expensive 
 and more capable to evade blocking. 
 * Residential proxies reroute traffic through homes of real people. One may ask: how is this possible? The answer is that
