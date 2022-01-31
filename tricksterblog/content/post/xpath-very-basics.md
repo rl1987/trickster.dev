@@ -15,7 +15,7 @@ is that you need to know very little of it as web scraper developer.
 
 One way to use XPath in web scraping is to use within Scrapy projects by calling `xpath()` method
 on `scrapy.Response` object. Another is to use [lxml](https://lxml.de/) Python module that provides 
-a Pythonic API to the funcionality of libxml2 library. Either way, you will get a list of 
+a Pythonic API to the functionality of libxml2 library. Either way, you will get a list of 
 result(s) that can be empty if none was found.
 
 Let us go through several examples to demonstrate some key features of XPath that will prove to be 
@@ -118,7 +118,7 @@ Lastly, we may want to extract a specific cell from HTML table from document lik
 ```
 
 The query to get a `<td>` with `SCRAPE ME` text would be: `//tr[./td[text()="scrape"]]/td[2]`.
-This query uses all the XPath feaures we discussed with one more thing: indexing. We say `[2]`
+This query uses all the XPath features we discussed with one more thing: indexing. We say `[2]`
 at the end of the query to get the second element from ones it finds. Note that unlike a lot
 of programming languages, XPath starts the indices at 1 - beware of off-by-one bugs in your
 queries!
