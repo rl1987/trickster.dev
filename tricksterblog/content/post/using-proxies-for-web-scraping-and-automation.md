@@ -5,7 +5,7 @@ date = "2022-01-31"
 tags = ["automation", "web-scraping"]
 +++
 
-When it comes to scraping and automation operations, it might be important where remote systems see the traffic
+When it comes to scraping and automation operations, it might be important to control where remote systems see the traffic
 coming from to evade rate-limiting, captchas and IP bans. This is what we need to use proxies for.
 Let us talk about individual proxy servers and proxy pools.
 
