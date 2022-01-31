@@ -63,7 +63,7 @@ Some proxy providers you may want to check out are:
 * [Oculus Proxies](https://oculusproxies.com/index)
 * [The Social Proxy](https://thesocialproxy.com/)
 
-There's also many more. Due your research to find the best option for your budget and feature set.
+There's also many more. Due your research to find the best option for your budget and use case.
 
 How would we use proxies in our code? BrightData provides the following Python snippet for simple use case of their proxy service.
 
@@ -203,7 +203,7 @@ MultiSessionRetriever('[REDACTED]', '[REDACTED]', switch_ip_every_n_req, max_fai
     ["http://lumtest.com/myip.json"] * n_total_req, req_timeout, n_parallel_exit_nodes, output)
 ```
 
-This uses [eventlet](https://eventlet.net/) module to implement implement concurrent networking, which is highly useful
+This uses [eventlet](https://eventlet.net/) module to implement concurrent networking, which is highly useful
 for web scraping, as most the time web scraping code spends goes into waiting for HTTP responses to come from the servers.
 Running multiple requests concurrently can speed up web scraping job by orders of magnitude, as long as we don't run into
 rate-limiting and other countermeasures against scraping that might be implemented by website operators. Launching concurrent
