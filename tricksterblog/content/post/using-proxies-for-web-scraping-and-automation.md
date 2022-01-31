@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Using proxies for web scraping and automation"
-date = "2022-02-01"
-draft = true
+date = "2022-01-31"
 tags = ["automation", "web-scraping"]
 +++
 
