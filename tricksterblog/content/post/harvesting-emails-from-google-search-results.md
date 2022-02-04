@@ -71,6 +71,9 @@ the following parameters:
 * `start` - initial index of start results.
 * `num` - number of search results per page (we will be using max value: 100).
 
+We also set the `User-Agent` header to match that of a regular browser, as Google would block
+our requests otherwise.
+
 The complete script for harvesting email is as follows:
 
 ```python
