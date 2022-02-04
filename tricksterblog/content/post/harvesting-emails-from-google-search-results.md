@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Harvesting emails from Google search results"
-date = "2022-02-07"
-draft = true
+date = "2022-02-04"
 tags = ["web-scraping", "python", "growth-hacking"]
 +++
 
