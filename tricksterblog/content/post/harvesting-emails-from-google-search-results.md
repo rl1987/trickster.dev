@@ -6,22 +6,22 @@ draft = true
 tags = ["web-scraping", "python", "growth-hacking"]
 +++
 
-Automated gathering of email addresses is known as email harvesting. Suppose we want to gather
+Automated gathering of email addresses is known as email harvesting. Suppose we want to gather the
 email addresses of certain kinds of individuals, such as influencers or content creators. This
-can be accomplished through certain less known features of Google. For example, `site:` operator
-limits search results to a given domain. Double-quoting someting forces Google to provide 
+can be accomplished through certain less-known features of Google. For example, `site:` operator
+limits search results to a given domain. Double-quoting something forces Google to provide 
 exact matches on the quoted text. Boolean operators (`AND`, `OR`) are also supported.
 
 Google caps the number of results to about 300 per query, but we can mitigate this limitation
 by breaking down search space into smaller segments across multiple search queries. In this 
-example, we are going to search for people not only by keyword, but also by location - for
-each search, we will be using a combination of keywords with Boolean operator to tell the search
-engine to match on combination of strings.
+example, we are going to search for people not only by keyword but also by location - for
+each search, we will be using a combination of keywords with a Boolean operator to tell the search
+engine to match on a combination of strings.
 
 We will be implementing email harvesting from social media profiles that can be found via Google.
 
-One more thing to address is Google rate-limiting on excessive searching. If we launch too many
-search engines in short timeframe Google will start asking for captcha solutions, which we want
+One more thing to address is Google's rate-limiting on excessive searching. If we launch too many
+search engines in a short timeframe Google will start asking for captcha solutions, which we want
 to avoid. For this purpose, we will be sending the requests through a proxy pool.
 
 Let us prepare the search query components first. In sites.txt, we put the list of domain names
@@ -55,7 +55,7 @@ content creator
 ```
 
 Our code will be doing nested loops across all permutations of the above things, scraping Google
-search result pages and applying regular expressions to extract email addresses.
+search result pages, and applying regular expressions to extract email addresses.
 
 Depending on your exact needs, you may want to use simpler or more complex regular expression
 to match email addresses in the result snippet text. For some, examples see the following
