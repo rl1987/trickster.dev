@@ -64,6 +64,13 @@ Stack Overflow pages:
 * [How can I validate an email address using a regular expression?](https://stackoverflow.com/questions/201323/how-can-i-validate-an-email-address-using-a-regular-expression)
 * [regex extract email from strings](https://stackoverflow.com/questions/42407785/regex-extract-email-from-strings)
 
+To get HTML page with search results, we are going to send HTTP GET requests to `https://www.google.com/search` with
+the following parameters:
+
+* `q` - search query.
+* `start` - initial index of start results.
+* `num` - number of search results per page (we will be using max value: 100).
+
 The complete script for harvesting email is as follows:
 
 ```python
