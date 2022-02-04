@@ -19,6 +19,8 @@ each search, we will be using a combination of keywords with a Boolean operator 
 engine to match on a combination of strings.
 
 We will be implementing email harvesting from social media profiles that can be found via Google.
+We won't be scraping social media portals, but we will be extracting email addresses from
+Google SERPs. This enables us to avoid the difficulties of social media scraping.
 
 One more thing to address is Google's rate-limiting on excessive searching. If we launch too many
 search engines in a short timeframe Google will start asking for captcha solutions, which we want
