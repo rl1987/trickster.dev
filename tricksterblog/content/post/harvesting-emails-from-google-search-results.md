@@ -33,7 +33,7 @@ instagram.com
 tiktok.com
 ```
 
-In q1.txt we put list of domain names we want to find emails in, prefix by `@` character:
+In q1.txt we put list of domain names we want to find emails in, prefixed by `@` character:
 
 ```
 @gmail.com
