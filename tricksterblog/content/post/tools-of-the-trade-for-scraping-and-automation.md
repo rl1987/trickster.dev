@@ -6,4 +6,19 @@ draft = true
 tags = ["automation", "python"]
 +++
 
-WRITEME
+WRITEME: Chrome Devtools
+
+WRITEME: curl
+
+WRITEME: curlconverter
+
+WRITEME: mitmproxy
+
+WRITEME: tmux
+
+WRITEME: crontab-ui
+
+WRITEME: Vagrant
+
+WRITEME: n8n
+
