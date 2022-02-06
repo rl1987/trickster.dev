@@ -22,8 +22,8 @@ View -> Developer -> Developer Tools. There are following tabs in the DevTools p
 the current page.
 * Sources - provides you with an interface to read HTML, JavaScript and CSS source files that browser has downloaded when
 rendering the page.
-* Network - provides visibility into network traffic that is happening when page is being load and also when user actions are
-being performed. Very useful for reverse engineering,
+* Network - provides visibility into network communications originating from browser when page is being load and also when 
+user actions are being performed. Very useful for reverse engineering.
 * Performance - provides tooling to measure page performance in terms of where time is being spent in the browser.
 * Memory - provides tooling to measure memory performance and also to inspect memory contents of JS environment of the current page.
 * Application - provides access to client side data being stored in the browser. We may want to take cookies from here if it is
@@ -32,8 +32,8 @@ not feasible or desirable to implement automated code to go through steps to get
 Depending on the version of your Chrome instance and extensions you have installed, you may have more tabs in you DevTools.
 As web scraper developer I am spending most time in Elements and Network tabs and barely use other ones.
 
-In Network tab you can choose an HTTP request you want to reproduce programmatically, right-click on it and choose Copy as... ->
-curl. Which brings us to...
+In Network tab you can choose an HTTP request you want to reproduce programmatically, right-click on it and choose Copy ->
+Copy as cURL. Which brings us to...
 
 cURL
 ----
