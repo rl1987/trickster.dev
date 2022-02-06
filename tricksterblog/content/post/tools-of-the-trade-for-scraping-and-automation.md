@@ -53,7 +53,7 @@ curlconverter
 
 But eventually we want to reproduce the requests in some actual programming language. This is where 
 [curlconverter](https://curlconverter.com/) comes in. It's a small webapp that takes cURL commands and converts them into
-snippets in one of several programming languages: Python, Dart, Golang, Rust and few more. This makes it quick to go from
+snippets in one of several programming languages: Python, Dart, Golang, Rust and a few more. This makes it quick to go from
 finding a key request-response flow in DevTools to reproducing it in your own code.
 
 mitmproxy
@@ -84,9 +84,33 @@ more functionality, such as splitting terminal window into multiple subwindows (
 I find it very cheap and convenient to run my long-running scripts inside tmux sessions on disposable $5/month virtual private
 servers from Digital Ocean.
 
-WRITEME: crontab-ui
+Crontab UI
+----------
 
-WRITEME: Vagrant
+You or your customer may want to run automation at some fixed time-based schedule. One way to get it done is to configure
+cronjobs on your Unix/Linux server of Kubernetes cluster. However, you may want to have web-based dashboard for managing
+your cronjobs that is at least somewhat comprehensible to your not-so-technical customer who just wants to adjust the schedule
+once in a while. This is where [Crontab UI](https://github.com/alseambusher/crontab-ui) comes in. It's a Node.js-based webapp
+that provides a simple web interface for cronjob management. It can be installed through NPM and also has an
+official [Docker image](https://hub.docker.com/r/alseambusher/crontab-ui).
 
-WRITEME: n8n
+n8n
+---
+
+Sometimes simply running some Unix commands at schedule will not be enough and more complex automation flow will be necessary.
+[n8n](https://n8n.io/) is extendable workflow automation system that enables people to build automations with little to no
+programming in some cases. Think of this as open-source equivalent of famous "no code" tools like Zapier and Integromat. However
+I don't recommend that people buy into No Code hype too much as this sort of graphical workflows can turn into it's own kind of
+spaghetti code once you reach some non-trivial complexity. However, this can be still useful when connecting various actions
+(e.g. execution of scripts you coded yourself) into some greater automated workflow. Like Crontab UI, n8n can be installed 
+via NPM or Docker.
+
+
+Vagrant
+-------
+
+Dealing with differences in development environment can be pain. [Vagrant](https://www.vagrantup.com/) is a virtual machine
+management program that enables you to have a consistent development environment based from a single source of truth (your
+Vagrantfile, possibly with some provisioning scripts). It's essentially infrastructure-as-code, but for Virtualbox/VMWare 
+virtual machines that can be created and destroyed on as-needed basis.
 
