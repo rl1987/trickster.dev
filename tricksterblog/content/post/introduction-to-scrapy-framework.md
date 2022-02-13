@@ -168,7 +168,7 @@ the spider. Spider is an object that performs link traversal (crawling) and data
 spiders (that is, your own subclasses of `scrapy.Spider` object) is most of the work you will be doing when using Scrapy.
 The front page of Scrapy website provides an example of very basic spider that traverses blog pages and extracts post titles:
 
-```
+```python
 import scrapy
 
 class BlogSpider(scrapy.Spider):
@@ -375,7 +375,7 @@ Soon enough it reaches product pages by traversing the links. Let us implement t
         yield item
 ```
 
-First we instantiate the item dictionary, the we run XPath queries to extract several pieces of information about product:
+First we instantiate the item dictionary, then we run a few of XPath queries to extract several pieces of information about product:
 title, UPC, description, price, availability, number of reviews - the typical stuff that customers in eCommerce industry are
 interested in. Lastly, we yield the item dictionary.
 
