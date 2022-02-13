@@ -15,7 +15,7 @@ that only human is supposed to be able to perform, such as:
 * Solving simple puzzles.
 * Hearing a word on audio and writing it down.
 
-Once the user passes the challenge, access it granted. 
+Once the user passes the challenge, access is granted. 
 
 CAPTCHAs can be used for security purposes (e.g. to prevent password bruteforcing) or to fight any kind of automation
 (scraping, auto-purchasing eCommerce products, etc.). 
