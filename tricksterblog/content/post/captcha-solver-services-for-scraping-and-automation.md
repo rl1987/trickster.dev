@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "CAPTCHA solver services for scraping and automation"
-date = "2022-02-14"
-draft = true
+date = "2022-02-13"
 tags = ["web-scraping", "automation", "python", "captcha"]
 +++
 
