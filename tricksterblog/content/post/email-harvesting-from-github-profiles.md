@@ -1,11 +1,45 @@
 +++
 author = "rl1987"
 title = "Email harvesting from Github profiles"
-date = "2021-12-19"
+date = "2022-02-19"
 draft = true
-tags = ["automation", "python", "growth-hacking"]
+tags = ["python", "growth-hacking"]
 +++
 
+You may have some reason to automatically gather (harvest) software developer emails. That might be SaaS marketing
+objectives, recruitment or community building. One place online that has a lot of developers is Github. Some
+of the developers have a public email address listed on their Github profile. Turns out, this information is available
+through Github's [REST API](https://docs.github.com/en/rest) and can be extracted with just a bit of scripting.
+
+First we need an API token. Log in to your Github account and go to [Personal Access Tokens](https://github.com/settings/tokens)
+page. Press "Generate new token" button - Github will ask for your password. Now type in some name, choose expiration date (or
+no expiration) and tick the following checkboxes under "Select scopes":
+
+* `public_repo`
+* `user:email`
+
+Press "Generate token" button on the bottom of the page. Now it gives you an API token to be used in the code without going through
+the OAuth flow. Make sure to copy it somewhere, as this token will not be shown again. We will be setting `Authorization` header
+with this token when making API calls.
+
+Our API scraping strategy will be as follows:
+
+1. Scrape `/search/repositories` API for repos matching language and query (we can use `language:` operator to get repositories
+developed in specific programming language). We extract repo name, description, web URL and contributors URL. These fields are saved
+into CSV file that next script will read. 
+
+
+2. The second script reads repo CSV file and iterates across contributor URLs to get a list of contributors for each repository.
+In the inner loop, it iterates across contributors, fetches their profiles from API, which gives us their emails. Names, usernames,
+account creation dates and email addresses are saved into CSV file.
+
+For API documentation, see: 
+
+* https://docs.github.com/en/rest/reference/search#search-repositories
+* https://docs.github.com/en/rest/reference/repos#list-repository-contributors
+* https://docs.github.com/en/rest/reference/users#get-a-user
+
+The first script that scrapes API for matching repos is as follows:
 
 ```python
 #!/usr/bin/python3
@@ -92,6 +126,8 @@ if __name__ == "__main__":
     main()
 ```
 
+The second script that reads repository CSV file and scrapes developer names/emails is as follows:
+
 ```python
 #!/usr/bin/python3
 
@@ -155,3 +191,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+Note that Github API does some rate limiting, especially when it comes to search requests. This is why
+there are some delays made with `time.sleep()` in the code.
+
