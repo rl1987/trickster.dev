@@ -97,6 +97,43 @@ both your Scrapy instance and remote server(s) being scraped.
 
 To learn more about automatic throttling, see: https://docs.scrapy.org/en/latest/topics/autothrottle.html
 
-WRITEME: deploy Scrapy project to the cloud
+Deploy Scrapy projects to the cloud
+-----------------------------------
 
-WRITEME: ItemLoader
+Once you have your Scrapy project running properly, you may want to avoid running it on your local machine to
+perform scraping. There are several ways to get it running in the cloud environment.
+
+The simplest way is to get a cheap VPS (e.g. $5/month Digital Ocean droplet), install Scrapy there, upload your
+Scrapy project via SFTP and run it in tmux session.
+
+Another way is to self-host a solution like [Scrapydweb](https://github.com/my8100/scrapydweb) that will provide
+you with web interface to upload your Scrapy project and monitor scraping progress on the dashboard.
+
+Yet another way is to sign up for [Scrapy Cloud](https://www.zyte.com/scrapy-cloud/) - the official service from
+creators of Scrapy. This service has it's own CLI tool for uploading your Scrapy project and launching it in the 
+cloud environment, which means you can integrate it into your CI/CD pipeline. 
+
+Use Item Loader to streamline item creation
+-------------------------------------------
+
+Scrapy lets you create Item Loaders to simplify and streamline item creation based on CSS selectors and XPath 
+queries. Furthermore, it allows you to include extra steps such as whitespace stripping and other parsing tasks.
+
+Scrapy documentation provides the following example on how Item Loader could be used in the spider:
+
+```python
+from scrapy.loader import ItemLoader
+from myproject.items import Product
+
+def parse(self, response):
+    l = ItemLoader(item=Product(), response=response)
+    l.add_xpath('name', '//div[@class="product_name"]')
+    l.add_xpath('name', '//div[@class="product_title"]')
+    l.add_xpath('price', '//p[@id="price"]')
+    l.add_css('stock', 'p#stock]')
+    l.add_value('last_updated', 'today') # you can also use literal values
+    return l.load_item()
+```
+
+To learn more about Item Loaders, see: https://docs.scrapy.org/en/latest/topics/loaders.html
+
