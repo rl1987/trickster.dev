@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Email harvesting from Github profiles"
 date = "2022-02-19"
-draft = true
 tags = ["python", "growth-hacking"]
 +++
 
@@ -25,9 +24,8 @@ with this token when making API calls.
 Our API scraping strategy will be as follows:
 
 1. Scrape `/search/repositories` API for repos matching language and query (we can use `language:` operator to get repositories
-developed in specific programming language). We extract repo name, description, web URL and contributors URL. These fields are saved
+developed in a specific programming language). We extract repo name, description, web URL and contributors URL. These fields are saved
 into CSV file that next script will read. 
-
 
 2. The second script reads repo CSV file and iterates across contributor URLs to get a list of contributors for each repository.
 In the inner loop, it iterates across contributors, fetches their profiles from API, which gives us their emails. Names, usernames,
