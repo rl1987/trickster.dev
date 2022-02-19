@@ -193,3 +193,6 @@ if __name__ == "__main__":
 Note that Github API does some rate limiting, especially when it comes to search requests. This is why
 there are some delays made with `time.sleep()` in the code.
 
+What if you don't want your Github account email publically available and harvestable? There is a simple
+way to hide it: go to [Emails](https://github.com/settings/emails) page of your account settings
+and make sure that "Keep my email addresses private" checkbox is ticked.
