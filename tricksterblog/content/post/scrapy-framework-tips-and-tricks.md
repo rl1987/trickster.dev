@@ -9,8 +9,8 @@ tags = ["web-scraping", "python", "scrapy"]
 Use Scrapy shell for interactive experimentation
 ------------------------------------------------
 
-Running `scrapy shell` gives you an interactive environment for experimentation with how your
-code interacts with the site being scraped. For example, running `fetch()` with URL of page
+Running `scrapy shell` gives you an interactive environment for experimenting with
+the site being scraped. For example, running `fetch()` with URL of page
 fetches the page and creates a `response` variable with `scrapy.Response` object for that page.
 `view(response)` opens the browser to let you see the HTML that the Scrapy spider would fetch.
 This bypasses some of the client-side rendering and also lets us detect if the site has some
@@ -24,7 +24,7 @@ To learn more about Scrapy shell, see: https://docs.scrapy.org/en/latest/topics/
 Use image/file pipeline for file downloading
 --------------------------------------------
 
-Sometimes your web scraping project will involve downloading images or files in general.
+Sometimes your web scraping project will involve downloading images or other kinds of files.
 Scrapy provides some official pipelines for this exact task.
 
 To download any kind of files, we can integrate `FilesPipeline` by adding
@@ -110,7 +110,7 @@ Another way is to self-host a solution like [Scrapydweb](https://github.com/my81
 you with web interface to upload your Scrapy project and monitor scraping progress on the dashboard.
 
 Yet another way is to sign up for [Scrapy Cloud](https://www.zyte.com/scrapy-cloud/) - the official service from
-creators of Scrapy. This service has it's own CLI tool for uploading your Scrapy project and launching it in the 
+creators of Scrapy. This service has its own CLI tool for uploading your Scrapy project and launching it in the 
 cloud environment, which means you can integrate it into your CI/CD pipeline. 
 
 Use Item Loader to streamline item creation
