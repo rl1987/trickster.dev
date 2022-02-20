@@ -78,7 +78,7 @@ These variables control upper limit of how many concurrent requests spider is al
 launch per domain/target IP address - only one of them should be set.
 
 A more advanced way to slow down is to use `AutoThrottle` extension by uncommenting the following
-parts and experimenting with values to reach a point of no requests being dropped:
+parts of settings.py file and experimenting with values to reach a point of no requests being dropped:
 
 ```python
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -96,7 +96,7 @@ parts and experimenting with values to reach a point of no requests being droppe
 ```
 
 This will enable an adaptive throttling algorithm that will take into account a load of
-both your Scrapy instance and remote server(s) being scraped.
+both your Scrapy instance and that of remote server(s) being scraped.
 
 To learn more about automatic throttling, see: https://docs.scrapy.org/en/latest/topics/autothrottle.html
 
