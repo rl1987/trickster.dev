@@ -77,8 +77,8 @@ down your Scrapy project is to decrease the following values in settings.py:
 These variables control upper limit of how many concurrent requests spider is allowed to
 launch per domain/target IP address - only one of them should be set.
 
-A more advanced way to slow down is to use `AutoThrottle` extension by uncommenting parts
-and experimenting with values to reach a point of no requests being dropped:
+A more advanced way to slow down is to use `AutoThrottle` extension by uncommenting the following
+parts and experimenting with values to reach a point of no requests being dropped:
 
 ```python
 # Enable and configure the AutoThrottle extension (disabled by default)
