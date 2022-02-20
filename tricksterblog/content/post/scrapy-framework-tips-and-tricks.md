@@ -41,8 +41,8 @@ FILES_STORE = '/path/to/valid/dir'
 
 Furthermore, your items will need to include `file_urls` field with a list of file URLs.
 When files pipeline processes the item, it will download each file into directory you
-have configured and will set a `files` property with dictionary of original URL and
-path of downloaded file. To convert file URL into file name, SHA1 hash is computed on
+have configured and will set a `files` property with list of dictionaries of original URLs and
+paths of downloaded files. To convert file URL into file name, SHA1 hash is computed on
 URL and prepended to the original file extension.
 
 Integration of images pipeline is rather similar. You would edit settings.py to add
@@ -51,6 +51,10 @@ Integration of images pipeline is rather similar. You would edit settings.py to 
 images pipeline provides some image processing capabilities, thus requiring that
 [Pillow](https://pillow.readthedocs.io/en/stable/) module is installed. By default,
 images pipeline automatically converts all downloaded images to JPEG format.
+
+Images pipeline expects `image_urls` item property to be filled with list of image
+URLs and will set `images` property in a a way equivalent to `files` property of 
+files pipeline.
 
 Both pipelines allow storing downloaded files on stores external to local file system:
 
