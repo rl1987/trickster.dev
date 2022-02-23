@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "GraphQL for scraping and automation"
-date = "2022-02-28"
+date = "2022-08-28"
 draft = true
 tags = ["scraping", "automation", "graphql"]
 +++
