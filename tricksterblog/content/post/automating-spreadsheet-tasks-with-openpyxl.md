@@ -166,3 +166,4 @@ but not limited to, spreadsheets. Think of it as a more programmable version of 
 * [XlsxWriter](https://xlsxwriter.readthedocs.io/) - Python module for writing data to older format that is compatible with
 Excel 2007+.
 * [xlrd](https://github.com/python-excel/xlrd) - Python module for reading legacy .xls files.
+* [Google client libraries for Google Sheets/Drive/Docs](https://developers.google.com/sheets/api/quickstart/python)
