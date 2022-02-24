@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Automating spreadsheet tasks with openpyxl"
-date = "2022-12-24"
+date = "2022-02-24"
 tags = ["automation", "python", "openpyxl"]
 +++
 
