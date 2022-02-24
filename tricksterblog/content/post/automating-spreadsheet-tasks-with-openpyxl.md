@@ -19,7 +19,7 @@ data for a certain hospital in USA.
 $ wget https://28g1xh366uy0x9ort41hns72-wpengine.netdna-ssl.com/wp-content/uploads/2021/12/Albuquerque-Price-Transparency-01-2022.xlsx
 ```
 
-Spreadsheet document is opened into workbook (openyxl object for entire spreadsheet document) by calling `load_workbook()` function:
+Spreadsheet document is opened into workbook (openpyxl object for entire spreadsheet document) by calling `load_workbook()` function:
 
 ```
 >>> import openpyxl
