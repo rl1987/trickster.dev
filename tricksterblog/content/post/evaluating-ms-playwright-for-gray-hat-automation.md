@@ -49,6 +49,10 @@ with sync_playwright() as p:
             browser.close()
 ```
 
+[example-ifconfig.me-chromium.png](/example-ifconfig.me-chromium.png)
+
+[example-www.stockx.com-chromium.png](/example-www.stockx.com-chromium.png)
+
 We see that string `Headless` is included into User-Agent header and that an attempt to load StockX page instantly
 fails due to be being detected by PerimeterX.
 
