@@ -6,20 +6,20 @@ draft = true
 tags = ["web-scraping", "python", "growth-hacking"]
 +++
 
-[Playwright](https://playwright.dev/) is framework for web testing and automation, created by Microsoft.
+[MS Playwright](https://playwright.dev/) is a framework for web testing and automation.
 Playwright supports programmatic control of Chromium and Firefox browser and also integrates WebKit engine.
 Headless mode is supported and enabled by default, thus making it possible to run your automations in
 environments that have no GUI support (lightweight virtual private servers, Docker containers and so on).
 Playwright is written in JavaScript, but has official bindings for Python, C#, TypeScript and Java.
-Think of Playwright as more modern equivalent of things like Selenium and Puppetteer that solves some of the
+Think of Playwright as more modern equivalent of things like Selenium and Puppetteer that solve some of the
 problems associated with these technologies (e.g. crashes in your code due to race conditions).
 Since Python is commonly used for gray hat automation, we will experiment with Python version of Playwright
 API with the need to evade automation countermeasures in mind. 
 
-Let us install Playwright first in Python development enviromnent. This turns out to be fairly simple:
+Let us install Playwright first in Python development enviromnent. This is fairly simple:
 
-1. Run `pip3 install playwright`. This installs Playwright Python module with CLI tool.
-2. Run `playwright install` instances of browsers that Playwright manages for you.
+1. Run `pip3 install playwright` to install Playwright Python module with CLI tool.
+2. Run `playwright install` to install instances of browsers that Playwright manages for you.
 3. Run `playwright install-deps` to install other dependencies that Playwright needs to run. Depending on your enviroment this
 might not be needed.
 
@@ -49,16 +49,14 @@ with sync_playwright() as p:
             browser.close()
 ```
 
-TODO: include images
-
-We see that string `Headless` is included into User-Agent header and that attempt to load StockX page instantly
-fails to be being detected by PerimeterX.
+We see that string `Headless` is included into User-Agent header and that an attempt to load StockX page instantly
+fails due to be being detected by PerimeterX.
 
 However, we can set `user_agent` [argument](https://playwright.dev/python/docs/api/class-browser#browser-new-page)
 when calling `new_page()` method and pass a string with User-Agent value from a proper browser, which prevents getting
 blocked on the very first page by PerimeterX.
 
-We can also set `proxy` argument to dictionary with proxy address and credentials. Unfortunately, it does not putting proxy
+We can also set `proxy` argument to dictionary with proxy address and credentials. Unfortunately, it does not support putting proxy
 credentials and address in the same way as `requests` module does. Instead, we would need to create a dictionary with following
 key-value pairs:
 
@@ -121,8 +119,8 @@ with sync_playwright() as playwright:
 
 We see that the code is fairly linear and does not have explicit waiting steps or any kind of exception handling. This is because
 of Playwright locators - every time you call a `locator()` method Playwright makes sure that any waiting for element you are 
-interacting is done automatically. String argument that is being passed into this method is called a selector and can be a 
-CSS selector, XPath query, React selector, Vue selector and more.
+interacting with is done automatically. String argument that is being passed into this method is called a selector and can be a 
+CSS selector, XPath query, React selector, or Vue selector.
 
 A word of warning: it is generally advised to refrain from running automations against Instagram accounts that are considered
 valueable, as they can get suspended or banned due to triggering automation countermeasures at IG. For experimentation, you can get
@@ -191,7 +189,7 @@ Likewise, page content can be quickly saved into PDF document:
 $ playwright pdf https://ifconfig.me ifconfig.pdf
 ```
 
-We barely scratched the surface of what Playwright can do, but what we have seen so far is promising. Playwright supports less
+We have barely scratched the surface of what Playwright can do, but what we have seen so far is promising. Playwright supports less
 browsers than Selenium does, but looks like a far superior choice when it comes to stability and developer experience. 
 Some developers working in web scraping and gray hat automation say that it also has an additional benefit of making it easier
 to evade automation countermeasures, as there are less tell-tale signs in JS environment that betray browser being controlled
