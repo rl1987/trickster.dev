@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
 title = "Evaluating MS Playwright for gray hat automation"
-date = "2022-03-06"
-draft = true
-tags = ["web-scraping", "python", "growth-hacking"]
+date = "2022-03-05"
+tags = ["web-scraping", "python", "automation"]
 +++
 
 [MS Playwright](https://playwright.dev/) is a framework for web testing and automation.
@@ -181,7 +180,7 @@ with sync_playwright() as playwright:
 ```
 
 Previously, we have used Python API to make page screenshots. However, Playwright CLI tool provides a quicker way to save 
-screenshot that:
+screenshot:
 
 ```
 $ playwright screenshot https://ifconfig.me ifconfig.png
