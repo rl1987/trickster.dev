@@ -6,5 +6,15 @@ draft = true
 tags = ["automation", "python", "growth-hacking", "security", "bug-bounties"]
 +++
 
-WRITEME
+WRITEME: introduction
+
+WRITEME: sending emails with SMTP
+
+WRITEME: sending emails via SendGrid API
+
+WRITEME: sending Telegram notifications to subscribers
+
+WRITEME: sending Discord notifications
+
+WRITEME: sending WhatsApp notifications
 
