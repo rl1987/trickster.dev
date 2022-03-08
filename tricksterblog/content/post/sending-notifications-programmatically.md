@@ -245,5 +245,13 @@ Let us make a phone call from Python REPL:
 >>> call = client.calls.create(twiml='<Response><Say>Data center is on fire!</Say></Response>', to="[REDACTED]", from_="[REDACTED]")
 ```
 
+There's more ways to get notified...
+------------------------------------
 
+You may also want to consider:
+
+* [Web Push notifications](https://developers.google.com/web/fundamentals/push-notifications)
+* Sending Whatsapp messages via [Twilio Whatsapp Business API](https://www.twilio.com/docs/whatsapp/api)
+* Setting up Slack chatbot via [Slack API](https://api.slack.com/)
+* Integrating PagerDuty or similar solution if uptime is truly critical.
 
