@@ -17,12 +17,12 @@ Sending emails
 
 Let's start with least urgent kind of notification - a simple email message. SMTP (Simple Mail Transfer Protocol)
 is a standard way to send email messages and is implemented in many programming languages. For example, vanilla
-Python installation includes module called `smtplib` that can be used to send email messages. This requires an
-email account with functional SMTP interface. It is supported by most email providers, altough you may need to adjust
-your settings on some of them. Alternatively, you can use email sending SaaS vendor such as [SendGrid](https://sendgrid.com/)
-or [AWS SES](https://aws.amazon.com/ses/).
+Python installation includes module called [`smtplib`](https://docs.python.org/3/library/smtplib.html) that can be used 
+to send email messages. This requires an email account with functional SMTP interface. It is supported by most email 
+providers, altough you may need to adjust your settings on some of them. Alternatively, you can use email sending SaaS 
+vendor such as [SendGrid](https://sendgrid.com/) or [AWS SES](https://aws.amazon.com/ses/).
 
-A very basic example of using Python SMTP API is provided by the official documentation:
+A very basic example of using Python SMTP API is provided by the [official documentation](https://docs.python.org/3/library/smtplib.html#smtp-example):
 
 ```python
 import smtplib
@@ -80,8 +80,9 @@ rather simple:
 >>> smtp.close()
 ```
 
-Here we used `email` module to construct the exact textual structure of message we are sending, which is generally more desirable
-over having your code generate it, like it was done in `smtplib` sample code.
+Here we used [`email`](https://docs.python.org/3/library/email.html#module-email) module to construct the exact textual 
+structure of message we are sending, which is generally more desirable
+over having your own code generate it, like it was done in `smtplib` sample code.
 
 Note however that you would need to go through a procedure of verifying your sender email address with SendGrid or AWS SES.
 
@@ -209,7 +210,7 @@ account_sid = "[REDACTED]"
 auth_token = "[REDACTED]"
 client = Client(account_sid, auth_token)
 
-message = client.messages.create( body="Hello there!", from_='[REDACTED]', to='[REDACTED]')
+message = client.messages.create(body="Hello there!", from_='[REDACTED]', to='[REDACTED]')
 ```
 
 * Using [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart) tool:
