@@ -172,9 +172,78 @@ Sending Discord notifications
 
 Similarly to Telegram, Discord also provides an [API](https://discord.com/developers/docs/intro) for bot development that
 requires you to register your bot at developer portal to get credentials for API access. 
-[discord-py](https://discordpy.readthedocs.io/en/stable/) was a prominent Python module for implementing Discord chat bots, 
-but it's future is rather cloudy due to the original developer having moved on. To send a DM programmatically you don't need a
-registration step from the user, but the user has to be present in the same "server"/guild as the bot. 
+[discord-py](https://discordpy.readthedocs.io/en/stable/) is a prominent Python module for implementing Discord chat bots, 
+To send a DM programmatically you don't need a registration step from the user, but the user has to be present in the same 
+"server"/guild as the bot. Alternatively, your bot could send chat messages to a regular channel on Discord.
 
-Alternatively, your bot could send chat messages to a regular channel on Discord.
+A gray hat approach would be what's called "self-botting" - automating against private Discord API and pretending to be a
+regular user when sending messages. However Discord is deploying countermeasures against things like that.
+
+Sending SMS message via Twilio
+------------------------------
+
+Perhaps you don't want to rely on some IM platform to notify you and don't mind spending a bit of money to set up notifications
+in a way that makes them reach you even if you don't have TCP/IP connectivity on your smartphone. This is where goold old
+Short Message Service (SMS) comes in. To start sending SMS messages programmatically, we first need to sign up at
+[Twilio](https://www.twilio.com/) - a prominent SaaS vendor that exposes telecommunications features via REST API for easy
+integration. Then we would purchase a phone number and get an API credentials (account SID and auth token).
+
+Now we have 3 ways to send an SMS message: 
+
+* Calling REST API directly:
+
+```
+$ curl -X POST https://api.twilio.com/2010-04-01/Accounts/$TWILIO_ACCOUNT_SID/Messages.json \
+--data-urlencode "Body=Hello there!" \
+--data-urlencode "From=[REDACTED]" \
+--data-urlencode "To=[REDACTED]" \
+-u $TWILIO_ACCOUNT_SID:$TWILIO_AUTH_TOKEN
+```
+
+* Using `twilio` Python module (or any of the other client libraries that Twilio provides):
+
+```python
+from twilio.rest import Client
+
+account_sid = "[REDACTED]"
+auth_token = "[REDACTED]"
+client = Client(account_sid, auth_token)
+
+message = client.messages.create( body="Hello there!", from_='[REDACTED]', to='[REDACTED]')
+```
+
+* Using [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart) tool:
+
+```
+$ twilio api:core:messages:create --from "[REDACTED]" --to "[REDACTED]" --body "Hello there!"
+```
+
+All phone numbers have to in E.164 format, e.g. "+14155552671".
+
+Making a phone call via Twilio
+------------------------------
+
+Sometimes things are getting complicated and may require waking you or a support engineer in the middle of the night
+to immediately address issues that have emerged. Thus we need to make a phone call, that we can also do via Twilio in all
+3 ways that applies for sending SMS. However there is one key difference - when making a phone call via Twilio API
+we have to pass a [TwiML](https://www.twilio.com/docs/voice/twiml) payload that will define interaction with the user
+that picks up the phone. This can be a rather complex flow, but for the sake of simplicity let us make Twilio use 
+text-to-speech synthesis to pass a message for us:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Say>Data center is on fire!</Say>
+</Response>
+```
+
+Let us make a phone call from Python REPL:
+
+```
+>>> from twilio.rest import Client
+>>> client = Client("[REDACTED]", "[REDACTED]")
+>>> call = client.calls.create(twiml='<Response><Say>Data center is on fire!</Say></Response>', to="[REDACTED]", from_="[REDACTED]")
+```
+
+
 
