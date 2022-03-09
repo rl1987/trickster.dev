@@ -8,18 +8,18 @@ tags = ["automation", "python", "growth-hacking", "security", "bug-bounties"]
 
 You may want to get notified about certain events happening during your scraping/botting operations. Examples
 might be an outages of external systems that your setup depends on, fatal error conditions, scraping jobs
-being finished. If you are implementing automations for bug bounty hunting, you certaintly want to get notified
+being finished, and so on. If you are implementing automations for bug bounty hunting, you certaintly want to get notified
 about new vulnerabilities being found in target systems being scanned. You may also want to get periodic status 
 updates on long running tasks. This requires integrating one or more messaging channels into your code.
 
 Sending emails
 --------------
 
-Let's start with least urgent kind of notification - a simple email message. SMTP (Simple Mail Transfer Protocol)
+Let's start with the least urgent kind of notification - a simple email message. SMTP (Simple Mail Transfer Protocol)
 is a standard way to send email messages and is implemented in many programming languages. For example, vanilla
 Python installation includes module called [`smtplib`](https://docs.python.org/3/library/smtplib.html) that can be used 
 to send email messages. This requires an email account with functional SMTP interface. It is supported by most email 
-providers, altough you may need to adjust your settings on some of them. Alternatively, you can use email sending SaaS 
+providers, altough you may need to adjust your account settings. Alternatively, you can use email sending SaaS 
 vendor such as [SendGrid](https://sendgrid.com/) or [AWS SES](https://aws.amazon.com/ses/).
 
 A very basic example of using Python SMTP API is provided by the [official documentation](https://docs.python.org/3/library/smtplib.html#smtp-example):
