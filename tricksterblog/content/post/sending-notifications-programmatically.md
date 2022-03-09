@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Sending notifications programmatically: let me count the ways"
-date = "2022-03-11"
-draft = true
+date = "2022-03-09"
 tags = ["automation", "python", "growth-hacking", "security", "bug-bounties"]
 +++
 
