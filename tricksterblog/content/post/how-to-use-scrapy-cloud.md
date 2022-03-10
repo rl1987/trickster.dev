@@ -46,6 +46,8 @@ of log lines generated. Clicking either of these will provide a page with detail
 corresponding data. You can export your scraped data in CSV, JSON, JSONL or XML formats from 
 the page that presents scraped items. It's as simple as that.
 
+[Screenshot](/2022-03-08_18.35.28.png)
+
 To get notified about scraping jobs being finished you can enable email notifications by ticking
 the checkbox under "Watching" in a project of interest.
 
