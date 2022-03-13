@@ -129,7 +129,8 @@ XLSX_PATH = "quotes.xlsx"
 
 Running any of the two spiders creates an Excel spreadsheet with scraped data.
 
-TODO: provide screenshot
+[Screenshot](/2022-03-13_11.10.33.png)
+
 
 Saving scraped data to SQLite 
 =============================
