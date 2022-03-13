@@ -43,7 +43,7 @@ may seem that these things make it more complicated to reproduce the login step,
 copied from Chrome DevTools shows that we can safely remove them and still have a working request. However, it is important
 that request looks like it came from actual browser and thus we should keep rest of the headers.
 
-TODO: include screenshot
+[Screenshot](/2022-03-12_15.05.58.png)
 
 Let us write a function that creates a session object based on what we have discovered:
 
@@ -93,11 +93,14 @@ our search query at key `q_organization_name`. We also have `page` key-value pai
 something called `display_mode` - this has to be set to `explorer_mode` to let us retrieve all data search API gives us,
 not just metadata.
 
-TODO: include screenshots.
+[Screenshot](/2022-03-12_15.10.28.png)
 
 There is also something called `finder_view_id` which we can also find at various points earlier in the flow. The easiest
-and earliest way to get this value is to dig it out of API response that we get at the login step. Thus we modify
-`create_session()` to do so and return it as a tuple with session object:
+and earliest way to get this value is to dig it out of API response that we get at the login step. 
+
+[Screenshot](/2022-03-12_15.03.44.png)
+
+Thus we modify `create_session()` to do so and return it as a tuple with session object:
 
 ```python
     json_dict = response.json()
