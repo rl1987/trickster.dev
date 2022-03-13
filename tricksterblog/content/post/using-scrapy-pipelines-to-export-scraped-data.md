@@ -6,8 +6,8 @@ draft = true
 tags = ["web-scraping", "python", "scrapy"]
 +++
 
-By default Scrapy framework provides a way to export scraped data into CSV, JSON, JSON lines,
-XML files with a possibility to store it remotely. However we may need more flexibility in
+By default, Scrapy framework provides a way to export scraped data into CSV, JSON, JSONL,
+XML files with a possibility to store them remotely. However, we may need more flexibility in
 how and where the scraped data will be stored. This is the purpose of Scrapy item pipelines.
 Scrapy pipeline is a component of Scrapy project for implementing post-processing and exporting
 of scraped data. We are going to discuss how to implement data export code in pipelines and
@@ -58,8 +58,8 @@ Now we can process items. Let us implement `process_item()` method.
 ```
 
 First, we wrapped the item we have received into `ItemAdapter` object that provides unified API for all kinds
-of items we can come across. For such a trivial example this may not be necessary, but it might prove to be useful
-in larger, more complex Scrapy project and is generally recommended thing to do. Next, we are calling `append()` on 
+of items that we can come across. For such a trivial example this may not be necessary, but it might prove to be useful
+in larger, more complex Scrapy project and is a generally recommended thing to do. Next, we are calling `append()` on 
 openpyxl worksheet object with a list of strings to be appended, ordered in such a way that they line up with
 order of fieldnames. This ensures that values of each field are lining up with the header row in the final document.
 Note that we cannot write tags directly due to it being a list of strings. To address this issue, we convert it to
@@ -184,7 +184,7 @@ method - `process_item()`:
 ```
 
 In this method, we use SQLite Python API from vanilla Python installation to insert rows into both tables. We make sure that
-`tag` row properly points to a corresponding `quote` row.
+`tag` row properly points to a corresponding `quote` row via the foreign key field.
 
 Lastly, we need to implement `close_spider()` method that merely closes the DB connection:
 
@@ -208,7 +208,8 @@ SQLITE_PATH = "quotes.db"
 ```
 
 In this case, the priority value of first pipeline is lower, thus making it be executed first. That does not matter in such a trivial
-example, but it might depending on the exact specifics of your project.
+example, but it might be important depending on the exact specifics of your project. If you have additional pipelines performing
+data cleaning, filtering or other changes you want them to be executed before the data export pipelines.
 
 Running the Scrapy project again creates the quotes.db file that we can access via SQLite program:
 
@@ -242,8 +243,8 @@ id          text        quote_id
 4           world       1
 ```
 
-In case you are wondering about formatting of output being nicer than it typically is: it can be configured by putting the
-following two lines into ~/.sqliterc:
+In case you are wondering about formatting of output being nicer than it typically is: it can be configured to show data in columns 
+by putting the following two lines into ~/.sqliterc:
 
 ```
 .mode column on
