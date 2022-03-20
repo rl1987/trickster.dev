@@ -16,13 +16,13 @@ In this blog, we have previously discussed setting up mitmproxy to intercept HTT
 mobile apps and their backend systems. However, we may also want to see what desktop apps are communicating.
 Furthermore, we may want to go deeper into reverse engineering private APIs for web apps and would like to 
 surpass limitations of Chrome DevTools. This is where we turn to [Wireshark](https://www.wireshark.org/) -
-a GUI tool for packet sniffing and analysis. We can use this tool for deep dive into what exactly is
+a GUI tool for packet sniffing and analysis. We can use this tool for deep dive into what exactly
 an application is doing on the network.
 
 However if we try to sniff HTTPS without any preparations we will not be able to go far, as TLS protocol
 is doing it's job to prevent adversaries from reading communication contents by sniffing the network.
 
-TODO: add screenshot
+[Screenshot 1](/2022-03-20_14.32.05.png)
 
 However, if we control one of the endpoints (i.e. desktop system with a web browser) we can set
 `SSLKEYLOGFILE` environment variable to a path of textfile we can access. Software that implements
@@ -39,7 +39,7 @@ export SSLKEYLOGFILE=~/.sslkeyfile
 ```
 
 However, this will only cover program launched directly from the shell. On Linux, we could edit
-/etc/environment and reboot. 
+/etc/environment and reboot to set the environment variable globally.
 
 On macOS it is somewhat more complicated. First, we need to check if ~/Library/LaunchAgents directory
 exists and create it under our regular user if it does not. Then we create a Property List file
@@ -100,19 +100,22 @@ We are ready to configure Wireshark now. This is fairly simple. All we have to d
 Protocols -> TLS and put the value of `SSLKEYLOGFILE` into "(Pre-)Master Secret Log filename". 
 You should also tick checkboxes about reassembling TLS records and application data.
 
-TODO: screenshot
+[Screenshot 2](/2022-03-20_15.40.02.png)
 
 That is one way. Another way is to start sniffing, right click on a TLS packet, then 
 choosing "Protocol Preferences -> Transport Layer Security -> (Pre-)Master Secret Log
 filename" and clicking that. Wireshark will open a textfield on the top to let you input a path 
 to the file that it needs to read for decryption.
 
-TODO: screenshots
+[Screenshot 3](/2022-03-20_15.40.55.png)
+[Screenshot 4](/2022-03-20_15.41.07.png)
 
 Now we can see HTTPS messages decrypted. This includes some API calls that Google Chrome 
-is making when phoning back to mothership, as well private calls to Discord backed by a 
+is making when phoning back to the mothership, as well requests to Discord backend by a 
 desktop Discord client.
 
-TODO: screenshots
+[Screenshot 5](/2022-03-20_14.40.27.png)
+[Screenshot 6](/2022-03-20_14.58.31.png)
+[Screenshot 7](/2022-03-20_14.45.42.png)
 
 
