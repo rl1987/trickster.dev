@@ -28,18 +28,19 @@ However, if we control one of the endpoints (i.e. desktop system with a web brow
 `SSLKEYLOGFILE` environment variable to a path of textfile we can access. Software that implements
 TLS typically (altough not always) will write keys and other TLS secrets to this file. This applies
 to curl, Chrome, Firefox and many desktop apps that use NSS/OpenSSL libraries. Wireshark, if configured
-correctly, will be able to read this file and decrypt the intercepted TLS packets.
+correctly, will be able to read this file and decrypt the intercepted TLS packets. This is a client-side
+capture of session keys.
 
 How exactly do we set the environent variable? This is dependant on operating system and whether or not
-we want to cover all apps that are installed. On Linux/Unix we could simply put the following line
-in ~/.bashrc or ~/.bash_profile file:
+we want to cover all apps that are installed. On Linux/Unix that uses Bash we could simply put the 
+following line in ~/.bashrc or ~/.bash_profile file:
 
 ```bash
 export SSLKEYLOGFILE=~/.sslkeyfile
 ```
 
 However, this will only cover program launched directly from the shell. On Linux, we could edit
-/etc/environment and reboot to set the environment variable globally.
+/etc/environment (or /etc/profile) and reboot to set the environment variable globally.
 
 On macOS it is somewhat more complicated. First, we need to check if ~/Library/LaunchAgents directory
 exists and create it under our regular user if it does not. Then we create a Property List file
@@ -75,7 +76,7 @@ $ launchctl load ~/Library/LaunchAgents/tlskeylogger.plist
 To make it immediate, we run the following:
 
 ```
-$ launchctl load ~/Library/LaunchAgents/tlskeylogger.plist
+$ launchctl start ~/Library/LaunchAgents/tlskeylogger.plist
 ```
 
 On Windows, you can set `SSLKEYLOGFILE` environment variable via GUI by finding
@@ -96,9 +97,10 @@ EXPORTER_SECRET 7f6e75485ed674e16c83481963f9d65a072c113069d3349639018cdebe5ec154
 ...
 ```
 
-We are ready to configure Wireshark now. This is fairly simple. All we have to do is go to Preferences -> 
-Protocols -> TLS and put the value of `SSLKEYLOGFILE` into "(Pre-)Master Secret Log filename". 
-You should also tick checkboxes about reassembling TLS records and application data.
+We are ready to configure Wireshark now. This is fairly simple. All we have to do is go to 
+(Edit ->) Preferences -> Protocols -> TLS and put the value of `SSLKEYLOGFILE` into 
+"(Pre-)Master Secret Log filename".  You should also tick checkboxes about reassembling 
+TLS records and application data.
 
 [Screenshot 2](/2022-03-20_15.40.02.png)
 
@@ -118,4 +120,6 @@ desktop Discord client.
 [Screenshot 6](/2022-03-20_14.58.31.png)
 [Screenshot 7](/2022-03-20_14.45.42.png)
 
-
+This opens up possibilities to not only reverse engineer web app private APIs in a deeper way, but
+also to do the same kind of research against desktop apps for purposes such as data scraping, 
+automation, vulnerability research and privacy analysis.
