@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Scrapy framework architecture"
-date = "2022-03-21"
-draft = true
+date = "2022-03-20"
 tags = ["web-scraping", "python", "scrapy"]
 +++
 
