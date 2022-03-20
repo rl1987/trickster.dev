@@ -15,8 +15,8 @@ https://docs.scrapy.org/en/latest/_images/scrapy_architecture_02.png
 
 We see the following components:
 
-* Engine that is the central switchboard for all data that is transferred inside Scrapy when it is running.
-* Spiders that traverse links and parse data to generate new requests and items (units of
+* Engine is the central switchboard for all data that is transferred inside Scrapy when it is running.
+* Spiders are components that traverse links and parse data to generate new requests and items (units of
 scraped data).
 * Spider middlewares (between spiders and Engine) to customise spider functionality by hooking into requests, responses
 and error conditions. Some default spider middlewares are integrated into each new Scrapy project and deal with things
@@ -54,9 +54,10 @@ via spider middlewares.
 repeated until there are no new requests to be processed.
 
 Note that despite Scrapy being able to launch multiple requests concurrently, no multithreading is used anywhere is Scrapy.
-Instead, asynchronous network event handling is done through Twisted network programming framework. This has some ramifications
-for web scraper developers as well. First, we should avoid doing things that block unless they are really quick and/or rare
-as otherwise they would slow down the entire system (as could be seen by trying to use openpyxl in a pipeline to export very large
-amounts of data). Second, we have to take care to use `yield` (not `return`) keyword 
+Instead, asynchronous network event handling is done through [Twisted](https://twistedmatrix.com/trac/) network programming framework. 
+Just like Scrapy provides foundations for your web scraping project, Twisted provides a network programming machinery that is
+used to build Scrapy. This has some ramifications for web scraper developers. First, we should avoid doing things 
+that block unless they are really quick and/or rare as otherwise they would slow down the entire system (as could be seen 
+by trying to use openpyxl in a pipeline to export very large amounts of data). Second, we have to take care to use `yield` (not `return`) keyword 
 when new items/requests are being created in the spider, as that allows deferring the entire code path until the moment the 
 result is needed.
