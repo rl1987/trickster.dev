@@ -287,3 +287,149 @@ With less than 30 lines of code were able to set up an entire environment for ex
 in a reproducible way. This enables us to delete the VM when no longer needed, but quickly recreate it from Vagrantfile
 and provisioning script when we need it again. 
 
+Terraform
+---------
+
+Terraform is another DevOps tool created by Hashicorp - the company that developed Vagrant. It reads declarative configuration
+files written in HCL (Hashicorp Configuration Language) and performs infrastructure setup for us. We will use it to provision
+a Digital Ocean VPS with the same environment we created in Vagrant VM.
+
+There are few prerequisites before we start. You will need to have a Digital Ocean account with payment method added.
+Furthermore, you will need to register your SSH key on your Digital Ocean account if you haven't already (this is generally
+convenient thing to have, as you won't need to type a password in when logging into servers from your local machine).
+Lastly, you will need to generate Digital Ocean API token and save it to do_token.txt (make sure there's no whitespace!).
+
+When these matters are take care of, we can start writing our main.tf file that will contain the configuration for 
+the server. We start by setting up [Digital Ocean Terraform provider](https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs) 
+(an equivalent of software library that abstract away an external API) with the following lines:
+
+```hcl
+terraform {
+  required_providers {
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "digitalocean" {
+  token = file("do_token.txt")
+}
+
+```
+
+Next, we create a resource (an equiavalent of object) for Digital Ocean droplet we want created:
+
+```hcl
+resource "digitalocean_droplet" "n8n" {
+  image  = "debian-11-x64"
+  name   = "n8n"
+  region = "sfo3"
+  size   = "s-1vcpu-1gb"
+  # Make sure this matches your SSH key fingerprint at:
+  # https://cloud.digitalocean.com/account/security
+  ssh_keys = ["[REDACTED]"]
+
+  connection {
+    host        = self.ipv4_address
+    user        = "root"
+    type        = "ssh"
+    timeout     = "2m"
+    private_key = file("~/.ssh/id_rsa")
+  }
+
+  provisioner "remote-exec" {
+    script = "provision.sh"
+  }
+}
+```
+
+There are several things of interest here. We set `image` argument to `debian-11-x64`
+as this is the same Linux distribution that we had in our Vagrant machine. Thus it is
+very reasonable to expect that our provisioning script will work here as well.
+We set `size` to value that corresponds to $5/month droplet as we don't expect to
+use much resources. I find that in many cases $5/month droplets are more than enough
+for computational needs of many scraping/automation scripts that I develop.
+Next, we set up SSH connection details that will be needed to run the provisioning
+script. We make sure to use the same SSH keypair that is configured in Digital
+Ocean account and our local machine. Then we configure `remote-exec` provisioner
+to launch our provisioning script.
+
+Lastly, we create an output for getting an IP address of server after setup:
+
+```hcl
+output "server_ip" {
+  value = resource.digitalocean_droplet.n8n.ipv4_address
+}
+```
+
+To actually install our environment on the cloud, there are three steps. First, we
+run `terraform init` to initialize local state with TF providers. Next, we launch
+`terraform plan -out=tf.plan` to set up an action plan that will be shown for us
+and saved into file tf.plan. Lastly, we run `terraform apply tf.plan` to actually
+proceed with the installation. Once this is done, we can access n8n via HTTP
+protocol at port 5678 on IP address that is printed at the end of the installation
+process. Conveniently for us, Digital Ocean does not set up any default firewall
+rules that would limit the ingress traffic. However if you work on equivalent 
+setup with AWS EC2 you would need to make sure that a security group is configured
+accordingly. Furthermore, you may want to set up HTTP authentication for n8n
+by setting up `N8N_BASIC_AUTH_ACTIVE` environment variable to `true` in
+provision.sh file and setting username/password to `N8N_BASIC_AUTH_USER` \ 
+`N8N_BASIC_AUTH_PASSWORD` variables if you are going to run it on the cloud for
+non-trivial amounts of time (this has been skipped in above code for simplicity).
+
+When we no longer need this environment, we can run `terraform destroy` to remove
+it.
+
+The complete main.tf file is as follows:
+
+```hcl
+terraform {
+  required_providers {
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
+  }
+}
+
+provider "digitalocean" {
+  token = file("do_token.txt")
+}
+
+resource "digitalocean_droplet" "n8n" {
+  image  = "debian-11-x64"
+  name   = "n8n"
+  region = "sfo3"
+  size   = "s-1vcpu-1gb"
+  # Make sure this matches your SSH key fingerprint at:
+  # https://cloud.digitalocean.com/account/security
+  ssh_keys = ["[REDACTED]"]
+
+  connection {
+    host        = self.ipv4_address
+    user        = "root"
+    type        = "ssh"
+    timeout     = "2m"
+    private_key = file("~/.ssh/id_rsa")
+  }
+
+  provisioner "remote-exec" {
+    script = "provision.sh"
+  }
+}
+
+output "server_ip" {
+  value = resource.digitalocean_droplet.n8n.ipv4_address
+}
+
+```
+
+$5 month Digital Ocean droplet costs $0.007 per hour. If we launch some automation workflow 
+in the evening and let it run overnight for 10 hours, we have merely spent $0.07!
+Since Terraform enables us to prepare configuration once and setup/destroy the environment
+as many times as we like, we can save money that we would otherwise spending on keeping
+the unused infra running in the cloud. Furthermore, we save time and effort that we would
+be spending when recreating the environment repeatebly and possibly making mistakes.
+
