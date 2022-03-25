@@ -292,9 +292,10 @@ Terraform
 
 Terraform is another DevOps tool created by Hashicorp - the company that developed Vagrant. It reads declarative configuration
 files written in HCL (Hashicorp Configuration Language) and performs infrastructure setup for us. We will use it to provision
-a Digital Ocean VPS with the same environment we created in Vagrant VM.
+a Digital Ocean VPS with the same environment we created in Vagrant VM. The following steps will use Terraform CLI tool
+that can be found at [Terraform Downloads page](https://www.terraform.io/downloads).
 
-There are few prerequisites before we start. You will need to have a Digital Ocean account with payment method added.
+There are some prerequisites before we start. You will need to have a Digital Ocean account with payment method added.
 Furthermore, you will need to register your SSH key on your Digital Ocean account if you haven't already (this is generally
 convenient thing to have, as you won't need to type a password in when logging into servers from your local machine).
 Lastly, you will need to generate Digital Ocean API token and save it to do_token.txt (make sure there's no whitespace!).
