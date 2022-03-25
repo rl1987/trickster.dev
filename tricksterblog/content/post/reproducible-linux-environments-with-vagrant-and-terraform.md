@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Reproducible Linux environments with Vagrant and Terraform"
-date = "2022-03-27"
-draft = true
+date = "2022-03-25"
 tags = ["devops"]
 +++
 
@@ -363,7 +362,9 @@ run `terraform init` to initialize local state with TF providers. Next, we launc
 and saved into file tf.plan. Lastly, we run `terraform apply tf.plan` to actually
 proceed with the installation. Few minutes later, we can access n8n via HTTP
 protocol at port 5678 on IP address that is printed at the end of the installation
-process. Conveniently for us, Digital Ocean does not set up any default firewall
+process. 
+
+Conveniently for us, Digital Ocean does not set up any default firewall
 rules that would limit the ingress traffic. However if you work on equivalent 
 setup with AWS EC2 you would need to make sure that a security group is configured
 accordingly. Furthermore, you may want to set up HTTP authentication for n8n
@@ -411,7 +412,7 @@ a shared directory with it. However, if we wanted to upload some files to the se
 we could have used [`file` provisioner](https://www.terraform.io/language/resources/provisioners/file)
 to do so.
 
-$5 month Digital Ocean droplet costs $0.007 per hour. If we launch some automation workflow 
+$5/month Digital Ocean droplet costs $0.007 per hour. If we launch some automation workflow 
 in the evening and let it run overnight for 10 hours, we have merely spent $0.07!
 Since Terraform enables us to prepare configuration once and setup/destroy the environment
 as many times as we like, we can save money that we would otherwise spending on keeping
