@@ -2,12 +2,13 @@
 author = "rl1987"
 title = "Reproducible Linux environments with Vagrant and Terraform"
 date = "2022-03-27"
+draft = true
 tags = ["devops"]
 +++
 
 When developing and operating scraping/automation solutions, we don't exactly want to focus
 on systems administration part of things. If we are writing code to achieve a particular
-objective, making that code run on the VPS or local system is merely a supportive side-objective
+objective, making that code run on the VPS or local system is merely a supporting side-objective
 that is required to make the primary thing happen. Thus it is undesirable to spend too much time
 on it, especially if we can use automation to avoid repetitive, error-prone activity of installing
 the required tooling in disposable virtual machines or virtual private servers. Luckily for us,
@@ -16,7 +17,7 @@ there are DevOps tools developed for this exact purpose.
 For the sake of this example, we will be setting up Node.js with [n8n](https://n8n.io/)
 workflow automation platform.
 
-To reproduce virtual machine with Linux system on a development machine, we will use 
+To reproduce virtual machine with Linux OS on a development machine, we will use 
 [Vagrant](https://www.vagrantup.com/) VM management software with [Virtualbox](https://www.virtualbox.org/)
 backend.
 
@@ -27,7 +28,7 @@ Vagrant
 -------
 
 First, we need to set up Vagrant. If you use any of the major desktop operating systems (Windows,
-macOS, Linux) you should find an installer at [Vagrant Downloads page](https://www.vagrantup.com/downloads).
+macOS, Linux) you should be able to find an installer at [Vagrant Downloads page](https://www.vagrantup.com/downloads).
 You may also want to check if it is available through a package manager on your system.
 
 Likewise, Virtualbox installers are available on [Virtualbox downloads page](https://www.virtualbox.org/wiki/Downloads).
@@ -43,7 +44,8 @@ environment we will be setting up. Technically Vagrantfiles are written in Ruby,
 worry if you don't know Ruby - it's not actually required in all but most advanced use
 cases of Vagrant.
 
-On the Vagrant box page, there is a very basic snippet for bare-bones of Vagrantfile:
+On the [Vagrant box page](https://app.vagrantup.com/generic/boxes/debian11), 
+there is a very basic example snippet:
 
 ```ruby
 Vagrant.configure("2") do |config|
@@ -129,6 +131,8 @@ end
 ```
 
 In the initial configuration, only `config.vm.box` is set and rest is commented out.
+Read the comments to get an idea of what can be configured for the virtual machine.
+
 First, we want to perform provisioning with a shell script. However, we will not be
 using inline syntax shown in the comments and will be creating a separate shell
 script file instead. This is because we want to be prepared to reuse provisioning
@@ -241,7 +245,7 @@ We edit port forwarding section to add the following line:
 To reboot the VM and make this change working, we run `vagrant reload`. After doing so, we can access n8n frontend via http://localhost:5678/.
 
 There is one more thing we need to set up in Vagrant configuration. You may want to edit your source code through VIM or other
-text editor in host machine and run it in guest machine without going through the hassle of using SFTP to transfer files.
+text editor in host machine and run it in a guest machine without going through the hassle of using SFTP to transfer files.
 Vagrant supports shared directories that enable us to mirror a source code directory between host and guest systems. Edit the part
 of Vagrantfile that mentions shared folders to add the following line:
 
@@ -324,26 +328,14 @@ Next, we create a resource (an equivalent of object) for Digital Ocean droplet w
 
 ```hcl
 resource "digitalocean_droplet" "n8n" {
-  image  = "debian-11-x64"
-  name   = "n8n"
-  region = "sfo3"
-  size   = "s-1vcpu-1gb"
-  # Make sure this matches your SSH key fingerprint at:
-  # https://cloud.digitalocean.com/account/security
-  ssh_keys = ["[REDACTED]"]
-
-  connection {
-    host        = self.ipv4_address
-    user        = "root"
-    type        = "ssh"
-    timeout     = "2m"
-    private_key = file("~/.ssh/id_rsa")
-  }
-
-  provisioner "remote-exec" {
-    script = "provision.sh"
-  }
+  image     = "debian-11-x64"
+  name      = "n8n"
+  region    = "sfo3"
+  size      = "s-1vcpu-1gb"
+  user_data = file("provision.sh")
+  ssh_keys  = ["[REDACTED]"]
 }
+
 ```
 
 There are several things of interest here. We set `image` argument to `debian-11-x64`
@@ -352,10 +344,10 @@ very reasonable to expect that our provisioning script will work here as well.
 We set `size` to value that corresponds to $5/month droplet as we don't expect to
 use much resources. I find that in many cases $5/month droplets are more than enough
 for computational needs of many scraping/automation scripts that I develop.
-Next, we set up SSH connection details that will be needed to run the provisioning
-script. We make sure to use the same SSH keypair that is configured in Digital
-Ocean account and our local machine. Then we configure `remote-exec` provisioner
-to launch our provisioning script.
+Next, we set up SSH key fingerprint that will be needed to access the droplet.
+We make sure to use the same SSH keypair that is configured in Digital
+Ocean account and our local machine. Also we set `user_data` with contents of our
+provisioning script so that it will be launched when server setup is complete.
 
 Lastly, we create an output for getting an IP address of server after setup:
 
@@ -369,7 +361,7 @@ To actually install our environment on the cloud, there are three steps. First, 
 run `terraform init` to initialize local state with TF providers. Next, we launch
 `terraform plan -out=tf.plan` to set up an action plan that will be shown for us
 and saved into file tf.plan. Lastly, we run `terraform apply tf.plan` to actually
-proceed with the installation. Once this is done, we can access n8n via HTTP
+proceed with the installation. Few minutes later, we can access n8n via HTTP
 protocol at port 5678 on IP address that is printed at the end of the installation
 process. Conveniently for us, Digital Ocean does not set up any default firewall
 rules that would limit the ingress traffic. However if you work on equivalent 
@@ -400,25 +392,12 @@ provider "digitalocean" {
 }
 
 resource "digitalocean_droplet" "n8n" {
-  image  = "debian-11-x64"
-  name   = "n8n"
-  region = "sfo3"
-  size   = "s-1vcpu-1gb"
-  # Make sure this matches your SSH key fingerprint at:
-  # https://cloud.digitalocean.com/account/security
-  ssh_keys = ["[REDACTED]"]
-
-  connection {
-    host        = self.ipv4_address
-    user        = "root"
-    type        = "ssh"
-    timeout     = "2m"
-    private_key = file("~/.ssh/id_rsa")
-  }
-
-  provisioner "remote-exec" {
-    script = "provision.sh"
-  }
+  image     = "debian-11-x64"
+  name      = "n8n"
+  region    = "sfo3"
+  size      = "s-1vcpu-1gb"
+  user_data = file("provision.sh")
+  ssh_keys  = ["[REDACTED]"]
 }
 
 output "server_ip" {
@@ -426,6 +405,11 @@ output "server_ip" {
 }
 
 ```
+
+Since the new environment is now running on the remote server it is not very feasible to make
+a shared directory with it. However, if we wanted to upload some files to the server
+we could have used [`file` provisioner](https://www.terraform.io/language/resources/provisioners/file)
+to do so.
 
 $5 month Digital Ocean droplet costs $0.007 per hour. If we launch some automation workflow 
 in the evening and let it run overnight for 10 hours, we have merely spent $0.07!
