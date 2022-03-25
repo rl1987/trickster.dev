@@ -417,5 +417,5 @@ in the evening and let it run overnight for 10 hours, we have merely spent $0.07
 Since Terraform enables us to prepare configuration once and setup/destroy the environment
 as many times as we like, we can save money that we would otherwise spending on keeping
 the unused infra running in the cloud. Furthermore, we save time and effort that we would
-be spending when recreating the environment repeatebly and possibly making mistakes.
+be spending when recreating the environment repeatedly and possibly making mistakes.
 
