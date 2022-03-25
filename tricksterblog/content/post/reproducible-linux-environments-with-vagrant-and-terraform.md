@@ -1,6 +1,6 @@
 +++
 author = "rl1987"
-title = "Reproducing Linux environments with Vagrant and Terraform"
+title = "Reproducible Linux environments with Vagrant and Terraform"
 date = "2022-03-27"
 tags = ["devops"]
 +++
@@ -320,7 +320,7 @@ provider "digitalocean" {
 
 ```
 
-Next, we create a resource (an equiavalent of object) for Digital Ocean droplet we want created:
+Next, we create a resource (an equivalent of object) for Digital Ocean droplet we want created:
 
 ```hcl
 resource "digitalocean_droplet" "n8n" {
