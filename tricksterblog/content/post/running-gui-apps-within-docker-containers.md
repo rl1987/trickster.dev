@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Running GUI apps within Docker containers"
 date = "2022-03-26"
-draft = true
 tags = ["devops", "docker"]
 +++
 
