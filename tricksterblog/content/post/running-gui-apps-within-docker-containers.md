@@ -51,7 +51,7 @@ We can use VNC feature in macOS Finder to access it by choosing "Go -> Connect t
 `vnc://127.0.0.1:5900` into text field at the top and pressing Connect. It will ask for password - enter `trustno1`.
 This is a minor inconvenience we have to deal on macOS to make it work.
 
-TODO: add screenshot
+[Screenshot 1](/2022-03-25_19.59.00.png)
 
 This is easy to get working, but relies on VNC capability on client side. It would be nice to avoid it. Assuming we
 have X11 server installed on the host system, let us remove x11vnc from container and install just the bare minimum of
@@ -83,7 +83,7 @@ Note that we set `DISPLAY` environment variable to a value that includes IP addr
 colon. This tells the X11 client part within container to reach out to X11 server at that particular IP address and use zeroth
 display for new windows.
 
-TODO: screenshot
+[Screenshot 2](/2022-03-25_20.13.02.png)
 
 This does simplify environment within Docker container, but makes requirements for host machine more complicated, 
 especially if it's a system that does not natively support X11. Furthermore, if we wanted to run this kind of setup
@@ -127,7 +127,7 @@ networks:
 Running `docker-compose up` builds and launches both containers and we can access the Dockerized Firefox via regular
 web browser at: http://localhost:8080/vnc.html
 
-TODO: screenshot
+[Screenshot 3](/2022-03-25_20.35.24.png)
 
 With this setup, we have one static part (x11vnc + novnc container) and one part that we would replace if we wanted to
 run some other GUI program within Docker environment. Furthermore, we no longer require any client side software other
@@ -174,5 +174,4 @@ $ docker run --privileged -d -p 6080:6080 -p 5554:5554 -p 5555:5555 -e DEVICE="S
 Android emulator requires some CPU and RAM thus making it infeasible to run it on $5/month droplets - it simply was too slow.
 However the performace was acceptable on some of the larger servers - it could even play Youtube videos without sound.
 
-TODO: screenshot
-
+[Screenshot 4](/2022-03-26_10.56.51.png)
