@@ -175,3 +175,5 @@ Android emulator requires some CPU and RAM thus making it infeasible to run it o
 However the performace was acceptable on some of the larger servers - it could even play Youtube videos without sound.
 
 [Screenshot 4](/2022-03-26_10.56.51.png)
+
+Since we also have port 5554 and 5555 exposed, we could also use ADB to side-load APK files and do some debugging.
