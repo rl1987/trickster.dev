@@ -8,7 +8,8 @@ tags = ["automation", "python", "growth-hacking", "security", "bug-bounties", "o
 
 Sometimes it is desirable to enumerate all (or as much as possible) email recipients at given
 domain. This can be done by establishing SMTP connection to corresponding mail server that
-can be found via DNS MX record. 
+can be found via DNS MX record and getting the server to verify your guesses for email usernames
+or addresses.
 
 There are three major approaches to do this:
 
@@ -19,7 +20,7 @@ determined.
 consider every user to be in a list of single member, others do not. On success, server would respond 
 with status code 250 and a list of subscribers in implementation-specific format.
 * Using RCPT request that is designed to add one more recipient to the email being sent out. On success
-the SMTP server would respond with status code 250 or 251. Note that [RFC 821](https://datatracker.ietf.org/doc/html/rfc821)
+the SMTP server would respond with status code 250 or 251. Note that the SMTP protocol
 disallows more than 100 recipients being sent the same email message and that for some servers the limit may be
 lower.
 
@@ -63,7 +64,7 @@ $ nc aspmx.l.google.com 25
 220 mx.google.com ESMTP i23-20020a2ea237000000b002495e9ab777si3826740ljm.545 - gsmtp
 ```
 
-Let us start SMTP transaction by sending HELO and MAIL FROM messages:
+Let us start a SMTP transaction by sending HELO and MAIL FROM messages:
 
 ```
 HELO test.example.org
@@ -101,7 +102,7 @@ EXPN <support@peopledatalabs.com>
 502 5.5.1 Unimplemented command. i23-20020a2ea237000000b002495e9ab777si3826740ljm.545 - gsmtp
 ```
 
-This seems to be explicitly unsupported. Only RCPT method is left and it succeeds:
+This seems to be explicitly unsupported. Only option left is trying RCPT method, which succeeds:
 
 ```
 RCPT TO: <support@peopledatalabs.com>
@@ -147,7 +148,8 @@ Now let's try doing the same step in Python REPL with [dnspython](https://www.dn
 (221, b'2.0.0 closing connection u30-20020ac25bde000000b00449fff281b7si4479810lfn.313 - gsmtp')
 ```
 
-A simple Python script that takes a wordlist and domain via CLI arguments to enumerate SMTP users at given domain:
+A simple Python script that takes a wordlist and domain via CLI arguments to enumerate SMTP users at given domain
+would look like the following:
 
 ```python
 #!/usr/bin/python3
@@ -243,11 +245,11 @@ sales@peopledatalabs.com
 ```
 
 If we wish to be more serious about enumerating a significant portion of email addresses at any given domain we need
-to take a proper care and acquire or generate a proper wordlist. Quality of the wordlist largely makes or breaks
+to take a proper care to acquire or generate a proper wordlist. Quality of the wordlist largely makes or breaks
 the success of SMTP user enumeration. If you know that email addresses at certain company follow a certain pattern and
 are based on names and surnames of employees (e.g. `john.smith@example.org`) you would want to generate your wordlist
 based on this pattern. You may also want to look into public wordlists (e.g. from [danielmiessler/SecLists](https://github.com/danielmiessler/SecLists)
-repo to use them as starting point for creating your own.
+repo) to use them as starting point for creating your own.
 
 Furthermore, email providers do have some countermeasures against SMTP enumeration. For example, I found that Google
 starts reporting all email addresses as non-existent if the above script launches bunch of checks repeatedly from single
@@ -259,12 +261,11 @@ transaction if source domain address is weird (e.g. example.org). This can be fi
 popular email service in HELO and MAIL messages in the beginning.
 
 What are the possible applications of SMTP user enumeration? Growth hackers can use it to source email addresses for
-cold outreach or ad targeting. OSINT investigators can use it to cover more ground in research. Penetration testers
+cold outreach or ad targeting. OSINT investigators can use it to cover more ground in their research. Penetration testers
 and social engineers can leverage email list gathered via SMTP enumeration for further attacks. When it comes to bug
 bounties, SMTP username enumeration is generally not considered to be a vulnerability by itself as RCPT method
 cannot truly be prevented due to RCPT request being an integral part of a regular email sending flow, but one could
 argue that it's a security problem if it is too easy to perform. For example, someone received $300
 bounty for reporting that VRFY method is possible on a certain server, besides other problems with SMTP (see
 HackerOne report [#138315](https://hackerone.com/reports/138315)).
-
 
