@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "SMTP user enumeration for fun and profit"
 date = "2022-04-02"
-draft = true
 tags = ["automation", "python", "growth-hacking", "security", "bug-bounties", "osint"]
 +++
 
