@@ -9,9 +9,9 @@ tags = ["automation", "python", "growth-hacking", "security", "bug-bounties"]
 Although many proxy providers offer data center (DC) proxies fairly cheaply, sometimes it is desirable
 to make our own. In this post we will discuss how to set up [Squid](http://www.squid-cache.org/) proxy
 server on cheap Virtual Private Servers from [Vultr](https://www.vultr.com/). We will be using Debian 11
-Linux environment on cheap "Cloud Compute" servers.
+Linux environment on virtual "Cloud Compute" servers.
 
-Let us go through the steps to install Squid through Linux shell with commands that will be put into provisiong script.
+Let us go through the steps to install Squid through Linux shell with commands that will be put into provisioning script.
 
 First, we need to install the required APT packages:
 
@@ -20,7 +20,7 @@ $ apt-get update
 $ apt-get install -y squid apache2-utils
 ```
 
-Besides squid, we install Apache utils package to get a htpasswd(1) tool that will create file for Basic HTTP authentication.
+Besides Squid, we also install Apache utils package to get a htpasswd(1) tool that will create file for Basic HTTP authentication.
 
 Let's enable squid service to make sure it gets re-launched during server reboot:
 
@@ -214,7 +214,7 @@ output "proxy_ip" {
 
 ```
 
-Use the common Terraform CLI commands to use it, but note that `terraform apply` finishes sooner than the actual
+When using the common Terraform CLI commands note that `terraform apply` finishes sooner than the actual
 provisioning of the server. Few minutes later, we can verify that proxies indeed work:
 
 ```
