@@ -41,7 +41,7 @@ func main() {
 ```
 
 Let's get some crawling going. A central Colly object that we have to interact with is
-called collector. It is similar to Scrapy spider. Therefore it is unsurprising that the
+called collector. It is similar to Scrapy spider. Therefore the
 first thing we do in our `main()` function is instantiating it:
 
 ```golang
@@ -52,8 +52,8 @@ Now we have to register some callbacks that Colly will call during scraping. By 
 code that will react to various things that happen during scraping/crawling we will implement
 our scraper in event-driven way. Events we can hook into include request being sent,
 HTTP error being detected, response headers being received, entire HTTP response being
-received, matching CSS selector (that we will provide) being detected on HTML document,
-matching XPath query (that ww will provide) being detected on HTML/XML document.
+received, elements matching CSS selector being detected on HTML document and
+elements matching XPath query being detected on HTML/XML document.
 
 Let us start simple by printing an URL of each HTTP request just before it is sent to the
 server:
