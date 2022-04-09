@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Writing web scrapers in Go with Colly framework"
-date = "2022-04-10"
-draft = true
+date = "2022-04-09"
 tags = ["web-scraping", "golang"]
 +++
 
