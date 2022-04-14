@@ -48,8 +48,8 @@ Numbers (ASNs) and are administered by large organisations. Huricane Electric pr
 [BGP toolkit](https://bgp.he.net/) portal that we can use to try and find ASNs belonging to
 a company we are looking into. Technically this can be scraped automatically but due to 
 similarities between company names it's best to use human intelligence for this step.
-Each AS we find will have IP address ranges associated to it. This will be useful in further
-steps. However, if you do want to automate it Jason recommends the following tools:
+Each AS we find will have IP address ranges associated to it. However, if you do want 
+to automate it Jason recommends the following tools:
 
 * [ASNlookup](https://github.com/yassineaboukir/Asnlookup)
 * [metabigor](https://github.com/j3ssie/metabigor)
