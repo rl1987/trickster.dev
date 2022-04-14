@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Notes on TBHM v4 recon edition"
-date = "2022-04-16"
-draft = true
+date = "2022-04-14"
 tags = ["security", "bug-bounties"]
 +++
 
@@ -163,7 +162,7 @@ There are several tools for this:
 
 This practice is known as "domain flyover".
 
-Last thing to check is suddomain takeover opportunities. Subdomain takeover involves
+Last thing to check are subdomain takeover opportunities. Subdomain takeover involves
 finding a still valid CNAME DNS record for a subdomain that used to point to a third
 party service, but no longer does and re-registering that service with the old subdomain
 in order to cause some shenanigans (or to demonstrate the impact of security issue).  There's a Github 
@@ -172,7 +171,7 @@ that you may want to look into. [Nuclei](https://github.com/projectdiscovery/nuc
 vulnerability scanner provides some automations (templates) to demonstrate this 
 issue.
 
-We covered a lot of tools and techiques. Target recon can be a rather extensive process
+We have covered a lot of tools and techiques. Target recon can be a rather extensive process
 and therefore it is highly desirable to automate as much of it as possible.
 Many of the tools we have discussed are single threaded and do not take CIDR ranges or
 file globs directly. [Interlace](https://github.com/codingo/Interlace) is a general 
