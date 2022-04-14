@@ -54,7 +54,7 @@ to automate it Jason recommends the following tools:
 * [ASNlookup](https://github.com/yassineaboukir/Asnlookup)
 * [metabigor](https://github.com/j3ssie/metabigor)
 
-Once we have some ASNs we can run [Amass](https://github.com/caffix/amass) in intel mode
+Once we have some ASNs we can run [Amass](https://github.com/OWASP/Amass) in intel mode
 to discover more seed domains.
 
 Another way to discover more seed domains is to do reverse whois through something like
