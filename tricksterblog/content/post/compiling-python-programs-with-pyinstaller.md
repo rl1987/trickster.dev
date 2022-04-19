@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Compiling Python programs with Pyinstaller"
-date = "2022-04-20"
-draft = true
+date = "2022-04-19"
 tags = ["python", "devops"]
 +++
 
