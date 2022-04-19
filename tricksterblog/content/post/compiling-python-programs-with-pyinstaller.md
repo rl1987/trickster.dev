@@ -6,8 +6,8 @@ draft = true
 tags = ["python", "devops"]
 +++
 
-[Pyinstaller](https://pyinstaller.org/en/stable/) is a CLI tool that compiles Python scripts into executable binaries.
-It is straightforward to install it through PIP. Let us go through a couple of examples of using Pyinstaller.
+[Pyinstaller](https://pyinstaller.org/en/stable/) is a CLI tool that compiles Python scripts into executable binaries,
+installable through PIP. Let us go through a couple of examples of using this tool.
 
 SMTP enumeration script from [previous post](/post/smtp-user-enumeration-for-fun-and-profit/) can be trivially compiled
 with this tool by running the following commnd:
@@ -274,8 +274,8 @@ Now we can compile the script based on the spec file:
 $ pyinstaller bitcoin.spec
 ```
 
-This generates a functional executable we can run. On macOS, it even creates an .app package we can copy in our /Applications
+This generates a functional executable we can run. On macOS, it even creates an .app package we can copy into /Applications
 directory.
 
-TODO: make a screenshot
+[Screenshot](/2022-04-19_20.31.10.png)
 
