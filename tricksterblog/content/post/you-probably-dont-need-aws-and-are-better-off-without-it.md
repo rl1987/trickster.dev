@@ -35,7 +35,7 @@ There are also ways to mess up your AWS Lambda "serverless" functions in ways th
 bugs in code, such as infinite loop or bottomless recursion can make you go broke in a single monday morning.
 
 Another way to get a billing surprise is to provision some resources and forget to take them down. A HN user
-[reports](https://news.ycombinator.com/item?id=22719573) a story of someone who burning 80 grand overnight
+[reports](https://news.ycombinator.com/item?id=22719573) a story of someone who burned 80 grand overnight
 by provisioning bunch of EC2 instances for testing and leaving them on. If you have non-trivial setup on AWS
 (e.g. VPC with multiple EC2 instances, some of which exposed to public internet) and are relying on AWS 
 Dashboard or AWS CLI to tear it down when no longer needed it is very easy to forget to remove some part
@@ -80,7 +80,7 @@ Vendor lock-in
 AWS provides a seeming flexibility to develop cloud-native software. However, if you rely on AWS
 APIs and services too much (for example by implementing a bulk of your codebase in Lambda functions)
 AWS will become a hard, critical dependency to your systems. Problems with AWS infra can quickly
-spread to your side. This was particularly evident during the recent years that disrupted
+spread to your side. This was particularly evident during the outages in recent years that disrupted
 significant portions of the web. You will not be able to address these problems quickly if you
 rely on AWS to work properly all the time (which it does not), unless you have a multi-cloud
 setup that is deliberately designed to be resilient. Furthermore, AWS may decide that they hate
@@ -99,8 +99,56 @@ cheaper ways to set them up.
 Devops complexity
 -----------------
 
+Last but not least, there's devops complexity. Web interface of AWS is not exactly known for it's usability.
+Developers and technical users would probably prefer AWS CLI. For things like automated CI/CD pipelines
+we can use client libraries (such as boto3 for Python) or infrastructure-as-code tools such as Ansible,
+Terraform, Puppet, Chef. This makes things easier in some ways as we only need to get the configuration
+or script right once and we can benefit from it in the future without having to remember how to perform tedious manual
+steps through a browser. However, using Python or Terraform for has its own challenges and may turn out
+to be harder than it looks. 
 
+For example, consider setting up a Kubernetes cluster on AWS. It used to be that we would need to use
+solution like [kops](https://kubernetes.io/docs/setup/production-environment/tools/kops/) to do it, but
+now AWS offers EKS - a managed Kubernetes service. So it should be fairly easy, right? Well, not so quick.
+Setting up EKS cluster with actual compute is far from one-click (or one Unix command) process. Configuring
+VPC for EKS cluster is harder than one expect it should be. We can do this through Terraform, as AWS
+is officially supported through Terraform adapter. This cuts down the waste of effort, but when setting up
+VPC for EKS cluster I had to make a compromise and use `aws_cloudformation_stack` resource to pull in
+the example CloudFormation configuration and create VPC from that. This worked fairly well, but there was
+a degree of impendance mismatch between Terraform stuff and CloudFormation stuff. This manifested during
+infrastructure teardown - some networking resources (NAT gateways, subnets) could not always be cleaned up
+due to what appeared to Terraform to be circular dependencies. Running `terraform destroy` would fail with
+an error and I would be left with the task of fighting some errors through AWS console to make sure everything
+is cleanly removed. After some fiddling, this was solved by using `depends_on` statements in Terraform configuration.
 
-WRITEME: devops complexity
+Digital Ocean also offers a managed Kubernetes service that you can set up within minutes by going through
+a simple process consisting of few steps. It's not exactly one-click, but close to that. At the end, you
+also end up with a functioning Kubernetes cluster, but there's far less hassle getting there. Compare
+and contrast this with AWS EKS, which may easily eat up a day of your time, especially if you're not
+upfront familiar with it.
 
-WRITEME: alternatives to AWS
+People may be saying that a company using AWS is saving money as the alternative would be getting a server
+that would not only incur capital expenses of buying the server hardware, but also operational expenses
+to have a systems administrator employed so that the server would be properly managed. One may question
+if that is true simply because using AWS at scale is not exactly cheap operationally. Furthermore,
+chances are the company is not saving money on employees as managing stuff on AWS is not easy; it's just
+that the effort is spread across multiple people in the development team.
+
+Alternatives
+------------
+
+So if we don't want to use AWS, what are the alternatives? 
+
+One option is to purchase a hardware server and keep it on premises. Managing server hardware is becoming
+an increasingly specialised skillset and thus it might be challenging to find someone able to do this
+professionally. Fortunately, companies like Hetzner will do it for us for a monthly fee and will provide
+a dedicated server for installing anything we like. We can install Kubernetes or Proxmox or anything else
+and make our own cloud based on rented server(s). Remember: there is no cloud, just the other peoples
+computers.
+
+Furthermore, there are many smaller and cheaper cloud providers that are more than enough for small-medium
+scale projects (Digital Ocean, Vultr, Linode, etc.). Some consumers of AWS kool aid think that to start your
+own SaaS you need 100k in AWS credits, but the reality is that many web apps can be developed to be
+fairly simple and lightweight. There are indie developers spending less than $100 monthly to run a SaaS
+app or website that makes them fairly good money.
+
