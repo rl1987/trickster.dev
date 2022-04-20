@@ -90,7 +90,7 @@ that it works on AWS or not at all this can be fatal to the project.
 
 This can be largely avoided by limiting the code and infra dependencies to things that can be
 replaced with acceptable cost, such as basic EC2 instances with mainstream Linux distributions
-and open source equivalents to AWS stuff e.g. Terraform instead of CloudFormation, 
+and open source equivalents to AWS stuff e.g. PostgreSQL instead of DynamoDB,
 MinIO instead of S3 and so on. The flipside of this approach is that by avoiding AWS-specific services
 and tools we maybe also be not getting the maximum value from AWS. For example, if all you use
 are vanilla servers with Debian Linux you don't truly need AWS - there are simpler and
@@ -125,7 +125,8 @@ Digital Ocean also offers a managed Kubernetes service that you can set up withi
 a simple process consisting of few steps. It's not exactly one-click, but close to that. At the end, you
 also end up with a functioning Kubernetes cluster, but there's far less hassle getting there. Compare
 and contrast this with AWS EKS, which may easily eat up a day of your time, especially if you're not
-upfront familiar with it.
+upfront familiar with it. There's a tool called [eksctl](https://eksctl.io/) to make it easier, but
+setting up EKS cluster is generally much harder than using DOKS.
 
 People may be saying that a company using AWS is saving money as the alternative would be getting a server
 that would not only incur capital expenses of buying the server hardware, but also operational expenses
