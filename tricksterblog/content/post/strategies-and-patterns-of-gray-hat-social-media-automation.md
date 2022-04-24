@@ -131,6 +131,12 @@ to target major influencers or even their direct followers, but people connected
 (e.g. followers of direct followers, but not direct followers themselves) would be the best audience to hit with automated
 outreach. Merely plotting it with [NetworkX](https://networkx.org/) and matplotlib might provide some insight.
 
+See the following examples:
+
+* [Osintgram](https://github.com/Datalux/Osintgram) - tool to scrape Instagram for OSINT purposes.
+* [youtube-dl](https://youtube-dl.org/) - tool to download videos from many sources, including social media platforms.
+* [TWINT](https://github.com/twintproject/twint) - tool to scrape Twitter for OSINT.
+
 In broader picture, social network analysis is entire branch of social science that deals with investigating communities
 through the lens of graph theory. If we have social media footprint of some community scraped and stored in a database in
 a structured way we can try to reverse engineer the social dynamics and use them to our benefit. 
@@ -181,6 +187,19 @@ There are multiple way to nudge social media users into seeing our account:
 * In some cases viewing their content (watching stories on IG or taking a look at LinkedIN profile of user with paid plan).
 
 All of these tactics can be done with automation.
+
+Instapy [quickstart script](https://github.com/InstaPy/InstaPy/blob/master/quickstart.py) provides a following example:
+
+```python
+session = InstaPy()
+
+with smart_run(session):
+    # general settings
+    session.set_dont_include(["friend1", "friend2", "friend3"])
+
+    # activity
+    session.like_by_tags(["natgeo"], amount=10)
+```
 
 Follow-unfollow
 ---------------
@@ -243,15 +262,26 @@ be your customers. This can be abused to run ads towards a scraped list of peopl
 Nanotargetting
 --------------
 
+Nanotargeting is a practice of using PPC ad platform to narrow down the ad targetting to very small number of people that we want
+to influence, perhaps as little as one person. There's a [research](https://arxiv.org/pdf/2110.06636.pdf) finding that 
+4 rarest Facebook interests of a person makes them unique in the user base with 90% probability. 
+
 Manufacturing social proof
 ==========================
 
 Fake followers
 --------------
 
+Bot or clickworker accounts can be used to artificially inflate the seeming popularity of social media account and fake social proof.
+
 Fake engagement
 ---------------
 
+Fake likes, comments and views can also be used to fake social proof.
+
 Astroturfing
 ------------
+
+Astroturfing is a practice that attempts to influence public discourse on product or public issue by having paid shills or 
+bots post on public forums and social media platforms as if they were honest, concerned citizens or members of the community.
 
