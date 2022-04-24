@@ -81,7 +81,7 @@ must deal with automation countermeasures that platforms implement.
 One approach is automating against platform APIs. To some extend this can be possible through public APIs described on the
 developer portal documentation (this was how [Howitzer](https://howitzer.co/) worked originally), but primarily we would
 need to pretend to be a mobile app or frontend JavaScript code of social media platfrom and reproduce private API calls.
-This may require some reverse engineering with tools like mitmproxy and perhaps even reverse engineering binaries
+This may require reverse engineering API calls with tools like mitmproxy and perhaps even reverse engineering binaries
 of mobile apps if API security techniques such as request signing with HMAC is used. We may need to deal with complex
 API flows, such as Instagram [using](https://stackoverflow.com/questions/62436766/cant-login-to-instagram-using-requests) 
 AES256 in GCM mode to encrypt the password during login.
@@ -119,7 +119,7 @@ for some business Instagram accounts.
 
 Scraping social media pages can yield not only some contact information to be used later, but can also help to map out
 communities in graph-theorethical way. Speaking in graph theory terms, a social media profile is a vertex and connections
-between them can be either undirected edges (e.g. Facebook friends) or directed edges (on account following or mentioning
+between them can be either undirected edges (e.g. Facebook friends) or directed edges (one account following or mentioning
 another).
 
 Social network analysis
@@ -135,17 +135,62 @@ In broader picture, social network analysis is entire branch of social science t
 through the lens of graph theory. If we have social media footprint of some community scraped and stored in a database in
 a structured way we can try to reverse engineer the social dynamics and use them to our benefit. 
 
+Automating content creation
+===========================
+
+Automated social media accounts should have at least some content. There are are ways to automate content generation and/or
+posting.
+
+Recycling content
+-----------------
+
+If you have content created for one purpose or platform you can use automation to repurpose it for other platform, for example
+by cutting up a longer video into shorter segments and uploading it to Tiktok for viewers with short attention span. 
+
+Another approach is develop code to read RSS feeds of prominent news sources, use something like Bannerbear API to turn them 
+into headline images and post them with link to original source.
+
+Yet another way is to simply repost well performing content from other accounts. Many Instagram theme pages were build by 
+doing exactly this - a practice known as "cash cow" pages.
+
+AI-generated content
+--------------------
+
+At this point, AI systems such as GPT-3 can help with content creation, but not replace a human working at reasonable quality.
+For example, one can use GPT-3 to generate Buzzfeed-style listicles, but to go beyond that you would need to get good
+at prompt engineering - a practice of crafting good prompts that instruct the language model. That is a skill in itself.
+However, AI systems can definitely make the content creation easier.
+
 Spamming and manufacturing engagement
 =====================================
 
 Mass direct message sending
 ---------------------------
 
+One spammy tactic is to send mass direct/private message to a pre-scraped list of potential customers. This is popular in NFT-related
+communities on Discord. Whether or not it will annoy them is another matter.
+
 Spammy engagement
 -----------------
 
+There are multiple way to nudge social media users into seeing our account:
+
+* Liking their post.
+* Commenting on their post.
+* Mentioning their account.
+* In some cases viewing their content (watching stories on IG or taking a look at LinkedIN profile of user with paid plan).
+
+All of these tactics can be done with automation.
+
 Follow-unfollow
 ---------------
+
+If we want to collect a following of real people in our target niche it might be desirable to do follow-unfollow tactic that
+entails automated following bunch of people within the niche every day, giving them a chance to follow our account and unfollowing
+them if they don't reciprocate. This is fairly low cost way of not only bringing some traffic to the page, but also building
+an audience over time. However, we cannot be too agressive with this as platform have rate limits on how many actions we can 
+perform daily (although they change over time). Furthermore, it is desirable to keep your following-to-follower ratio as low
+as possible, as it may become very obvious over time what we are doing here.
 
 Risk management
 ===============
@@ -153,14 +198,38 @@ Risk management
 Using proxies
 -------------
 
+Generally speaking, one should use mobile 4G proxies for social media automation. Yes, that's expensive, but there are ways to
+set them up with off-the-shelf hardware. In some cases residential proxies of sufficient quality are also enough.
+
+You don't always want to use one proxy per account, but the amount of accounts sharing single exit IP should not be high.
+
 Account pre-warming
 -------------------
+
+If you create or purchase an account you may not want to or be able to use it at full capacity from the beginning. You may need
+to let it go through a pre-warming sequence, which entails gradually increasing activity on the account to make it less likely
+to get banned and also to make social media platform increase the rate limits over time. This depends on exact social media platform,
+account standing and what kind of automations are planned for the account.
 
 Scraper accounts
 ----------------
 
+API scraping entails making a lot of API calls to backend systems to extract information. If social media platform is prone to
+cracking down on account based on this thing alone, it is desirable to have some accounts that are easily replaceable and meant
+to act as cannon fodder while gathering information for further parts of automated workflow. These are called scraper accounts.
+
 Mother-child method
 -------------------
+
+Due to automation countermeasures, it is highly desirable to refrain from running any sketchy automations on valuable accounts that
+we are trying to establish as assets to make money long term. Yet it is still possible to use automation to grow these accounts 
+through a technique called mother-child method. It is primarily used for growth on Instagram and uses 3 level-system of multiple
+accounts:
+
+1. Mother account that is not running any gray hat automations directly, but is used to build a primary audience and sell stuff.
+2. Child accounts that perform things like follow-unfollow, mass DMs, etc. to bring new people to the mother account and maybe to
+build secondary assets (that may be difficult because platform is likely to shut them down evenutally).
+3. Scraper accounts that gather audience data for child accounts to act on. These are meant to be disposable and replaced when burned.
 
 Abusing social media ads
 ========================
@@ -168,6 +237,21 @@ Abusing social media ads
 Targetting scraped audiences
 ----------------------------
 
+PPC platforms such as Facebook ads allow you to import list of people (e.g. CSV file with column for emails) that are supposed to 
+be your customers. This can be abused to run ads towards a scraped list of people and possibly save some money on advertisment.
+
 Nanotargetting
 --------------
+
+Manufacturing social proof
+==========================
+
+Fake followers
+--------------
+
+Fake engagement
+---------------
+
+Astroturfing
+------------
 
