@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Strategies and patterns of gray hat social media automation"
-date = "2022-04-25"
-draft = true
+date = "2022-04-26"
 tags = ["web-scraping", "python", "growth-hacking"]
 +++
 
@@ -13,7 +12,7 @@ We live in the postmodern age of hyperreality. Vast majority of information most
 means without having any direct access to it's source or any way to verify or deny what is written or shown on the screen.
 
 A pretty girl sitting in a private jet might have paid a lot of money to fly somewhere warm or might have paid a [company](https://www.privatejetphotoshoot.com/)
-that keeps the plane on the tarmac smaller amount of money to do a photo shoot. Her fans on Instagram have no idea which of these
+that keeps the plane on the tarmac a smaller amount of money to do a photo shoot. Her fans on Instagram have no idea which of these
 scenarios is true simply from seeing the picture of her relaxed in fancy seat, looking into distance through her sunglasses 
 and sipping wine. That's hyperreality. The same applies to supposedly very successful twenty-something guy in an expensive car
 that may or may not have been rented for a day to make an entire months worth of pictures.
