@@ -24,12 +24,12 @@ attention to the highest bidder (influencer marketing). Some people have become 
 being able to play the social media game very well. Hyperreality is particularly prevalent on modern social media platforms 
 that are deliberately engineered to extract as much time and attention (engagement) from it's users as possible, then
 sell it through the integrated ad platform to the highest bidder. Objective truth be damned, Big Social executives will
-do anything to keep the people reading, clicking, watching. Large scale virtual reality as it was imagined by science
+do anything they can to keep the people reading, clicking, watching. Large scale virtual reality as it was imagined by science
 fiction writers and technologists in 80s and 90s did not happen yet, but virtual *social* reality is already here.
 Lines betweeen true and fictional are increasingly getting blurry and muddled. In postmodern society, everyone is trying
-to influence the shared map of reality to their benefit. Those able to do it efficiently and scalably emerge as winners.
+to influence the consensus reality to their benefit. Those able to do it efficiently and scalably emerge as winners.
 
-If Big Social business objectives require, the organic reach is deliberately being limited to make more spaces for paid ads. 
+If Big Social business objectives require, the organic reach is deliberately being limited to make more space for paid ads. 
 Therefore promoting your brand on major social media platforms by playing it straight and relying on organic reach only 
 works up to a point. It is still feasible on Tiktok, but less and less viable on Instragram and Facebook. The same applies
 to buying peoples attention on social media ad platforms such as Facebook. When social media ad spend is overall increasing
@@ -96,7 +96,7 @@ Another approach is running an entire browser and controlling it programmaticall
 headless mode - without the GUI window. There's several ways to do this. One is implementing basic bots that automation
 user could install as browser extensions. Another is using browser automation technologies such as Selenium, Playwright
 or Puppeteer to develop scripts implementing the automations. On surface this may seem to be easier than API-based automation,
-but it entails the risk of detection due some tell-tale signs in the JS environment, as browser being automated will not
+but it entails the risk of detection due to some tell-tale signs in the JS environment, as browser being automated will not
 behave exactly the same way as browser being user by a real user. [InstaPy](https://github.com/InstaPy/InstaPy) is a
 prominent open source project to implement IG automations by controlling the browser with Selenium. 
 
@@ -254,7 +254,7 @@ accounts:
 
 1. Mother account that is not running any gray hat automations directly, but is used to build a primary audience and sell stuff.
 2. Child accounts that perform things like follow-unfollow, mass DMs, etc. to bring new people to the mother account and maybe to
-build secondary assets (that may be difficult because platform is likely to shut them down evenutally).
+build secondary assets (that may be difficult because platform is likely to shut them down eventually).
 3. Scraper accounts that gather audience data for child accounts to act on. These are meant to be disposable and replaced when burned.
 
 Abusing social media ads
