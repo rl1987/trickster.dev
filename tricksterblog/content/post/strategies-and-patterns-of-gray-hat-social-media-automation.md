@@ -26,6 +26,8 @@ that are deliberately engineered to extract as much time and attention (engageme
 sell it through the integrated ad platform to the highest bidder. Objective truth be damned, Big Social executives will
 do anything to keep the people reading, clicking, watching. Large scale virtual reality as it was imagined by science
 fiction writers and technologists in 80s and 90s did not happen yet, but virtual *social* reality is already here.
+Lines betweeen true and fictional are increasingly getting blurry and muddled. In postmodern society, everyone is trying
+to influence the shared map of reality to their benefit. Those able to do it efficiently and scalably emerge as winners.
 
 If Big Social business objectives require, the organic reach is deliberately being limited to make more spaces for paid ads. 
 Therefore promoting your brand on major social media platforms by playing it straight and relying on organic reach only 
@@ -39,8 +41,8 @@ reach with one hand and charges more and more money for paid ads with another ho
 
 One of the feasible answers is growth hacking through gray hat social media automation. Let me elaborate what I mean by 
 that. Growth hacking is a kind of marketing that focuses on low-cost, experimental, unorthodox ways to get new customers 
-and retain them. Social media automation is use of programmatic techniques and software tools to mainly do things that
-some social media manager would be doing manually. In the order of increasing sketchiness, we classify the automation
+and retain them. Social media automation is the use of programmatic techniques and software tools to do things that
+someone would be doing manually. In the order of increasing sketchiness, we classify the automation
 techniques into three levels:
 
 1. White hat - fully legitimate and T&C-compliant automation, such as posting stuff on schedule through Buffer, ToS-compliant
@@ -57,7 +59,7 @@ on technical and legal levels, gray hat automation at least gives us a fighting 
 massives audiences on modern massive social networks.
 
 Gray hat social media automation is not an easy thing to do in the post-Cambridge Analytica world, but may provide something
-like a cheat code to those trying to make money online. Gray hat automation attempts to turn the tables against Big Social
+like a cheat code to those trying to make money online. The idea is to turn the tables against Big Social
 by exploiting the very state of manipulative data-driven hyperreality that the Zuckerbergs of the world have created.
 
 Like in object-orient programming, there are patterns - abstract principles of doing things that keep popping up when one 
@@ -84,7 +86,8 @@ need to pretend to be a mobile app or frontend JavaScript code of social media p
 This may require reverse engineering API calls with tools like mitmproxy and perhaps even reverse engineering binaries
 of mobile apps if API security techniques such as request signing with HMAC is used. We may need to deal with complex
 API flows, such as Instagram [using](https://stackoverflow.com/questions/62436766/cant-login-to-instagram-using-requests) 
-AES256 in GCM mode to encrypt the password during login.
+AES256 in GCM mode to encrypt the password during login. However the code implementing this approach would be fairly
+lightweight and performant.
 
 Browser automation
 ------------------
@@ -95,7 +98,7 @@ user could install as browser extensions. Another is using browser automation te
 or Puppeteer to develop scripts implementing the automations. On surface this may seem to be easier than API-based automation,
 but it entails the risk of detection due some tell-tale signs in the JS environment, as browser being automated will not
 behave exactly the same way as browser being user by a real user. [InstaPy](https://github.com/InstaPy/InstaPy) is a
-prominent open source project to implement IG automations by controlling the browser with Selenium.
+prominent open source project to implement IG automations by controlling the browser with Selenium. 
 
 Account creation
 ================
@@ -153,7 +156,8 @@ Recycling content
 If you have content created for one purpose or platform you can use automation to repurpose it for other platform, for example
 by cutting up a longer video into shorter segments and uploading it to Tiktok for viewers with short attention span. 
 
-Another approach is develop code to read RSS feeds of prominent news sources, use something like Bannerbear API to turn them 
+Another approach is develop code to read RSS feeds of prominent news sources, use something like 
+[Bannerbear API](https://developers.bannerbear.com/#introduction) to turn them 
 into headline images and post them with link to original source.
 
 Yet another way is to simply repost well performing content from other accounts. Many Instagram theme pages were build by 
@@ -163,7 +167,8 @@ AI-generated content
 --------------------
 
 At this point, AI systems such as GPT-3 can help with content creation, but not replace a human working at reasonable quality.
-For example, one can use GPT-3 to generate Buzzfeed-style listicles, but to go beyond that you would need to get good
+If someone is not supervising it, the text generation can easily go off the rails and produce complete nonsense.
+One can use GPT-3 to generate Buzzfeed-style listicles, but to go beyond that you would need to get good
 at prompt engineering - a practice of crafting good prompts that instruct the language model. That is a skill in itself.
 However, AI systems can definitely make the content creation easier.
 
@@ -174,7 +179,9 @@ Mass direct message sending
 ---------------------------
 
 One spammy tactic is to send mass direct/private message to a pre-scraped list of potential customers. This is popular in NFT-related
-communities on Discord. Whether or not it will annoy them is another matter.
+communities on Discord by using tools like [discord-dm-go](https://github.com/V4NSH4J/discord-mass-DM-GO). 
+
+Whether or not it will annoy them is another matter.
 
 Spammy engagement
 -----------------
