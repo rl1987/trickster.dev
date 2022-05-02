@@ -256,5 +256,62 @@ $ scrapy startproject aspnetlegacy .
 $ scrapy genspider clayton publicaccess.claytoncountyga.gov
 ```
 
+```python
+COOKIES_DEBUG = True
+```
+
+```python
+from scrapy.http import FormRequest
+```
+
+```python
+class ClaytonSpider(scrapy.Spider):
+    name = 'clayton'
+    allowed_domains = ['publicaccess.claytoncountyga.gov']
+    start_urls = ['https://publicaccess.claytoncountyga.gov/Search/Disclaimer.aspx?FromUrl=../search/advancedsearch.aspx?mode=advanced']
+
+    def start_requests(self):
+        yield scrapy.Request(self.start_urls[0], callback=self.parse_cookie_wall)
+
+    def extract_hidden_form_data(self, response):
+        form_data = dict()
+
+        for hidden_input in response.xpath('//input[@type="hidden"]'):
+            key = hidden_input.attrib.get("id")
+            value = hidden_input.attrib.get("value")
+
+            if value is None:
+                value = ""
+
+            form_data[key] = value
+
+        return form_data    
+
+    def parse_cookie_wall(self, response):
+        form_data = self.extract_hidden_form_data(response)
+
+        form_data['btAgree'] = ""
+
+        yield FormRequest(url=response.url, formdata=form_data, callback=self.parse_search_form_page)
+
+    def parse_search_form_page(self, response):
+        pass
+
+```
+
+```python
+    def parse_search_form_page(self, response):
+        form_data = self.extract_hidden_form_data(response)
+
+        form_data["hdCriteria"] = "price|{}~{}".format(MIN_PRICE, MAX_PRICE)
+        form_data["txtCrit"] = MIN_PRICE
+        form_data["txtCrit2"] = MAX_PRICE
+
+        yield FormRequest(url=response.url, formdata=form_data, callback=self.parse_search_results)
+
+    def parse_search_results(self, response):
+        assert "LGS HOLDING GROUP 2013 LLC" in response.text
+```
+
 WRITEME: final thoughts + recommendation to use Selenium/Playwright as fallback
 
