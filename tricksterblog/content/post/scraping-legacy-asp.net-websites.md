@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Scraping legacy ASP.NET websites"
-date = "2022-05-05"
+date = "2022-12-30"
 draft = true
 tags = ["scraping", "python"]
 +++
