@@ -12,7 +12,7 @@ and generate network packets, we can use [`struct`](https://docs.python.org/3/li
 module. Depending on how deep in protocol stack are we working we may need to send/receive the
 wire format buffer through raw sockets. This can be fun in a way, but if this kind of code is 
 being written for research purposes (e.g. to find and demonstrate vulnerabilities in networking software)
-dealing with wire format and raw sockets will yield fairly low ROI on your efforts. 
+dealing with protocol wire formats and raw sockets will yield fairly low ROI on your efforts. 
 
 [Scapy](https://scapy.net/) is a Python module and interactive program for low-level network 
 programming that attempts to make it easier without abstracting away the technical details. 
@@ -187,8 +187,9 @@ To fully parse and pretty-print a packet we can call `show()` method on it:
 
 ```
 
-As we can see the SIP payload was not parsed. That's because Scapy mostly deals with binary protocols in
-lower parts of network stack, which SIP is not. 
+The SIP payload was not parsed. That's because Scapy mostly deals with binary protocols in
+lower parts of network stack, which SIP is not. However, there are third party helper modules
+to parse some of the application layer protocols, such as HTTP.
 
 So we can read PCAP files with pre-captured packets, but what if we want to do some packet sniffing?
 Assuming we have our system ready to use network interface in promiscuous mode, we can can call
@@ -218,11 +219,11 @@ To save captured packets into PCAP file for further analysis, we can use `wrpcap
 >>> wrpcap("udp.pcap", capture)
 ```
 
-Now we can sniff and parse the network packets, but Scapy also supports packet generation for
+Now we can sniff (capture and parse) the network packets, but Scapy also supports packet generation for
 doing all kinds of active trickery: network scanning, server probing, attacking systems by sending
 malformed requests and so on.
 
-Let us start with pinging a server. To send ICMP packet to a specific we need to make IP datagram
+Let us try pinging a server. To send ICMP packet to a specific we need to make IP datagram
 with ICMP payload:
 
 ```
@@ -342,7 +343,7 @@ import statement on the top:
 from scapy.all import *
 ```
 
-Scapy has been used to unit-test network protocol interfaces in Linux, OpenBSD
+Scapy has been used to unit-test network protocol implementations in Linux, OpenBSD
 and RIOT projects. It has also been used to implement various offensive security
 tools:
 
@@ -351,3 +352,5 @@ tools:
 * [sshame](https://github.com/HynekPetrak/sshame) - SSH public key brute forcer.
 * [ISF](https://github.com/dark-lbp/isf) - exploitation framework for attacking industrial systems.
 
+For an example of Scapy being used for bug bounty PoC, take a look at HackerOne
+report [411519](https://hackerone.com/reports/411519).
