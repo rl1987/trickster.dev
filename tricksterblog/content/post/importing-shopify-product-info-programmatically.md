@@ -6,5 +6,13 @@ draft = true
 tags = ["python", "automation"]
 +++
 
-WRITEME
+WRITEME: introduction and motivation
+
+WRITEME: getting Shopify Admin API access
+
+WRITEME: product data model
+
+WRITEME: using REST API directly
+
+WRITEME: using Shopify client library
 
