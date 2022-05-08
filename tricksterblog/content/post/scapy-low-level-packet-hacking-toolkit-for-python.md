@@ -6,22 +6,22 @@ draft = true
 tags = ["python", "security"]
 +++
 
-WRITEME: introduction
-
 To make HTTP requests with Python we can use requests module. To send and receive things via TCP
 connection we can use stream sockets. However, what if we want to go deeper than this? To parse
 and generate network packets, we can use [`struct`](https://docs.python.org/3/library/struct.html)
 module. Depending on how deep in protocol stack are we working we may need to send/receive the
-wire format buffer through raw sockets. If this kind of code is being written for research purposes 
-(e.g. to find and demonstrate vulnerabilities in networking software)
+wire format buffer through raw sockets. This can be fun in a way, but if this kind of code is 
+being written for research purposes (e.g. to find and demonstrate vulnerabilities in networking software)
 dealing with wire format and raw sockets will yield fairly low ROI on your efforts. 
 
 [Scapy](https://scapy.net/) is a Python module and interactive program for low-level network 
-programming. This project is fairly prominent in cybersecurity space and used for things
+programming that attempts to make it easier without abstracting away the technical details. 
+This project is fairly prominent in cybersecurity space and used for things
 like exploit development, data exfiltration, network recon, intrusion detection and 
 analysing captured traffic. Scapy integrates with data visualisation and report generation
 tooling for presenting the results of your research to bug bounty program or during
-the meeting with customer or management.
+the meeting with customer or management. The foundational idea for Scapy is proposing a
+Python-based domain specific language for easy and quick wire format management.
 
 Scapy can be installed through PIP and in some cases through operating system package managers
 (but make sure to check that version available through e.g. APT is not obsolete).
@@ -218,8 +218,136 @@ To save captured packets into PCAP file for further analysis, we can use `wrpcap
 >>> wrpcap("udp.pcap", capture)
 ```
 
-WRITEME: doing packet sniffing
+Now we can sniff and parse the network packets, but Scapy also supports packet generation for
+doing all kinds of active trickery: network scanning, server probing, attacking systems by sending
+malformed requests and so on.
 
-WRITEME: generating packets
+Let us start with pinging a server. To send ICMP packet to a specific we need to make IP datagram
+with ICMP payload:
 
-WRITEME: open source projects based on Scapy
+```
+>>> pkt = IP(dst="8.8.8.8") / ICMP()
+>>> pkt.show()
+###[ IP ]### 
+  version= 4
+  ihl= None
+  tos= 0x0
+  len= None
+  id= 1
+  flags= 
+  frag= 0
+  ttl= 64
+  proto= icmp
+  chksum= None
+  src= 192.168.16.130
+  dst= 8.8.8.8
+  \options\
+###[ ICMP ]### 
+     type= echo-request
+     code= 0
+     chksum= None
+     id= 0x0
+     seq= 0x0
+```
+
+Calling `sr1()` sends our packet on layer 3 and waits for single answer:
+
+```
+>>> sr1(pkt)
+Begin emission:
+Finished sending 1 packets.
+...*
+Received 4 packets, got 1 answers, remaining 0 packets
+<IP  version=4 ihl=5 tos=0x0 len=28 id=0 flags= frag=0 ttl=118 proto=icmp chksum=0x63a7 src=8.8.8.8 dst=192.168.16.130 |<ICMP  type=echo-reply code=0 chksum=0xffff id=0x0 seq=0x0 |<Padding  load='\x00\x00\x00\x000000000000\x00\x00\x00\x00' |>>>
+```
+
+We got a proper ICMP reply, which means server is up.
+
+For sending multiple packets and receiving responses (e.g. to implement a ping sweep) we
+could use `sr()` function. To send multiple packets, but wait for single response
+we can use `sr1_flood()` function. For more on this, see:
+
+https://scapy.readthedocs.io/en/latest/api/scapy.sendrecv.html?highlight=sr1#module-scapy.sendrecv
+
+Scapy overrides the `/` operator to implement layer stacking. It does not enforce the ordering
+of layers to make sure it occurs in the same order as it should. Thus we can create some
+pretty crazy packets:
+
+```
+>>> broken_pkt = ICMP() / UDP() / IP() / IP()
+>>> broken_pkt
+<ICMP  |<UDP  |<IP  frag=0 proto=ipencap |<IP  |>>>>
+>>> broken_pkt.show()
+###[ ICMP ]###
+  type= echo-request
+  code= 0
+  chksum= None
+  id= 0x0
+  seq= 0x0
+###[ UDP ]###
+     sport= domain
+     dport= domain
+     len= None
+     chksum= None
+###[ IP ]###
+        version= 4
+        ihl= None
+        tos= 0x0
+        len= None
+        id= 1
+        flags=
+        frag= 0
+        ttl= 64
+        proto= ipencap
+        chksum= None
+        src= 127.0.0.1
+        dst= 127.0.0.1
+        \options\
+###[ IP ]###
+           version= 4
+           ihl= None
+           tos= 0x0
+           len= None
+           id= 1
+           flags=
+           frag= 0
+           ttl= 64
+           proto= ip
+           chksum= None
+           src= 127.0.0.1
+           dst= 127.0.0.1
+           \options\
+
+>>> hexdump(broken_pkt)
+WARNING: No IP underlayer to compute checksum. Leaving null.
+0000  08 00 F7 65 00 00 00 00 00 35 00 35 00 30 00 00  ...e.....5.5.0..
+0010  45 00 00 28 00 01 00 00 40 04 7C CF 7F 00 00 01  E..(....@.|.....
+0020  7F 00 00 01 45 00 00 14 00 01 00 00 40 00 7C E7  ....E.......@.|.
+0030  7F 00 00 01 7F 00 00 01                          ........
+```
+
+This is by design, as we may want to generate arbitrarily broken packets
+for the purposes of vulnerability research or exploitation. However we also
+have to take care and make sure that layers are ordered properly when
+normal packets are being created.
+
+For more Scapy usage examples, see: https://scapy.readthedocs.io/en/latest/usage.html
+
+What if you don't want to use Scapy REPL exclusively, but would prefer to
+develop Python scripts or Jupyter notebooks? Everything that Scapy REPL
+provides can be used in a regular Python environment if you put the following
+import statement on the top:
+
+```python
+from scapy.all import *
+```
+
+Scapy has been used to unit-test network protocol interfaces in Linux, OpenBSD
+and RIOT projects. It has also been used to implement various offensive security
+tools:
+
+* [trackerjacker](https://github.com/calebmadrigal/trackerjacker) - WiFi network mapper.
+* [wifiphisher](https://github.com/wifiphisher/wifiphisher) - rogue access point creation tool.
+* [sshame](https://github.com/HynekPetrak/sshame) - SSH public key brute forcer.
+* [ISF](https://github.com/dark-lbp/isf) - exploitation framework for attacking industrial systems.
+
