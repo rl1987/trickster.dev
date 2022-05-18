@@ -30,7 +30,7 @@ to influence the consensus reality to their benefit. Those able to do it efficie
 
 If Big Social business objectives require, the organic reach is deliberately being limited to make more space for paid ads. 
 Therefore promoting your brand on major social media platforms by playing it straight and relying on organic reach only 
-works up to a point. It is still feasible on Tiktok, but less and less viable on Instragram and Facebook. The same applies
+works up to a point. It is still feasible on Tiktok, but less and less viable on Instagram and Facebook. The same applies
 to buying peoples attention on social media ad platforms such as Facebook. When social media ad spend is overall increasing
 auctions for human attention are getting more and more competitive, thus many business are finding that they are being priced out.
 In 2022, it is very easy to burn bunch of money on e.g. Facebook ads only to end up net negative by the end of the quarter.
