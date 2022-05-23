@@ -19,7 +19,7 @@ flows are implemented. Both of these approaches are labour intensive and require
 deep, specialised knowledge.
 
 Luckily for us, there's something called [Instauto](https://instauto.readthedocs.io/en/latest/index.html).
-Instauto is a Python module that functions as unofficial client library for private Instagram
+Instauto is a Python module that implements an unofficial client library for private Instagram
 API. It saves us a mountain of work that we would have to do if we wanted to tap into
 private Instagram API for gray hat use cases.
 
@@ -96,6 +96,8 @@ that does not include much beyond user names and IDs of the followers.
 To get more fields, we need to request for profile info based on user ID of each follower:
 
 ```python
+import instauto.api.actions.structs.profile as pr
+
 obj = pr.Info(user_id)
 fi = client.profile_info(obj)
 ```
@@ -216,3 +218,7 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+You may want to use proxy with this script. Since Instauto uses the well-known requests
+module for making HTTP requests, it heeds `HTTPS_PROXY` environment variable. That's an 
+easy way to tunnel traffic through proxy. 
