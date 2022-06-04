@@ -263,5 +263,8 @@ a single page or small number of pages. This solution effectively turns web
 sites into RESTful APIs. However if you need a way to launch large scraping
 jobs through REST API you should consider [Scrapyd](https://github.com/scrapy/scrapyd) 
 API server that was designed to provide a way to manage scraping jobs from
-outside Scrapy framework.
+outside Scrapy framework. To upload and run your Scrapy project in the
+cloud you may want to consider either [Scrapy Cloud](https://www.zyte.com/scrapy-cloud/)
+SaaS solution or [Scrapydweb](https://github.com/my8100/scrapydweb) for 
+self-hosted option.
 
