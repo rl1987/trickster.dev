@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Importing Shopify product info programmatically"
-date = "2022-06-05"
-draft = true
+date = "2022-06-04"
 tags = ["python", "automation"]
 +++
 
