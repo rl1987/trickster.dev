@@ -172,6 +172,54 @@ to get API credentials for accessing it. n8n provides two kinds of nodes for S3 
 AWS-specific one and generic variant. We choose the latter. 
 
 Like we did with SendGrid, we fill in API access credentials (endpoint and region
-fields must match the DO region your bucket is created in).
+fields must match the DO region your bucket is created in). Then we make sure
+that Resource is selected to be File and Operation is Upload. We put out bucket
+and file names into their respective text fields. We set Binary Property to `data`
+as that is what is being set in previous node that reads XLSX file. 
 
-WRITEME: closing words and something against no-code hype
+Now we can verify that file indeed gets uploaded by executing the node and checking
+the bucket.
+
+We got the flow working, but we need it triggered based on time. Thus we add the Cron
+node. For the sake of the example, we set trigger time to every midnight (we could
+have more elaborate schedule if we wanted).
+
+We disconnect the Start node and put the Cron node in its place.
+
+To tidy things up and to provide visual aid for finding where does the workflow
+end, we connect the "No operation, do nothing" node to outputs of SendGrid and S3
+nodes. This is technically not necessary and does not change the functionality in
+any way, but will make bigger flows more readable.
+
+But what if this entire thing fails due to some critical error? We would like to
+know about this. We can set up another workflow that would be executed to notify
+us about error condition. This can be done by entering workflow settings through side
+pane by choosing "Settings" under "Workflows". We can create a new workflow for
+error handling (there's some template ones from n8n communnity) and set it here.
+
+If we wanted the workflow to start based on some user action we could use other trigger
+nodes than Cron. There are nodes for web hook, email being received and so on.
+
+We have shown how an interrelated collection of actions can be made more tractable
+by using n8n system to rework into more visual form. Furthermore, error handling
+mechanisms are provided at action level and at workflow level. We also have
+pre-developed components for integration. Thus n8n can be used as flexible
+way to build higher order automation workflows that consist of launching
+Python scripts or other tools and composing them into larger system.
+
+I do not suggest people to buy into No Code hype however. n8n alone would not be a right
+tool for more fine-grained, lower level kind of engineering, such as reproducing
+complex API flows to automate against automation-hostile systems. Many talkers
+have been talking about how No Code solutions that you may not even need to host yourself
+(at the cost of vendor lock-in) make it easier to build internal tools or even
+SaaS apps. That is only true at sufficiently low levels of complexity and scale.
+Once things get hard enough, it becomes necessary to think in computational terms.
+Things like n8n do have their value, but overreliance on drag-and-dropping your
+business logic on some GUI will constrain you to an environment and way of working
+that is grossly suboptimal for dealing with complexity. There's a reason why we
+did not reproduce the stuff that goes on in the Scrapy project by reimplementing
+it with n8n nodes despite n8n having some capacity to scrape sites and our 
+Scrapy project being very basic. 
+
+I cannot stress this enough: if you want to build software systems, learn to fucking code!
+
