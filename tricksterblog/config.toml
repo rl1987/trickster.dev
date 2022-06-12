@@ -39,6 +39,12 @@ description = "Code level discussion of web scraping, gray hat automation, growt
     url = "/about/"
     weight = 10
 
+  [[menu.main]]
+    identifier = "rss"
+    name = "RSS"
+    url = "/post/index.xml"
+    weight = 10
+
 [taxonomies]
 category = "categories"
 tag = "tags"
