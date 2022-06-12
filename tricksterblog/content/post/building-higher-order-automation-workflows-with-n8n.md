@@ -102,7 +102,8 @@ $ python3 /vagrant/csv_to_xlsx.py /vagrant/trickster.dev-code/2022-02-13-introdu
 Opening the resulting file in [Visidata](https://www.visidata.org/) allows us to quickly
 verify the correctness of the transformation.
 
-TODO: add screenshots
+[Screenshot 1](/2022-06-11_19.38.34.png)
+[Screenshot 2](/2022-06-11_19.38.49.png)
 
 Access the n8n web interface via web browser through port 5678. Once you go through
 the onboarding steps (you can skip account creation if you are going to be only one
@@ -110,21 +111,30 @@ using your n8n instance) you will be presented with a blank workflow page with o
 the Start node present (it cannot be removed, but can be disconnected or disabled
 when no longer needed).
 
-TODO: add screenshots
+[Screenshot 3](/2022-06-11_18.59.43.png)
+[Screenshot 4](/2022-06-11_19.00.46.png)
 
 Press the "Add Node" (plus sign) button on the top-right corner. You will be presented
 with searchable list of nodes (actions) that you can use to build your flow. 
 
-We need "Execute Command" node that we choose from the list. 
+[Screenshot 5](/2022-06-11_19.50.48.png)
 
+We need "Execute Command" node that we choose from the list. 
 Upon choosing this node we will be presented with modal screen to set it up. We put 
 the command to run the Scrapy spider into the text field for the command. 
+
+[Screenshot 6](/2022-06-12_15.19.09.png)
 
 Click outside the modal view to dismiss it. Now we have new, currently disconnected 
 node on the screen. 
 
+[Screenshot 7](/2022-06-11_19.57.28.png)
+
 At this point we don't worry about cronjobs and the like, so let's connnect it to 
 Start node by dragging the line between them.
+
+[Screenshot 8](/2022-06-11_19.58.09.png)
+[Screenshot 9](/2022-06-11_19.58.22.png)
 
 This is already a very simple n8n flow that we can launch by pressing "Execute Workflow"
 button on the bottom. 
@@ -133,8 +143,12 @@ Let us add new node for file conversion step. If you do this with the first node
 n8n will automatically connect it for you. To avoid confusion, we can rename the nodes
 to something more descriptive than their initial names.
 
+[Screenshot 10](/2022-06-11_20.16.23.png)
+
 Furthermore, we can click the little setting button and write down some notes about the node
 that can optionally be shown in the flow.
+
+[Screenshot 11](/2022-06-11_20.21.17.png)
 
 Another thing we can enable in the node settings is retries on error. This is not needed 
 for the conversion step, but scraping step may fail due to the site being down or some
@@ -144,26 +158,33 @@ Some actions in your flow may not be critical and of little importance. You may 
 switch on the "Continue On Fail" switch for these actions. That way, an error in some
 unimportant step does not bring down the entire workflow.
 
+[Screenshot 12](/2022-06-11_20.22.21.png)
+
 Now let us send an email. We can use either generic Mail node or one of the nodes
 for integrating into email provider (Gmail, Mailchimp, etc.). To demonstrate an
 integration into external system, we pick SendGrid node.
 
+[Screenshot 13](/2022-06-11_20.38.22.png)
+
 Now we need to add credentials. Click credential selection drop-down and choose
 "Create New". This will present you a new modal view to put your SendGrid API key into.
-
 Once we save the API key, we can choose the SendGrid account in the drop down. Now
-we can fill the form with details about email we want to be sending. 
+we can fill the form with details about email we want to be sending. Note that credentials
+are stored separately from the workflows and can be edited by accessing menu option on the
+side.  But one thing is missing - we need the binary data for the attachment. Thus we put this
+node aside for a moment and add a "Read Binary File" node. We set it up to read XLSX file 
+from the conversion step, then wire it up between conversion and email sending nodes.
 
-But one thing is missing - we need the binary data for the attachment. Thus we put this
-node aside for a moment and add a "Read Binary File" node. 
-
-We set it up to read XLSX file from the conversion step, then wire it up between conversion
-and email sending nodes.
+[Screenshot 14](/2022-06-11_20.49.51.png)
+[Screenshot 15](/2022-06-11_20.51.33.png)
 
 Now we come back to SendGrid node, scroll to the bottom of the form, click "Add fields"
 and pick "Attachments" from the list. New textfield will appear. We need to set up data transfer
 here. Put the property name from previous node in here. By default, this will be `data`.
 Execute the node to test it - this will execute all the previous nodes in the flow.
+
+[Screenshot 16](/2022-06-11_20.52.46.png)
+[Screenshot 17](/2022-06-11_21.11.54.png)
 
 We also want to upload our spreadsheet file to S3-compatible Digital Ocean Spaces bucket.
 To set it up on Digital Ocean side, create Spaces bucket and follow the 
@@ -171,25 +192,39 @@ To set it up on Digital Ocean side, create Spaces bucket and follow the
 to get API credentials for accessing it. n8n provides two kinds of nodes for S3 API - 
 AWS-specific one and generic variant. We choose the latter. 
 
+[Screenshot 18](/2022-06-11_21.18.07.png)
+
 Like we did with SendGrid, we fill in API access credentials (endpoint and region
 fields must match the DO region your bucket is created in). Then we make sure
 that Resource is selected to be File and Operation is Upload. We put out bucket
 and file names into their respective text fields. We set Binary Property to `data`
 as that is what is being set in previous node that reads XLSX file. 
 
+[Screenshot 19](/2022-06-11_21.24.08.png)
+[Screenshot 20](/2022-06-11_21.35.59.png)
+
 Now we can verify that file indeed gets uploaded by executing the node and checking
 the bucket.
+
+[Screenshot 21](/2022-06-11_21.40.39.png)
 
 We got the flow working, but we need it triggered based on time. Thus we add the Cron
 node. For the sake of the example, we set trigger time to every midnight (we could
 have more elaborate schedule if we wanted).
 
+[Screenshot 22](/2022-06-11_21.43.45.png)
+
 We disconnect the Start node and put the Cron node in its place.
+
+[Screenshot 23](/2022-06-11_21.46.08.png)
+[Screenshot 24](/2022-06-11_21.46.25.png)
 
 To tidy things up and to provide visual aid for finding where does the workflow
 end, we connect the "No operation, do nothing" node to outputs of SendGrid and S3
 nodes. This is technically not necessary and does not change the functionality in
 any way, but will make bigger flows more readable.
+
+[Screenshot 25](/2022-06-12_15.44.14.png)
 
 But what if this entire thing fails due to some critical error? We would like to
 know about this. We can set up another workflow that would be executed to notify
@@ -197,13 +232,15 @@ us about error condition. This can be done by entering workflow settings through
 pane by choosing "Settings" under "Workflows". We can create a new workflow for
 error handling (there's some template ones from n8n communnity) and set it here.
 
+[Screenshot 26](/2022-06-11_21.55.40.png)
+
 If we wanted the workflow to start based on some user action we could use other trigger
 nodes than Cron. There are nodes for web hook, email being received and so on.
 
 We have shown how an interrelated collection of actions can be made more tractable
 by using n8n system to rework into more visual form. Furthermore, error handling
 mechanisms are provided at action level and at workflow level. We also have
-pre-developed components for integration. Thus n8n can be used as flexible
+pre-developed components for integrations. Thus n8n can be used as flexible
 way to build higher order automation workflows that consist of launching
 Python scripts or other tools and composing them into larger system.
 
@@ -218,7 +255,7 @@ Things like n8n do have their value, but overreliance on drag-and-dropping your
 business logic on some GUI will constrain you to an environment and way of working
 that is grossly suboptimal for dealing with complexity. There's a reason why we
 did not reproduce the stuff that goes on in the Scrapy project by reimplementing
-it with n8n nodes despite n8n having some capacity to scrape sites and our 
+it with n8n nodes despite n8n having some capability to scrape sites and our 
 Scrapy project being very basic. 
 
 I cannot stress this enough: if you want to build software systems, learn to fucking code!
