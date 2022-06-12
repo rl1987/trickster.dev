@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Building higher-order automation workflows with n8n"
 date = "2022-06-12"
-draft = true
-tags = [ "automation" ]
+tags = [ "automation", "n8n"]
 +++
 
 Automation systems tends to have a temporal aspect to them as some action or the entire flow
