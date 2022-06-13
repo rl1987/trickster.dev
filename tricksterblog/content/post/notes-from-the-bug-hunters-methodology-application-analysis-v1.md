@@ -174,8 +174,59 @@ the first to find new vulnerabilities ASAP after the code has changed.
 
 Next stage is application analysis.
 
-There are 7 highly important questions to ask when it comes to app analysis.
+There are 6 highly important questions to ask when it comes to app analysis.
 
-1. How does it pass data? 
+1. How does it pass data? Is it by resource and URL parameters or is it
+a combination of HTTP method and URL path? Not getting this right may derail
+your further fuzzing/scanning efforts.
+
+2. Where and how does it reference users? How are they identified (UUID, user ID,
+email, something else?) and where is the identifier communicated? Does it 
+enforce consitency between session and user?
+
+3. Does it have multi-tenancy or multi-user functionality? This would have
+potential for access, authentication and authorization bugs as it's very
+hard for developers to enforce boundaries properly in all cases. This
+can  yield IDORs, information disclosure bugs and so forth. Are there 
+different levels of permissions within the app? Are there ways for lower
+level user view information that only admin is supposed to access.
+
+4. Does the site have unique threat model? For example, securing
+stream keys and private streamer information is very important for
+Twitch, as leaking this data may lead to all kinds of trouble.
+This also apply to medical sites.
+
+5. Has there been prominent examples of vulnerabilities and attacks
+against the system being analysed? Just Google for this.
+
+6. How does the app and/or framework handle XSS, CSRF and injection
+attacks? What are countermeasures like and how can they be bypassed?
+
+Spider the site to ensure coverage with something like Burp or ZAP.
+You need to cover as many code paths as possible. Alternatively,
+you can use hakrawler or GoSpider for GUI-less automation.
+
+You may also want to parse JavaScript code to find sensitive API endpoints
+and maybe even API keys with tool like xnLinkFinder. There's also Burp
+extension for that.
+
+Sometimes JS code will be minified or obfuscated, but will still contain
+things to be find there. 
+
+Sometimes old JS libraries will be used and will contain exploitable
+vulnerabilities. This can be found with retire.js.
+
+Heat mapping is an idea that there are certain places in the app
+that are of particular interest or potential for bugs:
+upload functions, integrations with 3rd parties, external
+data storage (e.g. in S3 bucket), multipart forms, account sections,
+APIs and error pages. 
+
+Few years ago there was research project (HUNT) to determine what URL parameters
+tend to statistically correlate with specific types of vulnerabilities.
+This provides a good idea on what to check first and prioritise 
+parameters/routes in terms of their potential for bugs.
+There's a paid Burp extension that helps with this.
+
 
 
