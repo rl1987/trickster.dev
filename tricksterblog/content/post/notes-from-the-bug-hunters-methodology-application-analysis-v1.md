@@ -37,20 +37,20 @@ The free ones also are good to practice some sysadmin stuff, as you're supposed 
 
 Recommended security content creators to follow:
 
-* @dannielmiessler
-* @stok
-* @brutelogic
-* @InsiderPhD
-* @infosec_au
-* @Farah_Hawaa
-* @zseano
-* @hacker_
-* @hakluke
-* @albinowax
-* @tomnomnom
-* @\_JohnHammond
-* @ippsec
-* @nahamsec
+* @danielmiessler [Twitter](https://twitter.com/danielmiessler) [Podcast](https://danielmiessler.com/podcast/)
+* @stok [Twitter](https://twitter.com/stokfredrik) [Youtube](https://www.youtube.com/c/STOKfredrik)
+* @brutelogic [Twitter](https://twitter.com/brutelogic) [Blog](https://brutelogic.com.br/blog/)
+* @InsiderPhD [Twitter](https://twitter.com/InsiderPhD) [Youtube](https://www.youtube.com/c/InsiderPhD)
+* @infosec_au [Twitter](https://twitter.com/infosec_au) [Blog](https://blog.assetnote.io/)
+* @Farah_Hawaa [Twitter](https://twitter.com/Farah_Hawaa) [Youtube](https://www.youtube.com/c/farahhawa)
+* @zseano [Twitter](https://twitter.com/zseano) [Youtube](https://www.youtube.com/c/zseano)
+* @hacker_ [Twitter](https://twitter.com/hacker_) [Blog](https://corben.io/)
+* @hakluke [Twitter](https://twitter.com/hakluke) [Blog](https://hakluke.com/blog/)
+* @albinowax [Twitter](https://twitter.com/albinowax) [Blog](https://skeletonscribe.net/)
+* @tomnomnom [Twitter](https://twitter.com/tomnomnom) [Youtube](https://www.youtube.com/user/TomNomNomDotCom/featured)
+* @\_JohnHammond [Twitter](https://twitter.com/_JohnHammond) [Youtube](https://www.youtube.com/johnhammond010)
+* @ippsec [Twitter](https://twitter.com/ippsec) [Youtube](https://www.youtube.com/c/ippsec)
+* @nahamsec [Twitter](https://twitter.com/nahamsec) [Youtube](https://www.youtube.com/c/nahamsec)
 
 Generally there's a lot of bounty hunting community on Twitter.
 
@@ -73,22 +73,22 @@ There are following layers to security testing:
 We need to do technology profiling first. The following browser extensions can be used to find 
 what technologies site is based on:
 
-* Whatruns
-* Wappalyzer
+* [Whatruns](https://www.whatruns.com/)
+* [Wappalyzer](https://www.wappalyzer.com/)
 
-There is also webalyze - a CLI tool that can be integrated into automated scanning pipelines.
+There is also [webalyze](https://github.com/rverton/webanalyze) - a CLI tool that can be integrated into automated scanning pipelines.
 
 Now it's time to check that no known vulns, default credentials, framework login pages and the like are 
 present on the site (related to non-custom code). This can be done with Nuclei or Nessus.
 Nuclei has plenty of checks for CVEs, admin panels, information leaks and the like. 
 There's other tools for this:
 
-* Gofingerprint
-* Sn1per
-* Intrigue Core
-* Vulners (Burp extension)
-* Jaeles
-* retire.js
+* [Gofingerprint](https://github.com/Static-Flow/gofingerprint)
+* [Sn1per](https://github.com/1N3/Sn1per)
+* [Intrigue Core](https://core.intrigue.io/)
+* [Vulners](https://vulners.com/plugins#burp) (Burp extension)
+* [Jaeles](https://github.com/jaeles-project/jaeles)
+* [retire.js](https://github.com/retirejs/retire.js/)
 
 However, overreliance on Nuclei can be a competitive disadvantage if it is being used
 to scan what everyone else is scanning - you are merely going to find dupes. But you
@@ -96,7 +96,7 @@ can still find vulnerabilities if you use Nuclei for fresh or obscure targets.
 Nuclei templates are very easy to write which enables you to start using it to find
 newly published vulnerabilities.
 
-You also want to do some port scanning. Jason recommends naabu by Project Discovery.
+You also want to do some port scanning. Jason recommends [naabu](https://github.com/projectdiscovery/naabu) by Project Discovery.
 It can be integrated with Nmap for service scanning.
 
 Next phase is content discovery. This is very important part that has several sections:
@@ -111,12 +111,12 @@ Next phase is content discovery. This is very important part that has several se
 
 The following tools are recommended for content discovery:
 
-* Turbo Intruder (Burp extension)
-* Gobuster
-* ffuf
-* Feroxbuster
-* dirsearch
-* Wfuzz
+* [Turbo Intruder](https://portswigger.net/bappstore/9abaa233088242e8be252cd4ff534988) (Burp extension)
+* [Gobuster](https://github.com/OJ/gobuster)
+* [ffuf](https://github.com/ffuf/ffuf)
+* [Feroxbuster](https://github.com/epi052/feroxbuster)
+* [dirsearch](https://github.com/maurosoria/dirsearch)
+* [Wfuzz](https://github.com/xmendez/wfuzz)
 
 These will be used to bruteforce/fuzz directories on web servers to discover stuff.
 Gobuster can also find subdomains and S3 buckets.
@@ -155,7 +155,7 @@ that can be cleaned up with [trashcompactor](https://github.com/michael1026/tras
 
 Recursive bruteforcing should be used on URL paths that yield HTTP 401 response,
 as if you go deep enough you may find some level that does not enforce authentication
-due to misconfiguration and then you're in. Jason tells about finding a massive
+due to misconfiguration and then you're in. Jason mentions finding a massive
 amount of unprotected private data and access to SMS panel by doing recursive
 content discovery.
 
@@ -182,19 +182,19 @@ your further fuzzing/scanning efforts.
 
 2. Where and how does it reference users? How are they identified (UUID, user ID,
 email, something else?) and where is the identifier communicated? Does it 
-enforce consitency between session and user?
+enforce consistency between session and user?
 
 3. Does it have multi-tenancy or multi-user functionality? This would have
 potential for access, authentication and authorization bugs as it's very
 hard for developers to enforce boundaries properly in all cases. This
 can  yield IDORs, information disclosure bugs and so forth. Are there 
 different levels of permissions within the app? Are there ways for lower
-level user view information that only admin is supposed to access.
+level user to view information that only admin is supposed to access?
 
 4. Does the site have unique threat model? For example, securing
 stream keys and private streamer information is very important for
 Twitch, as leaking this data may lead to all kinds of trouble.
-This also apply to medical sites.
+This also applies to medical sites.
 
 5. Has there been prominent examples of vulnerabilities and attacks
 against the system being analysed? Just Google for this.
@@ -204,10 +204,12 @@ attacks? What are countermeasures like and how can they be bypassed?
 
 Spider the site to ensure coverage with something like Burp or ZAP.
 You need to cover as many code paths as possible. Alternatively,
-you can use hakrawler or GoSpider for GUI-less automation.
+you can use [hakrawler](https://github.com/hakluke/hakrawler) 
+or [GoSpider](https://github.com/jaeles-project/gospider) for GUI-less automation.
 
 You may also want to parse JavaScript code to find sensitive API endpoints
-and maybe even API keys with tool like xnLinkFinder. There's also Burp
+and maybe even API keys with tool like 
+[xnLinkFinder](https://github.com/xnl-h4ck3r/xnLinkFinder). There's also Burp
 extension for that.
 
 Sometimes JS code will be minified or obfuscated, but will still contain
@@ -226,7 +228,5 @@ Few years ago there was research project (HUNT) to determine what URL parameters
 tend to statistically correlate with specific types of vulnerabilities.
 This provides a good idea on what to check first and prioritise 
 parameters/routes in terms of their potential for bugs.
-There's a paid Burp extension that helps with this.
-
-
+There's a [Burp extension](https://github.com/bugcrowd/HUNT) that helps with this.
 
