@@ -8,7 +8,7 @@ tags = ["web-scraping", "python"]
 
 Recently Youtube has introduced a small graph on it's user interface that visualises a
 time series of video viewing intensity. Spikes in this graph indicate what parts of the
-video tend to be replayed often, thus seeming to be most interesting or relevant to
+video tend to be replayed often, thus being most interesting or relevant to
 watch. This requires quite some data to be accumulated and is only available on sufficiently
 popular videos.
 
