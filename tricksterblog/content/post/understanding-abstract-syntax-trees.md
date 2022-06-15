@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Understanding Abstract Syntax Trees"
-date = "2022-06-30"
-draft = true
+date = "2022-06-15"
 tags = ["security", "bug-bounties", "reversing", "antibot"]
 +++
 
@@ -16,7 +15,7 @@ Abstract Syntax Tree (AST). AST is then further processed to yield some form of 
 possibly with some optimizations being applied on the way.
 
 AST represents code in terms of it's logical building blocks and their relations to each other.
-Program is top most node that has nodes representing expression statements, functions calls,
+Program/module is topmost node that has nodes representing expression statements, functions calls,
 variable declarations and many other things that collectively represent the code that
 was parsed.
 
