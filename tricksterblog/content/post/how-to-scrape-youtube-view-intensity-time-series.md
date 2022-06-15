@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "How to scrape Youtube view intensity time series"
-date = "2022-03-16"
+date = "2022-06-16"
 draft = true
 tags = ["web-scraping", "python"]
 +++
