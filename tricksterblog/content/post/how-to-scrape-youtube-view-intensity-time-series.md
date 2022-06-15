@@ -1,12 +1,38 @@
 +++
 author = "rl1987"
 title = "How to scrape Youtube view intensity time series"
-date = "2022-03-20"
+date = "2022-03-16"
 draft = true
 tags = ["web-scraping", "python"]
 +++
 
-WRITEME: intro
+Recently Youtube has introduced a small graph on it's user interface that visualises a
+time series of video viewing intensity. Spikes in this graph indicate what parts of the
+video tend to be replayed often, thus seeming to be most interesting or relevant to
+watch. This requires quite some data to be accumulated and is only available on sufficiently
+popular videos.
+
+[Screenshot 1](/2022-06-15_15.11.40.png)
+
+Let us try scraping this data as an exercise in web scraper development. Viewing page source
+through the browser and scrolling through it reveals some deep JSON that includes parts
+like: 
+
+```json
+{"heatMarkerRenderer":{"timeRangeStartMillis":16080,"markerDurationMillis":8040,"heatMarkerIntensityScoreNormalized":0.22363814666380694}}
+```
+
+That looks very promising, as this means the time series data is available in the page HTML
+and that no further requests are needed to get it. When we scroll higher up, we see that a large
+JSON object is being assigned to `ytInitialData` variable. 
+
+[Screenshot 2](/2022-06-15_15.17.54.png)
+[Screenshot 3](/2022-06-15_15.23.09.png)
+
+For experimentation, we launch Python REPL and import some usual Python modules that we use
+for web scraping and try fetching the page with `requests.get()`.
+Since the data is inside JavaScript code, we also import [js2xml](https://github.com/scrapinghub/js2xml)
+to parse it.
 
 ```
 $ python3
@@ -33,7 +59,7 @@ Let's try to extract the JS statement we need.
 'var ytInitialData = {"responseCo'
 ```
 
-Now let us used js2xml to parse it into XML tree.
+Now let us use js2xml to parse it into XML tree.
 
 ```
 >>> parsed = js2xml.parse(initial_data_js)
@@ -41,12 +67,55 @@ Now let us used js2xml to parse it into XML tree.
 <Element program at 0x10f841e40>
 ```
 
+Converting deep JSON dictionary into deep XML tree may not seem like much of an improvement. However,
+now we can run XPath queries against it. Let us save the XML tree into a file for easier reading.
+
 ```
 >>> out_f = open("initial_data_js.xml", "w")
 >>> out_f.write(js2xml.pretty_print(parsed))
 2411766
 >>> out_f.close()
 ```
+
+Now we can open this with a text editor and find the part of tree that contains the data we need:
+
+```xml
+                                                <property name="heatMarkers">
+                                                  <array>
+                                                    <object>
+                                                      <property name="heatMarkerRenderer">
+                                                        <object>
+                                                          <property name="timeRangeStartMillis">
+                                                            <number value="0"/>
+                                                          </property>
+                                                          <property name="markerDurationMillis">
+                                                            <number value="8040"/>
+                                                          </property>
+                                                          <property name="heatMarkerIntensityScoreNormalized">
+                                                            <number value="1"/>
+                                                          </property>
+                                                        </object>
+                                                      </property>
+                                                    </object>
+                                                    <object>
+                                                      <property name="heatMarkerRenderer">
+                                                        <object>
+                                                          <property name="timeRangeStartMillis">
+                                                            <number value="8040"/>
+                                                          </property>
+                                                          <property name="markerDurationMillis">
+                                                            <number value="8040"/>
+                                                          </property>
+                                                          <property name="heatMarkerIntensityScoreNormalized">
+                                                            <number value="0.6048726840234977"/>
+                                                          </property>
+                                                        </object>
+                                                      </property>
+                                                    </object>
+
+```
+
+Based on this, we can write XPath queries for data extraction:
 
 ```
 >>> parsed.xpath('//property[@name="heatMarkerRenderer"]')
@@ -166,4 +235,59 @@ Now let us used js2xml to parse it into XML tree.
 ['795960'] ['0.013456379693201089']
 ```
 
+Now let us put all the needed steps into a Python script (and also get the data written
+into CSV file):
+
+```python
+#!/usr/bin/python3
+
+import csv
+import sys
+
+import requests
+from lxml import html
+import js2xml
+
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage:")
+        print("{} <youtube_url>".format(sys.argv[0]))
+        return
+
+    url = sys.argv[1]
+
+    out_f = open("view_intensity.csv", "w", encoding="utf-8")
+
+    csv_writer = csv.DictWriter(
+        out_f, fieldnames=["time", "intensity", "url"], lineterminator="\n"
+    )
+    csv_writer.writeheader()
+
+    resp = requests.get(url)
+    print(resp.url)
+
+    tree = html.fromstring(resp.text)
+    initial_data_js = tree.xpath(
+        '//script[starts-with(text(), "var ytInitialData = ")]/text()'
+    )
+    initial_data_js = initial_data_js[0]
+
+    parsed = js2xml.parse(initial_data_js)
+
+    for hmr in parsed.xpath('//property[@name="heatMarkerRenderer"]'):
+        start = hmr.xpath('.//property[@name="timeRangeStartMillis"]/number/@value')[0]
+        score = hmr.xpath(
+            './/property[@name="heatMarkerIntensityScoreNormalized"]/number/@value'
+        )[0]
+        print(start, score)
+
+        csv_writer.writerow({"time": start, "intensity": score, "url": url})
+
+    out_f.close()
+
+
+if __name__ == "__main__":
+    main()
+```
 
