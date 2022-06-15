@@ -10,8 +10,8 @@ First thing that happens when a program source code is parsed by compiler or int
 is tokenization - cutting of code into substrings that are later organised into parse tree.
 However, this tree structure merely represents textual structure of the code. Further step
 is syntactic analysis - an activity of converting parse tree (also known as CST - concrete
-syntax tree) into another tree structure that represent logical (not textual) structure
-of the code. This new tree structure that emerges from syntactic analysis is known as 
+syntax tree) into another tree structure that represent logical (not textual) structure.
+This new tree structure that emerges from syntactic analysis is known as 
 Abstract Syntax Tree (AST). AST is then further processed to yield some form of executable code,
 possibly with some optimizations being applied on the way.
 
@@ -35,18 +35,18 @@ if __name__ == "__main__":
 
 By exploring the AST viewer on the right hand side we can see that `main()` function is
 represented by `FunctionDeclaration` node with two children: `Identifier` holding the name
-for the function and `BlockStatement` at property `body` that also has `body` property with
-an array holding a single `ExpressionStatement` node that points to some further descendant
-nodes. I encourage everyone to play around with AST explorer to see what ASTs look like
+for the function and `BlockStatement` at property `body`. `BlockStatement` also has a `body` 
+property with an array holding a single `ExpressionStatement` node that points to some further 
+descendant nodes. I encourage everyone to play around with AST explorer to see what ASTs look like
 for various programming languages. You will find that there is no single AST format out there
-and that it can depend on tooling even if the programming language is the same. However
+and that it can differ based on tooling even if the programming language is the same. However
 all ASTs have top-down structure to them: at the top there is program/module/document node
 that is being divided into smaller components as the tree goes deeper. Document formats
 like HTML and JSON can also be parsed into Abstract Syntax Trees.
 
 [Screenshot](/2022-06-13_19.28.30.png)
 
-We can save the code into file named hello.py and try printing the AST with an 
+We can also save the code into file named hello.py and try printing the AST with an 
 [`ast`](https://docs.python.org/3/library/ast.html) module from vanilla Python
 distribution:
 
@@ -103,14 +103,14 @@ int main(int argc, char **argv) {
 }
 ```
 
-Command to dump AST would be the following:
+Command to dump the AST would be the following:
 
 ```
 $ clang -Xclang -ast-dump -fsyntax-only hello.c
 ```
 
-Since we included stdio.h at the top it gets parsed as well, thus printing a fairly
-excessive amount of stuff. The code we wrote ourselves would be represented at the 
+Since we included stdio.h at the top it gets parsed as well, thus producing a fairly
+excessive amount of output. The code we wrote ourselves would be represented at the 
 bottom of the output:
 
 ```
@@ -148,4 +148,4 @@ sneaker bots and advanced proxy pools). This makes AST manipulation a valuable s
 and a differentiator in scraping/automation market. Furthermore, undoing JS code
 obfuscation is also valuable for bug bounty hunting, as one may find things like API
 endpoints and credentials being hardcoded in the obfuscated code that nobody is supposed
-to be able to read.
+to read.
