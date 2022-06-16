@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "How to scrape Youtube view intensity time series"
 date = "2022-06-16"
-draft = true
 tags = ["web-scraping", "python"]
 +++
 
@@ -290,4 +289,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+
+One can verify that scraped data is correct by plotting it.
 
