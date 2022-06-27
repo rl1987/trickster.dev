@@ -6,19 +6,19 @@ draft = true
 tags = ["security"]
 +++
 
-TLS (Transport Level Security) is a network protocol that sites between trasport layer (TCP)
-and application layer protocols (HTTP, IMAP, SMTP and so on). TLS provides security features
+TLS (Transport Level Security) is a network protocol that sits between trasport layer (TCP)
+and application layer protocols (HTTP, IMAP, SMTP and so on). It provides security features
 such as encryption and authentication to TCP connections that merely deal with reliably
 transferring streams of data. For example, a lot of URLs in modern web start with `https://`
 and you typically see a lock icon by the address bar on your web browser. This indicates
 TLS being used to not only encrypt data against passive sniffing by various adversaries, but
-also against certain active attacks that involve someone hijacking connection between
-client and server for credential stealing and other shenanigans.
+also against active MITM attacks that involve someone hijacking connection between
+client and server for credential stealing and other nefarious purposes.
 
-Exact details are fairly complex, but to encrypt data and authenticate the server TLS protocol
+Exact details of TLS are fairly complex, but to encrypt data and authenticate the server it
 has to perform a handshake. In TLS version 1.3 this is typically only one round trip:
 
-1. Client send Client Hello message with a list of cipher suites it support, proposed key
+1. Client send Client Hello message with a list of cipher suites it supports, proposed key
 agreement protocol and some cryptographic materials to kickstart the encrypted communication
 as soon as possible. Client Hello message may have a list of TLS extensions that provide
 additional cryptographic capabilities and their parameters. Cipher suites are combinations
@@ -36,7 +36,7 @@ This description greatly oversimplifies all the details. The reader is encourage
 skim [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446.txt) to apreciate the complexity of
 the protocol.
 
-TLS 1.2 used to have a far longer dance between client and server to estalish the connection.
+TLS 1.2 used to have a fairly elaborate dance between client and server to establish the connection.
 There we separate steps for sending the certificates, sending each half of Diffie-Hellman
 and so on. 
 
@@ -52,9 +52,9 @@ Consider the following parts of Client Hello message:
 That's a lot of stuff and we have a bit of combinatorial explosion on the diversity
 of Client Hello messages that could be created. Of course, not all combinations are
 equally likely due to security reasons - some of the older ciphersuites are now
-known to be insecured and should not longer be used.
+known to be insecure and should not longer be used.
 
-But the thing is, programs tends to choose some unique combination of the above things.
+So the thing is, programs tend to choose some unique combination of the above things.
 There's one kind of Client Hello message that Google Chrome sends, another one for
 Firefox, yet another one for curl and so on. Thus it is possible to develop a way
 to fingerprint the Client Hello message and infer what kind of client that is.
@@ -74,27 +74,29 @@ right headers that claims to be from Google Chrome, but TLS fingerprint
 matches Python HTTP client the CDN knows that something is off and
 rejects the request. Systems that implement TLS fingerprinting can keep
 blacklists of known malicious clients and whitelists of known
-good clients.
+good clients and update them as traffic is being monitored.
 
 So what do we do about this as web scraper and automation developers?
 Unfortunately Python requests module and standard libraries do not offer
 much options to configure the low level TLS handshake details the way we
-want. However there are some open source tools made for customising it
+want. However there are some open source projects made for customising it
 the way we need:
 
 * [https://github.com/lwthiker/curl-impersonate](curl-impersonate) - 
 a modified version of (lib)curl that is made to have the same TLS
 fingerprints as many popular browsers.
 * [utls](https://github.com/refraction-networking/utls) - a modified
-version Golang's `crypto/tls` with extra customisability.
+version Golang's `crypto/tls` with extra customisability. You can set
+the exact low-level details of Client Hello message when establishing
+TLS connection.
 * [TLS-Fingerprint-API](https://github.com/Carcraftz/TLS-Fingerprint-API) - a
 proxy server developed to defeat TLS fingerprinting.
 
-These tools provide ways to pretend to be a whitelisted TLS client or 
-at least avoid being in a blacklist. Some developers working in darker shades of
-software development also implement Cipher Stunting - a technique that
-entails randomising fingerprintable parts of Client Hello message to
-further thwart the countermeasures.
+These projects provide ways to pretend to be a whitelisted TLS client or 
+at least avoid being in a blacklist by manipualting the TLS fingerpint. 
+Some developers working in darker shades of software development also 
+implement Cipher Stunting - a technique that entails randomising 
+fingerprintable parts of Client Hello message to further thwart the countermeasures.
 
 If the target expects the traffic to come from a browser we could also
 develop a solution based on browser automation by using something
