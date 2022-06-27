@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Understanding TLS fingerprinting"
-date = "2022-06-30"
-draft = true
+date = "2022-06-27"
 tags = ["security"]
 +++
 
@@ -105,5 +104,3 @@ fingerprintable parts of Client Hello message to further thwart the countermeasu
 If the target expects the traffic to come from a browser we could also
 develop a solution based on browser automation by using something
 like Playwright or Puppeteer.
-
-[TODO: add some screenshots maybe]
