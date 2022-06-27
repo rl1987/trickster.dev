@@ -96,7 +96,7 @@ TLS connection.
 proxy server developed to defeat TLS fingerprinting.
 
 These projects provide ways to pretend to be a whitelisted TLS client or 
-at least avoid being in a blacklist by manipualting the TLS fingerpint. 
+at least avoid being in a blacklist by manipulating the TLS fingerpint. 
 Some developers working in darker shades of software development also 
 implement Cipher Stunting - a technique that entails randomising 
 fingerprintable parts of Client Hello message to further thwart the countermeasures.
