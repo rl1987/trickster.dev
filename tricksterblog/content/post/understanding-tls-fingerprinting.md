@@ -49,6 +49,8 @@ Consider the following parts of Client Hello message:
 * TLS Extensions.
 * (If Elliptic Curve Cryptography is used) elliptic curves and their parameters.
 
+[Screenshot 1](/2022-06-27_15.31.57.png)
+
 That's a lot of stuff and we have a bit of combinatorial explosion on the diversity
 of Client Hello messages that could be created. Of course, not all combinations are
 equally likely due to security reasons - some of the older ciphersuites are now
@@ -65,6 +67,8 @@ Hello message, extracts the fields that are relevant for fingerprinting,
 encodes them into a string and computes a MD5 hash from this string.
 Since so many things in the message are unique to program acting as TLS
 client the resulting hash will be unique as well. 
+
+[Screenshot 2](/2022-06-27_15.26.05.png)
 
 TLS fingerprinting is used not only to detect malware and network anomalies
 but also as a countermeasure against automated traffic at CDN
