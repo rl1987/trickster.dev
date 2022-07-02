@@ -45,9 +45,9 @@ cookies, one of which is named `search` and has letters `fsbo` in the value.
 
 [Screenshot 4](/2022-07-02_16.51.41.png)
 
-However's there a bit of a problem. Search results table has two tabs. The first one which
+However there's a bit of a problem. Search results section has two tabs. The first one which
 is on by default is for results that already have real estate agent helping with the 
-sale and we are actually interested in results on the second tab. Let us see what happens
+sale. We are actually interested in results on the second tab. Let us see what happens
 when we switch the tab. We find that API request is made when we switch the tab to update
 the data being shown.
 
@@ -201,7 +201,7 @@ the very first API request:
         yield scrapy.Request(api_url, callback=self.parse_property_list_json)
 ```
 
-There's two approaches in extracting the search query state. One is to use XPath query that looks for JavaScript
+There's two ways to extract the search query state. One is to use XPath query that looks for JavaScript
 snippet containing substring `searchQueryState`, parsing it into tree structure with js2xml module, then digging up
 the part we need from there (js2xml is a convenient way to convert JS code into XML trees to run XPath queries against
 them). Another approach is finding out a commented out JSON in the HTML, removing the comments, parsing it into Python
