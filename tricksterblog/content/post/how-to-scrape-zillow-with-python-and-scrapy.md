@@ -379,7 +379,7 @@ ITEM_PIPELINES = {
 ```
 
 We also set `IMAGES_STORE` to directory path that images will be saved in after they are downloaded and normalised into
-a consistent format (make sure you PIL is installed).
+a consistent format (make sure you have PIL installed).
 
 ```python
 IMAGES_STORE = 'images'
