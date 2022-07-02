@@ -24,22 +24,26 @@ Before we write a first of code, we need to explore the site to plan a general s
 of how we are going to scrape it. We want to take a look how site handles cookies so
 we force-delete them from the browser to see how they are acquired in the request flow.
 
-[TODO: Screenshot 1]
+[Screenshot 1](/2022-07-02_16.40.25.png)
 
 On the top header we see options to rent, buy, sell, etc. If we hover the word "Buy" with
 mouse cursor we can choose properties that are sold by the owner. We click this link with
 DevTools being open.
 
-[TODO: Screenshots]
+[Screenshot 2](/2022-07-02_16.44.04.png)
 
 Now if we enter some location into search bar we only get the FSBO listings, but there's 
 nothing in the URL that seems to tell the site to only return such results. This suggests
 that cookies are being used for session management and to keep track of state between
 requests. Let us look bit deeper into this.
 
+[Screenshot 3](/2022-07-02_16.47.14.png)
+
 By scrolling up in the Network tab of DevTools panel we find the request that was sent 
 when we clicked the "For Sale By Owner" link earlier. In response, Zillow gives us some
 cookies, one of which is named `search` and has letters `fsbo` in the value.
+
+[Screenshot 4](/2022-07-02_16.51.41.png)
 
 However's there a bit of a problem. Search results table has two tabs. The first one which
 is on by default is for results that already have real estate agent helping with the 
@@ -47,12 +51,15 @@ sale and we are actually interested in results on the second tab. Let us see wha
 when we switch the tab. We find that API request is made when we switch the tab to update
 the data being shown.
 
-[TODO: screenshot]
+[Screenshot 5](/2022-07-02_16.57.25.png)
+[Screenshot 6](/2022-07-02_16.59.45.png)
 
 There are two key parameters to this request. One is for search query state that contains
 geographical boundaries and other search criteria. Another specifies which result category
 we want to get. Both are serialised as JSON strings. Response payload contains data about
 properties being found in JSON format. We are talking to a private API here.
+
+[Screenshot 7](/2022-07-02_16.58.33.png)
 
 If we click on one of the search results we see that few more API requests are made. One 
 of them is of particular interest to us. There's a request sent to `/graphql` endpoint
@@ -63,9 +70,15 @@ parametrised not only by URL paramers, but there's also JSON payload with Zillow
 property ID and operation name. We will be reproducing this request programmatically, as
 well as the previous one that gives us search results.
 
+[Screenshot 7](/2022-07-02_17.06.26.png)
+[Screenshot 8](/2022-07-02_17.08.36.png)
+[Screenshot 9](/2022-07-02_17.11.10.png)
+
 To start sending search API requests we need to need to generate or extract the 
 `searchQueryState` parameter. Turns out, it is available in the HTML of search results
 page, assuming it was requested with the proper cookies.
+
+[Screenshot 10](/2022-07-02_17.17.12.png)
 
 So the general strategy for scraping Zillow is the following:
 1. We reproduce the HTTP request for choosing FSBO listings so that proper cookies
@@ -84,6 +97,8 @@ scraping countermeasures. This can be bypassed by using ISP proxies from BrightD
 We cannot use advanced proxies (such as Web Unlocker from BrightData) here because
 they overtake cookie management and would not allow us to pass the cookie we received
 early in the flow.
+
+[Screenshot 11](/2022-07-02_17.30.24.png)
 
 We create a Scrapy project with `scrapy genspider` command and use Scrapy CLI to create new spider class. 
 Now let us edit the settings.py file and tell it to disobey robots.txt rules:
