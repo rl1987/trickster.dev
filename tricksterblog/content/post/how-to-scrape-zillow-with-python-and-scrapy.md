@@ -73,7 +73,7 @@ well as the previous one that gives us search results.
 [Screenshot 8](/2022-07-02_17.08.36.png)
 [Screenshot 9](/2022-07-02_17.11.10.png)
 
-To start sending search API requests we need to need to generate or extract the 
+To start sending search API requests we need to generate or extract the 
 `searchQueryState` parameter. Turns out, it is available in the HTML of search results
 page, assuming it was requested with the proper cookies.
 
