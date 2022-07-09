@@ -321,7 +321,7 @@ The resulting code is:
 `oneTwoThree` became `a` and `hello` was renamed to `b`. This does not make a trivial example
 that much harder to read, but could be one more thing that can be done to make big pieces of
 JS difficult to understand, with the added benefit of making HTML pages containing inline JS lighter.
-Developers tend to name their variables in a way that significies their meaning, which gets lost
+Developers tend to name their variables in a way that signifiies their meaning, which gets lost
 when code is mangled.
 
 Code minification
