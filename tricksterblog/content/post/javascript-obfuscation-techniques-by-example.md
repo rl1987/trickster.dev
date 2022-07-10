@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Javascript obfuscation techniques by example"
-date = "2022-07-11"
-draft = true
+date = "2022-07-10"
 tags = ["security", "javascript", "web-scraping", "automation"]
 +++
 
