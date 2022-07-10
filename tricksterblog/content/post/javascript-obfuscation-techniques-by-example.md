@@ -8,7 +8,7 @@ tags = ["security", "javascript", "web-scraping", "automation"]
 
 Sometimes when working on scraping some website you look into JavaScript code and it looks
 like a complete mess that is impossible to read - no matter how much you squint, you cannot
-make sense of it. That's because it has been obfuscated. Code obfuscation is code transformation
+make sense of it. That's because it has been obfuscated. Code obfuscation is a transformation
 that is meant to make code difficult to read and reverse engineer. Many web sites utilize
 JavaScript obfuscation to make things difficult to scraper/automation developers.
 
@@ -20,8 +20,8 @@ console.log("Hello, world! " + 123);
 
 We will discuss various ways it can be obfuscated. To make things clear, we will go through
 one obfuscation technique at a time and provide an example of how each technique changes this
-code in a form that is meant to be unreadable. However, it should be noted that it is very
-typical that multiple obfuscation methods are being utilized in scraping-resistant websites.
+code in a form that is meant to be unreadable. However, it should be noted that typically
+multiple obfuscation methods are being utilized in scraping-resistant websites.
 
 We will experiment with some online tools that obfuscate the JS code.
 
@@ -325,7 +325,7 @@ The resulting code is:
 `oneTwoThree` became `a` and `hello` was renamed to `b`. This does not make a trivial example
 that much harder to read, but could be one more thing that can be done to make big pieces of
 JS difficult to understand, with the added benefit of making HTML pages containing inline JS lighter.
-Developers tend to name their variables in a way that signifies their meaning, which gets lost
+Developers tend to name their variables in a way that signify their meaning, which gets lost
 when code is mangled.
 
 Code minification
