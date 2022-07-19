@@ -330,8 +330,8 @@ when code is mangled.
 Code minification
 -----------------
 
-This isn't much of obfuscation technique by itself, but minification - removing identation, newlines
-and whitespace from the code does is often done as part of obfuscation process, in combination with
+This isn't much of obfuscation technique by itself, but minification - removing indentation, newlines
+and whitespace from the code is often done as part of obfuscation process, in combination with
 other techniques. 
 
 JSFuck
