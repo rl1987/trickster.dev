@@ -119,8 +119,173 @@ undefined
 
 Since Babel pretty-prints the generated code by default it was trivial to undo the minification.
 
-WRITEME: undoding hex/unicode string encoding
+Applying hexadecimal string encoding to our test snippet yields the following obfuscated version:
 
-WRITEME: converting bracket notation to dot notation
+```javascript
+fetch('\x68\x74\x74\x70\x73\x3A\x2F\x2F\x68\x61\x63\x6B\x65\x72\x6F\x6E\x65\x2E\x63\x6F\x6D\x2F\x68\x61\x63\x6B\x74\x69\x76\x69\x74\x79',{headers:{'\x61\x75\x74\x68\x6F\x72\x69\x74\x79':'\x68\x61\x63\x6B\x65\x72\x6F\x6E\x65\x2E\x63\x6F\x6D','\x61\x63\x63\x65\x70\x74':'\x74\x65\x78\x74\x2F\x68\x74\x6D\x6C\x2C\x61\x70\x70\x6C\x69\x63\x61\x74\x69\x6F\x6E\x2F\x78\x68\x74\x6D\x6C\x2B\x78\x6D\x6C\x2C\x61\x70\x70\x6C\x69\x63\x61\x74\x69\x6F\x6E\x2F\x78\x6D\x6C\x3B\x71\x3D\x30\x2E\x39\x2C\x69\x6D\x61\x67\x65\x2F\x61\x76\x69\x66\x2C\x69\x6D\x61\x67\x65\x2F\x77\x65\x62\x70\x2C\x69\x6D\x61\x67\x65\x2F\x61\x70\x6E\x67\x2C\x2A\x2F\x2A\x3B\x71\x3D\x30\x2E\x38\x2C\x61\x70\x70\x6C\x69\x63\x61\x74\x69\x6F\x6E\x2F\x73\x69\x67\x6E\x65\x64\x2D\x65\x78\x63\x68\x61\x6E\x67\x65\x3B\x76\x3D\x62\x33\x3B\x71\x3D\x30\x2E\x39','\x61\x63\x63\x65\x70\x74\x2D\x6C\x61\x6E\x67\x75\x61\x67\x65':'\x65\x6E\x2D\x47\x42\x2C\x65\x6E\x2D\x55\x53\x3B\x71\x3D\x30\x2E\x39\x2C\x65\x6E\x3B\x71\x3D\x30\x2E\x38','\x63\x61\x63\x68\x65\x2D\x63\x6F\x6E\x74\x72\x6F\x6C':'\x6D\x61\x78\x2D\x61\x67\x65\x3D\x30','\x63\x6F\x6F\x6B\x69\x65':'\x5F\x64\x64\x5F\x73\x3D','\x72\x65\x66\x65\x72\x65\x72':'\x68\x74\x74\x70\x73\x3A\x2F\x2F\x68\x61\x63\x6B\x65\x72\x6F\x6E\x65\x2E\x63\x6F\x6D\x2F','\x73\x65\x63\x2D\x63\x68\x2D\x75\x61':'\x22\x2E\x4E\x6F\x74\x2F\x41\x29\x42\x72\x61\x6E\x64\x22\x3B\x76\x3D\x22\x39\x39\x22\x2C\x20\x22\x47\x6F\x6F\x67\x6C\x65\x20\x43\x68\x72\x6F\x6D\x65\x22\x3B\x76\x3D\x22\x31\x30\x33\x22\x2C\x20\x22\x43\x68\x72\x6F\x6D\x69\x75\x6D\x22\x3B\x76\x3D\x22\x31\x30\x33\x22','\x73\x65\x63\x2D\x63\x68\x2D\x75\x61\x2D\x6D\x6F\x62\x69\x6C\x65':'\x3F\x30','\x73\x65\x63\x2D\x63\x68\x2D\x75\x61\x2D\x70\x6C\x61\x74\x66\x6F\x72\x6D':'\x22\x6D\x61\x63\x4F\x53\x22','\x73\x65\x63\x2D\x66\x65\x74\x63\x68\x2D\x64\x65\x73\x74':'\x64\x6F\x63\x75\x6D\x65\x6E\x74','\x73\x65\x63\x2D\x66\x65\x74\x63\x68\x2D\x6D\x6F\x64\x65':'\x6E\x61\x76\x69\x67\x61\x74\x65','\x73\x65\x63\x2D\x66\x65\x74\x63\x68\x2D\x73\x69\x74\x65':'\x73\x61\x6D\x65\x2D\x6F\x72\x69\x67\x69\x6E','\x73\x65\x63\x2D\x66\x65\x74\x63\x68\x2D\x75\x73\x65\x72':'\x3F\x31','\x75\x70\x67\x72\x61\x64\x65\x2D\x69\x6E\x73\x65\x63\x75\x72\x65\x2D\x72\x65\x71\x75\x65\x73\x74\x73':'\x31','\x75\x73\x65\x72\x2D\x61\x67\x65\x6E\x74':'\x4D\x6F\x7A\x69\x6C\x6C\x61\x2F\x35\x2E\x30\x20\x28\x4D\x61\x63\x69\x6E\x74\x6F\x73\x68\x3B\x20\x49\x6E\x74\x65\x6C\x20\x4D\x61\x63\x20\x4F\x53\x20\x58\x20\x31\x30\x5F\x31\x35\x5F\x37\x29\x20\x41\x70\x70\x6C\x65\x57\x65\x62\x4B\x69\x74\x2F\x35\x33\x37\x2E\x33\x36\x20\x28\x4B\x48\x54\x4D\x4C\x2C\x20\x6C\x69\x6B\x65\x20\x47\x65\x63\x6B\x6F\x29\x20\x43\x68\x72\x6F\x6D\x65\x2F\x31\x30\x33\x2E\x30\x2E\x30\x2E\x30\x20\x53\x61\x66\x61\x72\x69\x2F\x35\x33\x37\x2E\x33\x36'}})
+```
 
-WRITEME: removing empty statements
+Before we proceed with writing code to deobfuscate this, let us do a quick experiment on 
+[AST Explorer](https://astexplorer.net/). Make sure that JavaScript language is chosen in
+language dropdown and choose `@babel/parser` in parser dropdown. Then let us check the
+AST-level difference between the following JS statements:
+
+```javascript
+console.log("AAA");
+console.log("\x41\x41\x41");
+```
+
+We see that in hex-encoded version of the `StringLiteral` the `extra.raw` field is a
+not the same as `extra.raw`, whereas they are the same in a normal version 
+of the string (except `extra.raw` being enclosed in double quotes). This gives us
+an idea on how to undo the hex encoding: when processing the AST, let us set `raw`
+based on the clean form of a string in `rawValue` field.
+
+To manipulate the Abstract Syntax Tree, we are going to apply the Visitor design
+pattern that entails a degree of decoupling of code that does manipulation of tree elements
+from the underlying data structure. Babel has us covered here, since we don't need to
+worry about traversing the AST and merely have to call `traverse()` with a callback function for a
+type of AST node that we want to modify.
+
+Code that undoes string hex-encoding is as follows:
+
+```javascript
+const fs = require("fs");
+
+const parser = require("@babel/parser");
+const generate = require("@babel/generator").default;
+const traverse = require("@babel/traverse").default;
+
+let hjs = fs.readFileSync("hexcoded.js", "utf-8");
+
+const ast = parser.parse(hjs);
+
+traverse(ast, {
+    StringLiteral: function(path) {
+        path.node.extra.raw = "\"" + path.node.extra.rawValue + "\"";
+    }
+});
+
+let clean = generate(ast).code;
+
+fs.writeFileSync("clean1.js", clean);
+```
+
+Fairly simple, right?
+
+Now what if we wanted to convert bracket notation into dot notation? That is, we could have
+statements like this:
+
+```javascript
+console["log"]("AAA");
+```
+
+And we wanted them to be like this:
+
+```javascript
+console.log("AAA");
+```
+
+For the sake of the example, let us try cleaning up the following code:
+
+```javascript
+console.log("AAA");
+console["log"]("AAA");
+
+let o = {};
+o["a"] = 42;
+```
+
+Note that we specifically want to get rid of bracket notation for function calls, but not
+for object member assignment.
+
+Let us put both statements into AST Explorer and see how do they differ at AST level.
+
+We see that in both cases `CallExpression` has `MemberExpression` at `callee` field, but
+there's a difference at `MemberExpression` level: in the case of dot notation there's
+`Identifier` object at `property`, but in the case of bracket notation it's a
+`StringLiteral`. Furthermore, `computed` is false when dot notation is used and true
+when bracket notation is used.
+
+So we write some code to find all parts of AST that match the latter pattern and fix
+it to be like the former.
+
+```javascript
+const fs = require("fs");
+
+const parser = require("@babel/parser");
+const generate = require("@babel/generator").default;
+const traverse = require("@babel/traverse").default;
+const types = require("@babel/types");
+
+let js = fs.readFileSync("brackets.js", "utf-8");
+
+const ast = parser.parse(js);
+
+traverse(ast, {
+    CallExpression: function(path) {
+        let prop = path.node.callee.property;
+
+        if (types.isStringLiteral(prop)) {
+          path.node.callee.property = types.Identifier(prop.value);
+          path.node.callee.computed = false;
+        }
+    }
+});
+
+let clean = generate(ast).code;
+
+fs.writeFileSync("clean2.js", clean);
+```
+
+Running this script converts our sample code into the following:
+
+```javascript
+console.log("AAA");
+console.log("AAA");
+let o = {};
+o["a"] = 42;
+```
+
+Since we did matching on `CallExpression` it did not touch the last statement that involves
+assigning member a of JS object.
+
+Lastly, let us consider the following code:
+
+```javascript
+;;;;;console.log("123");;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+```
+
+This has way too many semi-colons that we want to remove. Turns out each extra semicolon
+is represented by `EmptyStatement` in a Babel AST data model. Thus we simply remove the
+`EmptyStatement` nodes when traversing the AST:
+
+```javascript
+const fs = require("fs");
+
+const parser = require("@babel/parser");
+const generate = require("@babel/generator").default;
+const traverse = require("@babel/traverse").default;
+
+let js = fs.readFileSync("too_many_semicolons.js", "utf-8");
+
+const ast = parser.parse(js);
+
+traverse(ast, {
+    EmptyStatement: function(path) {
+        path.remove();
+    }
+});
+
+let clean = generate(ast).code;
+
+fs.writeFileSync("clean3.js", clean);
+```
+
+Running this gives us a cleaned up version of the code:
+
+```javascript
+console.log("123");
+```
+
+
