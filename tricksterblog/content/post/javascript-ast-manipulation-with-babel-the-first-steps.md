@@ -150,7 +150,7 @@ To manipulate the Abstract Syntax Tree, we are going to apply the Visitor design
 pattern that entails some decoupling of data manipulation code from the specifics of 
 the underlying data structure. Babel has us covered here: we don't need to
 worry about AST traversal algorithm and merely have to call `traverse()` with a 
-callback function(s) for a type(s) of AST nodes that we want to modify.
+callback function(s) for the type(s) of AST nodes that we want to modify.
 
 Code that undoes string hex-encoding is as follows:
 
