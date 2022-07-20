@@ -78,7 +78,7 @@ fetch("https://hackerone.com/hacktivity",{headers:{authority:"hackerone.com",acc
 
 [Screenshot 1](/2022-07-20_13.30.30.png)
 
-Since minification is not really an obfuscation we can parse and regenerate the code without modifiying
+Since minification is not really an obfuscation we can parse and regenerate the code without modifying
 the AST:
 
 ```
@@ -119,7 +119,7 @@ undefined
   '});'
 ```
 
-Since Babel pretty-prints the generated code by default it was trivial to undo the minification.
+Since Babel automatically formats the generated code by default it was trivial to undo the minification.
 
 Applying hexadecimal string encoding to our test snippet yields the following obfuscated version:
 
