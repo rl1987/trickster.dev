@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: the first steps"
-date = "2022-07-21"
-draft = true
-tags = ["security", "reverse-engineering"]
+date = "2022-07-20"
+tags = ["security", "reverse-engineering", "javascript"]
 +++
 
 Previously on Trickster Dev:
