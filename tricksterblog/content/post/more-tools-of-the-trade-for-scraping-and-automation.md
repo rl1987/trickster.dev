@@ -35,7 +35,7 @@ for building simple internal CRUD apps.
 Burp is a widely known HTTP traffic manipulation tool that is highly popular is
 bug bounty community. Think of it as mitmproxy on steroids - not only it can
 intercept HTTP messages for inspection, but also allow you to do things like
-catching a request and modifying it in flight, running diretory enumerations,
+catching a request and modifying it in flight, running directory enumerations,
 bruteforce attacks and much more. Altough Burp is a GUI app largely written in
 Java it is possible to extend it with your own plugins that can be developed
 in Python.
