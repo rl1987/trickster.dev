@@ -8,7 +8,7 @@ tags = ["automation", "web-scraping"]
 
 Since the [previous post](/post/tools-of-the-trade-for-scraping-and-automation)
 I realised that there's more interesting and valuable tools that were not covered
-and that this warrants a new post.
+and that this warrants a new post. So let's discuss several of them.
 
 [AST Explorer](https://astexplorer.net/)
 ========================================
@@ -32,7 +32,7 @@ for building simple internal CRUD apps.
 [Burp Suite](https://portswigger.net/burp)
 ==========================================
 
-Burp is a widely known HTTP traffic manipulation tool that is highly popular is
+Burp is a widely known interception proxy that is highly popular in the
 bug bounty community. Think of it as mitmproxy on steroids - not only it can
 intercept HTTP messages for inspection, but also allow you to do things like
 catching a request and modifying it in flight, running directory enumerations,
