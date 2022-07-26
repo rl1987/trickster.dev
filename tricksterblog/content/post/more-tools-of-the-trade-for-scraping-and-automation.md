@@ -67,6 +67,15 @@ of companies or individuals there's an argument to be made in favour of self-hos
 your stuff to pre-empt the potential problem of email SaaS vendor you are using
 cutting you off.
 
+[Insomnia](https://insomnia.rest/)
+==================================
+
+Insomnia is a GUI app that lets you interact with REST APIs. It can take a curl
+snippet, break it down it request components, let you edit the request to
+experiment with the API and regenerate either Bash snippet that relies on curl
+or code snippet in one of the several programming languages. Furthermore, Insomnia
+has features for designing and testing your own APIs.
+
 [PublicWWW](https://publicwww.com/)
 ===================================
 
