@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "More tools of the trade for scraping and automation"
-date = "2022-07-31"
-draft = true
+date = "2022-07-26"
 tags = ["automation", "web-scraping"]
 +++
 
