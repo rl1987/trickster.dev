@@ -25,7 +25,7 @@ FB.ui({
 We want to extract the URL that is being shared. Putting this snippet into
 [AST Explorer](https://astexplorer.net/) converts it to AST that we can look into.
 
-[TODO: screenshot]
+[Screenshot 1](/2022-08-02_18.12.29.png)
 
 We can see that each key-value pair in JS object is represented by `ObjectProperty` node
 with `method` boolean property being false. Key is represented by `Identifier` node and
@@ -92,9 +92,14 @@ Another form of hardcoded data you may run across is the one that is almost-JSON
 
 See: http://quotes.toscrape.com/js/
 
+[Screenshot 2](/2022-08-02_18.28.50.png)
+[Screenshot 3](/2022-08-02_18.29.11.png)
+
 Once again, let us investigate the AST through AST Explorer web app.
 
-[TODO: screenshots]
+[Screenshot 4](/2022-08-02_18.31.17.png)
+[Screenshot 5](/2022-08-02_18.31.28.png)
+[Screenshot 6](/2022-08-02_18.33.52.png)
 
 Each member of `data` array is represented by `ObjectExpression`. Under each `ObjectExpression` node,
 there's `ObjectProperty` for each key-value pair. This is similar to previous example now, except that
@@ -103,7 +108,6 @@ due to nestedness of the structure. For example, list of tags is represented by 
 that has `StringLiteral`s as child nodes.
 
 To keep things short and up to the point, we will save the above JS snippet to a file and process it from there.
-
 
 ```javascript
 const fs = require("fs");
