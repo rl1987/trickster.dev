@@ -109,8 +109,8 @@ JADX is another reverse engineering tool for reconstructing Java from Dalvik
 bytecode to the extent that is possible. In most cases original symbol names
 will be lost, but we will get a somewhat readable Java code from this.
 
-There's CLI variant and GUI variant. Command for running the CLI variant 
-is the following:
+JADX project ships CLI variant of the tool and a GUI variant. Command for 
+running the CLI variant is the following:
 
 ```
 $ jadx FirstNet\ Cybersecurity\ Aware_v1.2.5.0_apkpure.com.apk 
