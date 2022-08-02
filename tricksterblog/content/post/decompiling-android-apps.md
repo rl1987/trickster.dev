@@ -6,8 +6,6 @@ draft = true
 tags = ["security", "reverse-engineering"]
 +++
 
-WRITEME: introduction, what's in APK
-
 To get a deeper insight into how an Android app works we may want to convert the binary
 form inside APK file to some sort of textual representation that we can read and edit.
 This may be desirable for working out how to defeat some automation countermeasures
@@ -125,7 +123,7 @@ source code run it like this:
 $ jadx-gui FirstNet\ Cybersecurity\ Aware_v1.2.5.0_apkpure.com.apk 
 ```
 
-[TODO: screenshot]
+[Screenshot 1](/2022-08-02_14.54.14.png)
 
 [dex2jar](https://github.com/pxb1988/dex2jar)
 ---------------------------------------------
@@ -141,7 +139,8 @@ Android Studio
 If you have Android Studio installed you can open APK file and get it disassembled
 into Smali code without installing anything else. 
 
-[TODO: screenshots]
+[Screenshot 2](/2022-08-02_15.04.06.png)
+[Screenshot 3](/2022-08-02_15.04.44.png)
 
 However Android Studio is fairly heavy piece of software and I would not install
 it just for this purpose.
