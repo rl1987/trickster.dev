@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: extracting hardcoded data"
 date = "2022-08-02"
-draft = true
-tags = ["security", "reverse-engineering", "javascript", "scraping"]
+tags = ["javascript", "scraping"]
 +++
 
 When scraping the web one sometimes comes across data being hardcoded in JS snippets.
