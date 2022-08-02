@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Decompiling Android apps"
 date = "2022-08-02"
-draft = true
 tags = ["security", "reverse-engineering"]
 +++
 
