@@ -114,7 +114,6 @@ const fs = require("fs");
 
 const parser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
-const types = require("@babel/types");
 
 let js = fs.readFileSync("quotes.js", "utf-8");
 
@@ -160,5 +159,5 @@ In this case we match our visitor function to `ArrayExpression` as it's the only
 in the code being processed. Then we go iterate across `ArrayExpression` node children that represent
 elements in the array - each of them is `ObjectExpression`. Each of these is treated as subtree that
 correspond to a row of data we want to extract - author name and quote text for each quote. These
-pieces of data are being extracted by applying fairly simple traversal of the subtree.
+pieces of data are being extracted by going deeper down the subtree.
 
