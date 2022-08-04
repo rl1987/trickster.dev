@@ -7,7 +7,7 @@ tags = ["web-scraping", "python", "scrapy"]
 
 The following text assumes some knowledge and experience with Scrapy and is meant to
 provide a realistic example of scraping moderately difficult site that you may be doing
-as freelancer working in web scraper. This post is not meant for people completely 
+as freelancer working in web scraping. This post is not meant for people completely 
 unfamiliar with Scrapy. The reader is encouraged to read some content earlier in the
 blog that introduces Scrapy from ground up. This time, we are building up from the knowledge
 about basics of Scrapy and thus skipping some details.
