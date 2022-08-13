@@ -285,6 +285,7 @@ C programming language. Wrappers in multiple popular programming languages are a
 * [Wand](https://docs.wand-py.org/en/0.6.9/) for Python.
 * [MagickRust](https://github.com/nlfiedler/magick-rust) for Rust.
 
-
-WRITEME: an example to clean up simple captcha image
-
+For a real-world code that uses ImageMagick, see [textcleaner](http://www.fmwconcepts.com/imagemagick/textcleaner/index.php)
+script for cleaning up images of text before applying OCR on them. Potentially something like
+this can be implemented to deal with simple image captchas that can be decoded with something
+like Tesseract when proper pre-processing has been aplied.
