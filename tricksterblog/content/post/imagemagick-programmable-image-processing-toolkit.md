@@ -271,7 +271,20 @@ In fact, ImageMagick has some pre-made kernels for Gaussian blurring, among othe
 $ magick convert irland-dingle.png -convolve Gaussian:0x8 irland-dingle-blur-gaussian.png
 ```
 
-WRITEME: library and bindings
+Since ImageMagick is a bunch of CLI tools it can already be used as part of automation scripts
+by calling magick(1) program as subprocess or by writing a shell script that launches it with
+the appropriate arguments. However, ImageMagick also exposes two kinds of C APIs. 
+[MagickWand](https://imagemagick.org/script/magick-wand.php) is high-level, thread safe API
+and [MagickCore](https://imagemagick.org/script/magick-core.php) is a low-level one. Most
+developers should only consider using MagickWand. Don't worry if you don't want to deal with
+C programming language. Wrappers in multiple popular programming languages are available:
+
+* [Magick++](https://imagemagick.org/script/magick++.php) for C++.
+* [Go Imagick](https://github.com/gographics/imagick) for Go.
+* [JMagick](http://www.jmagick.org/) for Java.
+* [Wand](https://docs.wand-py.org/en/0.6.9/) for Python.
+* [MagickRust](https://github.com/nlfiedler/magick-rust) for Rust.
+
 
 WRITEME: an example to clean up simple captcha image
 
