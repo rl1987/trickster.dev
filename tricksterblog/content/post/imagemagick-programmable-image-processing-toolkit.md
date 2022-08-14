@@ -11,7 +11,7 @@ such as converting between formats, resizing, mirroring, rotating, adjusting col
 text, drawing shapes and so on. In many cases ImageMagick is not being used directly, but exists as
 part of the hidden substrate of C code that the modern shiny stuff is built upon. For example, it may
 be used to generate thumbnails of images that users uploaded to a web application. ImageMagick supports
-more than 200 image formats and run on all the major operating systems. If you're running Linux, macOS
+more than 200 image formats and runs on all the major operating systems. If you're running Linux, macOS
 or other well established Unix system it will most likely be available through your package manager.
 
 ImageMagick can be used through the following CLI tools:
