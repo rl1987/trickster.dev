@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "ImageMagick: programmable image processing toolkit"
 date = "2022-08-14"
-draft = true
 tags = ["automation"]
 +++
 
