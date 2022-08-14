@@ -249,7 +249,7 @@ resizing into an exact size we provide, we need to use exclamation marks next to
 $ magick convert irland-dingle.png -resize 64\!x64\! irland-dingle-thumb-forced.png
 ```
 
-[TODO: add screenshot]
+[Screenshot 1](/2022-08-13_13.39.08.png)
 
 For further information on resizing, see the [official documentation](https://legacy.imagemagick.org/Usage/resize/#resize).
 
@@ -271,6 +271,8 @@ In fact, ImageMagick has some pre-made kernels for Gaussian blurring, among othe
 ```
 $ magick convert irland-dingle.png -convolve Gaussian:0x8 irland-dingle-blur-gaussian.png
 ```
+
+[Screenshot 2](/2022-08-13_14.05.19.png)
 
 Since ImageMagick is a bunch of CLI tools it can already be used as part of automation scripts
 by calling magick(1) program as subprocess or by writing a shell script that launches it with
