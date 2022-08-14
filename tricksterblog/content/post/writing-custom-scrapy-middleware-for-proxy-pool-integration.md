@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
 title = "Writing custom Scrapy middleware for proxy pool integration"
-date = "2022-08-19"
-draft = true
-tags = ["scraping", "anti-bot", "scrapy", "proxies"]
+date = "2022-08-14"
+tags = ["scraping", "scrapy", "proxies"]
 +++
 
 One needs to use proxy pool to scrape some of the sites that implement countermeasures
