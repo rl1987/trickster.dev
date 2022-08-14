@@ -9,8 +9,7 @@ tags = ["scraping", "anti-bot", "scrapy", "proxies"]
 One needs to use proxy pool to scrape some of the sites that implement countermeasures
 against scraping. It might be because of IP-based rate limiting, geographic restrictions,
 AS-level traffic filtering or even something more advanced such as TLS fingerprinting.
-When Scrapy framework is used to implement a scraper, there are multiple
-ways to do so, depending on the exact situation:
+When Scrapy framework is used to implement a scraper, there are some ways to do so:
 
 * Setting `HTTPS_PROXY` environment variable when running a spider will make the traffic
 go through the proxy. Note that this will also apply to requests being made not only from
@@ -23,7 +22,7 @@ Both of these options depend on the standard HTTP proxy middleware that is avail
 in a vanilla Scrapy project.
 
 However we may want to have more flexibility and introduce additional logic regarding
-how exactly are the requests routed through a proxy pool. This can be done through 
+how exactly the requests are routed through a proxy pool. This can be done through 
 implementing an additional downloaded middleware that will augment
 [`HttpProxyMiddleware`](https://docs.scrapy.org/en/latest/topics/downloader-middleware.html?highlight=HttpProxyMiddleware#module-scrapy.downloadermiddlewares.httpproxy)
 by assigning a proxy URL to some or all of the requests. To do so, we edit middlewares.py
