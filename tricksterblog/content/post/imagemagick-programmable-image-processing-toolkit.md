@@ -6,7 +6,7 @@ draft = true
 tags = ["automation"]
 +++
 
-[ImageMagick](https://imagemagick.org) is a set of CLI tools and C library for performing a variety of digital image handling tasks, 
+[ImageMagick](https://imagemagick.org) is a set of CLI tools and a C library for performing a variety of digital image handling tasks, 
 such as converting between formats, resizing, mirroring, rotating, adjusting colors, rendering
 text, drawing shapes and so on. In many cases ImageMagick is not being used directly, but exists as
 part of the hidden substrate of C code that the modern shiny stuff is built upon. For example, it may
@@ -207,9 +207,10 @@ Image:
 We see that ImageMagick was able to print far more information on the image file than a standard Unix
 file(1) utility. Not only it printed some image representation characteristics, but it also gave us
 the entire EXIF metadata including coordinates, camera settings and information on technical properties
-of the camera. Furthemore, it computed various statistical properties of pixel component value distribution
-within the image (e.g. mean, median, standard deviation, entropy). All of this leaks quite a bit of information
-on how, where and when the picture was taken and can be valuable to those working on digital forensics.
+of the camera. All of this leaks quite a bit of information on how, where and when the picture was 
+taken and can be valuable to those working on digital forensics. Furthemore, it computed various 
+statistical properties of pixel component value distribution within the image (e.g. mean, median, 
+standard deviation, entropy). 
 
 Let us try doing some transformations on the image. Converting the image file to another format is rather
 simple:
