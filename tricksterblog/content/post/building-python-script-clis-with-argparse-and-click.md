@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Building Python script CLIs with argparse and Click"
-date = "2022-08-31"
-draft = true
+date = "2022-08-27"
 tags = ["python"]
 +++
 
@@ -308,13 +307,14 @@ to `timeout` function parameter. The same applies to other two arguments.
 
 However there is one limitation. Although Click can take multiple values
 for `--url-list` and parse them into Python array, it does not support 
-the variadic form we had in the previous script. Each entry in the list will
-have to have `--url-list` before it:
+the variadic form we used in the previous script. Each entry in the list will
+need to have `--url-list` before it:
 
 ```
 $ python3 url_scan_click.py --url-list https://trickster.dev --url-list https://trickster.dev/.git
 https://trickster.dev	200
 https://trickster.dev/.git	404
 ```
+
 
 
