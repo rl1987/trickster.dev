@@ -1,8 +1,6 @@
 +++
 title = "About"
-date = "2021-11-04"
 aliases = ["about-us", "about-hugo", "contact"]
-author = "rl1987"
 +++
 
 This blog is dedicated to code-level discussion of:
