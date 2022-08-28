@@ -52,7 +52,7 @@ statement or it might be pointing to another `IfStatement` node if we have multi
 conditions that the code tries to match against. Both branches of If statement or conditional
 expression may point to `BlockStatement` node if there's a block of statements to be executed.
 
-[TODO: screenshot]
+[Screenshot 1](/2022-08-27_21.14.44.png)
 
 In our sample code `1 == 2` will always be false and `1 == 1` will always be true. To make
 things easier for us, Babel provides a way to evaluate if stuff in `test` is "truthy".
@@ -152,7 +152,7 @@ to them. Out of three functions, only `dead3()` is not being references by any o
 code. We are going to address this (perhaps in hacky manner) by doing more than one pass
 of AST traversal.
 
-[TODO: add screenshot]
+[Screenshot 2](/2022-08-27_21.42.06.png)
 
 The code that cleans up these dead functions is as follows:
 
