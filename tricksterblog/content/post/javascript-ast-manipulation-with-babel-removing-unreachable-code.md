@@ -119,8 +119,6 @@ console.log("yes");
 console.log("Hello");
 ```
 
-Obfuscated code may also have some functions that are never going to be executed.
-
 Another example will be about unreachable functions that are never going to be executed.
 
 Consider the following code:
