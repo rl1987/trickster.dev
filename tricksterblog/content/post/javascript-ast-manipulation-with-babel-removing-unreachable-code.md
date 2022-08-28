@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: removing unreachable code"
 date = "2022-08-28"
-draft = true
 tags = ["security", "reverse-engineering", "javascript"]
 +++
 
