@@ -84,7 +84,7 @@ What about something more elaborate? "Cyberspace. A consensual hallucination exp
 by billions of legitimate operators, in every nation, by children being taught mathematical concepts... 
 A graphic representation of data abstracted from banks of every computer in the human system. 
 Unthinkable complexity. Lines of light ranged in the nonspace of the mind, clusters and 
-constellations of data. Like city lights, receding...
+constellations of data. Like city lights, receding..." gives us the following:
 
 [Screenshot 12](/2022-08-30_14.00.20.png)
 
@@ -118,7 +118,7 @@ dress codes.
 [Screenshot 16](/2022-08-30_14.28.13.png)
 [Screenshot 17](/2022-08-30_14.29.29.png)
 
-We can also spot some distored faces here, but generally we're getting what we are asking for.
+We can also spot some distorted faces here, but generally we're getting what we asked for.
 
 DALL-E can also be used to modify existing images. Let us try that. We can upload a random
 picture from Flickr, crop it to square, mark the part we want to modify and write a prompt
