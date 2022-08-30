@@ -36,7 +36,7 @@ asked to visualise it.
 What about "Dawn of man"? When given this prompt, DALL-E generates a picture of man,
 illuminated by a light of dawn. Not very creative, and not what I had in mind.
 
-[Screenshot 3](2022-08-30_13.36.13.png)
+[Screenshot 3](/2022-08-30_13.36.13.png)
 
 Perhaps we can rephrase it? What about "Origin of mankind"? 
 
