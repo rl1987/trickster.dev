@@ -23,6 +23,8 @@ configured payment method. In the "Product" tab press the plus button and
 choose "Deploy new server". Out of server types, choose "Cloud GPU". At the
 time of writing, cloud GPU instances are only available in New Jersey region.
 
+[Screenshot 1](/2022-08-30_16.58.06.png)
+
 We choose Debian 11 image because we want to base our setup on vanilla Linux
 distribution that does rely on ML tooling being pre-installed (as is the case 
 with Anaconda image and some other options). 
@@ -31,6 +33,8 @@ When it comes to server size, we choose the third option that has 10 GB of VRAM.
 
 We launch the server and watch the console until cloud-init finishes setting
 everything up.
+
+[Screenshot 2](/2022-08-30_17.58.28.png)
 
 Now it's time to SSH into the server. We will need to use credentials that
 are available on the dashboard page for the server we just launched, Overview
@@ -52,10 +56,15 @@ to run (CUDA version 11.6 was found by running `nvidia-smi` on the server):
 # pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
 ```
 
+[Screenshot 3](/2022-08-30_18.04.02.png)
+
 Now we need to login into Hugging Face, which is a portal similar to Github,
 but meant specifically for ML community. Make sure you have an account there,
-go to your account settings and create an access token. Then install Hugging Face
-CLI tool through PIP and run it to login:
+go to your account settings and create an access token. 
+
+[Screenshot 4](/2022-08-30_17.10.54.png)
+
+Then install Hugging Face CLI client through PIP and run it to login:
 
 ```
 # pip3 install huggingface_hub
@@ -73,7 +82,7 @@ not being repeatedly asked to enter git credentials:
 
 Now let us go to Hugging Face page for [Stable Diffusion v. 1.4]( https://huggingface.co/CompVis/stable-diffusion-v1-4).
 
-It recommends us to install Diffusers library via PIP:
+It recommends us to install [`diffusers`](https://github.com/huggingface/diffusers) library via PIP:
 
 ```
 # pip3 install --upgrade diffusers transformers scipy
@@ -84,7 +93,7 @@ One thing I noticed is that Vultr instance with 10GB of VRAM is still not enough
 to run image generation at 32 bit floating point precision - one has to lower it
 to 16 bit. An image of astronaut riding a horse on Mars is successfully generated.
 
-[TODO: add generated picture]
+[astronaut_rides_horse.png](/astronaut_rides_horse.png)
 
 I took the liberty to tweak the sample code from Stable Diffusion project to make it
 more interactive:
@@ -129,14 +138,9 @@ HTTP server within tmux session in your output directory like this:
 # ufw disable
 # python3 -m http.server
 ```
-
 Note that the firewall is being disabled to allow ingress for HTTP requests
-from outside. I would advise creating new directory for this so that no
+from outside. Furthemore, I would advise creating new directory for this so that no
 sensitive information is exposed.
-
-Creating Terraform configuration with provisioning script to make the above
-setup automated for quick installation and teardown is left as an exercise to
-the reader.
 
 It takes approx. 18 seconds to generate an image on $250/month Vultr instance.
 
@@ -152,4 +156,8 @@ Potential NSFW content was detected in one or more images. A black image will be
 ```
 
 I guess there was something NSFW involved in that.
+
+Creating Terraform configuration with provisioning script to make the above
+setup automated for quick installation and teardown is left as an exercise to
+the reader.
 
