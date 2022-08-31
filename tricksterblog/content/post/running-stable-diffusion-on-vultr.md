@@ -26,10 +26,11 @@ time of writing, cloud GPU instances are only available in New Jersey region.
 [Screenshot 1](/2022-08-30_16.58.06.png)
 
 We choose Debian 11 image because we want to base our setup on vanilla Linux
-distribution that does rely on ML tooling being pre-installed (as is the case 
-with Anaconda image and some other options). 
+distribution that does rely on ML/data science software being pre-installed 
+(as is the case with Anaconda image and some other options). 
 
-When it comes to server size, we choose the third option that has 10 GB of VRAM.
+When it comes to server size, we choose at least the third option that has 
+10 GB of VRAM.
 
 We launch the server and watch the console until cloud-init finishes setting
 everything up.
@@ -89,7 +90,7 @@ It recommends us to install [`diffusers`](https://github.com/huggingface/diffuse
 ```
 
 Once we have that installed, we can run the sample code that is provided.
-One thing I noticed is that Vultr instance with 10GB of VRAM is still not enough
+One thing I found is that Vultr instance with 10GB of VRAM is still not enough
 to run image generation at 32 bit floating point precision - one has to lower it
 to 16 bit. An image of astronaut riding a horse on Mars is successfully generated.
 
