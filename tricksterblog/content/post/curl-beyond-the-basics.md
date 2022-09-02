@@ -6,5 +6,15 @@ draft = true
 tags = ["curl"]
 +++
 
-WRITEME
+WRITEME: introduction
+
+WRITEME: debugging
+
+WRITEME: DICT for dictionary lookups
+
+WRITEME: FTP/FTPS/SFTP
+
+WRITEME: SMTP, IMAP
+
+WRITEME: libcurl and it's bindings
 
