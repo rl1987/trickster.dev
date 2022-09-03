@@ -276,7 +276,7 @@ $ curl --ssl imap://imap.rambler.ru/ --user "ermakova_g01bm@rambler.ru:[REDACTED
 To check the status of mailbox, let us send `examine` IMAP command:
 
 ```
-$ curl --ssl "imap://mail.rambler.ru/" -X "examine INBOX" --user "ermakova_g01bm@rambler.ru:o8596uWqTMl00Y" 
+$ curl --ssl "imap://mail.rambler.ru/" -X "examine INBOX" --user "ermakova_g01bm@rambler.ru:[REDACTED]" 
 * FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
 * OK [PERMANENTFLAGS ()] Read-only mailbox.
 * 2 EXISTS
