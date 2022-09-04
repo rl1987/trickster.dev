@@ -242,7 +242,7 @@ A command to send this email is the following:
 $ curl --insecure --ssl smtp://smtp.sendgrid.com:587 --user "apikey:[REDACTED]" --mail-rcpt "test2048@mailinator.com" --mail-from "noreply@keyspace.lt" --upload-file email.txt  
 ```
 
-The redacted part is Sendgrind API key that we use as SMTP password. 
+The redacted part is Sendgrid API key that we use as SMTP password. 
 
 Curl can be used to send emails, but what about receiving them? This is also
 possible via POP3 and IMAP protocols.
@@ -295,9 +295,8 @@ $ curl --ssl "imap://mail.rambler.ru/INBOX;MAILINDEX=1" --user "ermakova_g01bm@r
 libcurl and it's bindings
 -------------------------
 
-Curl is not only a CLI tool, but also a C library with bindings available in a number of 
-programming languages. If we have a curl snippet we can add `--libcurl` with file path
-to generate some boilerplate C code:
+Curl is not only a CLI tool, but also a C library. If we have a curl snippet we can 
+add `--libcurl` with file path to generate some boilerplate C code:
 
 ```
 $ curl http://httpbin.org/status/401 --libcurl example.c
