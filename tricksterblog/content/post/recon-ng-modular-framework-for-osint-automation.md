@@ -88,8 +88,6 @@ create new workspace and switch to it:
 If we wanted to go back to default workspaces, we can say `workspaces load default`.
 To remove a workspace we no longer need we can say `workspaces remove`.
 
-Internally each workspace will have SQLite database for persisting the data. 
-
 Like mentioned before, a recon-ng module is pluggable piece of code that can loaded
 when needed. All the modules are stored in a separate git repo called 
 [recon-ng-marketplace](https://github.com/lanmaster53/recon-ng-marketplace). Run
@@ -231,7 +229,7 @@ subshell for running commands within context of the module.
 ```
 
 For example, running `info` gives us a simple description on the current module
-and it's commands.
+and it's parameters.
 
 
 ```
@@ -260,7 +258,7 @@ Source Options:
 
 Let us set the `SOURCE` option to a domain of a company that has an open
 [bug bounty program](https://hackerone.com/tencent?type=team) and run the
-module. This gives a quite some output.
+module. 
 
 ```
 [recon-ng][test][google_site_web] > options set SOURCE tencent.com
@@ -384,8 +382,8 @@ Comments:
 ```
 
 Running `show hosts` again will show us that `ip_address` column is now filled.
-Remember that each recon-ng workspace has SQLite DB associated with it?
-Well, the recon-ng command line gives us a way to run SQL queries on it:
+Internally each workspace will have SQLite database for persisting the data and
+the recon-ng command line gives us a way to run SQL queries on it:
 
 ```
 [recon-ng][test][resolve] > db
