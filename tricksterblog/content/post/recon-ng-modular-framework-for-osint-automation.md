@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Recon-ng: modular framework for OSINT automation"
 date = "2022-09-07"
-draft = true
-tags = ["automation", "python", "security", "bug-bounties"]
+tags = ["automation", "security", "bug-bounties"]
 +++
 
 OSINT is collection and analysis of information from public sources. Nowadays it
