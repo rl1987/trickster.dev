@@ -454,7 +454,7 @@ CUSTOMER => Shady Industries, Inc
 [*] Report generated at '/Users/rl/.recon-ng/workspaces/test/results.html'.
 ```
 
-[TODO: add screenshot]
+[Screenshot](/2022-09-06_19.33.29.png)
 
 But what if we wanted to have a script to run everything we just did now in a reproducible
 manner? Running recon-ng as a subprocess within some programming language and feeding the commands
