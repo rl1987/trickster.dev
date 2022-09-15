@@ -61,7 +61,7 @@ Gray hat social media automation is not an easy thing to do in the post-Cambridg
 like a cheat code to those trying to make money online. The idea is to turn the tables against Big Social
 by exploiting the very state of manipulative data-driven hyperreality that the Zuckerbergs of the world have created.
 
-Like in object-orient programming, there are patterns - abstract principles of doing things that keep popping up when one 
+Like in object-oriented programming, there are patterns - abstract principles of doing things that keep popping up when one 
 works in the field or is researching it. We will discuss the patterns of gray hat social media automation that are more 
 or less applicable to multiple platforms and can be thought of as theorethical concepts without scrutinizing how exactly 
 they would be implemented.
