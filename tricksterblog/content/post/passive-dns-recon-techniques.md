@@ -62,7 +62,7 @@ give you subdomains directly, but allows searching for URLs with
 wildcard queries:
 
 ```
-$ curl http://web.archive.org/cdx/search/cdx?url=*.hackerone.com/*&output=json&collapse=urlkey
+$ curl "http://web.archive.org/cdx/search/cdx?url=*.hackerone.com/*&output=json&collapse=urlkey" > urls.json
 ```
 
 Subdomains can be trivially extracted from these URLs. 
