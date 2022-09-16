@@ -11,7 +11,7 @@ well established open source library for doing HTTP requests that is widely
 used in web scraping and other fields. However it has some limitations.
 At the time of writing, requests module only supports HTTP/1.1 yet
 significant fraction of sites are supporting more modern, faster HTTP/2 
-protocol. Furthermore, there is no support for asynchronous communication
+protocol and there is no support for asynchronous communication
 in requests module.
 
 [HTTPX](https://www.python-httpx.org/) is a newer, more modern Python
@@ -27,7 +27,14 @@ through PIP. Furthermore, one can install the following optional dependencies:
 * `brotli` or `brotlicffi` for supporting Cloudflare's Brotli compression (through `httpx[brotli]`)
 
 HTTPX is largely, but not entirely a drop-in replacement for the aforementioned
-requests module. Let us launch Python REPL and make a simple HTTPS request.
+requests module. There are some differences, such as:
+
+* It does not follow redirects automatically by default (we need to set pass `follow_redirects=True`).
+* `.url` on response object is URL object, not a string
+* Keys of proxy dictionary are `http://` and `https://`, not `http` and `https`.
+* All request have timeout set them by default to avoid things getting stuck.
+
+Let us launch Python REPL and make a simple HTTPS request.
 
 ```
 $ python3
@@ -63,8 +70,6 @@ with `http2` keyword argument set to true:
 >>> resp.http_version
 'HTTP/2'
 ```
-
-
 
 The client object in HTTPX is largely equivalent to `requests.Session`: it can manage cookies
 between requests, reuse headers, proxy URLs and other settings. Furthermore, HTTPX client implements HTTP
