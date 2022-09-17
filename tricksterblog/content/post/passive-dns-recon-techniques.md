@@ -45,6 +45,9 @@ site:tiktok.com -site:effecthouse.tiktok.com -site:business.tiktok.com -site:www
 ...
 ```
 
+[Screenshot 1](/2022-09-16_15.14.04.png)
+[Screenshot 2](/2022-09-16_15.15.24.png)
+
 This is performed until there are no more new subdomains. There's
 [recon-ng module](https://github.com/lanmaster53/recon-ng-marketplace/blob/master/modules/recon/domains-hosts/google_site_web.py)
 based on this trick to automatically scrape subdomains from Google SERPs.
@@ -56,6 +59,8 @@ Github is another source for finding subdomains. Merely searching
 for seed domain in Github search (which can also be done via API)
 is likely to get you some subdomains that can be extracted with little
 string processing.
+
+[Screenshot 3](/2022-09-16_15.30.32.png)
 
 Yet another source is Internet Archive/Wayback machine. It does not
 give you subdomains directly, but allows searching for URLs with
@@ -72,6 +77,8 @@ of certificates, one can use certificate transparency tool such as
 [crt.sh](https://crt.sh/) (it also exposes PostgreSQL database that you can
 connect to with psql(1): `psql -h crt.sh -p 5432 -U guest certwatch`) or query Facebook's 
 [Certificate Transparency API](https://developers.facebook.com/docs/certificate-transparency-api/).
+
+[Screenshot 4](/2022-09-16_16.22.47.png)
 
 Some other sources for finding subdomains include:
 
@@ -102,4 +109,7 @@ through active enumeration that is outside the scope of this post).
 [DNSdumpster](https://dnsdumpster.com/) is a free domain research tool one
 can use to find subdomains and DNS records. It also provides a nice graphical
 visualisation on links between records.
+
+[Screenshot 5](/2022-09-16_16.36.58.png)
+[Screenshot 6](/2022-09-16_16.36.31.png)
 
