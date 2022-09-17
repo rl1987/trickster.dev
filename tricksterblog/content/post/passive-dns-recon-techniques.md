@@ -7,10 +7,10 @@ tags = ["security", "osint"]
 +++
 
 DNS is a network protocol and a distributed system that maps human-readable
-domain names to IP addresses. It can be thought as a big phone book for
+domain names to IP addresses. It can be thought of as a big phone book for
 internet hosts. Passive DNS recon is activity of using various data sources
 to map out a footprint of site or organisation without ever directly 
-accessing the target or launching DNS requests. It's basically doing
+accessing the target or launching DNS requests. That's basically doing
 OSINT on DNS names and records that are linked to the target. Passive
 DNS recon is not limited to the current state of DNS records, but also
 covers historical data and temporal analysis.
@@ -22,7 +22,7 @@ Passive DNS recon can be done for various purposes, such as:
 that might be insecure.
 * Mapping out attack surface for the organisation.
 * Detecting dangling subdomains linked to third party services that may
-provide opportunities for subdomain takeovers, leading to a bug bounty
+provide opportunities for subdomain takeovers, perhaps leading to a bug bounty
 payment.
 * Detecting third party SaaS and cloud services being used by the target.
 * Gaining insights on business activities of competitors - for example,
@@ -70,7 +70,7 @@ Subdomains can be trivially extracted from these URLs.
 X.509 certificates can be mined to extract subdomains. To search through a lot
 of certificates, one can use certificate transparency tool such as 
 [crt.sh](https://crt.sh/) (it also exposes PostgreSQL database that you can
-query with psql(1)) or query Facebook's 
+connect to with psql(1): `psql -h crt.sh -p 5432 -U guest certwatch`) or query Facebook's 
 [Certificate Transparency API](https://developers.facebook.com/docs/certificate-transparency-api/).
 
 Some other sources for finding subdomains include:
@@ -99,7 +99,7 @@ way to query many data sources. Two most prominent tools to do that are:
 subdomain datasets for companies running public bounty program (gathered
 through active enumeration that is outside the scope of this post).
 
-[DNSDumpster](https://dnsdumpster.com/) is a free domain research tool one
+[DNSdumpster](https://dnsdumpster.com/) is a free domain research tool one
 can use to find subdomains and DNS records. It also provides a nice graphical
 visualisation on links between records.
 
