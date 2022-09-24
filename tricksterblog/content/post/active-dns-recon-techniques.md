@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Active DNS recon techniques"
 date = "2022-09-24"
-draft = true
-tags = ["security"]
+tags = ["security", "bug-bounties"]
 +++
 
 We discussed some [passive DNS recon techniques](passive-dns-recon-techniques/), but that's
