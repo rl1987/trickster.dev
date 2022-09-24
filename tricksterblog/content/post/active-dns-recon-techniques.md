@@ -7,7 +7,7 @@ tags = ["security"]
 +++
 
 We discussed some [passive DNS recon techniques](passive-dns-recon-techniques/), but that's
-only half of the store, as there is also active DNS reconnaissance that involves generating
+only half of the story. There is also the active DNS reconnaissance that involves generating
 actual DNS requests to gather data. Active DNS recon does not rely on information footprints
 and secondary sources. Thus it enables us to get more up-to-date information on target systems.
 
