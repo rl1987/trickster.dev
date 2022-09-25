@@ -83,7 +83,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 If this does not work you may want to check that priority of your custom middleware is higher
 (numerically lower) than that of `HttpProxyMiddleware`, as we need to set proxy URL and 
-credentials before it gets to the regular middlware.
+credentials before it gets to the regular middleware.
 
 For further examples on Scrapy middlewares that integrate with proxy pools you may
 want to read the code of the following projects:
