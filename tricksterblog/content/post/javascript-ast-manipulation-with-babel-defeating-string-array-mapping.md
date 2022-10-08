@@ -10,7 +10,7 @@ One Javascript obfuscation technique that can be found in the wild is string arr
 It entails gathering all the string constants from the code into an array and modifying the
 code so that string literals are accesssed by referencing the array at various indices instead
 of having string literals being used directly. Like with previously discussed obfuscation techniques
-we will be exploring it in isolation, but in real automation-hostile sites it will most likely be
+we will be exploring it in isolation, but in real websites it will most likely be
 used in combination with another techniques.
 
 Let us consider the following code:
@@ -27,6 +27,8 @@ Obfuscating this with [Javascript Obfuscator](https://javascriptobfuscator.com/J
 ```javascript
 var _0x3baf=["Hello Venus","log","Hello Earth","Hello Mars"];console[_0x3baf[1]](_0x3baf[0]);console[_0x3baf[1]](_0x3baf[2]);console[_0x3baf[1]](_0x3baf[3])
 ```
+
+[Screenshot 1](/2022-10-07_14.11.47.png)
 
 We have a single line consisting of multiple JS statements. Let us break this down for easier readability:
 
@@ -46,6 +48,8 @@ node in the tree with `object` instance variable being `Identifier` for the arra
 `NumericLiteral` with index value. Of course, not every reference to an array will be related to string
 obfuscation, so we will have to check in our deobfuscation script if the array element at given index is indeed
 a string literal.
+
+[Screenshot 2](/2022-10-08_10.10.10.png)
 
 Like in previous posts, our code will have three parts:
 
