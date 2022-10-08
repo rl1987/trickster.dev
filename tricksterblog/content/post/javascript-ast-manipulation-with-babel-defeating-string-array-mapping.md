@@ -97,3 +97,22 @@ fs.writeFileSync("clean.js", generate(ast).code);
 
 ```
 
+We tie our visitor function to `MemberExpression` node type as that corresponds to parts of AST
+we want to modify. We make sure that `property` is indeed a numeric literal and take an array
+index from there. Next, we get the binding based on array name. On success, binding will point
+to a relevant `VariableDeclarator` node (through `path` and `node`) that points to the
+`ArrayExpression` node through `init` property. We have a reference to an array and we also
+have an index. We get the the array member. If it is indeed a string literal we perform the node
+substitution.
+
+The deobfuscated code is as follows:
+
+```javascript
+var _0x3baf = ["Hello Venus", "log", "Hello Earth", "Hello Mars"];
+console["log"]("Hello Venus");
+console["log"]("Hello Earth");
+console["log"]("Hello Mars");
+```
+
+By working with Abstract Syntax Tree we were able to treat the code as data structure that
+can be manipulated to simplify it for undoing the obfuscation.
