@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: defeating string array mapping"
 date = "2022-10-08"
-draft = true
 tags = ["javascript", "scraping"]
 +++
 
@@ -43,13 +42,13 @@ We can see that `_0x3baf` is an array of strings with all the string literals th
 code (including `log` as `console.log` is equivalent to `console["log"]`) and that is being referenced
 in further statements. Let us analyse this code in ASTExplorer.
 
+[Screenshot 2](/2022-10-08_10.10.10.png)
+
 Whenever the aforementioned string array is being used to get a string constant, we have a `MemberExpression`
 node in the tree with `object` instance variable being `Identifier` for the array name and `property` being
 `NumericLiteral` with index value. Of course, not every reference to an array will be related to string
 obfuscation, so we will have to check in our deobfuscation script if the array element at given index is indeed
 a string literal.
-
-[Screenshot 2](/2022-10-08_10.10.10.png)
 
 Like in previous posts, our code will have three parts:
 
