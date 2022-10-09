@@ -29,7 +29,7 @@ scraping. We just need to ask it properly. For example, we could give it a
 prompt:
 
 ```
-Answer YES if "Library of Congress" is a gallery or museum. Answer NO otherwise.
+Answer YES if "National Gallery of Art" is a gallery or museum. Answer NO otherwise.
 ```
 
 To which it answers:
