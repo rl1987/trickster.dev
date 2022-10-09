@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Making heuristics smarter with GPT-3"
 date = "2022-10-09"
-draft = true
 tags = ["automation", "python"]
 +++
 
