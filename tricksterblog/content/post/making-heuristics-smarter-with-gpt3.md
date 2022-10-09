@@ -42,7 +42,7 @@ The part of the prompt that we keep changing is the substring between duoble quo
 We keep everything else the same. We also set the temperature gauge to 0 as we need
 no randomisation/"creativity" on AI part to answer this simple question. 
 
-[TODO: screenshot]
+[Screenshot 1](/2022-10-09_10.42.58.png)
 
 Now that we got the prompt right we can use OpenAI client library to develop a Python
 script that will filter a scraped list of institutions to shortlist them for further
@@ -131,7 +131,7 @@ results related to "AD Aerodrom 'Nikola Tesla' Beograd", "Tesla Comunicaciones S
 and so on. Clearly the result set needs some filtering before it can be used
 for further work.
 
-[TODO: screenshot]
+[Screenshot 2](/2022-10-08_14.16.53.png)
 
 Like in our previous example, GPT-3 can be used to implement the heuristic.
 A preliminary prompt would something like:
