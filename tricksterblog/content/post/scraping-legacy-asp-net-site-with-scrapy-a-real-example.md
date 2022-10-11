@@ -134,6 +134,49 @@ javascript:selectSearchRow('../Datalets/Datalet.aspx?sIndex=3&idx=1')
 We can scrape this from HTML document and use it in our code. There will be more finer
 parts of the POST request that we need to get right, but let us leave them for later.
 
+When we go see the result we find that data about parcel is broken down across several 
+pages. The first page we get is "Tax Commisioner Summary" page that contains some
+information on property address, most common owner, property class and so on. There
+are links on the side to further pages (no hidden forms this time, but we're not
+getting unique URLs either). We will be scraping these pages:
+
+* "Tax Commissioner Summary" for `property_id`, `property_street_address` and
+`property_type` fields.
+* "Residential" - `building_year_built`, `building_num_beds`, `building_num_baths`.
+* "Value History" - assessed/appraised monetary values (land, buildings and total).
+We will need to make sure that the year of appraisal/assessment matches that of a
+sale for each row we output.
+* "Land" - `land_area_acres`, `land_area_sqft`.
+* "Sales" - everything about parcel sale: `sale_datetime`, `sale_price`, `seller_1_name`,
+`buyer_1_name`, `seller_2_name`, `buyer_2_name`, `book`, `page` and `transfer_deed_type`.
+
+There's one sale per page, but sale pages form a linked list through the little navigation
+links that we can use. 
+
+The same applies to parcels - there's a way to navigate between adjacent search results
+(based on form submission this time - we will need to work out details here).
+
+This lets us have a linear flow between pages without the inconvenience of backtracking.
+
+Based on what we learned so far the scraping strategy will be as follows:
+
+* Shard search space by searching for one month worth of results per search query.
+  * For each search, go to the first result (reproduce form submission).
+    * Scrape data from "Tax Commisioner Summary", "Residential", "Value History", "Land"
+      pages. Use `meta` dictionary to pass information between requests so that stuff
+      is being scraped incrementally.
+    * Scrape sales data by traversing linked list of sales records. Create items here by
+      filling stuff from sales record and stuff from earlier. Make sure that appraised/
+      assessed values match the sales year. Refrain from including them if it's not
+      possible.
+  * Go to next parcel so that list of parcels is traversed to the end.
+
+Due to the nature of legacy ASP.Net technology we cannot benefit much from built-in 
+concurrency of Scrapy at session level - we risk messing up the session if we don't
+load pages one at a time. However we can have multiple sessions at the same time - we
+will be writing some extra code to make the scraping faster and more reliable.
+
+
 
 
 WRITEME: developing Scrapy spider
