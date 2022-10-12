@@ -80,6 +80,8 @@ If we load the site without any cookies being present in the browser we will be
 redirected to disclaimer page that the county has made to cover its ass legally.
 This will also give us the very first cookie with ASP.Net session ID. 
 
+[Screenshot 1](/2022-10-11_16.57.02.png)
+
 Inspecting the DOM tree reveals that pressing "Agree" button on this page would
 cause a hidden form to be submitted. This form contains `__VIEWSTATE`, 
 `__VIEWSTATEGENERATOR` and `__EVENTVALIDATION` fields with pre-filled valued
@@ -88,10 +90,14 @@ values as they are without any changes when we are going to reproduce the button
 press in the Scrapy spider. The same applies to our further interactions with the
 site.
 
+[Screenshot 2](/2022-10-11_16.58.27.png)
+
 Pressing the "Agree" button submits the hidden form via POST requests and redirects
 us to a page with some search functionality. At this point we want to get a complete
 list of all the real estate property records that are available, but merely pressing
 the search button on this form tells us to fill in at least one search criteria. 
+
+[Screenshot 3](/2022-10-11_17.04.07.png)
 
 In the page header there's links to other search pages. "Real Property Search" is the
 default one and "Advanced Search" provides us with more options/criteria to search records
@@ -103,12 +109,16 @@ than 1900). Note, however, that the default form is not completely useless to us
 can be used with ID of specific parcel to check the scraped data manually since
 we will not be able to fill unique URL into `source_url` field.
 
+[Screenshot 4](/2022-10-11_17.16.37.png)
+
 This did give us some search results, but not all of them as the site caps the number
 of results to 10 000. This is a common problem when doing web scraping and it can 
 be solved by doing search what I call search space sharding. Instead of searching for
 entire recorded history, we will search in smaller increments. A little experimentation
 reveals that searching for one month at a time allows each search result list to fit
 within the limit of 10 000 results.
+
+[Screenshot 5](/2022-10-11_17.23.04.png)
 
 Let us go a bit deeper now. What happens when Search button is pressed? Well, we have another
 form submission with bunch of crazy fields in the payload. Some of values for this form
@@ -117,11 +127,15 @@ JS code instead (based on search criteria the user entered). Some can be safely 
 A key challenge in scraping ASP.Net sites is reproducing this kind of requests accurately
 enough. We will be dealing with this later.
 
+[Screenshot 6](/2022-10-11_17.26.25.png)
+
 What if we click one of the rows in the results table? There is another POST request to
 the same endpoint, but somewhat different form data being submitted. For example,
 `hdLink` contains a relative link to a page we get redirected to. We don't get a unique
 URL to parcel page as accessing this exact page is predicated on client state earlier
 in the session and the form data in the request that happens when result row is clicked.
+
+[Screenshot 7](/2022-10-11_17.41.25.png)
 
 So where does it get the value for `hdLink` from? If we go to search results page and
 inspect the row, we will find that each row (`tr` element) has `onclick` property
@@ -131,6 +145,8 @@ with JS snippet like the following:
 javascript:selectSearchRow('../Datalets/Datalet.aspx?sIndex=3&idx=1')
 ```
 
+[Screenshot 8](/2022-10-11_17.43.10.png)
+
 We can scrape this from HTML document and use it in our code. There will be more finer
 parts of the POST request that we need to get right, but let us leave them for later.
 
@@ -138,7 +154,11 @@ When we go see the result we find that data about parcel is broken down across s
 pages. The first page we get is "Tax Commisioner Summary" page that contains some
 information on property address, most common owner, property class and so on. There
 are links on the side to further pages (no hidden forms this time, but we're not
-getting unique URLs either). We will be scraping these pages:
+getting unique URLs either). 
+
+[Screenshot 9](/2022-10-11_18.09.27.png)
+
+We will be scraping these pages:
 
 * "Tax Commissioner Summary" for `property_id`, `property_street_address` and
 `property_type` fields.
@@ -153,8 +173,12 @@ sale for each row we output.
 There's one sale per page, but sale pages form a linked list through the little navigation
 links that we can use. 
 
+[Screenshot 10](/2022-10-11_18.23.35.png)
+
 The same applies to parcels - there's a way to navigate between adjacent search results
 (based on form submission this time - we will need to work out details here).
+
+[Screenshot 11](/2022-10-11_18.24.56.png)
 
 This lets us have a linear flow between pages without the inconvenience of backtracking.
 
