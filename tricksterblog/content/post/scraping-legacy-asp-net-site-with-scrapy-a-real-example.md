@@ -485,6 +485,8 @@ gracefully skip this page without crashing the scraping job. So what we do is lo
 via XPath queries, scrape their rows and store the results in dictionaries indexed by years.
 Since this data will be needed later we pass it along the request through meta dictionary.
 
+[Screenshot 12](/2022-10-11_18.16.50.png)
+
 At next callback, "Land" page is scraped:
 
 ```python
