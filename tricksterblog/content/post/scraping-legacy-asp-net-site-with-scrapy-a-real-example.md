@@ -699,7 +699,7 @@ finished.
 
 One more thing I would like to explain is how the scraping was parallelised to allow running
 multiple client sessions in parallel and retry the search shard scraping if needed.
-The spider has the following contstructor method:
+The spider has the following constructor method:
 
 ```python
     def __init__(self, year=None, month=None, stats_filepath=None):
