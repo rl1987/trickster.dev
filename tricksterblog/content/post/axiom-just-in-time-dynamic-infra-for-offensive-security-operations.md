@@ -208,7 +208,7 @@ engagement would need to be investigated further.
 To remove the fleet, we can use `axiom-rm` with server name prefix:
 
 ```
-$ axiom-rm 'kalam*" -f
+$ axiom-rm "kalam*" -f
 ```
 
 To daisy-chain several scans into larger workload one can trivially write a Bash
