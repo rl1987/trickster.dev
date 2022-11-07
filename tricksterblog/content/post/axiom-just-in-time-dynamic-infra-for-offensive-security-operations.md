@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Axiom: just-in-time dynamic infra for offensive security operations"
-date = "2022-11-08"
-draft = true
+date = "2022-11-07"
 tags = ["security", "bug-bounties"]
 +++
 
