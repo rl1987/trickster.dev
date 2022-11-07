@@ -197,8 +197,8 @@ $ axiom-scan crawl.txt -m nuclei -o nuclei.txt
 
 Axiom now splits the input file into even parts across all worker server so that workload
 is distributed evenly, runs Nuclei on them via SSH, waits for it to finish, downloads the
-results, deduplicates them and saves into a textfile. All of this can take a while even
-when done across several servers, thus I recommend doing this from a tmux session.
+results, deduplicates them and saves into a textfile. Large scans can take a while even
+when done across several servers, thus I recommend doing them from a tmux session.
 
 There will be quite a bit of verbose output in the terminal that mostly matters for
 seeing progress and troubleshooting, thus is not reproduced here. What matters is stuff
