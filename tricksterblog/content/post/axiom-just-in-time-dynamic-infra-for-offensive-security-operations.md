@@ -19,7 +19,7 @@ has found that there's a great variety of security tools, but no established way
 use them in unified way to easily set up an VPS for hacking. Furthermore, security
 centric Linux distros such as Kali provided a variety of tools out of the box, but
 lacked tooling for truly scalable bounty hunting and pentesting. These two problems
-motivated 0xtavian to create Axiom.
+motivated 0xtavian to create Axiom with pry0cc, another developer in security space.
 
 Let us install Axiom into VPS instance running one of the operating systems
 that support the easy install:
