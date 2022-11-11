@@ -115,6 +115,8 @@ Removed ‘.listing’.
 Wrote HTML-ized index to ‘index.html’ [9267].
 ```
 
+[Screenshot 1](/2022-11-11_18.38.42.png)
+
 Once we have chosen a file to download, we can do it the same way as with HTTP protocol:
 
 ```
@@ -157,6 +159,8 @@ $ wget --mirror --domains quotes.toscrape.com,fonts.googleapis.com,fonts.gstatic
 This would download a static website for offline browsing. Note, however, that this is pretty
 much limited to static websites that are based on simple HTML. This technique will not be
 able to replicate the API calls and other stuff that JS-heavy sites are doing in the browser.
+
+[Screenshot 2](/2022-11-11_19.19.36.png)
 
 Now, what do we do if there's a login wall or something similar standing in our way? We may need
 to submit a login form or press a button to get a cookie that would allow us to download a file.
