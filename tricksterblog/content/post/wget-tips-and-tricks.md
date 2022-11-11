@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Wget tips and tricks"
 date = "2022-11-11"
-draft = true
-tags = ["scraping", "automation"]
+tags = ["scraping", "automation", "bug-bounties"]
 +++
 
 So, what is wget? [Wget](https://www.gnu.org/software/wget/) is a prominent command
