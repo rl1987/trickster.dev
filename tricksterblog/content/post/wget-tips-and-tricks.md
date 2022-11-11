@@ -154,7 +154,9 @@ For example, we could run:
 $ wget --mirror --domains quotes.toscrape.com,fonts.googleapis.com,fonts.gstatic.com --convert-links  https://quotes.toscrape.com
 ```
 
-This would download a static website for offline browsing.
+This would download a static website for offline browsing. Note, however, that this is pretty
+much limited to static websites that are based on simple HTML. This technique will not be
+able to replicate the API calls and other stuff that JS-heavy sites are doing in the browser.
 
 Now, what do we do if there's a login wall or something similar standing in our way? We may need
 to submit a login form or press a button to get a cookie that would allow us to download a file.
