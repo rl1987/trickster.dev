@@ -15,8 +15,11 @@ of data formats and data exchange rules for exchanging messages over the network
 In the modern internet email sending part is conceptually (and sometimes technically)
 separate from receiving part. Email sending aspects are formalised in RFCs that describe
 SMTP protocol, whereas reception part can be done either via IMAP or POP3 protocol.
-Furthermore, MIME data format is used for encoding contents and inner structure of the
-messages that are transferred.
+The conceptual difference between IMAP and POP3 is that IMAP is meant to provide a way
+to browse mailboxes via network connection whereas POP3 is meant to download received
+messages into user-controlled computer and let them read it offline without any persistent
+connection to the server. Furthermore, MIME data format is used for encoding contents 
+and inner structure of the messages that are transferred.
 
 Broadly speaking, email system is federated and consists of the following parts:
 * Mail Transfer Agent (MTA) is a program that implements SMTP protocol to transport messages
@@ -172,7 +175,7 @@ IMAP: Internet Message Access Protocol
 IMAPv4rev2 is the current version of IMAP protocol, specified in [RFC 9501](https://datatracker.ietf.org/doc/html/rfc9051).
 This is fairly new standard that is not always implemented to the letter. However,
 IMAP protocol has been around for long time and is widely supported in the world
-of network software.
+of network software. Just like SMTP, IMAP is text-based, line-oriented protocol.
 
 Let us receive an email with `imaplib` Python module and go through IMAP protocol flow.
 We will enable debug output in Python REPL and reproduce the steps that email client
@@ -248,10 +251,22 @@ client will switch to inbox by default.
 ('OK', [b'10'])
 ```
 
-We got several lines in response that deal with message UIDs - 32-bit numbers that
+You may notice that first command message was prefixed by `OGCE1` and next one by
+`OGCE2`. This is IMAP message tagging in action. They are meant to associate some of
+the reply messages with a command message, as is seen in one of the lines that
+client got in reponse to `SELECT` message.
+
+We got several lines in response that mostly deal with message UIDs - 32-bit numbers that
 uniquely identify messages within the email account.
 
-* `UIDVALIDITY` ...
+* `* FLAGS (\\Answered \\Flagged \\Deleted \\Seen \\Draft)` - a list of flags that can be 
+assigned to messages (answered, seen, deleted, etc.)
+* `* 10 EXISTS` - number of messages in the mailbox (10).
+* `* 4 RECENT` - number of messages with "recent" flag set (4) that recently arrived to
+mailbox.
+* `* OK [UNSEEN 7]` - UID of the first unseen message.
+* `* OK [UIDNEXT 11]` - next UID that would be assigned on newly arrived message (predicted
+value).
 
 Now we can search within selected mailbox for messages matching some predicate
 (e.g. sender address being equal to known value). For the purpose of this example,
