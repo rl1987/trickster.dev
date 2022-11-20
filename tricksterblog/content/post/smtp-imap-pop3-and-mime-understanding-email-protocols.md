@@ -172,7 +172,8 @@ point to hostname of the mail server servicing the given domain name.
 IMAP: Internet Message Access Protocol
 --------------------------------------
 
-IMAPv4rev2 is the current version of IMAP protocol, specified in [RFC 9501](https://datatracker.ietf.org/doc/html/rfc9051).
+IMAPv4rev2 is the current version of IMAP protocol, specified in 
+[RFC 9501](https://datatracker.ietf.org/doc/html/rfc9051).
 This is fairly new standard that is not always implemented to the letter. However,
 IMAP protocol has been around for long time and is widely supported in the world
 of network software. Just like SMTP, IMAP is text-based, line-oriented protocol.
@@ -317,7 +318,35 @@ Finally, we close the connection and logout:
 POP3: Post Office Protocol version 3
 ------------------------------------
 
-WRITEME: POP3 explanation and email receiving flow
+POP3 is a network protocol that enables end users to download email messages for offline
+reading and archiving. Python supports it via `poplib` module. Like SMTP, POP3 supports both
+using TLS from start of connection and upgrading the plaintext connection before login step 
+to POP3-over-TLS.
+
+Overall POP3 is much simpler protocol than IMAP.  Listing messages and retrieving them one at 
+a time is fairly simple:
+
+```
+>>> import poplib
+>>> pop_conn = poplib.POP3("pop3.rambler.ru")
+>>> pop_conn.user(username)
+b'+OK'
+>>> pop_conn.pass_(password)
+b'+OK Logged in.'
+>>> pop_conn.list()
+(b'+OK 10 messages:', [b'1 18561', b'2 18978', b'3 58337', b'4 47221', b'5 48119', b'6 47562', b'7 66608', b'8 71147', b'9 32400', b'10 2940'], 90)
+>>> pop_conn.retr(1)
+```
+
+To gracefully close the connection, we send a `QUIT` command:
+
+```
+>>> pop_conn.quit()
+b'+OK Logging out.'
+```
+
+For a specification of POP3, see [RFC 1939](https://datatracker.ietf.org/doc/html/rfc1939.html).
+
 
 MIME: Multipurpose Internet Mail Extension
 ------------------------------------------
