@@ -351,5 +351,67 @@ For a specification of POP3, see [RFC 1939](https://datatracker.ietf.org/doc/htm
 MIME: Multipurpose Internet Mail Extension
 ------------------------------------------
 
-WRITEME: MIME explanation and some message examples
+Mail client apps often have the feature to view the message in it's raw form.
+One would notice that email messages consist of headers and payload, not unlike
+HTTP requests and and responses. 
+
+A very simple MIME message would be something like:
+
+```
+Content-Type: text/plain
+MIME-Version: 1.0
+To: <developer@evilsoft.com>
+From: <developer@fb.com>
+Subject: Sample MIME Message
+
+This is a simple MIME Message!
+```
+
+Headers being used here are pretty much self-explanatory. This kind of message is a
+single part one - there is a single type of payload of given content type. For plain
+text messages message contents are transferred in their original form. If the payload
+was of some binary format (e.g. PDF document or image file) it would be represented
+in Base64 form.
+
+But nowadays many, if not most, email messages are more complex than this. MIME messages
+can also be multipart - consisting of several segments. 
+
+RFC 1341 provides the following example of two-part MIME message:
+
+```
+From: Nathaniel Borenstein <nsb@bellcore.com> 
+To:  Ned Freed <ned@innosoft.com> 
+Subject: Sample message 
+MIME-Version: 1.0 
+Content-type: multipart/mixed; boundary="simple 
+boundary" 
+
+This is the preamble.  It is to be ignored, though it 
+is a handy place for mail composers to include an 
+explanatory note to non-MIME compliant readers. 
+--simple boundary 
+
+This is implicitly typed plain ASCII text. 
+It does NOT end with a linebreak. 
+--simple boundary 
+Content-type: text/plain; charset=us-ascii 
+
+This is explicitly typed plain ASCII text. 
+It DOES end with a linebreak. 
+
+--simple boundary-- 
+This is the epilogue.  It is also to be ignored.
+```
+
+Multipart messages can also be mixed and alternative. Mixed messages are multipart
+messages with parts of different content types that are independent and meant
+to be displayed serially (one after another). Alternative messages contain at least
+two parts that are equivalent representation of the same information (e.g. the same
+message could be in plain text and HTML). MIME messages are powerful enough to 
+form a tree structure with message as a root node and parts as descendant nodes.
+That way, parts of message could have child parts with files or previous messages 
+as attachments.
+
+Various modules in Python `email` package deal with parsing and generating the
+MIME messages.
 
