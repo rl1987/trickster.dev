@@ -371,7 +371,12 @@ Headers being used here are pretty much self-explanatory. This kind of message i
 single part one - there is a single type of payload of given content type. For plain
 text messages message contents are transferred in their original form. If the payload
 was of some binary format (e.g. PDF document or image file) it would be represented
-in Base64 form.
+in Base64 form. Some of the popular MIME content types are:
+
+* `text/plain` - just a plain text
+* `text/html` - HTML document
+* `image/png` - PNG image
+* `application/pdf` - PDF document
 
 But nowadays many, if not most, email messages are more complex than this. MIME messages
 can also be multipart - consisting of several segments. 
@@ -403,10 +408,11 @@ It DOES end with a linebreak.
 This is the epilogue.  It is also to be ignored.
 ```
 
-Multipart messages can also be mixed and alternative. Mixed messages are multipart
-messages with parts of different content types that are independent and meant
-to be displayed serially (one after another). Alternative messages contain at least
-two parts that are equivalent representation of the same information (e.g. the same
+Multipart messages can also be mixed and alternative. Mixed messages (content type
+`multipart/mixed`) are multipart messages with parts of different content types that 
+are independent and meant to be displayed serially (one after another). Alternative 
+messages (content type `multipart/alernative` contain at least two parts that are 
+equivalent representation of the same information (e.g. the same
 message could be in plain text and HTML). MIME messages are powerful enough to 
 form a tree structure with message as a root node and parts as descendant nodes.
 That way, parts of message could have child parts with files or previous messages 
