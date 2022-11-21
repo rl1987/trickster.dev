@@ -40,8 +40,8 @@ provider (possibly via MSA). SMTP protocol is being used here.
 2. Message traverses one or more MTAs. Again, this is done via SMTP protocol.
 3. Message reaches the final MTA belonging to the email provider of the recipient and is 
 stored there.
-4. Recipient uses MUA on their end to retrieve the message. Either IMAP or POP3 protocol
-can be used here.
+4. Recipient uses MUA on their end to retrieve the message (possibly via MDA). Either IMAP 
+or POP3 protocol can be used here.
 
 It should be noted that email provider specific REST API can be used between MUA and MTA
 (possibly through a client library). For examples of such APIs, see:
