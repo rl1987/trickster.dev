@@ -410,7 +410,7 @@ This is the epilogue.  It is also to be ignored.
 Multipart messages can also be mixed and alternative. Mixed messages (content type
 `multipart/mixed`) are multipart messages with parts of different content types that 
 are independent and meant to be displayed serially (one after another). Alternative 
-messages (content type `multipart/alernative` contain at least two parts that are 
+messages (content type `multipart/alternative` contain at least two parts that are 
 equivalent representation of the same information (e.g. the same
 message could be in plain text and HTML). MIME messages are powerful enough to 
 form a tree structure with message as a root node and parts as descendant nodes.
