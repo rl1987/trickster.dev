@@ -119,7 +119,33 @@ payout.
 DKIM: Domain Keys Identified Mail
 ---------------------------------
 
-WRITEME
+DKIM, specified in [RFC 6376](https://www.rfc-editor.org/rfc/rfc6376) and some
+other additional RFCs goes beyond simple domain-level policies and enables 
+email message signing by public key published in DNS record. This lets the
+intermediate email server to check if email message was sent from the
+keeper of respective private key (e.g. sender email provider) and that there 
+was no tampering by adversarial parties (e.g. rogue email servers) as the 
+message was enroute to the recipient. Depending on how exactly DKIM is deployed,
+the cryptographic signature may cover all message or only some headers.
+
+DKIM also relies on DNS TXT records, but they are required to be published
+at subdomain of following form: `[selector]._domainkey.[domain]`. Here
+`selector` is provider-specific value and `domain` is a sender domain.
+
+The DKIM signature is computed by sending email server that is managed
+by your email provider. As the email message goes through further 
+DKIM-compliant servers it is being verified for the valid signature. 
+DKIM implementation by itself does not reject any messages, but introduces 
+extra email headers that can be used by spam filtering solutions. 
+
+DKIM has implications for email deliverability. As far as anti-spam systems
+are concerned, lack of DKIM record means less reliable sender identity.
+Furthermore, DKIM misconfiguration can cause signature validation to fail,
+which can lead to message being filtered as spam (especially if DMARC is 
+being used).
+
+Like with SPF, your email provider will probably give you exact DNS
+record to use for enabling DKIM for your domain.
 
 DMARC: Domain-based Message Authentication, Reporting and Conformance
 ---------------------------------------------------------------------
