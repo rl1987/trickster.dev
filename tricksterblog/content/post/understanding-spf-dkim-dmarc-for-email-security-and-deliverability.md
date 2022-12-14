@@ -144,6 +144,25 @@ Furthermore, DKIM misconfiguration can cause signature validation to fail,
 which can lead to message being filtered as spam (especially if DMARC is 
 being used).
 
+RFC 6367 provides the following example of `DKIM-Signature` header:
+
+```
+DKIM-Signature: v=1; a=rsa-sha256; d=example.net; s=brisbane;
+   c=simple; q=dns/txt; i=@eng.example.net;
+   t=1117574938; x=1118006938;
+   h=from:to:subject:date;
+   z=From:foo@eng.example.net|To:joe@example.com|
+    Subject:demo=20run|Date:July=205,=202005=203:44:08=20PM=20-0700;
+bh=MTIzNDU2Nzg5MDEyMzQ1Njc4OTAxMjM0NTY3ODkwMTI=;
+b=dzdVyOfAKCdLXdJOc9G2q8LoXSlEniSbav+yuU4zGeeruD00lszZVoG4ZHRNiYzR
+```
+
+The following is an example of DKIM record that ZOHO provides:
+
+```
+v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDXzlbk53i+yhhnbLM6Z/dzASCoGrRMbnMJzFsJK9Q17cHVDqmSUjQkNMfBhMD0JgwZcuUpHBE2aTVzwaLEQXRkR7BDOLBY+JpGjtJ45sjI9rmlN/4ntJLFEzuGaaHDp/XyR3eORKSt2QBHs9OM9U8zMoXCQc1+MW6vbtYJeWhacwIDAQAB
+```
+
 Like with SPF, your email provider will probably give you exact DNS
 record to use for enabling DKIM for your domain.
 
