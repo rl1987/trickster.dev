@@ -169,4 +169,13 @@ record to use for enabling DKIM for your domain.
 DMARC: Domain-based Message Authentication, Reporting and Conformance
 ---------------------------------------------------------------------
 
-WRITEME
+DMARC is something that builds upon SPF and DKIM. It allows domain owners
+to publish DNS records telling how messages that violate SPF or DKIM
+authorization should be treated (rejected or quarantined). Furthermore,
+domain owners can provide an email address for the aggregate or forensic
+notifications to be sent to, so that they could be used for troubleshooting.
+Furthermore, you may want to know if someone if trying to spoof your email
+for malicious purposes.
+
+[RFC 7489](https://www.rfc-editor.org/rfc/rfc7489) is the specification to
+read if you want to know more about DMARC.
