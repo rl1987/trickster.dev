@@ -92,7 +92,7 @@ Note, however, that not every VCS feature supported by git is supported by dolt.
 Furthemore, we see some commands related to DB functionality such as `sql`, 
 `schema` and `dump`. Lastly, we have `docs` command that provides a little of
 functionality for version-controlling your database documentation, such as README
-file that explains the schema.
+file and such.
 
 Dolt stores all the database contents in a single directory per database, which makes
 it easy to backup and migrate between servers.
@@ -117,7 +117,7 @@ to run queries locally without running Dolt as server.
 For git users, there's Github for community and collaboration. 
 [DoltHub](https://www.dolthub.com/) is a company and portal that not only
 develops dolt, but also lets you publically host your databases. If you don't
-want to host it publically there are two paid products:
+want to host it publically there are two options:
 
 * [DoltLab](http://doltlab.dolthub.com/) - a self-hostable, more private solution
 similar to GitLab. DoltLab is to dolt what GitLab is to Git.
