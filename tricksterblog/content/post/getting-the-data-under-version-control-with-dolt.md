@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Getting the data under version control with dolt"
 date = "2022-12-15"
-draft = true
-tags = ["databases"]
+tags = ["databases", "scraping"]
 +++
 
 Many developers would agree that source code version control is a 
