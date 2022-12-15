@@ -97,8 +97,20 @@ file that explains the schema.
 Dolt stores all the database contents in a single directory per database, which makes
 it easy to backup and migrate between servers.
 
-WRITEME: SQL dialect of dolt
+SQL dialect of Dolt is largely the same as the one used in MySQL with two notable 
+differences. First, not all advanced features of MySQL are supported at this point
+(see the list of [supported statements](https://docs.dolthub.com/sql-reference/sql-support/supported-statements)).
+Second, Dolt introduces some more SQL statements that are related to version
+control aspect (see [Version control](https://docs.dolthub.com/sql-reference/version-control)
+section of the official documentation).
 
-WRITEME: running dolt in server mode
+To run Dolt in SQL server mode one could run `dolt sql-server` command. This 
+launches a network server that talks the MySQL protocol and can be used
+with a MySQL client programs or client libraries. Furthermore, Dolt includes
+a simple SQL client that can be launched by running `dolt sql-client`.
+There are also some official Python client libraries for Dolt:
 
-WRITEME: DoltHub, DoltLab, Hosted Dolt, data bounties
+* [DoltPy](https://github.com/dolthub/doltpy) implements Dolt SQL client
+* [doltcli](https://github.com/dolthub/doltcli) is a wrapper around dolt CLI tool
+to run queries locally without running Dolt as server.
+
