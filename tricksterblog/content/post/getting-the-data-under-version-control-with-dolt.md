@@ -106,11 +106,26 @@ section of the official documentation).
 
 To run Dolt in SQL server mode one could run `dolt sql-server` command. This 
 launches a network server that talks the MySQL protocol and can be used
-with a MySQL client programs or client libraries. Furthermore, Dolt includes
-a simple SQL client that can be launched by running `dolt sql-client`.
-There are also some official Python client libraries for Dolt:
+with a MySQL client programs or libraries (e.g. mysql-connector). 
+Furthermore, Dolt includes a simple SQL client that can be launched by 
+running `dolt sql-client`. There are also some official Python client libraries for Dolt:
 
 * [DoltPy](https://github.com/dolthub/doltpy) implements Dolt SQL client
 * [doltcli](https://github.com/dolthub/doltcli) is a wrapper around dolt CLI tool
 to run queries locally without running Dolt as server.
 
+For git users, there's Github for community and collaboration. 
+[DoltHub](https://www.dolthub.com/) is a company and portal that not only
+develops dolt, but also lets you publically host your databases. If you don't
+want to host it publically there are two paid products:
+
+* [DoltLab](http://doltlab.dolthub.com/) - a self-hostable, more private solution
+similar to GitLab. DoltLab is to dolt what GitLab is to Git.
+* [Hosted Dolt](https://hosted.doltdb.com) - an equivalent of AWS RDS for
+Dolt server. You get a dolt server that is provisioned and maintained for you,
+no DBA needed.
+
+DoltHub Inc. is also running public data bounties that entail gathering open 
+data by scraping, wrangling and importing it into structured database. Participants
+are paid based on how much of the data they submitted via pull requests was accepted.
+This can be an opportunity to make some money if you're a web scraper developer.
