@@ -1,5 +1,7 @@
 +++
 title = "About"
+author = "rl1987"
+date = "2021-11-02"
 aliases = ["about-us", "about-hugo", "contact"]
 +++
 
