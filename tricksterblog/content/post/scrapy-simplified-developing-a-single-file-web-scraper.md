@@ -136,3 +136,10 @@ call the `crawl()` method with our spider class and the call the `start()` metho
 This will make the spider run until completion. Script will finish running once the 
 scraping is done.
 
+If you run this you may notice that 498 rows are saved to f500.csv, not 500. That's because
+two of the company pages are implemented differently and have their data hard-coded in 
+JavaScript snippets. Since the objective here was to demonstrate how to use
+the crawler process for developing a simplified scraper, I did not proceed with implementing
+support for scraping these two pages, although that could be done with using
+[js2xml](https://github.com/scrapinghub/js2xml) library.
+
