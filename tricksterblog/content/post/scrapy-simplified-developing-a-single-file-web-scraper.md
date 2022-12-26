@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Scrapy simplified: developing a single file web scraper"
-date = "2022-12-24"
-draft = true
+date = "2022-12-26"
 tags = ["web-scraping", "scrapy", "python"]
 +++
 
@@ -79,7 +78,6 @@ class F500Spider(scrapy.Spider):
             if slug is not None and rank <= 500:
                 yield response.follow(slug, callback=self.parse_company_page)
 
-    # TODO: make it scrape this as well: https://fortune.com/company/amphenol/fortune500/
     def parse_company_page(self, response):
         json_str = response.xpath('//script[@id="__NEXT_DATA__"]/text()').get()
         try:
