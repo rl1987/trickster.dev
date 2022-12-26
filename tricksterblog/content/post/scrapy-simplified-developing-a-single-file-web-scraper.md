@@ -26,8 +26,10 @@ This opens up a browser window with HTML as the Scrapy was able to fetch it.
 Luckily we did not run into any countermeasures against scraping. If we view
 the page source we find that all the info being rendered in the table is 
 available in JSON format inside `<script>` with `id` equal to `__NEXT_DATA__`.
-This JSON string is the biggest thing in the HTML that Scrapy fetched. 
+This JSON string is the biggest thing in the HTML document that Scrapy fetched. 
 So that's what we're going to scrape to get links to company pages.
+
+[Screenshot 1](/2022-12-24_12.20.54.png)
 
 Let us look into a company profile page.
 
@@ -38,7 +40,7 @@ $ scrapy view "https://fortune.com/company/verizon/fortune500/"
 Once again, we find the same kind of script tag from Next.js framework
 that we can extract data from.
 
-TODO: screenshots
+[Screenshot 2](/2022-12-24_12.30.44.png)
 
 Let us go through the following example scraper. 
 
