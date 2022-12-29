@@ -38,7 +38,8 @@ that, as the current objective is to learn the common denominator of Vim usage a
 a skill in using Vim in it's pure form, so that if you connect via SSH into some remote Linux/Unix
 server for the first time you would know exactly how to do text editing there.
 
-So let's get started.
+So let's get started. As you launch Vim, you will be in normal mode by default, until you switch
+to some other mode. The following things are applicable in the normal mode.
 
 To access Vim documentation system, type `:help`. This will let you browse the docs. To search
 the docs, you can use `:help <keyword>`. If you're unsure of the keyword, you can type some
@@ -55,3 +56,53 @@ When using Vim help system, you will find that some words or phrases are colored
 and/or delineated by pipe characters. These are hypelinks that can be traversed by positioning
 your cursor within the bars and pressing Ctrl-]. To go back one level, one can use Ctrl-T.
 To get out of help system, one can use `:q` command or type `ZZ`.
+
+One can save a lot of time and keystrokes by learning how to navigate text efficiently. One
+can navigate text in normal mode one character at a time by using arrow keys or `h` for left, 
+`l` for right, `k` for up and `l` for down`. Furthermore, there are ways to perform higher-orders
+motions across words, lines and greater "text objects". In some systems text can also be navigated
+vertically my mouse wheel or touch pad gestures.
+
+To find out where you are in the file one can use Ctrl-G. This will give you something like the 
+following line at the bottom of your Vim UI:
+
+```
+"vim-is-touch-typing-on-steroids.md" [Modified] line 64 of 66 --96%-- col 58
+```
+
+We have file name, file state (modified with unsaved changes), current line, number of total lines,
+number of current column and what percentage the current line number is from the total. Furthermore,
+you can put the following line in your .vimrc file:
+
+```
+set ruler
+```
+
+This will enable slightly simpler position indication with just line and column numbers.
+
+`w` moves to start of next word, `b` - to start of previous word, `e` - to end of next word
+and `ge` to end of previous word. That accelerates your text navigation as you can use single
+keystroke to move across word, not just a character. But what is a word? In Vim terminology,
+word is any sequence of characters delimited by non-identifier chars (e.g. whitespace, comma).
+However, there's also capital-W Words in Vim that are delimited by whitespace. So we also
+have `W` command that moves to next capital-W Word and also `B`, `E` and `gE` commands that
+perform equivalents to aforementioned word-level motions.
+
+Furthemore, there are line and paragraph motion commands. `0` or `|` takes you to the start
+of current line, `^` to start of first word on current line, `$` to end of the current line,
+Enter to start of next line and `-` to start of previous line. One can also use `{` to move to
+start of current paragraph (a continuous cluster of non-empty lines) and `}` to end of current
+paragraph. This will position the cursor to the empty line just before or just after a paragraph.
+If these commands are used on empty lines Vim will move the cursor accordingly to previous or next
+empty line.
+
+To move to the top of the buffer, one can use `gg`. To move to the end - `G`. To move to n-th
+line, type the line number in normal mode and go `G` or `gg`. To move to a certain percentage
+across the buffer, one can type number and percent sign. For example, `50%` will move your
+cursor halfway through the buffer. However if you just use single `%` command it will bounce
+you between some matching brackets (`{ ... }`, `( ... )`, `[ ... ]`) in your code.
+
+One can also type a number in normal mode before a motion to do that motion a given number of
+times. `lllll` can be done faster as `5l` and so on. This works on all motions commands and
+many other commands as well.
+
