@@ -6,6 +6,9 @@ draft = true
 tags = []
 +++
 
+Introduction
+------------
+
 I don't suppose I need to do much explaining on the value of touch typing for developer
 productivity. Today developers gain additional productivity by using Integrated Development
 Environments such as PyCharm, Xcode, Visual Studio that provide features like auto-completion,
@@ -40,6 +43,9 @@ server for the first time you would know exactly how to do text editing there.
 
 So let's get started. As you launch Vim, you will be in normal mode by default, until you switch
 to some other mode. The following things are applicable in the normal mode.
+
+Normal mode commands
+--------------------
 
 To access Vim documentation system, type `:help`. This will let you browse the docs. To search
 the docs, you can use `:help <keyword>`. If you're unsure of the keyword, you can type some
@@ -104,5 +110,20 @@ you between some matching brackets (`{ ... }`, `( ... )`, `[ ... ]`) in your cod
 
 One can also type a number in normal mode before a motion to do that motion a given number of
 times. `lllll` can be done faster as `5l` and so on. This works on all motions commands and
-many other commands as well.
+many oter commands as well.
+
+Insert mode commands
+--------------------
+
+`Ctrl-Y` duplicates whats in the same column on the preceding line (one character at a time).
+`Ctrl-E` does this from the next line. `Ctrl-A` inserts the last inserted text again. `Ctrl-R=`
+evaluated any valid Vimscript expression (can be simple arithmetic) and insert the result. 
+For example, one could type `2+2` in the prompt at the bottom, press Enter and `4` would be 
+inserted.
+
+`Ctrl-T` increases code indentation level by inserting a single Tab at the start of the line
+without moving the cursor. `Ctrl-D` is the opposite - it removes a single tab from start of current
+line. `Ctrl-W` deletes one word that precedes the cursor. `Ctrl-O` takes you to the normal mode
+for one command.
+
 
