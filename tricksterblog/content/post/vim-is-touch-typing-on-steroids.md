@@ -112,6 +112,20 @@ One can also type a number in normal mode before a motion to do that motion a gi
 times. `lllll` can be done faster as `5l` and so on. This works on all motions commands and
 many oter commands as well.
 
+To find the next instance of word under cursor, type `\*`. For previous instance, type `#`.
+You can use `:set ignorecase` command to make Vim search in case-insensitive manner. After
+that is on, you can do `:set smartcase` command which will let you search in case-sensitive
+way on as-needed basis. For example `/selector` would search in case-insensitive way, but
+`/Selector` would be a case-sensitive search.
+
+You can turn incremental search by launching command `:set incsearch`. It searches text as you
+type it and highlights it for you (but it only moves the cursor when you hit Enter; you can
+hit Escape to back off from the search).
+
+To make Vim highlight all the search results within the current buffer one can turn on 
+search highlighting by doing `:set hlsearch`. To get rid of the highlighting afterwards
+one can do a `:nohlsearch` command.
+
 Insert mode commands
 --------------------
 
@@ -125,5 +139,9 @@ inserted.
 without moving the cursor. `Ctrl-D` is the opposite - it removes a single tab from start of current
 line. `Ctrl-W` deletes one word that precedes the cursor. `Ctrl-O` takes you to the normal mode
 for one command.
+
+Vim dialect of regular expressions is similar to these of sed(1) and Perl, but has some key 
+differences. For example, nearly all metasyntactic characters require escaping them with 
+a backslash.
 
 
