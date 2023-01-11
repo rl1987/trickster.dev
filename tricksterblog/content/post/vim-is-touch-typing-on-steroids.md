@@ -280,4 +280,15 @@ Furthermore, one may need to preprocess the source code with a tool called
 [Exuberant ctags](https://ctags.sourceforge.net). You may also want to enable file type
 detection by doing `:filetype plugin on`.
 
+Visual modes
+------------
 
+When you type `v` Vim enters the visual mode. As you move your cursor around, it will hightlight
+the text and select it. Once you have selected the exact text you want, you can run a normal
+mode command and it will apply to that portion of text. That the basic visual mode.
+
+There's also visual line mode that entails selecting entire lines. You can enter it by typing
+capital `V` in the normal mode (or in basic visual mode if you want to switch).
+
+Lastly, there' visual block mode for selecting a rectangular block to deal with something like
+ASCII art tables. It can be entered by typing Ctrl-V. 
