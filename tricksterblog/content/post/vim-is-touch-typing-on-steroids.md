@@ -126,6 +126,117 @@ To make Vim highlight all the search results within the current buffer one can t
 search highlighting by doing `:set hlsearch`. To get rid of the highlighting afterwards
 one can do a `:nohlsearch` command.
 
+We can also run a command like `:s/<pattern>/<replacement>/` to find a pattern (could be 
+regular expression) and replace it with another pattern within the current line. There 
+are some variations to this command:
+
+* `:10,33s/from/to/` - apply search and substitution across a specific range of lines (e.g.
+from 10th to 33rd line).
+* `:1s/from/to/` - do it on a specific line with given line number
+* `-10,+33s/from/to/` - line range can also be relative to the current line number
+* `-10;+33s/from/to/` - if you use semicolon between numbers, the second number will be
+relative not to the current line number, but to the first line number in the range
+* Metacharacters can also be used in ranges: `.` means first line, `$` means the last one
+and so forth.
+* `:%s/from/to/` (or `:1,$s/from/to`) does the substitution across the entire file.
+
+You can also use patterns to specify ranges based on text content. For example, `/<pat>`/
+in the beginning of command tells Vim to do substitution on next line that matches the given
+pattern. `?<pat>` tells it to work on only the previous line that matches a pattern. This 
+can be combined to narrow down the substitution only to specific part of source code in the
+file being edited (e.g. HTML body). This also works with offsets. For example:
+`?foo?+1,$-10s/<pattern>/<replacement>/' does the subsitutions from the line after previous
+instance of `foo` to 10 lines before end of file. 
+
+The above commands will only do the substitution once, but typically you want it done multiple
+times (e.g. across the entire file). To achieve this, append the `/g` (global) modifier, e.g.
+`s/from/to/g`. If you're unsure about replacing stuff all the time, you may want to use `/c`
+modifier, e.g. `%s/cat/feline/gc`. This will let you use an interactive flow of approving or
+rejecting every substitution. 
+
+To repeat the last substitution one more time, you can press `&` or `:s` and Enter. To repeat
+it globally, use `%s<Enter>`.
+
+Beyond search-and-replace, many Vim commands also take ranges and support the above range syntax.
+Thus it is valuable to learn them in order to be productive with Vim.
+
+Sometimes you want to match lines according to some regex or pattern across the entire file,
+but want to do something else than replacing text. This can be done with `:global` (or `:g`)
+command. It lets you match some lines according to a pattern and run another colon command
+across the matching lines. Some examples:
+
+* `:g /^\s/ :center` - centering only the lines that are already indented (start with a space
+character).
+* `:g! /^\s/ :center` - center only lines that are NOT indented.
+* `:g /<ISBN>/ :normal gUU` - run a normal mode command (convert all lines containing `<ISBN>`
+to upper-case).`
+* `:g /./ :.;/^$/join` - convert all paragraphs into a single line to make the text less messy
+if it was copy-pasted in MS Word or something. Note that we use a range `.;/^$/` in a colon 
+command being invoked:
+  * `.` - match non-empty line
+  * `;` - make the second part of the range relative to first one
+  * `/^$/` - regex to match empty line, closing the range to only have non-empty lines from
+    the start of paragraph.
+* `:g /./ :.;/^\$/-1join` - same as above, but leaves the empty lines for readability.
+
+This is quite powerful and can support various advanced text editing use cases.
+
+Yanking is Vim term for copying some text and putting means pasting the text. `yy` or `Y`
+yanks the current line. `yw` and `y}` yanks a word and paragraph respectively (from the
+current position). More generally, `y` can be followed by any valid motion. For example,
+`y$` copies text until end of line and `y/__END__` copies it until first occurence of give
+pattern (`__END__` in this case). This works well with incremental search, as you would
+get an indication of where the copied part would end. 
+
+We can also use text object specification with this command. For example, to copy the entire 
+word under the cursor, we say `yaw` (or `yaW` for capital-W Word). Likewise, `yas` copies
+entire sentence and `yap` does the same for entire paragraph that the cursor is in.
+
+For code editing, Vim lets you yank delimited portions of it:
+
+* `yab` or `ya{` for curly-brace delimited block
+* `ya[` for `[ ... ]`
+* `ya(` for `( ... )`
+* `ya<` for `< ... >`
+* `ya"` for double-quoted text
+* `ya'` for single-quoted text
+
+`p` command is for pasting (putting) the text that was yanked.
+
+To undo the last buffer change, use `u` command. To re-do it, use Ctrl-R. These can be done 
+multiple times. Think of it as timeline of changes. Since Vim version 7 this timeline
+can be branched. `g-` would switch to previous branch and `g+` switches to next version
+of history.
+
+Furthemore, one can "time-travel" in the text change history by using `:earlier` and `:later`
+commands with time offset. For example, `:earlier 10m` takes you to buffer state that
+was 10 minutes ago and `:later 30s` fast-forwards it to what it was 30 seconds later from
+that time. So if you remember that your code was fine 10 minutes ago, you can go back to what 
+it was back then and either discard the changes you did or move a bit forward in the history
+to keep some of your work.
+
+However, all of this change is history is discarded when you quit Vim. However, Vim 7.3 introduced
+a feature of persistent undo history that can be enabled by putting the following lines
+in your .vimrc file:
+
+```
+if has('persistent_undo')
+    set undofile
+endif
+```
+
+This will make Vim create a history file in each directory being edited. To consolidate
+all the edit histories in a single directory somewhere, set `undodir` in your .vimrc. 
+By default, Vim wil remember 1000 levels of changes. You can set `undolevel` to customise
+this amount.
+
+Vim also keeps track of you command history. If you want to rerun a colon command you 
+can type `:` and use up and down keys to navigate the history until you find the command
+that you want to repeat. You can also type the initial few characters of your command
+to narrow it down. Furthermore, you can use autocompletion with Tab key when typing
+your colon commands. This works with commands, file names, command arguments and so forth -
+pretty much all Vim knows about can be autocompleted.
+
 Insert mode commands
 --------------------
 
@@ -136,12 +247,37 @@ For example, one could type `2+2` in the prompt at the bottom, press Enter and `
 inserted.
 
 `Ctrl-T` increases code indentation level by inserting a single Tab at the start of the line
-without moving the cursor. `Ctrl-D` is the opposite - it removes a single tab from start of current
-line. `Ctrl-W` deletes one word that precedes the cursor. `Ctrl-O` takes you to the normal mode
-for one command.
+without moving the cursor. `Ctrl-D` is the opposite - it removes a single tab from start of 
+current line. `Ctrl-W` deletes one word that precedes the cursor. `Ctrl-O` takes you to the 
+normal mode for one command.
 
 Vim dialect of regular expressions is similar to these of sed(1) and Perl, but has some key 
 differences. For example, nearly all metasyntactic characters require escaping them with 
 a backslash.
+
+Typing everything in it's entirety is quite a pain and one of major arguments for using an
+IDE. However, can also do auto-completion in insert mode. One could type some of the word 
+and press Ctrl-X to enter completion. Next, you use another key combination to indicate what 
+kind of completion you want. For example, Ctrl-X Ctrl-F is for autocompleting file names 
+and file paths.  Doing this will present a pop-up with all possible completions that you 
+can choose from.
+
+Ctrl-X Ctrl-D completes a C preprocessor macro by default, but you can set `define` to
+any regular expression to use it for other things. But that's a bit of pain.
+
+Ctrl-X Ctrl-N does identifier completion that works across all sequences of keyword
+characters across the current edit session. One can edit `iskeyword` option to change what
+it considers a keyword character.
+
+Ctrl-X Ctrl-I is for C and C++ programming. It works like the regular identifier completion,
+but also goes into source code files that were `#include`d.
+
+Ctrl-X Ctrl-O is a smart, unified "omni-completion" that tries to use some heuristics
+to present some options to you in a smart, automatic way that is informed by the context
+of where you are in the code that you are editing. This typically requires a completion
+specification (some are included in the standard installation - see `:help compl-omni-filetypes`).
+Furthermore, one may need to preprocess the source code with a tool called
+[Exuberant ctags](https://ctags.sourceforge.net). You may also want to enable file type
+detection by doing `:filetype plugin on`.
 
 
