@@ -35,13 +35,17 @@ remain applicable in year 2034.
 
 Despite being primarily a Text User Interface (TUI) program, Vim is quite complex and has
 literally thousands of commands. One does not have to know all of them to be a productive Vim
-user. Furthermore, Vim has an extensive ecosystem of plugins, to the exent that Vim can be
+user. Furthermore, Vim has an extensive ecosystem of plugins, to the extent that Vim can be
 extended almost into quite complex IDE. We will not be getting much into 
 that, as the current objective is to learn the common denominator of Vim usage and develop
 a skill in using Vim in it's pure form, so that if you connect via SSH into some remote Linux/Unix
 server for the first time you would know exactly how to do text editing there.
 
-So let's get started. As you launch Vim, you will be in normal mode by default, until you switch
+There are three primary modes in Vim. In normal (command) mode Vim accepts commands. In insert
+mode it let's you type and edit text. In visual mode it allows the user to visually highlight
+text and do some bulk editing operations.
+
+So let us get started. As you launch Vim, you will be in normal mode by default, until you switch
 to some other mode. The following things are applicable in the normal mode.
 
 Normal mode commands
@@ -59,15 +63,15 @@ More generally, one can use `:vimgrep` command to search for regex in files othe
 such as your codebase. It takes a regex (with slashes this time) and one or more file names.
 
 When using Vim help system, you will find that some words or phrases are colored differently
-and/or delineated by pipe characters. These are hypelinks that can be traversed by positioning
+and/or delineated by pipe characters. These are hyperlinks that can be traversed by positioning
 your cursor within the bars and pressing Ctrl-]. To go back one level, one can use Ctrl-T.
 To get out of help system, one can use `:q` command or type `ZZ`.
 
 One can save a lot of time and keystrokes by learning how to navigate text efficiently. One
 can navigate text in normal mode one character at a time by using arrow keys or `h` for left, 
-`l` for right, `k` for up and `l` for down`. Furthermore, there are ways to perform higher-orders
+`l` for right, `k` for up and `l` for down. Furthermore, there are ways to perform higher-order
 motions across words, lines and greater "text objects". In some systems text can also be navigated
-vertically my mouse wheel or touch pad gestures.
+vertically by mouse wheel or touch pad gestures.
 
 To find out where you are in the file one can use Ctrl-G. This will give you something like the 
 following line at the bottom of your Vim UI:
@@ -145,7 +149,7 @@ in the beginning of command tells Vim to do substitution on next line that match
 pattern. `?<pat>` tells it to work on only the previous line that matches a pattern. This 
 can be combined to narrow down the substitution only to specific part of source code in the
 file being edited (e.g. HTML body). This also works with offsets. For example:
-`?foo?+1,$-10s/<pattern>/<replacement>/' does the subsitutions from the line after previous
+`?foo?+1,$-10s/<pattern>/<replacement>/` does the subsitutions from the line after previous
 instance of `foo` to 10 lines before end of file. 
 
 The above commands will only do the substitution once, but typically you want it done multiple
@@ -169,7 +173,7 @@ across the matching lines. Some examples:
 character).
 * `:g! /^\s/ :center` - center only lines that are NOT indented.
 * `:g /<ISBN>/ :normal gUU` - run a normal mode command (convert all lines containing `<ISBN>`
-to upper-case).`
+to upper-case).
 * `:g /./ :.;/^$/join` - convert all paragraphs into a single line to make the text less messy
 if it was copy-pasted in MS Word or something. Note that we use a range `.;/^$/` in a colon 
 command being invoked:
@@ -227,7 +231,7 @@ endif
 
 This will make Vim create a history file in each directory being edited. To consolidate
 all the edit histories in a single directory somewhere, set `undodir` in your .vimrc. 
-By default, Vim wil remember 1000 levels of changes. You can set `undolevel` to customise
+By default, Vim will remember 1000 levels of changes. You can set `undolevel` to customise
 this amount.
 
 Vim also keeps track of you command history. If you want to rerun a colon command you 
@@ -237,12 +241,18 @@ to narrow it down. Furthermore, you can use autocompletion with Tab key when typ
 your colon commands. This works with commands, file names, command arguments and so forth -
 pretty much all Vim knows about can be autocompleted.
 
+To cut/delete the current line you can do `dd` or `:d`.
+
+To write the contents of buffer to file, use `:w` command (optionally with file name). To
+open another file, use `:edit` command. To quit Vim, use `:q` (or `:q!` if you want to
+discard changes). Writing out and quitting can be done in a single command: `:wq` or `:x`.
+
 Insert mode commands
 --------------------
 
 `Ctrl-Y` duplicates whats in the same column on the preceding line (one character at a time).
 `Ctrl-E` does this from the next line. `Ctrl-A` inserts the last inserted text again. `Ctrl-R=`
-evaluated any valid Vimscript expression (can be simple arithmetic) and insert the result. 
+evaluates any valid Vimscript expression (can be simple arithmetic) and insert the result. 
 For example, one could type `2+2` in the prompt at the bottom, press Enter and `4` would be 
 inserted.
 
@@ -285,10 +295,10 @@ Visual modes
 
 When you type `v` Vim enters the visual mode. As you move your cursor around, it will hightlight
 the text and select it. Once you have selected the exact text you want, you can run a normal
-mode command and it will apply to that portion of text. That the basic visual mode.
+mode command and it will apply to that portion of text. That is the basic visual mode.
 
 There's also visual line mode that entails selecting entire lines. You can enter it by typing
 capital `V` in the normal mode (or in basic visual mode if you want to switch).
 
-Lastly, there' visual block mode for selecting a rectangular block to deal with something like
+Lastly, there's a visual block mode for selecting a rectangular block to deal with something like
 ASCII art tables. It can be entered by typing Ctrl-V. 
