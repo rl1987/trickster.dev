@@ -101,7 +101,7 @@ Getting a page URL given the stock symbol is easy: just append it to
 `https://finance.yahoo.com/quote/`.
 
 The entire Python script that reads tickers from a text file and scrapes the 
-summary table would be like this:
+summary table for each of them would be like this:
 
 ```python
 #!/usr/bin/python3
@@ -196,4 +196,141 @@ if __name__ == "__main__":
 
 ```
 
-WRITEME: scraping time series
+When launching this, we get some stock summaries saved into summary.csv file.
+
+[Screenshot 6](/2023-01-14_16.52.20.png)
+
+Now let us explore how that little stock price chart is getting data. Switch
+on the DevTools and go to Network tab. Press XHR button so that it shows
+only the requests that are launched by client-side JS code. Then press some
+of the time range switches on top of the chart and see what happens. 
+
+[Screenshot 7](/2023-01-14_16.50.53.png)
+[Screenshot 8](/2023-01-14_17.01.31.png)
+
+We see that there's an API call that fetches the the price data during time
+window that the user chose. A list of valid ranges is included into 
+API response as well.
+
+We would like to scrape all the data that is needed to recreate a candle chart.
+Each candlestick in the chart represents the following price number for a
+day, hour, minute or some other interval:
+
+* Open Price - price of asset at the beginning of interval.
+* Close Price - price at the end of interval.
+* Low Price - lowest price during the interval.
+* High Price - highest price during the interval.
+
+For more information, see [this article](https://www.investopedia.com/trading/candlestick-charting-what-is-it/).
+
+This is indeed what the private Yahoo! Finance API gives us. Note that we get
+many intervals across the big range that was selected on the chart. Both
+candle interval and overall range can be chosen by setting the appropriate
+parameters.
+
+Since this is fairly straightforward API scraping, our code is simple as well:
+
+```python
+#!/usr/bin/python3
+
+import csv
+import sys
+
+import requests
+
+FIELDNAMES = ["symbol", "timestamp", "open", "close", "high", "low", "url"]
+
+
+def main():
+    if len(sys.argv) != 4:
+        print("Usage:")
+        print("{} <symbol> <interval> <range>".format(sys.argv[0]))
+        return 0
+
+    symbol = sys.argv[1]
+    interval = sys.argv[2]
+    range_ = sys.argv[3]
+
+    if not range_ in [
+        "1d",
+        "5d",
+        "1mo",
+        "3mo",
+        "6mo",
+        "1y",
+        "2y",
+        "5y",
+        "10y",
+        "ytd",
+        "max",
+    ]:
+        print("Error: Invalid range")
+        return -1
+
+    params = {
+        "region": "US",
+        "lang": "en-US",
+        "includePrePost": False,
+        "interval": interval,
+        "useYfid": True,
+        "range": range_,
+        "corsDomain": "finance.yahoo.com",
+        ".tsrc": "finance",
+    }
+
+    url = "https://query1.finance.yahoo.com/v8/finance/chart/" + symbol
+
+    resp = requests.get(
+        url,
+        params=params,
+        headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36"
+        },
+    )
+    print(resp.url)
+
+    result_dict = resp.json().get("chart", dict()).get("result")[0]
+    timestamps = result_dict.get("timestamp")
+    quote_dict = result_dict.get("indicators").get("quote")[0]
+    open_prices = quote_dict.get("open")
+    close_prices = quote_dict.get("close")
+    high_prices = quote_dict.get("high")
+    low_prices = quote_dict.get("low")
+
+    out_f = open(symbol + ".csv", "w", encoding="utf-8")
+
+    csv_writer = csv.DictWriter(out_f, fieldnames=FIELDNAMES, lineterminator="\n")
+    csv_writer.writeheader()
+
+    for i in range(len(timestamps)):
+        row = {
+            "symbol": symbol,
+            "timestamp": timestamps[i],
+            "open": open_prices[i],
+            "close": close_prices[i],
+            "high": high_prices[i],
+            "low": low_prices[i],
+            "url": resp.url,
+        }
+
+        csv_writer.writerow(row)
+
+    out_f.close()
+
+
+if __name__ == "__main__":
+    main()
+
+```
+
+We went through a couple of simple Yahoo! Finance scraping examples, but there's
+far more data that could be scraped from there. One could scrape financial
+news articles to do market sentiment analysis on them, further quantitive
+data from Statistic, Historical Data, Financials and other tabs of stock
+page. For some markets, real time data is available via web socket.
+
+Furthermore, it is possible to do pure API scraping by tapping into Yahoo!
+Finance mobile app API communications and reproducing them programmatically.
+This would let us avoid doing any HTML parsing with XPath queries, like we
+avoided in our time series example.
+
