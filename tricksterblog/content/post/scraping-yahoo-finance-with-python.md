@@ -100,8 +100,8 @@ Type "help", "copyright", "credits" or "license" for more information.
 Getting a page URL given the stock symbol is easy: just append it to
 `https://finance.yahoo.com/quote/`.
 
-The entire Python Python scripts that reads tickers from a text file and
-scrapes the summary table would be like this:
+The entire Python script that reads tickers from a text file and scrapes the 
+summary table would be like this:
 
 ```python
 #!/usr/bin/python3
