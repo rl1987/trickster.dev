@@ -169,12 +169,12 @@ About to yield 3
 ```
 
 Generator functions/methods can be quite useful in web scraper and bot
-development as they enable us to avoid gathering partial or intermediate
-results in a collection, which is undesirable from peformance perspective. 
+development as they enable us to avoid gathering scraped
+results in a collection, which is undesirable from performance perspective. 
 By using generators, we can structure our code as pipeline, with each datum 
 going through the processing steps as soon as it is ready. Generator functions
-can stateful - all the variables in the function keep their values between the 
-moments values are generated.
+can be stateful - all the variables in the function retain their values between 
+the moments values are generated.
 
 Consider the following example.
 
