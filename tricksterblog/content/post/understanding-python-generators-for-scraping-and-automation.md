@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
 title = "Understanding Python generators for scraping and automation"
-date = "2023-01-31"
-draft = true
-tags = ["python"]
+date = "2023-01-15"
+tags = ["python", "scraping"]
 +++
 
 On the [front page of Scrapy framework](https://scrapy.org/) there's the 
