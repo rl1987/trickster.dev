@@ -34,7 +34,7 @@ Make sure that JavaScript is chosen in the language drop-down menu and
 `@babel/parser` is selected in the parser drop-down. Press the "Transform"
 switch and choose `babelv7`. Now we have two new UI sections here. 
 
-[TODO: screenshot]
+[Screenshot 1](/2023-01-17_19.56.13.png)
 
 In the bottom left, there's a transform code editing section. By default
 ASTExplorer gives you the following example code that reverses the order
@@ -85,7 +85,7 @@ export default function (babel) {
 We can see that `console["log"]("\x41\x42\x43");` from the input indeed became
 `console["log"]("ABC");` in the output.
 
-[TODO: screenshot]
+[Screenshot 2](/2023-01-17_20.20.35.png)
 
 Since other two changes we want to make work on different node classes, we
 can extend the top `visitor` object to include them as well:
@@ -125,7 +125,7 @@ console.log("ABC"); // ABC
 console.log("123");
 ```
 
-[TODO: screenshot]
+[Screenshot 3](/2023-01-17_20.24.51.png)
 
 That's nice, but our transform code is not particularly clean, as we are
 performing three different kinds of changes in one go. It does not matter much
@@ -300,5 +300,5 @@ When you call `console.log()` on a Babel object such as node, path, scope and
 open Chrome DevTools you can inspect various properties to debug your 
 transformations.
 
-[TODO: screenshot]
+[Screenshot 4](/2023-01-17_22.07.48.png)
 
