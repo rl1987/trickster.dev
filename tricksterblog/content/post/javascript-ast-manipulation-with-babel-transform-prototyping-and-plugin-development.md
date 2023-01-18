@@ -6,17 +6,16 @@ draft = true
 tags = ["security", "reverse-engineering", "javascript"]
 +++
 
-In previous posts we have went through a few JavaScript obfuscation techniques
+In previous posts we have went through several JavaScript obfuscation techniques
 and how they could be reversed by applying Abstract Syntax Tree transformations.
 AST manipulation is a powerful skill that is of particular importance in
 certain kinds of grayhat programming projects. Earlier, we have focused on how
 exactly AST could be changed to undo specific kinds of obfuscations. This time,
-however, we will look a bit broader into Babel to see what kinds of facilities
-it provides to develop AST manipulation code that goes beyond a single AST
-transformation. Furthermore, we will review some Babel APIs to traverse and
-modify the AST.
+however, we will take a bit broader look into Babel to see how it facilitates
+development of AST manipulation code that goes beyond a single AST
+transformation.
 
-In [one of the posts](javascript-ast-manipulation-with-babel-the-first-steps/)
+In [one of the posts](/post/javascript-ast-manipulation-with-babel-the-first-steps)
 we have shown some trivial examples of AST manipulation:
 * Undoing hexadecimal string encoding
 * Converting bracket notation to dot notation
@@ -36,7 +35,7 @@ switch and choose `babelv7`. Now we have two new UI sections here.
 
 [Screenshot 1](/2023-01-17_19.56.13.png)
 
-In the bottom left, there's a transform code editing section. By default
+On the bottom left, there's a transform code editing section. By default
 ASTExplorer gives you the following example code that reverses the order
 or characters in identifier names:
 
@@ -130,7 +129,7 @@ console.log("123");
 That's nice, but our transform code is not particularly clean, as we are
 performing three different kinds of changes in one go. It does not matter much
 for simple example like this, but real-world deobfuscators will involve far
-more complexity and should be written with one the best programming practices
+more complexity and should be written with one of the best programming practices
 in mind: keeping stuff separate without letting it became a single intractable
 mess of spaghetti code. Thus we want a better structure in our code.
 
@@ -193,7 +192,7 @@ fs.writeFileSync(path.join(__dirname, 'output.js'), result.code, 'utf-8');
 
 In our previous code in the previous posts, we had parsing, AST traversal, 
 code generation as separate steps, which is good for understanding what's going 
-with the code, but introduces a bit of repetitive boilerplate. Now we are using
+on in the code, but introduces a bit of repetitive boilerplate. Now we are using
 `transformFileSync()` function that does all three steps for us. It takes 
 a file path to input JS file and a list of plugins. Each plugin is a
 named AST manipulation step that entails one or more visitor functions that are
