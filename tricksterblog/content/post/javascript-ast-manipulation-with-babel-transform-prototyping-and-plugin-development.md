@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: transform prototyping and plugin development"
-date = "2023-01-31"
-draft = true
+date = "2023-01-18"
 tags = ["security", "reverse-engineering", "javascript"]
 +++
 
@@ -12,7 +11,7 @@ AST manipulation is a powerful skill that is of particular importance in
 certain kinds of grayhat programming projects. Earlier, we have focused on how
 exactly AST could be changed to undo specific kinds of obfuscations. This time,
 however, we will take a bit broader look into Babel to see how it facilitates
-development of AST manipulation code that goes beyond a single AST
+development of AST manipulation code that goes beyond a single AST 
 transformation.
 
 In [one of the posts](/post/javascript-ast-manipulation-with-babel-the-first-steps)
