@@ -301,3 +301,8 @@ transformations.
 
 [Screenshot 4](/2023-01-17_22.07.48.png)
 
+To learn more about Babel plugin development, see:
+
+* [Babel plugin handbook](https://github.com/jamiebuilds/babel-handbook/blob/master/translations/en/plugin-handbook.md)
+* [`@babel/core` documentation](https://babeljs.io/docs/en/babel-core)
+
