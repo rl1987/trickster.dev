@@ -22,7 +22,7 @@ debugger;
 Babel parses this into two `DebuggerStatement` nodes and and one 
 `ExpressionStatement` node. 
 
-[TODO: screenshot]
+[Screenshot](/2023-01-23_14.41.51.png)
 
 We don't need to worry about `File` and `Program` objects and should only focus
 on the program body that contains the following child nodes:
