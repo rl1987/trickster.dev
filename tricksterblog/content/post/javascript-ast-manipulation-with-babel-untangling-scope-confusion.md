@@ -174,7 +174,206 @@ of generating unique names, Babel provides us `Scope.generateUidIdentifier()`
 method that we used to get a new `Identifier` node. Fixing name duplication 
 turned out to be just a few lines of code.
 
-WRITEME: real-worldish example on ASTExplorer
+Note that in some cases you may need to call `crawl()` on current or parent 
+scope to make it update all the JS statements that reference the identifier
+that has just been renamed.
+
+Let us get more serious now by applying DefendJS scope obfuscation feature:
+
+```
+$ cp 1.js 6.js  
+$ defendjs --input 6.js --features scope --output . 
+```
+
+The obfuscated version of the code is now like this:
+
+```javascript
+(function () {
+    {
+        {
+            function b(a, b) {
+                return Array.prototype.slice.call(a).concat(Array.prototype.slice.call(b));
+            }
+            function c() {
+                var a = arguments[0], c = Array.prototype.slice.call(arguments, 1);
+                var b = function () {
+                    return a.apply(this, c.concat(Array.prototype.slice.call(arguments)));
+                };
+                b.prototype = a.prototype;
+                return b;
+            }
+            function d(a, b) {
+                return Array.prototype.slice.call(a, b);
+            }
+            function e(b) {
+                var c = {};
+                for (var a = 0; a < b.length; a += 2) {
+                    c[b[a]] = b[a + 1];
+                }
+                return c;
+            }
+            function f(a) {
+                return a.map(function (a) {
+                    return String.fromCharCode(a & ~0 >>> 16) + String.fromCharCode(a >> 16);
+                }).join('');
+            }
+            function g() {
+                return String.fromCharCode.apply(null, arguments);
+            }
+        }
+        var a = [];
+        a[0] = 10;
+        a[1] = 20;
+        a[2] = 30;
+        console.log(a[0] + a[2]);
+        console.log(a[0] + a[1]);
+    }
+}())
+```
+
+Applying the current Babel transform does rename some variables in the junk
+functions, but code stays mostly the same:
+
+```javascript
+(function () {
+  {
+    {
+      function b(a, b) {
+        return Array.prototype.slice.call(a).concat(Array.prototype.slice.call(b));
+      }
+
+      function c() {
+        var _a = arguments[0],
+            _c = Array.prototype.slice.call(arguments, 1);
+
+        var _b = function () {
+          return _a.apply(this, _c.concat(Array.prototype.slice.call(arguments)));
+        };
+
+        _b.prototype = _a.prototype;
+        return _b;
+      }
+
+      function d(a, b) {
+        return Array.prototype.slice.call(a, b);
+      }
+
+      function e(b) {
+        var _c2 = {};
+
+        for (var _a2 = 0; _a2 < b.length; _a2 += 2) {
+          _c2[b[_a2]] = b[_a2 + 1];
+        }
+
+        return _c2;
+      }
+
+      function f(a) {
+        return a.map(function (a) {
+          return String.fromCharCode(a & ~0 >>> 16) + String.fromCharCode(a >> 16);
+        }).join('');
+      }
+
+      function g() {
+        return String.fromCharCode.apply(null, arguments);
+      }
+    }
+    var _a3 = [];
+    _a3[0] = 10;
+    _a3[1] = 20;
+    _a3[2] = 30;
+    console.log(_a3[0] + _a3[2]);
+    console.log(_a3[0] + _a3[1]);
+  }
+})();
+```
+
+Can we remove these junk functions that do not get called anywhere?
+Let us try reworking the transform.
+
+Remember that `Binding` object also keeps track of references to the
+identifier in question? We can remove these functions based on them not being
+referenced anywhere:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "ast-transform", // not required
+    visitor: {
+      FunctionDeclaration(path) {
+        let fnName = path.node.id.name;
+        let binding = path.scope.getBinding(fnName);
+        if (!binding.referenced) path.remove();
+      }
+    }
+  };
+}
+
+```
+
+Now the code in the output is like this:
+
+```javascript
+(function () {
+  {
+    {
+      function b(a, b) {
+        return Array.prototype.slice.call(a).concat(Array.prototype.slice.call(b));
+      }
+
+      function c() {
+        var a = arguments[0],
+            c = Array.prototype.slice.call(arguments, 1);
+
+        var b = function () {
+          return a.apply(this, c.concat(Array.prototype.slice.call(arguments)));
+        };
+
+        b.prototype = a.prototype;
+        return b;
+      }
+    }
+    var a = [];
+    a[0] = 10;
+    a[1] = 20;
+    a[2] = 30;
+    console.log(a[0] + a[2]);
+    console.log(a[0] + a[1]);
+  }
+})();
+```
+
+All but two junk functions got removed. A closer look into the remaining 
+functions reveals that they are referencing themselves. Furthermore, we ran
+into a weird feature of JavaScript: [`var` statements](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var)
+that are able to transcend the child scope and set the variable in a more global
+scope. For example, the following code snippet from Mozilla developer portal 
+counter-intuitively prints `2` twice:
+
+```javascript
+var x = 1;
+
+if (x === 1) {
+  var x = 2;
+
+  console.log(x);
+  // Expected output: 2
+}
+
+console.log(x);
+// Expected output: 2
+
+```
+
+In the currently deobfuscated code `b()` references itself and `c()` references
+`b()` (and also itself) through `var` statement. 
+
+At the moment I can't think of a solution to resolve this kind of circular
+references, but we already made some progress. We can see that both remaining
+functions are not called anywhere and don't really do anything. Thus is it safe
+to disregard them for time being.
 
 Note however that Babel does not track scopes across files. It can only work 
-with one file at a time.
+with one file at a time. 
