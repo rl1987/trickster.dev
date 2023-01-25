@@ -47,7 +47,7 @@ let y = 20;
 console.log(x + y);
 ```
 
-[TODO: screenshot]
+[Screenshot 1](/2023-01-25_16.08.58.png)
 
 We can see that there is no data about scopes and bindings in the final AST
 that Babel parser outputs. There's a small trick to getting to that in 
@@ -83,7 +83,7 @@ current scope inherits them.
 * `path` - a `NodePath` object that references back to the visited node and its
 position within AST.
 
-[TODO: screenshot]
+[Screenshot 2](/2023-01-25_17.19.05.png)
 
 Some interesting properties of `Binding` object are:
 
@@ -95,6 +95,8 @@ scope.
 * `references` - number of references to identifier within the scope.
 * `referencePaths` - an array of `NodePath` objects that are associated with the 
 current identifier being referenced within the scope.
+
+[Screenshot 3](/2023-01-25_16.18.57.png)
 
 Note that for `x` we have 2 references and for `y` we have only one reference.
 That should be expected, as in the inner lexical scope there is new declaration
@@ -126,6 +128,8 @@ We are visiting `VariableDeclarator` nodes, but we are only interested in the
 ones that declare `y`. For these, we log the current scope and parent scope.
 In our example, parent scope is the scope for entire program and child scope
 is within the curly braces.
+
+[Screenshot 4](/2023-01-25_21.48.07.png)
 
 To check for identifier name duplication, we can look into parent scope bindings
 and see if there's a binding for another identitifier with the same name that
@@ -372,7 +376,7 @@ In the currently deobfuscated code `b()` references itself and `c()` references
 
 At the moment I can't think of a solution to resolve this kind of circular
 references, but we already made some progress. We can see that both remaining
-functions are not called anywhere and don't really do anything. Thus is it safe
+functions are not called anywhere and don't really do anything. Thus it is safe
 to disregard them for time being.
 
 Note however that Babel does not track scopes across files. It can only work 
