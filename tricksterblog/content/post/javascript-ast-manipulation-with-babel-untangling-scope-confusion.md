@@ -127,9 +127,54 @@ ones that declare `y`. For these, we log the current scope and parent scope.
 In our example, parent scope is the scope for entire program and child scope
 is within the curly braces.
 
-WRITEME: toy example on ASTExplorer
+To check for identifier name duplication, we can look into parent scope bindings
+and see if there's a binding for another identitifier with the same name that
+is being overridden. To prevent identifiers from being overriden we can rename
+the new identifiers in child scopes. Let me show an example of Babel transform
+that would do this:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "ast-transform", // not required
+    visitor: {
+      VariableDeclarator(path) {
+        let idName = path.node.id.name;
+        let parentScope = path.scope.parent;
+        if (!parentScope) return;
+        if (parentScope.getBinding(idName)) {
+          let newName = path.scope.generateUidIdentifier(idName);
+          path.scope.rename(idName, newName.name);
+        }
+      }
+    }
+  };
+}
+```
+
+This transform modifies the snippet so that constant name duplication goes
+away:
+
+```javascript
+let x = 10;
+let y = 20;
+{
+  let _y = 30;
+  console.log(x + _y);
+}
+console.log(x + y);
+```
+
+We used `Scope.rename()` method to rename the constant within the scope 
+(covering both the declaration and statement that uses it) to a name that does
+not duplicate with constant name in a parent scope. To save us from the hassle
+of generating unique names, Babel provides us `Scope.generateUidIdentifier()`
+method that we used to get a new `Identifier` node. Fixing name duplication 
+turned out to be just a few lines of code.
 
 WRITEME: real-worldish example on ASTExplorer
 
-Note however that Babel does not track variables scopes across files. It can 
-only work with one file at a time.
+Note however that Babel does not track scopes across files. It can only work 
+with one file at a time.
