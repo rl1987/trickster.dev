@@ -82,7 +82,7 @@ current scope inherits them.
 * `path` - a `NodePath` object that references back to the visited node and its
 position within AST.
 
-[Screenshot 2](/2023-01-25_17.19.05.png)
+[Screenshot 2](/2023-01-25_16.18.57.png)
 
 Some interesting properties of `Binding` object are:
 
