@@ -49,6 +49,8 @@ have a following subtree:
  * `body`: `BlockStatement`
    * `body`: `[]` (`ExpressionStatement`s)
 
+[Screenshot 1](/2023-01-29_19.14.55.png)
+
 We want to modify the function body, so we will get a `NodePath` for the
 `BlockStatement` at `body` property of `FunctionDeclaration`. The exact array
 we want to modify is `body` of `BlockStatement`. Thus we call the above
@@ -86,6 +88,9 @@ function say_abc() {
 
 say_abc();
 ```
+
+[Screenshot 2](/2023-01-29_19.12.58.png)
+[Screenshot 3](/2023-01-29_19.15.54.png)
 
 If for some reason you want to skip traversal of children of current node
 (e.g. to avoid infinite loop when nodes are being added) you can call
