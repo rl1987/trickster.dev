@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: AST modification APIs"
-date = "2023-01-31"
-draft = true
+date = "2023-01-30"
 tags = ["security", "reverse-engineering", "javascript"]
 +++
 
@@ -12,7 +11,7 @@ used `NodePath.replaceWith()` method to replace one node with another and
 mutable, we can also modify the AST without traversing it. But there is more
 to learn about AST modification than what we have seen before. We will go 
 through some more AST modification APIs that should prove to be useful
-when developing JS deobfuscators, so that we could have them in our toolbox.
+when developing JS deobfuscators. 
 
 `NodePath.replaceWithMultiple()` replaces a single node with a list of nodes.
 
