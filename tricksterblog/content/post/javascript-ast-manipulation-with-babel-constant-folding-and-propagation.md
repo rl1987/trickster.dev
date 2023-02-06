@@ -18,9 +18,13 @@ console.log(msg, fourtyTwo);
 We have one numeric constant (`fourtyTwo`) and one string constant (`msg`)
 that are passed into `console.log()`. Let us apply constant obfuscation by 
 using [obfuscator.io](https://obfuscator.io) with "Numbers To Expressions"
-and "Split Strings" checkboxes being on. This yields the following obfuscated
-version of the above snippet that we put into 
-[AST Explorer](https://astexplorer.net):
+and "Split Strings" checkboxes being on. 
+
+[Screenshot 1](/2023-02-06_15.33.39.png)
+[Screenshot 2](/2023-02-06_15.34.55.png)
+
+This yields the following obfuscated version of the above snippet that we put 
+into [AST Explorer](https://astexplorer.net):
 
 ```javascript
 const fourtyTwo = 0x25fb + 0x3eb * -0x9 + -0x28e;
@@ -28,7 +32,7 @@ const msg = 'The\x20answer' + '\x20is:';
 console['log'](msg, fourtyTwo);
 ```
 
-[TODO: screenshot]
+[Screenshot 3](/2023-02-06_15.43.50.png)
 
 Instead of simple integer constant and string we got some expressions that
 can be evaluated back into the original values, thus retaining the original
@@ -41,6 +45,10 @@ property. The `init` property points to a multi-level tree made up of mostly
 adding two numbers or strings together). Number negation is represented
 by `UnaryExpression` nodes. Leaves of this subtree are `NumericLiteral` and
 `StringLiteral` nodes.
+
+[Screenshot 4](/2023-02-06_15.44.54.png)
+[Screenshot 5](/2023-02-06_15.44.23.png)
+[Screenshot 6](/2023-02-06_15.44.54.png)
 
 Turning numbers into hexadecimal form is also done as a minor obfuscation
 that we can easily reverse. The trick is to delete `.extra.raw` in the
@@ -70,6 +78,8 @@ const fourtyTwo = 9723 + 1003 * -9 + -654;
 const msg = 'The\x20answer' + '\x20is:';
 console['log'](msg, fourtyTwo);
 ```
+
+[Screenshot 7](/2023-02-06_15.57.11.png)
 
 After this sidenote, we now want to use Babel to turn these expressions
 back into original values. This can be done by doing a code transformation 
@@ -124,6 +134,8 @@ const fourtyTwo = 42;
 const msg = "The answer is:";
 console['log'](msg, fourtyTwo);
 ```
+
+[Screenshot 8](/2023-02-06_20.14.53.png)
 
 So far, so good. But what if we wanted to take this a bit further? There's
 really no need to have two named constants that are only used in `console.log()`
@@ -193,6 +205,8 @@ t = Math.floor(Date.now() / 1000);
 console.log(t);
 
 ```
+
+[Screenshot 9](/2023-02-06_16.55.59.png)
 
 One last thing... In the above examples, a `const` keyword was used when 
 declaring a constant, but it does not really matter for the purposes of this
