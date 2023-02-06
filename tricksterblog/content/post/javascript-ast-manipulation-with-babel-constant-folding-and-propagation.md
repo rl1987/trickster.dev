@@ -194,7 +194,8 @@ with literal value by checking the `init` field. Next, we get a scope binding
 object and check the `constant` Boolean property. If these checks pass, we
 replace all the references to this variable with the literal node containing
 the value. Lastly, we remove the constant declaration as we no longer need it
-in the code. For more on scopes and bindings, see a previous post. [TODO: link]
+in the code. For more on scopes and bindings, see a 
+[previous post](/post/javascript-ast-manipulation-with-babel-untangling-scope-confusion).
 
 The modified snippet is now the following:
 
