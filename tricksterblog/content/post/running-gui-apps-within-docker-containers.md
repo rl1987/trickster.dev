@@ -161,7 +161,7 @@ Kasm Workspaces use KasmVNC - a VNC solution that is developed by the same compa
 docker-android
 --------------
 
-So far we talked about running Linux GUI apps inside containers. But what about running Android apps? Turn out, it is
+So far we talked about running Linux GUI apps inside containers. But what about running Android apps? Turns out, it is
 possible to run an entire Android emulator within Docker container and expose it through novnc interface by using
 solution called [docker-android](https://github.com/budtmo/docker-android). Even though it warns about nested virtualization
 not being completely supported, I was able to run it through the following command on Digital Ocean VPS:
