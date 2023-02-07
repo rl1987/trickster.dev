@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: constant folding and propagation"
 date = "2023-02-07"
-draft = true
 tags = ["security", "reverse-engineering", "javascript"]
 +++
 
@@ -122,7 +121,7 @@ export default function (babel) {
 
 We target `BinaryExpression` nodes with our visitor function and just call
 the `evaluate()` method on associated `NodePath` object. If the result 
-passes some simple sanity checks (the aforementioned `confident` flag, ability
+passes some simple sanity checks (the aforementioned `confident` flag and ability
 to convert the resulting value into a `Literal`) we replace the 
 `BinaryExpression` node with newly generated `NumericLiteral`/`StringLiteral`
 node containing the same value that JS interpreter would have to compute.
@@ -159,10 +158,10 @@ console.log(t);
 Since `t` here is not a constant it should be left unmodified.
 
 Since code obfuscation solutions may introduce scope confusion by creating
-multiple identifiers with same name in multiple lexical scopes, it's no
-good to substitute variable names into values based on name alone. Luckily 
-for us, we can use Babel scopes and bindings to perform substitution in a 
-smarter way. The transform would be like this:
+multiple identifiers with same name in multiple lexical scopes, it's insufficient
+to substitute variable names into values based on name alone. We can use Babel 
+scopes and bindings to perform substitution in a smarter way. The transform 
+would be like this:
 
 ```javascript
 export default function (babel) {
