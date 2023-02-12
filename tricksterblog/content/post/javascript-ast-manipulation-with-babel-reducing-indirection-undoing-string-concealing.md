@@ -51,7 +51,7 @@ Calls Tranform" and "String Array Encoding" options, then do AST-level
 transformation to undo the obfuscation and get the code as close as possible
 to what we started with.
 
-[TODO: screenshots]
+[Screenshot 1](/2023-02-11_14.33.44.png)
 
 Obfuscation tool converts the above snippet into this:
 
@@ -162,12 +162,21 @@ string array.
 3. An IIFE that relies on the above two functions to get some of the string
 values, but is otherwise quite similar to the code we started with.
 
+[Screenshot 2](/2023-02-11_14.51.25.png)
+[Screenshot 3](/2023-02-11_14.51.15.png)
+[Screenshot 3](/2023-02-11_14.51.37.png)
+
 What is going in this middle function? A quick Google search of the large
 constant suggests that it has something to do with Base64 encoding, which 
 is consistent with obfuscation settings we used. 
 
+[Screenshot 4](/2023-02-11_14.58.55.png)
+
 However it also seems to something beyond just Base64 as the strings in the
 encoded array do not yield anything readable when decoded with Base64 algorithm.
+
+[Screenshot 5](/2023-02-11_14.58.35.png)
+
 At this point we don't quite know what it does exactly, but let us put that
 question aside.
 
@@ -183,10 +192,13 @@ directly and the `_0xdc848` object is gone.
 In the AST we got the following: there a `VariableDeclarator` with an 
 `ObjectExpression` that has multiple `ObjectProperty` nodes in `properties`
 array. Each `value` fields of these `ObjectProperty` objects points to 
-a `StringLiteral` node. So that's the `_0xdc848` object. Each reference
+a `NumericLiteral` node. So that's the `_0xdc848` object. Each reference
 to this object (e.g. `_0xdc848._0x3da25d`) is a `MemberExpression` with 
 object name at `object` field and key at `property` field (both represented
 as `Identifier`s). 
+
+[Screenshot 6](/2023-02-12_16.04.27.png)
+[Screenshot 7](/2023-02-12_16.05.13.png)
 
 So what we want to do is to replace `MemberExpression`s that reference the
 constant map object with `NumericLiteral` nodes containing the final value,
@@ -281,6 +293,8 @@ The IIFE at the bottom now looks like this:
   }
 })();
 ```
+
+[Screenshot 8](/2023-02-11_15.38.49.png)
 
 Well, that's a bit better, but we still got some indirection in the code. There
 are some variables/constants that do nothing but just server as another name for
@@ -413,6 +427,8 @@ function _0x4ad0(_0x5d79db, _0x4ad0a1) {
 })();
 ```
 
+[Screenshot 9](/2023-02-11_16.18.05.png)
+
 In the IIFE we got direct calls to decoder function, as well as slightly
 simplified code in the decoder function itself. We're getting close now.
 Let us rename some of the identifiers to more readable form by applying 
@@ -542,6 +558,8 @@ function decode(_0x5d79db, _0x4ad0a1) {
 })();
 ```
 
+[Screenshot 10](/2023-02-11_16.35.02.png)
+
 One minor issue is that it incorrectly renamed something to `response` and
 `json` in the `decode()` function, but we can afford not to worry about this,
 as this functions is going away soon.
@@ -593,6 +611,8 @@ function decode(_0x5d79db, _0x4ad0a1) {
 
 
 ```
+
+[Screenshot 11](/2023-02-11_17.02.49.png)
 
 What we have achieved is the following:
 
@@ -669,3 +689,5 @@ we had in the initial snippet:
 })();
 
 ```
+
+[Screenshot 12](/2023-02-11_17.35.49.png)
