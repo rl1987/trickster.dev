@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: reducing indirection, undoing string concealing"
-date = "2023-02-12"
+date = "2023-02-13"
 draft = true
 tags = ["security", "reverse-engineering", "javascript"]
 +++
@@ -157,25 +157,29 @@ At topmost level of the program, there are three major parts (two
 `FunctionDeclaration` objects and one `ExpressionStatement`):
 
 1. A small function that returns a hardcoded array with encoded string literals.
-2. A bigger function that seems to do string decoding given an index(?) within
-string array.
+2. A bigger function that seems to do string decoding given what seems to be an
+index within string array.
 3. An IIFE that relies on the above two functions to get some of the string
 values, but is otherwise quite similar to the code we started with.
 
-[Screenshot 2](/2023-02-11_14.51.25.png)
-[Screenshot 3](/2023-02-11_14.51.15.png)
-[Screenshot 3](/2023-02-11_14.51.37.png)
+[Screenshot 2](/2023-02-11_14.51.15.png)
+[Screenshot 3](/2023-02-11_14.51.25.png)
+[Screenshot 4](/2023-02-11_14.51.37.png)
 
 What is going in this middle function? A quick Google search of the large
 constant suggests that it has something to do with Base64 encoding, which 
 is consistent with obfuscation settings we used. 
 
-[Screenshot 4](/2023-02-11_14.58.55.png)
+[Screenshot 5](/2023-02-11_14.58.55.png)
 
 However it also seems to something beyond just Base64 as the strings in the
 encoded array do not yield anything readable when decoded with Base64 algorithm.
 
-[Screenshot 5](/2023-02-11_14.58.35.png)
+```
+$ echo "yxbPlM5PA2uUy29T" | base64 -d | hexdump -C
+00000000  cb 16 cf 94 ce 4f 03 6b  94 cb 6f 53              |?.?.?O.k.?oS|
+0000000c
+```
 
 At this point we don't quite know what it does exactly, but let us put that
 question aside.
@@ -202,7 +206,7 @@ as `Identifier`s).
 
 So what we want to do is to replace `MemberExpression`s that reference the
 constant map object with `NumericLiteral` nodes containing the final value,
-then get rid of the `_0xdc848` as it won't be needed anymore. We do this
+then get rid of the `_0xdc848` thing as it won't be needed anymore. We do this
 with the following transform:
 
 ```javascript
@@ -252,7 +256,7 @@ export default function (babel) {
 We target `VariableDeclarator` nodes with a visitor function, do some quick
 checks that variable declarator we have found is declaring a constant object.
 Then we gather key-value pairs into a new object while checking that each value
-is a literal (e.g. some numeric constant). Then we iterate across references
+is a literal (e.g. some numeric constant). Next we iterate across references
 by using Babel scope and binding (see previous post on this) to replace
 an object reference (`MemberExpression` node) with the final value (we get
 it by saying `refPath.parentPath.node` as each entry in `Binding.referencePaths`
@@ -297,7 +301,7 @@ The IIFE at the bottom now looks like this:
 [Screenshot 8](/2023-02-11_15.38.49.png)
 
 Well, that's a bit better, but we still got some indirection in the code. There
-are some variables/constants that do nothing but just server as another name for
+are some variables/constants that do nothing but just serve as another name for
 something else in the code. One culprit is `_0x15ca68` in the IIFE, but there's
 some more in the functions further up. What we can do is get rid of these 
 secondary variables and replace all references to them with references to the
@@ -562,7 +566,7 @@ function decode(_0x5d79db, _0x4ad0a1) {
 
 One minor issue is that it incorrectly renamed something to `response` and
 `json` in the `decode()` function, but we can afford not to worry about this,
-as this functions is going away soon.
+as this function is going away soon.
 
 We are getting close to our grand finale, but there's one small thing we would
 like to fix. In the `decode()` function there is a single call to 
@@ -618,13 +622,13 @@ What we have achieved is the following:
 
 * String decoding logic is now contained into a single function - `decode()`.
 The code of this function could be regenerated with Babel and passed into 
-`eval()`, `Function.call()` or Node's [`vm` API](https://nodejs.org/api/vm.html)
+`Function.call()` or Node's [`vm` API](https://nodejs.org/api/vm.html)
 to get decoded values.
 * We have explicit argument values to use with `decode()` in the IIFE.
 
-These two this are enough to undo the string concealing. For the sake of
+We are now prepared to undo the string concealing. For the sake of
 simplicity we will refrain from regenerating code for `decode()` function 
-and will copy-paste it into AST Explorers transform pane instead. The 
+and will copy-paste it into AST Explorer's transform pane instead. The 
 final transform is as follows:
 
 ```javascript
@@ -657,7 +661,7 @@ export default function (babel) {
 }
 ```
 
-This yields a deobfuscated version of code that is quite similar to what 
+This yields a deobfuscated version of code that is very similar to what 
 we had in the initial snippet:
 
 ```javascript
@@ -691,3 +695,9 @@ we had in the initial snippet:
 ```
 
 [Screenshot 12](/2023-02-11_17.35.49.png)
+
+Unifying all the AST transforms we did into a single script that Node.JS could
+run is left as an exercise to the reader. Another exercise could be regenerating
+the `decode()` function from AST form, so that it would not need to be 
+copy-pasted into deobfuscator.
+
