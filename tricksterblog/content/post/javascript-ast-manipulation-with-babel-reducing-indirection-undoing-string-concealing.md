@@ -222,7 +222,6 @@ export default function (babel) {
         if (node.init.type != "ObjectExpression") return;
         let binding = path.scope.getBinding(node.id.name);
         if (!binding.constant) return;
-        console.log(binding);
         let properties = node.init.properties;
         if (!properties) return;
         
@@ -646,11 +645,9 @@ export default function (babel) {
         let node = path.node;
         if (node.callee.name != "decode") return;
         if (!node.arguments) return;
-        console.log(node);
         if (node.arguments.length != 1) return;
         let arg = node.arguments[0].value;
         let decodedStr = decode(arg);
-        console.log(decodedStr);
         path.replaceWith(t.valueToNode(decodedStr));
       },
       FunctionDeclaration(path) {
