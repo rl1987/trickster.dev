@@ -696,6 +696,13 @@ we had in the initial snippet:
 
 [Screenshot 12](/2023-02-11_17.35.49.png)
 
+We ended up not doing comprehensive reverse engineering to discover how
+exactly the `decode()` function works. Instead, we were able to side-step
+that question by reusing a simplified version of string decoding code in our
+AST transform, thus achieving the objective of undoing the string concealing.
+Reversing the string decoding part could perhaps be a worthwhile exercise
+in itself, but in this case it would be a needless distraction.
+
 Unifying all the AST transforms we did into a single script that Node.JS could
 run is left as an exercise to the reader. Another exercise could be regenerating
 the `decode()` function from AST form, so that it would not need to be 
