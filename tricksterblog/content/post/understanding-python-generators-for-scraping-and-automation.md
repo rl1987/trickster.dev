@@ -75,9 +75,9 @@ d
 When Python runs a for-loop across an iterable, an iterator is implicitly
 created and used. Iterator is an object that is similar to database cursor.
 It is used to keep track of state (e.g. collection index) across iteration
-steps. It is required to implement `__iter()__` method to set the initial state
+steps. Iterator is required to implement `__iter()__` method to set the initial state
 and `__next__()` method to return the current element from iterable, then update
-the state to point to next on. Iterators can also be created explicitly with
+the state to point to the next one. Iterators can also be created explicitly with
 an `iter()` function:
 
 ```
