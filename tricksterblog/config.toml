@@ -45,6 +45,12 @@ description = "Code level discussion of web scraping, gray hat automation, growt
     url = "/post/index.xml"
     weight = 10
 
+  [[menu.main]]
+    identifier = "code"
+    name = "code"
+    url = "https://github.com/rl1987/trickster.dev-code"
+    weight = 100
+
 [taxonomies]
 category = "categories"
 tag = "tags"
