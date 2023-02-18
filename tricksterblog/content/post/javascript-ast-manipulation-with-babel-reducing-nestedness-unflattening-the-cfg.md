@@ -97,6 +97,8 @@ the following obfuscated version of this code:
 
 ```
 
+[Screenshot 1](/2023-02-18_11.27.18.png) 
+
 We put this code into [ASTExplorer](https://astexplorer.net) where we will
 be learning how to deobfuscate it.
 
@@ -144,9 +146,9 @@ node with them by calling `replaceWithMultiple` out the `NodePath` object. To
 sum it up, we replace one node high up in the AST with multiple nodes from 
 subtree below it. This refactors away the outermost IIFE.
 
-[TODO: screenshot]
+[Screenshot 2](/2023-02-18_12.34.35.png)
 
-In the while we see that the condition for looping is quite confusing: `!![]`.
+In the while loop we see that the condition for looping is quite confusing: `!![]`.
 When we try it in the JS REPL, we get that this merely is another way for 
 representing `true`:
 
@@ -182,6 +184,8 @@ export default function (babel) {
   };
 }
 ```
+
+[Screenshot 3](/2023-02-18_12.59.38.png)
 
 We must take care to check `confident` flag to make sure Babel is confident of
 the result. We replace the `UnaryExpression`s - both of them - with the 
@@ -282,11 +286,13 @@ _0x5b0ba5.pWydz(_0x11c3ac)();
 But the thing is, we still have these JS objects introducing indirection in the
 code. In one case, a pipe-separated case order list is being referenced. In 
 other cases, we have some auxillary functions being indirectly referenced.
-To clean this up, we must further improve code from the previous post. In this
-case, we need to do two things: 1) replace references to string literal with
-actual value and 2) move out these nested functions out of the objects and
+To clean this up, we must further improve code from the 
+[previous post](/post/javascript-ast-manipulation-with-babel-reducing-indirection-undoing-string-concealing/). In this
+case, we need to do three things: 1) replace references to string literal with
+actual value, 2) move out these nested functions out of the objects and
 give them some names, so that they could be called directly without referencing
-these objects. After that is done, we can remove the objects `_0x134393` and
+these objects and 3) fix the function calls so that the new functions are called. 
+After that is done, we can remove the objects `_0x134393` and
 `_0x5b0ba5` as they won't be needed anymore.
 
 So the code to do this is as follows:
@@ -460,6 +466,8 @@ export default function (babel) {
 }
 ```
 
+[Screenshot 4](/2023-02-18_15.38.19.png)
+
 We do our work inside visitor in a similar way as before. We pick the right
 AST node by unwrapping few levels below it and checking for conditions to make
 sure we are at right point in the tree. Then we extract the string value, split
@@ -531,10 +539,6 @@ export default function (babel) {
   };
 }
 ```
-
-Note how we get the array name from `discriminant.object` of the 
-`WhileStatement` to get the `ArrayExpression` node from further up in the code
-by accessing parent node scope and it's binding. 
 
 There are two stages of code reconstruction: 1) we gather all the basic blocks
 into object, keyed by their case numbers and 2) we unite them into list of nodes
