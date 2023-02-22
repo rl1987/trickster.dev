@@ -98,9 +98,9 @@ each representing one of the above components. This string can be further
 passed into a hash function. You can check your own HTTP/2 (and TLS) 
 fingerprints at [tls.peet.ws](https://tls.peet.ws).
 
-HTTP/2 is commonly used for security purposes, such as fighting automation.
-It is part of toolkit in automation countermeasures arsenal that companies
-such as Akamai are selling to their customers.
+This technique is commonly used for security purposes, such as fighting 
+automation. It is part of toolkit in automation countermeasures arsenal that 
+companies such as Akamai are selling to their customers.
 
 To see an example of this kind of fingerprinting you may want to check Xetera's
 modified version of nginx, especially the [`calculate_fingerprint()` function
