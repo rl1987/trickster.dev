@@ -28,7 +28,7 @@ connection is established, TLS ALPN (Application Level Protocol Negotiation)
 extension is used to negotiate whether to use HTTP/1.1 or HTTP/2 in the 
 encrypted channel.
 
-Conceptually speaking, HTTP/2 connection is a TCP connection that is further
+Conceptually speaking, HTTP/2 connection is a TCP/TLS connection that is further
 divided into subconnections - streams. Streams are numbered logical 
 bidirectional conversations between client and server. Stream 0 deals with
 parameters for entire connection. Odd numbered streams should be initiated by 
@@ -87,5 +87,34 @@ frame has two stream IDs (for parent and child streams), priority weight and
 an exclusivity bit. These numbers are also included into the fingerprint.
 
 Fourth and the last component of fingerprint is pseudo header ordering.
+Pseudo headers are binary, non optional parts of HEADERS frame - `:method`,
+`:authority`, `:scheme`, `:path` that have their own equivalents in HTTP/1.1
+headers and ordering that is implementation-specific, thus providing a signal
+of what kind of software sent the request. For instance, Chrome has one
+particular ordering hardcoded, Firefox another one and so forth.
 
+The final fingerprint string comprises of pipe-separated four substrings,
+each representing one of the above components. This string can be further
+passed into a hash function. You can check your own HTTP/2 (and TLS) 
+fingerprints at [tls.peet.ws](https://tls.peet.ws).
 
+HTTP/2 is commonly used for security purposes, such as fighting automation.
+It is part of toolkit in automation countermeasures arsenal that companies
+such as Akamai are selling to their customers.
+
+To see an example of this kind of fingerprinting you may want to check Xetera's
+modified version of nginx, especially the [`calculate_fingerprint()` function
+in src/http/v2/ngx\_http\_v2\_module.c](https://github.com/Xetera/nginx-http2-fingerprint/blob/master/src/http/v2/ngx_http_v2_module.c#L243).
+
+As scraper/bot developers, how do we deal with something like this? Well,
+the key is to make sure that HTTP/2 traffic we generate has all the 
+aforementioned traits to be exactly the same as one of the mainstream browsers. 
+There are some open source project that help with that:
+
+* curl-impersonate is a modified version of curl that pretends to be a browser
+by emitting TLS/HTTP2 traffic that is consistent with browser fingerprints.
+* [fhttp](https://github.com/useflyent/fhttp) is a Golang HTTP client library
+that can help with this as well (there's some forks for this repo that 
+introduce further work).
+* [tls-client](https://github.com/bogdanfinn/tls-client) - Golang library that
+addresses TLS and HTTP/2 client fingerprinting (based on fhttp).
