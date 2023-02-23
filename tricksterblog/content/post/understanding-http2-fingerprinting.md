@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Understanding HTTP/2 fingerprinting"
-date = "2023-02-28"
-draft = true
+date = "2023-02-23"
 tags = ["security"]
 +++
 
@@ -83,7 +82,7 @@ Child nodes from node 0 are streams that are dependent on it and they can have
 their own dependent streams down the tree. This provides some additional
 entropy for fingerprinting. All of this allow client to communicate it's
 preferences for resource allocation across streams. Some HTTP/2 clients start
-sending the PRIORITY frames to do so early in the connection. Each PRIORITY 
+sending the `PRIORITY` frames to do so early in the connection. Each `PRIORITY` 
 frame has two stream IDs (for parent and child streams), priority weight and 
 an exclusivity bit. These numbers are also included into the fingerprint.
 
