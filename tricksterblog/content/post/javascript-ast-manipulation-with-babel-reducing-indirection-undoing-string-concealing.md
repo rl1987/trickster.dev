@@ -171,7 +171,7 @@ is consistent with obfuscation settings we used.
 
 [Screenshot 5](/2023-02-11_14.58.55.png)
 
-However it also seems to something beyond just Base64 as the strings in the
+However it also seems to be something beyond just Base64 as the strings in the
 encoded array do not yield anything readable when decoded with Base64 algorithm.
 
 ```
