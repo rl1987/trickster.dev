@@ -82,8 +82,8 @@ be what you would expect:
 Complete discussion of type coercion logic is outside the scope of this text,
 but some big picture rules are the following:
 
-* Addition operation prefers converting stuff to strings if one of the
-sides is a string. Otherwise, it tries to convert it to numbers.
+* Addition operation prefers converting stuff to strings, esp. if one of the
+sides is a string. As fallback, it tries to convert it to numbers.
 * Subtraction operation tries to convert operands to numbers before subtracting
 them.
 * There are truthy values that can be converted to `true` (this is most of all
@@ -160,7 +160,7 @@ AST transform code we have from before is not sufficient to undo JSFuck
 obfuscation. Let us see how it can be improved:
 
 * We only target `BinaryExpression` nodes, but `UnaryExpression` nodes also
-need be visited. The fix is simple: change `BinaryExpression(path)` to 
+need to be visited. The fix is simple: change `BinaryExpression(path)` to 
 `"BinaryExpression|UnaryExpression"(path)`.
 * JSFuck also abuses string indexing to pull out a character from larger string
 (notice `"false"[2]`). Babel does not know how to simplify it without our help.
@@ -363,10 +363,8 @@ export default function (babel) {
         let result = path.evaluate();
         if (result.confident) {
           let valueNode = t.valueToNode(result.value);
-          if (t.isLiteral(valueNode)) {
-            path.replaceWith(valueNode);
-          } else {
-            path.replaceWith(valueNode);
+          path.replaceWith(valueNode);
+          if (!t.isLiteral(valueNode)) {
             path.skip();
           }
         }
