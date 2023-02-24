@@ -404,4 +404,42 @@ fraction of `MAPPING` values.
 ... but this is not enough: further work
 ----------------------------------------
 
-WRITEME
+However, what about the `(true+[]["flat"])[20]` that should evaluate to a 
+single `{` character? This one is not simplified any futher by our transform.
+
+Let's unpack this expression in JS REPL:
+
+```
+> []["flat"]
+[Function: flat]
+> true + []["flat"]
+'truefunction flat() { [native code] }'
+> (true+[]["flat"])[20]
+'{'
+```
+
+What we have here is that `[]["flat"]` gives us `flat()` function as object,
+that is stringified by adding `true` to it and a character is extracted from
+the resulting string. This kind of hack relies on JS runtime implementation
+detail and our transform does not support this yet. It also does not support
+the following:
+
+```javascript
+    '/':   '(false+[0])["italics"]()[10]',
+    ':':   '(RegExp()+"")[3]',
+    ';':   '("")["fontcolor"](NaN+")[21]',
+    '<':   '("")["italics"]()[0]',
+    '=':   '("")["fontcolor"]()[11]',
+    '>':   '("")["italics"]()[2]',
+    '?':   '(RegExp()+"")[2]',
+```
+
+To fully deobfuscate code from JSFuck we have to further improve our AST 
+transform to cover all the weird hacks JSFuck is doing with JS functions.
+That is the objective for the future work.
+
+The plan is to have a trilogy of posts working towards complete reversal of
+JSFuck'ed code. Second part will deal with JS function hacks. The third part
+will be about tying up loose ends and developing a standalone deobfuscator
+with some basic CLI.
+
