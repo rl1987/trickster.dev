@@ -237,9 +237,12 @@ We modify constant folding code into the following:
       "UnaryExpression|BinaryExpression"(path) {
         let result = path.evaluate();
         if (result.confident) {
+        if (result.confident) {
           let valueNode = t.valueToNode(result.value);
-          path.replaceWith(valueNode);
-          if (!t.isLiteral(valueNode)) {
+          if (t.isLiteral(valueNode)) {
+            path.replaceWith(valueNode);
+          } else {
+            path.replaceWith(valueNode);
             path.skip();
           }
         }
@@ -363,8 +366,10 @@ export default function (babel) {
         let result = path.evaluate();
         if (result.confident) {
           let valueNode = t.valueToNode(result.value);
-          path.replaceWith(valueNode);
-          if (!t.isLiteral(valueNode)) {
+          if (t.isLiteral(valueNode)) {
+            path.replaceWith(valueNode);
+          } else {
+            path.replaceWith(valueNode);
             path.skip();
           }
         }
