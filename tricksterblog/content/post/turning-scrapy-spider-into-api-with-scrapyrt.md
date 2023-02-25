@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Turning Scrapy spider into API with ScrapyRT"
 date = "2022-06-04"
-tags = ["python", "web-scraping"]
+tags = ["python", "scraping"]
 +++
 
 Scrapy framework provides many benefits over regular Python scripts when it comes

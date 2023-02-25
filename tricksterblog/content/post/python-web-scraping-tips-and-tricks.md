@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Python Web Scraping: tips and tricks"
 date = "2022-01-04"
-tags = ["python", "web-scraping"]
+tags = ["python", "scraping"]
 +++
 
 Use pandas `read_html()` to parse HTML tables (when possible)

@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Scraping legacy ASP.Net sites with Scrapy: a real world example"
 date = "2022-10-12"
-tags = ["web-scraping", "python", "scrapy"]
+tags = ["scraping", "python", "scrapy"]
 +++
 
 Legacy ASP.Net sites are some of the most difficult ones to deal with for web scraper

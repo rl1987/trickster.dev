@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Don't JSFuck with me: Part 1"
 date = "2023-02-24"
-tags = ["security", "reverse-engineering", "javascript"]
+tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
 Introduction

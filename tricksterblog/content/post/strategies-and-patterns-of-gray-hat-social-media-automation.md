@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Strategies and patterns of gray hat social media automation"
 date = "2022-04-26"
-tags = ["web-scraping", "python", "growth-hacking"]
+tags = ["scraping", "python", "growth-hacking"]
 +++
 
 Introduction and motivation

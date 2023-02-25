@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: reducing indirection, undoing string concealing"
 date = "2023-02-13"
-tags = ["security", "reverse-engineering", "javascript"]
+tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
 String concealing is a code obfuscation technique that involves some sort of

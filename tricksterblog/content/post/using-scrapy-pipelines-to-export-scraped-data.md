@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Using Scrapy pipelines to export scraped data"
 date = "2022-03-13"
-tags = ["web-scraping", "python", "scrapy"]
+tags = ["scraping", "python", "scrapy"]
 +++
 
 By default, Scrapy framework provides a way to export scraped data into CSV, JSON, JSONL,

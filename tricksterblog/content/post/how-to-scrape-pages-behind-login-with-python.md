@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "How to scrape pages behind login with Python"
 date = "2022-03-13"
-tags = ["automation", "python", "web-scraping"]
+tags = ["automation", "python", "scraping"]
 +++
 
 Many websites do not provide proper access to information for unauthenticated users. Instead,

@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "More tools of the trade for scraping and automation"
 date = "2022-07-26"
-tags = ["automation", "web-scraping"]
+tags = ["automation", "scraping"]
 +++
 
 Since the [previous post](/post/tools-of-the-trade-for-scraping-and-automation)

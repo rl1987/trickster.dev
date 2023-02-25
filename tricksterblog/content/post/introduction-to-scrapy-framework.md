@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Introduction to Scrapy framework"
 date = "2022-02-13"
-tags = ["web-scraping", "scrapy", "python"]
+tags = ["scraping", "scrapy", "python"]
 +++
 
 [Scrapy](https://scrapy.org/) is a Python framework for web scraping. One might ask: why would we need an entire framework

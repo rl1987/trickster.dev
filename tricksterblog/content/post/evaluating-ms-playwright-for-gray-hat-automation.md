@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Evaluating MS Playwright for gray hat automation"
 date = "2022-03-05"
-tags = ["web-scraping", "python", "automation"]
+tags = ["scraping", "python", "automation"]
 +++
 
 [MS Playwright](https://playwright.dev/) is a framework for web testing and automation.

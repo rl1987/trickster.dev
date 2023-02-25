@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: defeating string array mapping"
 date = "2022-10-08"
-tags = ["javascript", "scraping"]
+tags = ["ast", "javascript", "scraping"]
 +++
 
 One Javascript obfuscation technique that can be found in the wild is string array mapping.

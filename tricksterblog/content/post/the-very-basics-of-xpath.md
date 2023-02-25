@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "The very basics of XPath for web scraping: less than 1% of XPath language to scrape more than 90% of pages"
 date = "2022-01-31"
-tags = ["automation", "web-scraping", "python"]
+tags = ["automation", "scraping", "python"]
 +++
 
 When scraping HTML pages, many developers are using CSS selectors to find the right elements

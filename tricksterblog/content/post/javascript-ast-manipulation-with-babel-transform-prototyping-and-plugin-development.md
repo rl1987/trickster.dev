@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: transform prototyping and plugin development"
 date = "2023-01-18"
-tags = ["security", "reverse-engineering", "javascript"]
+tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
 In previous posts we have went through several JavaScript obfuscation techniques

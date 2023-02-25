@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: reducing nestedness, unflattening the CFG"
 date = "2023-02-18"
-tags = ["security", "reverse-engineering", "javascript"]
+tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
 In computer science, control flow graph is a graph that represents order of

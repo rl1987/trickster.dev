@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "JavaScript AST manipulation with Babel: removing unreachable code"
 date = "2022-08-28"
-tags = ["security", "reverse-engineering", "javascript"]
+tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
 Unreachable parts can be injected into JavaScript source as a form of obfuscation.

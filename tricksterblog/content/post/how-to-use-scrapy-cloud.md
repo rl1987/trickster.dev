@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "How to use Scrapy Cloud"
 date = "2022-03-10"
-tags = ["python", "scrapy", "web-scraping"]
+tags = ["python", "scrapy", "scraping"]
 +++
 
 Scrapy is a prominent Python framework for web scraping that provides a certain kind of

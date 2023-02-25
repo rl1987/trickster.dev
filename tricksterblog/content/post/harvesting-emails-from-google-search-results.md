@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Harvesting emails from Google search results"
 date = "2022-02-04"
-tags = ["web-scraping", "python", "growth-hacking"]
+tags = ["scraping", "python", "growth-hacking"]
 +++
 
 Automated gathering of email addresses is known as email harvesting. Suppose we want to gather the

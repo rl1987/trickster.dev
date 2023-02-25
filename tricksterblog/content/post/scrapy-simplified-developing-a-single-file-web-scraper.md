@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Scrapy simplified: developing a single file web scraper"
 date = "2022-12-26"
-tags = ["web-scraping", "scrapy", "python"]
+tags = ["scraping", "scrapy", "python"]
 +++
 
 The default way of using Scrapy entails running `scrapy startproject` to generate

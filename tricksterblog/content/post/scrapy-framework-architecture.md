@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Scrapy framework architecture"
 date = "2022-03-20"
-tags = ["web-scraping", "python", "scrapy"]
+tags = ["scraping", "python", "scrapy"]
 +++
 
 In this post we will take a deeper look into architecture of not just Scrapy projects, but

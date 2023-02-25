@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Using proxies for web scraping and automation"
 date = "2022-01-31"
-tags = ["automation", "web-scraping"]
+tags = ["automation", "scraping", "proxies"]
 +++
 
 When it comes to scraping and automation operations, it might be important to control where remote systems see the traffic

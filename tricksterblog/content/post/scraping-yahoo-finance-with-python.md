@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Scraping Yahoo! Finance with Python"
 date = "2023-01-14"
-tags = ["python", "web-scraping"]
+tags = ["python", "scraping"]
 +++
 
 [Yahoo! Finance](https://finance.yahoo.com/) is a prominent website featuring

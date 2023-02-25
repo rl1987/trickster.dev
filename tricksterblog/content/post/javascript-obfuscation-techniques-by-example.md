@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Javascript obfuscation techniques by example"
 date = "2022-07-10"
-tags = ["security", "javascript", "web-scraping", "automation"]
+tags = ["security", "ast", "javascript", "scraping", "automation"]
 +++
 
 Sometimes when working on scraping some website you look into JavaScript code and it looks

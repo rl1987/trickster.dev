@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Writing web scrapers in Go with Colly framework"
 date = "2022-04-09"
-tags = ["web-scraping", "golang"]
+tags = ["scraping", "golang"]
 +++
 
 [Colly](http://go-colly.org/) is a web scraping framework for Go programming language. The

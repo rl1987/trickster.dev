@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Scrapy framework tips and tricks"
 date = "2022-02-20"
-tags = ["web-scraping", "python", "scrapy"]
+tags = ["scraping", "python", "scrapy"]
 +++
 
 Use Scrapy shell for interactive experimentation

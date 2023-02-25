@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Understanding Abstract Syntax Trees"
 date = "2022-06-15"
-tags = ["security", "bug-bounties", "reversing", "antibot"]
+tags = ["security", "bug-bounties", "ast"]
 +++
 
 First thing that happens when a program source code is parsed by compiler or interpreter

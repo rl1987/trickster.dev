@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "CAPTCHA solver services for scraping and automation"
 date = "2022-02-13"
-tags = ["web-scraping", "automation", "python", "captcha"]
+tags = ["scraping", "automation", "python", "captcha"]
 +++
 
 CAPTCHA (Completely Automated Public Turing test to tell Computers and Humans Apart) is a type of automation

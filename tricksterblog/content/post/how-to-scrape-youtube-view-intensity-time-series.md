@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "How to scrape Youtube view intensity time series"
 date = "2022-06-16"
-tags = ["web-scraping", "python"]
+tags = ["scraping", "python"]
 +++
 
 Recently Youtube has introduced a small graph on it's user interface that visualises a
