@@ -23,7 +23,7 @@ mode = "dark-mode"
 # Sidebar: about/bio
 [params.about]
 title = "Trickster Dev"
-description = "Code level discussion of web scraping, gray hat automation, growth hacking and bounty hunting"
+description = "Code level discussion of web scraping, gray hat automation, growth hacking and bounty hunting\n\nYou may also like:\n <a href='https://remembertheapi.com'>Remember The API</a> - every day items for every programmer"
 #logo = "images/rice.svg"
 
 # Sidebar: social links
