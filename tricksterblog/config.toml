@@ -54,7 +54,7 @@ description = "Code level discussion of web scraping, gray hat automation, growt
   [[menu.main]]
     identifier = "shop"
     name = "shop"
-    url = "https://remembertheapi.com"
+    url = "https://remembertheapi.com?utm_source=tricksterdev&utm_medium=blog&utm_content=headerlink"
     weight = 200
 
   [[menu.main]]
