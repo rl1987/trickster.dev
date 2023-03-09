@@ -43,7 +43,7 @@ description = "Code level discussion of web scraping, gray hat automation, growt
     identifier = "rss"
     name = "RSS"
     url = "/post/index.xml"
-    weight = 10
+    weight = 11
 
   [[menu.main]]
     identifier = "code"
@@ -52,9 +52,16 @@ description = "Code level discussion of web scraping, gray hat automation, growt
     weight = 100
 
   [[menu.main]]
+    identifier = "shop"
+    name = "shop"
+    url = "https://remembertheapi.com"
+    weight = 200
+
+  [[menu.main]]
     identifier = "tags"
     name = "tags"
     url = "/tags"
+    weight = 15
 
 [taxonomies]
 category = "categories"
