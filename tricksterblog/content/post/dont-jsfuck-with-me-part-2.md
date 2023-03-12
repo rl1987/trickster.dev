@@ -573,4 +573,208 @@ This converts `Function("return Date")()()` (equivalent to `Date()`) part to
 string literal with datetime string, which can be further dealt with by
 the expression evaluation transform.
 
+There are few more string-based tricks that JSFuck does. One is by leveraging
+the type name of `String` in the following cases:
+
+```javascript
+    'g':   '(false+[0]+String)[20]',
+    'S':   '(+[]+String)[10]',
+```
+
+Getting these cases to the point of tractability by expression evaluation 
+transform is easy and can be done with a transform very similar to the 
+one for `Boolean` case early in this post:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "undo-string-trick", // not required
+    visitor: {
+      Identifier(path) {
+        let node = path.node;
+       	if (!t.isBinaryExpression(path.parent)) return;
+        if (path.parent.operator != "+") return;
+        if (node.name === "String") path.replaceWith(t.valueToNode(String(String)));
+      }
+    }
+  };
+}
+
+```
+
+Another trick we need to address is abusing `toString()` method as seen in
+the following lines from jsfuck.js:
+
+```javascript
+    'h':   '(+(101))["to"+String["name"]](21)[1]',
+    'k':   '(+(20))["to"+String["name"]](21)',
+    'p':   '(+(211))["to"+String["name"]](31)[1]',
+    'v':   '(+(31))["to"+String["name"]](32)',
+    'w':   '(+(32))["to"+String["name"]](33)',
+    'x':   '(+(101))["to"+String["name"]](34)[1]',
+    'z':   '(+(35))["to"+String["name"]](36)',
+    'U':   '(NaN+Object()["to"+String["name"]]["call"]())[11]',
+```
+
+With the exception of last case, all of these rely on calling
+[`toString()` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toString)
+on a number to covert it to numeric string with non-standard base. In some
+cases this numeric string is indexed to pull out the needed character.
+
+Let us unpack the case for `h` in Node.JS REPL:
+
+```
+> (+(101))["to"+String["name"]](21)[1]
+'h'
+> String["name"]
+'String'
+> (+(101))
+101
+> "to"+String["name"]
+'toString'
+> 101["toString"](21)
+'4h'
+> 101["toString"](21)[1]
+'h'
+```
+
+Applying the expression evaluation transform to the `h` case only simplifies 
+the unary expression:
+
+```javascript
+101["to" + String["name"]](21)[1];
+```
+
+Before we proceed with number-to-string conversion here, let us write a
+quick helper transform that simplifies `String["name"]` part:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "simplify-string-name", // not required
+    visitor: {
+      MemberExpression(path) {
+        let node = path.node;
+        if (!t.isIdentifier(node.object)) return;
+        if (!t.isStringLiteral(node.property)) return;
+        if (node.object.name === "String" && node.property.value === "name") {
+          path.replaceWith(t.valueToNode("String"));
+        }
+      }
+    }
+  };
+}
+```
+
+This simplifies the snippet to:
+
+```javascript
+101["to" + "String"](21)[1];
+```
+
+Applying expression evaluation transform on this simplifies it bit further:
+
+```javascript
+101["toString"](21)[1];
+```
+
+Once again, we pattern match on the relevant subtree and apply the change on it.
+
+See the following transform:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "undo-number-tostring-trick", // not required
+    visitor: {
+      CallExpression(path) {
+        let node = path.node;
+        if (!t.isMemberExpression(node.callee)) return;
+        if (!t.isNumericLiteral(node.callee.object)) return;
+        if (!t.isStringLiteral(node.callee.property)) return;
+        if (node.callee.property.value != "toString") return;
+        if (node.arguments.length != 1) return;
+        if (!t.isLiteral(node.arguments[0])) return;
+        
+        let numericStr = node.callee.object.value["toString"](node.arguments[0].value);
+        path.replaceWith(t.valueToNode(numericStr));
+      }
+    }
+  };
+}
+```
+
+This turns our current snippet to:
+
+```javascript
+"4h"[1];
+```
+
+Now let us deal with the snippet for character `U`:
+
+```javascript
+(NaN+Object()["to"+String["name"]]["call"]())[11]
+```
+
+Applying our helper transform simplifies it to:
+
+```javascript
+(NaN + Object()["to" + "String"]["call"]())[11];
+```
+
+We can further simplify it by applying expression evaluation transform:
+
+```javascript
+(NaN + Object()["toString"]["call"]())[11];
+```
+
+Now we need another transform written that matches an exact subtree and
+simplifies it further. It would look like this:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+  
+  return {
+    name: "undo-object-tostring-call", // not required
+    visitor: {
+      CallExpression(path) {
+        let node = path.node;
+        let callee = node.callee;
+        if (!t.isMemberExpression(callee)) return;
+        let calleeObj = callee.object;
+        if (!t.isMemberExpression(calleeObj)) return;
+        if (!t.isCallExpression(calleeObj.object)) return;
+        calleeObj = calleeObj.object;
+        if (!t.isIdentifier(calleeObj.callee)) return;
+        if (calleeObj.callee.name != "Object") return;
+        if (!t.isStringLiteral(callee.property)) return;
+        if (callee.property.value != "call") return;
+        if (!t.isStringLiteral(callee.object.property)) return;
+        if (callee.object.property.value != "toString") return;
+        path.replaceWith(t.valueToNode(Object()["toString"]["call"]()));
+      }
+    }
+  };
+}
+```
+
+By applying this transform, we get the following snippet:
+
+```javascript
+(NaN + "[object Undefined]")[11];
+```
+
+This can be further simplified to character `U` by applying expression evaluation
+transform two more times:
+
+1. `"NaN[object Undefined]"[11];`
+2. `"U";`
+
 
