@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Don't JSFuck with me: Part 2"
-date = "2023-03-15"
+date = "2023-03-31"
 draft = true
 tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
@@ -573,6 +573,51 @@ This converts `Function("return Date")()()` (equivalent to `Date()`) part to
 string literal with datetime string, which can be further dealt with by
 the expression evaluation transform.
 
+JSFuck can also leverage `RegExp` API for obfuscation, as evident in the
+following cases:
+
+```javascript
+    'E':   '(RegExp+"")[12]',
+    'R':   '(+[]+RegExp)[10]',
+    ':':   '(RegExp()+"")[3]',
+    '?':   '(RegExp()+"")[2]',
+    '\\':  '(RegExp("/")+"")[1]',
+```
+
+These can be addressed with the following transform:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "undo-regexp-trick", // not required
+    visitor: {
+      Identifier(path) {
+        let node = path.node;
+       	if (!t.isBinaryExpression(path.parent)) return;
+        if (path.parent.operator != "+") return;
+        if (node.name === "RegExp") path.replaceWith(t.valueToNode(String(RegExp)));
+      },
+      CallExpression(path) {
+        let node = path.node;
+        if (!t.isBinaryExpression(path.parent)) return;
+        if (path.parent.operator != "+") return;
+        if (!t.isIdentifier(node.callee)) return;
+        if (node.callee.name != "RegExp") return;
+        if (node.arguments.length === 0) {
+          path.replaceWith(t.valueToNode(String(RegExp())));
+        } else if (node.arguments.length === 1 &&
+                   t.isStringLiteral(node.arguments[0]) &&
+                   node.arguments[0].value === "/") {
+          path.replaceWith(t.valueToNode(String(RegExp("/"))));
+        }
+      }
+    }
+  };
+}
+```
+
 There are few more string-based tricks that JSFuck does. One is by leveraging
 the type name of `String` in the following cases:
 
@@ -776,5 +821,81 @@ transform two more times:
 
 1. `"NaN[object Undefined]"[11];`
 2. `"U";`
+
+We're getting close to the end, but there's still some uncovered ground left. 
+In the `MAPPING` object we see that some characters don't have matching 
+snippet assignmed to them:
+
+```javascript
+    'H':   null,
+    'J':   null,
+    'K':   null,
+    'L':   null,
+    'P':   null,
+    'Q':   null,
+    'V':   null,
+    'W':   null,
+    'X':   null,
+    'Y':   null,
+    'Z':   null,
+    '!':   null,
+    '#':   null,
+    '$':   null,
+    '\'':  null,
+    '*':   null,
+    '@':   null,
+    '^':   null,
+    '_':   null,
+    '`':   null,
+    '|':   null,
+    '~':   null
+```
+
+Let's try to find out what happens when one of these characters are being 
+obfuscated. Can we deobfuscate them back? 
+
+Obfuscating `@` with JSFuck gives us the following code:
+
+```javascript
+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]][([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((!![]+[])[+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+([][[]]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+!+[]]+(![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]]+![]+(![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])()[([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[+[]])[([![]]+[][[]])[+!+[]+[+[]]]+(!![]+[])[+[]]+(![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+([![]]+[][[]])[+!+[]+[+[]]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(![]+[])[!+[]+!+[]+!+[]]]()[+!+[]+[+[]]])+[])[+!+[]]+[+!+[]]+[+[]]+[+[]]+([]+[])[(![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(!![]+[])[+[]]+([][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]()[+!+[]+[!+[]+!+[]]])()
+```
+
+We put it into ASTExplorer and apply expression evaluation transform several
+times:
+
+1. `[]["false"[0] + "false"[2] + "false"[1] + "true"[0]][([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + (undefined + [])[1] + "false"[3] + "true"[0] + "true"[1] + (undefined + [])[0] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + "true"[0] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "true"[1]]("true"[1] + "true"[3] + "true"[0] + (undefined + [])[0] + "true"[1] + (undefined + [])[1] + ""["false"[0] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + (undefined + [])[1] + "true"[0] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "false"[2] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "true"[1]]()["12"] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]][([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + (undefined + [])[1] + "false"[3] + "true"[0] + "true"[1] + (undefined + [])[0] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + "true"[0] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "true"[1]]("true"[1] + "true"[3] + "true"[0] + (undefined + [])[0] + "true"[1] + (undefined + [])[1] + "false0"[([false] + undefined)["10"] + "true"[0] + "false"[1] + "false"[2] + ([false] + undefined)["10"] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + "false"[3]]()["10"] + false + "false0"[([false] + undefined)["10"] + "true"[0] + "false"[1] + "false"[2] + ([false] + undefined)["10"] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + "false"[3]]()["10"])()[([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + (undefined + [])[1] + "false"[3] + "true"[0] + "true"[1] + (undefined + [])[0] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + "true"[0] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "true"[1]]("false0"[([false] + undefined)["10"] + "true"[0] + "false"[1] + "false"[2] + ([false] + undefined)["10"] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + "false"[3]]()["10"]) + [])[1] + [1] + [0] + [0] + ""["false"[0] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + (undefined + [])[1] + "true"[0] + ([]["false"[0] + "false"[2] + "false"[1] + "true"[0]] + [])[3] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "false"[2] + (true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["10"] + "true"[1]]()["12"])();`
+2. `[]["f" + "l" + "a" + "t"][([]["f" + "l" + "a" + "t"] + [])[3] + (true + []["f" + "l" + "a" + "t"])[10] + "undefined"[1] + "s" + "t" + "r" + "undefined"[0] + ([]["f" + "l" + "a" + "t"] + [])[3] + "t" + (true + []["f" + "l" + "a" + "t"])[10] + "r"]("r" + "e" + "t" + "undefined"[0] + "r" + "undefined"[1] + ""["f" + (true + []["f" + "l" + "a" + "t"])[10] + "undefined"[1] + "t" + ([]["f" + "l" + "a" + "t"] + [])[3] + (true + []["f" + "l" + "a" + "t"])[10] + "l" + (true + []["f" + "l" + "a" + "t"])[10] + "r"]()[12] + ([]["f" + "l" + "a" + "t"][([]["f" + "l" + "a" + "t"] + [])[3] + (true + []["f" + "l" + "a" + "t"])[10] + "undefined"[1] + "s" + "t" + "r" + "undefined"[0] + ([]["f" + "l" + "a" + "t"] + [])[3] + "t" + (true + []["f" + "l" + "a" + "t"])[10] + "r"]("r" + "e" + "t" + "undefined"[0] + "r" + "undefined"[1] + "false0"["falseundefined"[10] + "t" + "a" + "l" + "falseundefined"[10] + ([]["f" + "l" + "a" + "t"] + [])[3] + "s"]()[10] + false + "false0"["falseundefined"[10] + "t" + "a" + "l" + "falseundefined"[10] + ([]["f" + "l" + "a" + "t"] + [])[3] + "s"]()[10])()[([]["f" + "l" + "a" + "t"] + [])[3] + (true + []["f" + "l" + "a" + "t"])[10] + "undefined"[1] + "s" + "t" + "r" + "undefined"[0] + ([]["f" + "l" + "a" + "t"] + [])[3] + "t" + (true + []["f" + "l" + "a" + "t"])[10] + "r"]("false0"["falseundefined"[10] + "t" + "a" + "l" + "falseundefined"[10] + ([]["f" + "l" + "a" + "t"] + [])[3] + "s"]()[10]) + [])[1] + [1] + [0] + [0] + ""["f" + (true + []["f" + "l" + "a" + "t"])[10] + "undefined"[1] + "t" + ([]["f" + "l" + "a" + "t"] + [])[3] + (true + []["f" + "l" + "a" + "t"])[10] + "l" + (true + []["f" + "l" + "a" + "t"])[10] + "r"]()[12])();`
+3. `[]["flat"][([]["flat"] + [])[3] + (true + []["flat"])[10] + "n" + "s" + "t" + "r" + "u" + ([]["flat"] + [])[3] + "t" + (true + []["flat"])[10] + "r"]("ret" + "u" + "r" + "n" + ""["f" + (true + []["flat"])[10] + "n" + "t" + ([]["flat"] + [])[3] + (true + []["flat"])[10] + "l" + (true + []["flat"])[10] + "r"]()[12] + ([]["flat"][([]["flat"] + [])[3] + (true + []["flat"])[10] + "n" + "s" + "t" + "r" + "u" + ([]["flat"] + [])[3] + "t" + (true + []["flat"])[10] + "r"]("ret" + "u" + "r" + "n" + "false0"["i" + "t" + "a" + "l" + "i" + ([]["flat"] + [])[3] + "s"]()[10] + false + "false0"["i" + "t" + "a" + "l" + "i" + ([]["flat"] + [])[3] + "s"]()[10])()[([]["flat"] + [])[3] + (true + []["flat"])[10] + "n" + "s" + "t" + "r" + "u" + ([]["flat"] + [])[3] + "t" + (true + []["flat"])[10] + "r"]("false0"["i" + "t" + "a" + "l" + "i" + ([]["flat"] + [])[3] + "s"]()[10]) + [])[1] + [1] + [0] + [0] + ""["f" + (true + []["flat"])[10] + "n" + "t" + ([]["flat"] + [])[3] + (true + []["flat"])[10] + "l" + (true + []["flat"])[10] + "r"]()[12])();`
+4. `[]["flat"][([]["flat"] + [])[3] + (true + []["flat"])[10] + "n" + "s" + "t" + "r" + "u" + ([]["flat"] + [])[3] + "t" + (true + []["flat"])[10] + "r"]("return" + ""["f" + (true + []["flat"])[10] + "n" + "t" + ([]["flat"] + [])[3] + (true + []["flat"])[10] + "l" + (true + []["flat"])[10] + "r"]()[12] + ([]["flat"][([]["flat"] + [])[3] + (true + []["flat"])[10] + "n" + "s" + "t" + "r" + "u" + ([]["flat"] + [])[3] + "t" + (true + []["flat"])[10] + "r"]("return" + "false0"["itali" + ([]["flat"] + [])[3] + "s"]()[10] + false + "false0"["itali" + ([]["flat"] + [])[3] + "s"]()[10])()[([]["flat"] + [])[3] + (true + []["flat"])[10] + "n" + "s" + "t" + "r" + "u" + ([]["flat"] + [])[3] + "t" + (true + []["flat"])[10] + "r"]("false0"["itali" + ([]["flat"] + [])[3] + "s"]()[10]) + [])[1] + [1] + [0] + [0] + ""["f" + (true + []["flat"])[10] + "n" + "t" + ([]["flat"] + [])[3] + (true + []["flat"])[10] + "l" + (true + []["flat"])[10] + "r"]()[12])();`
+
+Now we apply `undo-flat-trick` transform:
+
+5. `[]["flat"][("function flat() { [native code] }" + [])[3] + (true + "function flat() { [native code] }")[10] + "n" + "s" + "t" + "r" + "u" + ("function flat() { [native code] }" + [])[3] + "t" + (true + "function flat() { [native code] }")[10] + "r"]("return" + ""["f" + (true + "function flat() { [native code] }")[10] + "n" + "t" + ("function flat() { [native code] }" + [])[3] + (true + "function flat() { [native code] }")[10] + "l" + (true + "function flat() { [native code] }")[10] + "r"]()[12] + ([]["flat"][("function flat() { [native code] }" + [])[3] + (true + "function flat() { [native code] }")[10] + "n" + "s" + "t" + "r" + "u" + ("function flat() { [native code] }" + [])[3] + "t" + (true + "function flat() { [native code] }")[10] + "r"]("return" + "false0"["itali" + ("function flat() { [native code] }" + [])[3] + "s"]()[10] + false + "false0"["itali" + ("function flat() { [native code] }" + [])[3] + "s"]()[10])()[("function flat() { [native code] }" + [])[3] + (true + "function flat() { [native code] }")[10] + "n" + "s" + "t" + "r" + "u" + ("function flat() { [native code] }" + [])[3] + "t" + (true + "function flat() { [native code] }")[10] + "r"]("false0"["itali" + ("function flat() { [native code] }" + [])[3] + "s"]()[10]) + [])[1] + [1] + [0] + [0] + ""["f" + (true + "function flat() { [native code] }")[10] + "n" + "t" + ("function flat() { [native code] }" + [])[3] + (true + "function flat() { [native code] }")[10] + "l" + (true + "function flat() { [native code] }")[10] + "r"]()[12])();`
+
+Continuing with expression evaluation:
+
+6. `[]["flat"]["function flat() { [native code] }"[3] + "truefunction flat() { [native code] }"[10] + "n" + "s" + "t" + "r" + "u" + "function flat() { [native code] }"[3] + "t" + "truefunction flat() { [native code] }"[10] + "r"]("return" + ""["f" + "truefunction flat() { [native code] }"[10] + "n" + "t" + "function flat() { [native code] }"[3] + "truefunction flat() { [native code] }"[10] + "l" + "truefunction flat() { [native code] }"[10] + "r"]()[12] + ([]["flat"]["function flat() { [native code] }"[3] + "truefunction flat() { [native code] }"[10] + "n" + "s" + "t" + "r" + "u" + "function flat() { [native code] }"[3] + "t" + "truefunction flat() { [native code] }"[10] + "r"]("return" + "false0"["itali" + "function flat() { [native code] }"[3] + "s"]()[10] + false + "false0"["itali" + "function flat() { [native code] }"[3] + "s"]()[10])()["function flat() { [native code] }"[3] + "truefunction flat() { [native code] }"[10] + "n" + "s" + "t" + "r" + "u" + "function flat() { [native code] }"[3] + "t" + "truefunction flat() { [native code] }"[10] + "r"]("false0"["itali" + "function flat() { [native code] }"[3] + "s"]()[10]) + [])[1] + [1] + [0] + [0] + ""["f" + "truefunction flat() { [native code] }"[10] + "n" + "t" + "function flat() { [native code] }"[3] + "truefunction flat() { [native code] }"[10] + "l" + "truefunction flat() { [native code] }"[10] + "r"]()[12])();`
+7. `[]["flat"]["c" + "o" + "n" + "s" + "t" + "r" + "u" + "c" + "t" + "o" + "r"]("return" + ""["f" + "o" + "n" + "t" + "c" + "o" + "l" + "o" + "r"]()[12] + ([]["flat"]["c" + "o" + "n" + "s" + "t" + "r" + "u" + "c" + "t" + "o" + "r"]("return" + "false0"["itali" + "c" + "s"]()[10] + false + "false0"["itali" + "c" + "s"]()[10])()["c" + "o" + "n" + "s" + "t" + "r" + "u" + "c" + "t" + "o" + "r"]("false0"["itali" + "c" + "s"]()[10]) + [])[1] + [1] + [0] + [0] + ""["f" + "o" + "n" + "t" + "c" + "o" + "l" + "o" + "r"]()[12])();`
+8. `[]["flat"]["constructor"]("return" + ""["fontcolor"]()[12] + ([]["flat"]["constructor"]("return" + "false0"["italics"]()[10] + false + "false0"["italics"]()[10])()["constructor"]("false0"["italics"]()[10]) + [])[1] + [1] + [0] + [0] + ""["fontcolor"]()[12])();`
+
+We see `fontcolor` in the code now, so let us apply `undo-fontcolor-trick`
+transform:
+
+9. `[]["flat"]["constructor"]("return" + "<font color=\"undefined\"></font>"[12] + ([]["flat"]["constructor"]("return" + "false0"["italics"]()[10] + false + "false0"["italics"]()[10])()["constructor"]("false0"["italics"]()[10]) + [])[1] + [1] + [0] + [0] + "<font color=\"undefined\"></font>"[12])();`
+
+We can also see that `undo-italics-trick` transform is applicable, so let us apply
+that as well:
+
+10. `[]["flat"]["constructor"]("return" + "<font color=\"undefined\"></font>"[12] + ([]["flat"]["constructor"]("return" + "<i>false0</i>"[10] + false + "<i>false0</i>"[10])()["constructor"]("<i>false0</i>"[10]) + [])[1] + [1] + [0] + [0] + "<font color=\"undefined\"></font>"[12])();`
+
+Further simplifications with expression evaluation transform:
+
+11. `[]["flat"]["constructor"]("return" + "\"" + ([]["flat"]["constructor"]("return" + "/" + false + "/")()["constructor"]("/") + [])[1] + [1] + [0] + [0] + "\"")();`
+12. `[]["flat"]["constructor"]("return\"" + ([]["flat"]["constructor"]("return/false/")()["constructor"]("/") + [])[1] + [1] + [0] + [0] + "\"")();`
+
+[TODO: develop a way to deobfuscate this and write about it]
+
+
+
 
 
