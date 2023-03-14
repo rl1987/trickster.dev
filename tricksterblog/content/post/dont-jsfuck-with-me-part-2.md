@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Don't JSFuck with me: Part 2"
-date = "2023-03-31"
+date = "2023-03-14"
 draft = true
 tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
@@ -11,7 +11,7 @@ Babel AST transforms to simplify JSFuck-generated unary and binary expressions.
 This was shown to undo a lot, but not all of the obfuscation. What we still 
 have to do is to deal with certain API and runtime hacks that JSFuck leverages 
 to obfuscate some of the characters that are not covered just by abusing type
-coercion and atomic components of JS (string indexing, logical/arithmetic 
+coercion and atomic components of JS (string and array indexing, logical/arithmetic 
 operations).
 
 Suppose we want to encode a `{` character with JSFuck. Putting this into 
@@ -22,35 +22,27 @@ features are not checked) yields the following code:
 (!![]+[][(![]+[])[+[]]+(![]+[])[!+[]+!+[]]+(![]+[])[+!+[]]+(!![]+[])[+[]]])[!+[]+!+[]+[+[]]]
 ```
 
+[Screenshot 1](/2023-03-12_11.10.16.png)
+
 If we put it into [ASTExplorer](https://astexplorer.net) we get pretty much
 the same situation as before - a lot of `BinaryExpression`, `UnaryExpression`,
 `ArrayExpression` and `MemberExpression` nodes making up the tree. 
 
+[Screenshot 2](/2023-03-12_11.11.59.png)
+
 We can try using our [previously developed transform](https://github.com/rl1987/trickster.dev-code/blob/main/2023-02-24-dont-jsfuck-with-me-part-1/ast_transform.js) to simplify the code.
 
-First run of the transform gives us:
+Applying it three times gives us the following results:
 
-```javascript
-(true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["20"];
-```
-
-Second run gives us:
-
-```javascript
-(true + []["f" + "l" + "a" + "t"])[20];
-```
-
-Third run yields the following:
-
-```javascript
-(true + []["flat"])[20];
-```
+1. `(true + []["false"[0] + "false"[2] + "false"[1] + "true"[0]])["20"];`
+2. `(true + []["f" + "l" + "a" + "t"])[20];`
+3. `(true + []["flat"])[20];`
 
 The transform we have from earlier cannot simplify the code any further. What
 we got here matches [line 108 in jsfuck.js](https://github.com/aemkei/jsfuck/blob/master/jsfuck.js#L108).
 
-The above trick works by coercing `Array.prototype.flat()` to string (addition
-operation prefers to convert stuff into strings) by adding `true` to it and
+The above trick works by coercing `Array.prototype.flat()` to string by adding 
+`true` to it (addition operation prefers to convert stuff into strings) and
 indexing the resulting string:
 
 ```
@@ -252,7 +244,7 @@ export default function (babel) {
 ```
 
 Nothing particulary different here, except that the subtree matching part
-had to check for more things when matching. 
+had to check for some other things when matching. 
 
 But before running this transform we have to deal with string concatenation,
 as the matching is based on `StringLiteral` node being at `callee` property
@@ -264,11 +256,7 @@ it to the form that is required by the new transform we just wrote:
 "function flat() { [native code] }"["slice"]("-1");
 ```
 
-Now, when we apply the new transform we get the original character:
-
-```javascript
-"}";
-```
+Now, when we apply the new transform we get the original character.
 
 Letter `B` is obfuscated by leveraging `Boolean` type name:
 
@@ -465,8 +453,8 @@ using `escape()` function to URL-encode some string, then indexing the output:
 'C'
 ```
 
-Besides `C` character this trick is used to obfuscated `D` and `%` characters
-(in combination with some other tricks that we covered already):
+Besides `C` character this trick is also used to obfuscated `D` and `%` 
+characters (in combination with some other tricks that we covered already):
 
 ```javascript
     'C':   'Function("return escape")()(("")["italics"]())[2]',
@@ -584,6 +572,10 @@ following cases:
     '\\':  '(RegExp("/")+"")[1]',
 ```
 
+As you can see, in some cases `RegExp` identifier is used in addition operation 
+but in other cases, a return value from `RegExp()` is used instead. We should 
+cover both forms when deobfuscating.
+
 These can be addressed with the following transform:
 
 ```javascript
@@ -628,7 +620,7 @@ the type name of `String` in the following cases:
 
 Getting these cases to the point of tractability by expression evaluation 
 transform is easy and can be done with a transform very similar to the 
-one for `Boolean` case early in this post:
+one for `Boolean` case earlier in this post:
 
 ```javascript
 export default function (babel) {
@@ -893,9 +885,35 @@ Further simplifications with expression evaluation transform:
 11. `[]["flat"]["constructor"]("return" + "\"" + ([]["flat"]["constructor"]("return" + "/" + false + "/")()["constructor"]("/") + [])[1] + [1] + [0] + [0] + "\"")();`
 12. `[]["flat"]["constructor"]("return\"" + ([]["flat"]["constructor"]("return/false/")()["constructor"]("/") + [])[1] + [1] + [0] + [0] + "\"")();`
 
-[TODO: develop a way to deobfuscate this and write about it]
+Now, what the fuck is this? We can verify that this stuff does indeed evaluate
+back to the original character:
 
+```
+> []["flat"]["constructor"]("return\"" + ([]["flat"]["constructor"]("return/false/")()["constructor"]("/") + [])[1] + [1] + [0] + [0] + "\"")();
+'@'
+```
 
+It also seems to be related to `eval()` function, as we see the following
+in jsfuck.js:
 
+```javascript
+    if (wrapWithEval){
+      if (runInParentScope){
+        output = "[][" + encode("flat") + "]" +
+          "[" + encode("constructor") + "]" +
+          "(" + encode("return eval") + ")()" +
+          "(" + output + ")";
+      } else {
+        output = "[][" + encode("flat") + "]" +
+          "[" + encode("constructor") + "]" +
+          "(" + output + ")()";
+      }
+    }
+```
 
+However completely untangling this at AST level is a matter of future research
+that I will hopefully finish in the upcoming weeks. Researching how to undo 
+JSFuck obfuscation has been fun and interesting, but there are other
+priorities now.
 
+To be continued...
