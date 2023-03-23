@@ -1,6 +1,6 @@
 +++
 author = "rl1987"
-title = "Intro to Bash scripting"
+title = "Intro to Bash scripting for scraping and automation"
 date = "2023-03-31"
 draft = true
 tags = ["bash"]
