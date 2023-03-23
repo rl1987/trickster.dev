@@ -6,4 +6,16 @@ draft = true
 tags = ["bash"]
 +++
 
-WRITEME
+WRITEME: basic I/O, redirects, pipes
+
+WRITEME: variables and basic computational ops
+
+WRITEME: control flow (conditionals and loops)
+
+WRITEME: arrays and dictionaries
+
+WRITEME: functions
+
+WRITEME: putting it all together - example script in scraping/automation field
+
+WRITEME: tips and tricks
