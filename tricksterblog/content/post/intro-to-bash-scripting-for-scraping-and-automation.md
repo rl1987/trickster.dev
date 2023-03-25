@@ -56,7 +56,26 @@ $ fortune | cowsay
                 ||     ||
 ```
 
+This entails a first baby-step towards using Bash as programming language. But 
+to do programming, we need variables. We can indeed declare them in Bash:
 
+```
+$ x=1
+$ echo "$x"
+1
+```
+
+To declare a variable, we just did an assign statement. Note that there are no
+whitespace characters around the `=` sign - Bash would not be able to correctly
+parse it otherwise. To see what a value the variable has, we prepended the
+variable name with a dollar sign and used an in-build `echo` command.
+
+All variables in Bash are global to the script or user session unless declared
+with a `local` keyword within a funcion (e.g. `local b=2`). Bash does not have
+any real type system. Pretty much all data is treated as strings with exception
+of some numeric operations on integers. Bash does not even support floating
+point operations on it's own - you may need to use bc(1) or something else for 
+that.
 
 WRITEME: variables and basic computational ops
 
