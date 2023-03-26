@@ -73,11 +73,88 @@ variable name with a dollar sign and used an in-build `echo` command.
 All variables in Bash are global to the script or user session unless declared
 with a `local` keyword within a funcion (e.g. `local b=2`). Bash does not have
 any real type system. Pretty much all data is treated as strings with exception
-of some numeric operations on integers. Bash does not even support floating
-point operations on it's own - you may need to use bc(1) or something else for 
+of some numeric operations on integers. On it's own, Bash does not even support 
+floating point operations - you may need to use bc(1) or something else for 
 that.
 
-WRITEME: variables and basic computational ops
+One way to perform integer arithmetic is to use built-in `expr` command (make
+sure that you put whitespaces around parts of expression as otherwise it will
+be treated as string):
+
+```
+$ expr 5 + 11
+16
+```
+
+Another way is to use a `let` command that will assign the result to a variable:
+
+```
+$ let x=1+3
+$ echo "$x"
+4
+$ let four=2*2
+$ echo "$four"
+4
+```
+
+`let` command also supports increments and shorthand (`+=` / `-=`):
+
+```
+$ let x++
+$ echo "$x"
+5
+$ let x+=20
+$ echo "$x"
+25
+```
+
+We can also reference another variable in the computation:
+
+```
+$ let "y=2*x"
+$ echo "$y"
+10
+```
+
+Yet another way to do integer arithmetic operations is to use the double
+parenthese notation:
+
+```
+$ two=$((1+1))
+$ echo "$two"
+2
+$ (( three = two + 1 ))
+$ echo "$three"
+3
+```
+
+Like the `let` command, this notation also supports increments/decrements and
+shorthand operations:
+
+```
+$ z=11
+$ ((z++))
+$ echo "$z"
+12
+$ ((z+=55))
+$ echo "$z"
+67
+$ ((z--))
+$ echo "$z"
+66
+```
+
+To compute some floating point numbers, we can use `printf` command to generate
+a command for bc(1) and read the result into variable by using a command
+substitution syntax (`$( ... )`):
+
+```
+$ a=3
+$ b="2.1111111111111111"
+$ result=$(printf "scale=5\n%d / %f\n" "$a" "$b" | bc -l)
+$ echo "$result"
+1.42105
+```
 
 WRITEME: control flow (conditionals and loops)
 
