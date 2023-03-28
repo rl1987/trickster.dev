@@ -183,7 +183,18 @@ $ echo "${msg/#cypher/crypto}" # Replace prefix.
 cryptopunks write code
 ```
 
-For conditional logic, Bash supports if-statements and switch-statements.
+For conditional logic, Bash supports if-statements and `case` (switch) statements.
+
+In simple cases, if-statements can have one line form:
+
+```
+$ if [[ 1 == 1 ]]; then echo "yes"; fi
+yes
+$ if [[ 1 == 2 ]]; then echo "yes"; else echo "no"; fi
+no
+```
+
+TODO: provide examples from Axiom 
 
 WRITEME: control flow (conditionals and loops)
 
@@ -191,6 +202,4 @@ WRITEME: arrays and dictionaries
 
 WRITEME: functions
 
-WRITEME: putting it all together - example script in scraping/automation field
-
-WRITEME: tips and tricks
+WRITEME: mention tools like xidel, pup, jq, etc.
