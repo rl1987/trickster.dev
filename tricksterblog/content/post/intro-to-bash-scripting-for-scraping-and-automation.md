@@ -156,6 +156,35 @@ $ echo "$result"
 1.42105
 ```
 
+Bash supports basic string manipulation functionality, such as substitutions and
+slicing.
+
+For a string manipulation syntax, see the following examples:
+
+```
+$ msg="cypherpunks write code"
+$ echo "${#msg}" # Get length.
+22
+$ echo "${msg:0:6}" # Get substring by starting index and length.
+cypher
+$ echo "${msg:(-4):4}" # Index can also count to count backwards from end of string.
+code
+$ echo "${msg%code}" # Remove suffix.
+cypherpunks write 
+$ echo "${msg%cypher}" # Remove prefix.
+cypherpunks write code
+$ echo "${msg/write/develop}" # Replace string (single match).
+cypherpunks develop code
+$ echo "${msg//c/C}" # Replace string (multiple matches).
+Cypherpunks write Code
+$ echo "${msg/%code/software}" # Replace suffix.
+cypherpunks write software
+$ echo "${msg/#cypher/crypto}" # Replace prefix.
+cryptopunks write code
+```
+
+For conditional logic, Bash supports if-statements and switch-statements.
+
 WRITEME: control flow (conditionals and loops)
 
 WRITEME: arrays and dictionaries
