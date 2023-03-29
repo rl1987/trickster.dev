@@ -194,11 +194,77 @@ $ if [[ 1 == 2 ]]; then echo "yes"; else echo "no"; fi
 no
 ```
 
-TODO: provide examples from Axiom 
+Okay, so this is getting a rather dry and boring, so let's provide an example
+from real world software - [Axiom](/post/axiom-just-in-time-dynamic-infra-for-offensive-security-operations/).
 
-WRITEME: control flow (conditionals and loops)
+There are following lines of code in file 
+[interact/axiom-wait](https://github.com/pry0cc/axiom/blob/master/interact/axiom-wait#L11):
 
-WRITEME: arrays and dictionaries
+```bash
+if [ ! -z "$2" ]
+then
+    instance="$2"
+fi
+```
+
+We see a bit different conditional syntax here. `$2` is the second CLI argument
+to the script and here it is being checked for having a defined value. `-z`
+stands for "is empty/undefined" and `!` is a logical NOT operation.
+
+How does the `case` statement look like? We can find an example in file
+[interact/axiom-scan](https://github.com/pry0cc/axiom/blob/master/interact/axiom-scan#L12):
+
+```bash
+BASEOS="$(uname)"
+case $BASEOS in
+'Darwin')
+    PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
+    ;;
+*) ;;
+esac
+```
+
+Here it reads the output of uname(1) into variable `BASEOS`. If the value is
+`Darwin` is it updates the `PATH` environment variable with one more entry. 
+In the default case it does nothing (see line `*) ;;`).
+
+Like many programming languages, Bash enables iteratative code through for and
+while loops.
+
+The following example shows how for loop can be used to iterate across output
+of some command, one line at a time:
+
+```bash
+# Rename "xaa" etc  to 1 2 3 4 5
+i=1
+for f in $(find "$tmp/split/" -type f | tr '/' ' ' | awk '{ print $NF }')
+do
+        instance="$(echo $instances | awk "{ print \$$i }")"
+        i=$((i+1))
+
+        mv "$tmp/split/$f" "$tmp/input/$instance"
+    done
+    total=$i
+}
+```
+
+Example of while loop can be seen in file [interact/account-helpers/aws.sh](https://github.com/pry0cc/axiom/blob/641dba34424b0c8fe5afa6b8473a79cce7a39c3e/interact/account-helpers/aws.sh):
+
+```bash
+echo -e -n "${Green}Please enter your AWS Access Key ID (required): \n>> ${Color_Off}"
+read ACCESS_KEY
+while [[ "$ACCESS_KEY" == "" ]]; do
+	echo -e "${BRed}Please provide a AWS Access KEY ID, your entry contained no input.${Color_Off}"
+	echo -e -n "${Green}Please enter your token (required): \n>> ${Color_Off}"
+	read ACCESS_KEY
+done
+```
+
+In this case the loop would iterate until the user would provide a non-empty
+input (`read` command reads text from the user and saves it into a variable).
+
+Like many programming languages, Bash provides two basic built-in data structures:
+arrays and dictionaries. TODO: write bit more about this...
 
 WRITEME: functions
 
