@@ -37,7 +37,7 @@ to redirect standard input, as seen in the following example:
 ```
 $ ls /etc > etc_list.txt
 $ ls /notfound 2> err.msg
-$ $ wc -l < err.msg 
+$ wc -l < err.msg 
        1
 ```
 
