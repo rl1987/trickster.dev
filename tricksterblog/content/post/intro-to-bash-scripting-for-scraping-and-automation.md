@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Intro to Bash scripting for scraping and automation"
-date = "2023-12-31"
-draft = true
+date = "2023-04-04"
 tags = ["bash"]
 +++
 
@@ -14,7 +13,7 @@ and exec(2) et. al. It is also a scripting language and interpreter.
 
 Today we are going to explore various scripting facilities in Bash to learn
 about programmable nature of this shell. The objective here is not
-to give a tutorial on writing Bash scripts. Instead, it is to show what
+to give a tutorial on writing Bash scripts. Instead, I aim to show what
 scripting capabilities it has and how does it fit into the broader reality,
 with emphasis on scraping data and automating stuff.
 
@@ -358,7 +357,7 @@ that also serves as a power tool for users working in command line environment.
 For example, instead of manually running 100 commands to import 100 CSV files
 into a SQLite database you could do a quick for loop right in your shell. Due
 to availability of Bash in many server and development environments this will
-most likely be possible to do without installing any additional dependencies.
+most likely be possible without installing any additional dependencies.
 
 Second, Bash is a glue language for uniting multiple CLI tools into greater
 workflow. For example, you may have a Scrapy project that you run through
