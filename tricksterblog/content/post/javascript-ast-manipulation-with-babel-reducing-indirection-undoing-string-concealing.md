@@ -46,7 +46,7 @@ Let us consider the following JS snippet that we are going to obfuscate with
 ```
 
 Our objective is to obfuscate this code with "String Array", "String Array
-Calls Tranform" and "String Array Encoding" options, then do AST-level
+Calls Transform" and "String Array Encoding" options, then do AST-level
 transformation to undo the obfuscation and get the code as close as possible
 to what we started with.
 
