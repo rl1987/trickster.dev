@@ -136,7 +136,7 @@ default template. `BooksSpider` class is inheriting from
 (which is a subclass of `scrapy.Spider`). It has a `rules` property with a tuple
 of [`Rule`](https://docs.scrapy.org/en/latest/topics/spiders.html?highlight=CrawlSpider#scrapy.spiders.Rule) 
 objects (just a single entry at this point) and no `parse()` method,
-as the `parse()` method is overriden in the `CrawlSpider` class already.
+as the `parse()` method is overriden in the `CrawlSpider` class.
 We also got one callback method that is referenced in the rule by name.
 
 Let us use this code as starting point to try out the rule-based crawling
@@ -185,7 +185,30 @@ here is to demonstrate rule-based crawling we only extract a couple of fields
 from the book details page.
 
 Running this spider scrapes the entire site without us having to explicitly
-generate requests to progress the crawling further.
+generate requests to progress the crawling further. We see log lines like:
+
+```
+2023-05-02 13:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/page-2.html> (referer: http://books.toscrape.com/)
+2023-05-02 13:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html> (referer: http://books.toscrape.com/)
+2023-05-02 13:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/libertarianism-for-beginners_982/index.html> (referer: http://books.toscrape.com/)
+2023-05-02 13:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/mesaerion-the-best-science-fiction-stories-1800-1849_983/index.html> (referer: http://books.toscrape.com/)
+2023-05-02 13:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/olio_984/index.html> (referer: http://books.toscrape.com/)
+2023-05-02 13:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html> (referer: http://books.toscrape.com/)
+2023-05-02 13:23:20 [scrapy.core.scraper] DEBUG: Scraped from <200 http://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html>
+{'title': "It's Only the Himalayas", 'price': '£45.17', 'url': 'http://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html'}
+2023-05-02 13:23:20 [scrapy.core.scraper] DEBUG: Scraped from <200 http://books.toscrape.com/catalogue/libertarianism-for-beginners_982/index.html>
+{'title': 'Libertarianism for Beginners', 'price': '£51.33', 'url': 'http://books.toscrape.com/catalogue/libertarianism-for-beginners_982/index.html'}
+2023-05-02 13:23:20 [scrapy.core.scraper] DEBUG: Scraped from <200 http://books.toscrape.com/catalogue/mesaerion-the-best-science-fiction-stories-1800-1849_983/index.html>
+{'title': 'Mesaerion: The Best Science Fiction Stories 1800-1849', 'price': '£37.59', 'url': 'http://books.toscrape.com/catalogue/mesaerion-the-best-science-fiction-stories-1800-1849_983/index.html'}
+2023-05-02 13:23:20 [scrapy.core.scraper] DEBUG: Scraped from <200 http://books.toscrape.com/catalogue/olio_984/index.html>
+{'title': 'Olio', 'price': '£23.88', 'url': 'http://books.toscrape.com/catalogue/olio_984/index.html'}
+2023-05-02 13:23:20 [scrapy.core.scraper] DEBUG: Scraped from <200 http://books.toscrape.com/catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html>
+{'title': 'Our Band Could Be Your Life: Scenes from the American Indie Underground, 1981-1991', 'price': '£57.25', 'url': 'http://books.toscrape.com/catalogue/our-band-could-be-your-life-scenes-from-the-american-indie-underground-1981-1991_985/index.html'}
+2023-05-02 13:23:21 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/how-music-works_979/index.html> (referer: http://books.toscrape.com/catalogue/page-2.html)
+2023-05-02 13:23:21 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/chase-me-paris-nights-2_977/index.html> (referer: http://books.toscrape.com/catalogue/page-2.html)
+2023-05-02 13:23:21 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/in-her-wake_980/index.html> (referer: http://books.toscrape.com/catalogue/page-2.html)
+2023-05-02 13:23:21 [scrapy.core.engine] DEBUG: Crawled (200) <GET http://books.toscrape.com/catalogue/aladdin-and-his-wonderful-lamp_973/index.html> (referer: http://books.toscrape.com/catalogue/page-2.html)
+```
 
 To learn more about link extractors and rule-based crawling, read the following
 pages of Scrapy documentation:
