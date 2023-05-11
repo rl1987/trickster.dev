@@ -17,5 +17,57 @@ at various levels.
 IP level
 ========
 
+Geofencing
+----------
 
+Rate limiting
+-------------
+
+Filtering by AS/ISP
+-------------------
+
+Filtering by IP reputation
+--------------------------
+
+HTTPS level
+===========
+
+HTTP headers and cookies
+------------------------
+
+HTTP/2 fingerprinting
+---------------------
+
+TLS fingerprinting
+------------------
+
+Application level
+=================
+
+JS environment checking
+-----------------------
+
+Javascript challenges
+---------------------
+
+Browser and device fingerprinting
+---------------------------------
+
+User level
+==========
+
+CAPTCHA
+-------
+
+Account-level throttling
+------------------------
+
+Account banning
+---------------
+
+Mouse activity monitoring
+-------------------------
+
+Making account creation difficult
+---------------------------------
 
