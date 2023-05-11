@@ -100,14 +100,14 @@ TLS fingerprinting
 ------------------
 
 HTTP/2 is pretty much never used in plaintext form. After, you cannot let the
-dirty people from NSA to just watch the unencrypted traffic without any problems.
-However, TLS protocol is also very complex. It also involves a great deal
+dirty people from NSA just watch the unencrypted traffic without any problems.
+However, TLS protocol is also very complex. It involves a great deal
 of technical details in the client traffic (protocol version, list of extensions,
 proposed cryptographic protocols, etc.) that betray what kind of client
 software it comes from. In fact, a single ClientHello message can be used to 
 quite reliably predict the OS and browser that generated it. There's also 
-[post](http://localhost:1313/post/understanding-tls-fingerprinting/) earlier
-in the blog to cover this topic in greater detail.
+[post](/post/understanding-tls-fingerprinting/) earlier in this blog to cover 
+this topic in greater detail.
 
 Application level
 =================
@@ -115,8 +115,47 @@ Application level
 JS environment checking
 -----------------------
 
+Modern web browsers are extremely complex software systems. They're not just
+user-facing applications to load some pages from remote servers anymore. As of
+2023, Chrome or Firefox contains an entire programmable environment for client
+side software development that is primarily done in JS or variants thereof
+(that end up being transpiled into JS anyway). Naturally this means that 
+there's quite a bit of stuff in the JavaScript environment that sites can 
+check for tell-tale signs of browser being controlled programmatically by 
+automation software like like Selenium, Playwright or Puppetteer.
+
+Some examples:
+
+* `navigator.webdriver=true` generally betrays browser automation.
+* Presence of `document.$cdc_asdjflasutopfhvcZLmcfl_` object betrays Selenium.
+* On Chromium-based browsers, `window.chrome` object not being available means
+the browser is running in headless mode.
+
 Javascript challenges
 ---------------------
+
+To make requests-based bots harder to implement, site may want to check if 
+client is capable of running Javascript before giving the data. For example,
+Cloudflare has an [Email Address Obfuscation](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-scrape-shield/what-is-email-address-obfuscation/)
+feature that relies on client-side JS code running in the browser to convert
+the email address from encoded form in the HTML document your browser gets
+from CDN to the normal form. Notice the difference between what you see in 
+Elemnts tab of Chrome DevTools and in the original page source for the 
+page of site using this feature.
+
+[TODO: screenshots]
+
+For this particular email obfuscation, there's a 
+[Stack Overflow answer](https://stackoverflow.com/questions/48878687/using-python-to-scrape-information-from-a-cloudflare-site)
+providing a Python snippet that reverts it back. However, if you are doing 
+requests-based scraping and rely on regular expressions this sort of stuff can
+already cause at least some difficulty. 
+
+Furthermore, JS challenges can be more elaborate than this. Depending on 
+how Cloudflare's antibot features are configured browser may be required to run 
+some JS code with cryptographic proof of work stuff, provide the result of the 
+computation to CF and only then get the cookie that allows it to properly access 
+anything on the site.
 
 Browser and device fingerprinting
 ---------------------------------
