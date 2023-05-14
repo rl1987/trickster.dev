@@ -27,6 +27,8 @@ Geofencing (or geo-restricting/geo-blocking) is blocking/allowing requests
 based on source geographic location (typically a country). This relies on GeoIP
 data provided by vendors such as MaxMind or IP2Location to perform lookups.
 
+[Screenshot 1](/2023-05-11_17.10.10.png)
+
 As web scraper developer you can trivially bypass this using proxies.
 
 Rate limiting
@@ -79,6 +81,8 @@ but also other request headers to make sure like the ones in the browser in
 aggregate. This is also easy to defeat. In fact, Chrome DevTools Network tab
 has a handy feature of letting you conveniently copy a request as a curl command
 or JavaScript (or even PowerShell!) snippet.
+
+[Screenshot 2](/2023-05-11_17.05.44.png)
 
 Cookies also matter when it comes to dealing with sites that are hostile to 
 automation, as cookieless requests might get rejected. Depending on exact 
@@ -167,7 +171,8 @@ from CDN to the normal form. Notice the difference between what you see in
 Elements tab of Chrome DevTools and in the original page source for the 
 page of site using this feature.
 
-[TODO: screenshots]
+[Screenshot 3](/2023-05-11_18.17.50.png)
+[Screenshot 4](/2023-05-11_18.19.24.png)
 
 For this particular example of data obfuscation, there's a 
 [Stack Overflow answer](https://stackoverflow.com/questions/48878687/using-python-to-scrape-information-from-a-cloudflare-site)
