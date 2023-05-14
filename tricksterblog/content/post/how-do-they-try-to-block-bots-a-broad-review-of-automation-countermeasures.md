@@ -76,11 +76,13 @@ The very simplest way to know that traffic is automated is to check User-Agent
 header in HTTP request. For example, curl puts something like `curl/8.0.1` in
 there and some headless browsers actually let the server to know they are 
 running in headless mode (unless configured otherwise). But that's trivial
-to defeat. One baby step further is to not only check the User-Agent header,
+to defeat by just reproducing the header value programmatically. 
+One baby step further is to not only check the User-Agent header,
 but also other request headers to make sure like the ones in the browser in
-aggregate. This is also easy to defeat. In fact, Chrome DevTools Network tab
-has a handy feature of letting you conveniently copy a request as a curl command
-or JavaScript (or even PowerShell!) snippet.
+aggregate. This is also easy to defeat by reproducing all the headers in a 
+request. In fact, Chrome DevTools Network tab has a handy feature of letting you 
+conveniently copy a request as a curl command or JavaScript (or even PowerShell!) 
+snippet.
 
 [Screenshot 2](/2023-05-11_17.05.44.png)
 
@@ -105,8 +107,8 @@ detail in [another post](/post/understanding-http2-fingerprinting/) earlier.
 TLS fingerprinting
 ------------------
 
-HTTP/2 is pretty much never used in plaintext form. After, you cannot let the
-dirty people from NSA just watch the unencrypted traffic without any problems.
+HTTP/2 is pretty much never used in plaintext form. After all, you cannot let the
+dirty people from NSA to just watch the unencrypted traffic without any problems.
 However, TLS protocol is also very complex. It involves a great deal
 of technical details in the client traffic (protocol version, list of extensions,
 proposed cryptographic protocols, etc.) that betray what kind of client
@@ -118,8 +120,8 @@ this topic in greater detail.
 Application level
 =================
 
-The following techniques deal with probing and client-side environment to
-detect and/or prevent automation.
+The following techniques deal with probing the client-side environment (typically 
+a web browser) to detect and/or prevent automation.
 
 JS environment checking
 -----------------------
@@ -189,7 +191,7 @@ anything on the site.
 User level
 ==========
 
-The following techniques deal behavioural tracking of user activity, checking
+The following techniques involve behavioural tracking of user activity, checking
 that the user is actually human and leveraging user identitities (accounts) to
 fight automation.
 
@@ -228,8 +230,15 @@ Making account creation difficult
 Banning and throttling user accounts would not help much if it's possible to
 create a lot of them quickly. Thus making account creation difficult to automate
 (by requiring phone verification, integrating third party antibot solutions, 
- making request flows hard to reproduce) is one more thing that sites/apps 
+making request flows hard to reproduce) is one more thing that sites/apps 
 can do to fight automation.
+
+Realistically, it is near impossible to completely prevent botting if there's an
+a sufficient incentive for people to engage in automation. However, the economic
+feasibility of automation can be weakened by putting barriers that make it more
+expensive such as phone or ID verification for new accounts and 
+rate-limiting/restricting/banning existing accounts for sketchy, anomalous
+activity.
 
 Mouse activity monitoring
 -------------------------
