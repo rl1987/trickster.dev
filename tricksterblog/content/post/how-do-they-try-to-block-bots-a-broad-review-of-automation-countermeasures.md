@@ -46,7 +46,7 @@ pool.
 Filtering by AS/ISP
 -------------------
 
-This can be seen a variation of geofencing, but blocking can also be performed
+This can be seen as a variation of geofencing, but blocking can also be performed
 based on source ISP or Autonomous System by performing Autonomous System
 Lookups. For example, sites or antibot vendors may explicitly disallow traffic
 that comes from data centers or major cloud vendors (AWS, Digital Ocean, Azure 
@@ -131,6 +131,25 @@ Some examples:
 * On Chromium-based browsers, `window.chrome` object not being available means
 the browser is running in headless mode.
 
+Browser and device fingerprinting
+---------------------------------
+
+Other than aforementioned tell-tale signs of automation, client side JS code
+can gather a great deal of information on the system it is running on: installed
+fonts, screen resolution, supported browser features, hardware components and so
+on. Each of them is a trait of hardware-software setup the code is running on.
+Furthermore, exact rendering of graphics (through HTML canvas or WebGL API) is
+dependent on hardware/software setup, i.e. Chrome on macOS/Apple Silicon will not 
+render the exact same image as Firefox on Linux/x86 - some pixels will be 
+slightly, but consistently off, which is another piece of information that
+can be kept track of. A collection of these traits is referred to as fingerprint.
+
+Fingerprinting is part of anti-automation toolkit. For example, social media
+apps are able to detect when login session is launched from a new devide vs.
+the same device being used for new user session. Furthermore, it can be quite
+telling when a cluster of accounts share the same fingerprint (in the case of 
+e.g. device farm or fully virtualised botting operation).
+
 Javascript challenges
 ---------------------
 
@@ -140,16 +159,16 @@ Cloudflare has an [Email Address Obfuscation](https://developers.cloudflare.com/
 feature that relies on client-side JS code running in the browser to convert
 the email address from encoded form in the HTML document your browser gets
 from CDN to the normal form. Notice the difference between what you see in 
-Elemnts tab of Chrome DevTools and in the original page source for the 
+Elements tab of Chrome DevTools and in the original page source for the 
 page of site using this feature.
 
 [TODO: screenshots]
 
-For this particular email obfuscation, there's a 
+For this particular example of data obfuscation, there's a 
 [Stack Overflow answer](https://stackoverflow.com/questions/48878687/using-python-to-scrape-information-from-a-cloudflare-site)
-providing a Python snippet that reverts it back. However, if you are doing 
-requests-based scraping and rely on regular expressions this sort of stuff can
-already cause at least some difficulty. 
+providing a small Python snippet to decode it back. However, if you are doing 
+requests-based scraping and rely on regular expressions to extract email 
+addresses this sort of stuff can already cause at least some difficulty. 
 
 Furthermore, JS challenges can be more elaborate than this. Depending on 
 how Cloudflare's antibot features are configured browser may be required to run 
@@ -157,14 +176,19 @@ some JS code with cryptographic proof of work stuff, provide the result of the
 computation to CF and only then get the cookie that allows it to properly access 
 anything on the site.
 
-Browser and device fingerprinting
----------------------------------
-
 User level
 ==========
 
 CAPTCHA
 -------
+
+A captcha is often (but not always) an incovenient silly puzzle that you have
+to solve to prove you're not a robot by picking the segments containing certain
+object or something like that. That's a visible captcha. Some captchas
+(e.g. [reCaptcha v3](https://developers.google.com/recaptcha/docs/v3)) are
+invisible - they work in background tracking user activity (mouse movement, etc.)
+to assess if it looks human or robotic. The puzzle UI is displayed only when
+there is a suspicion that user is a bot.
 
 Account-level throttling
 ------------------------
