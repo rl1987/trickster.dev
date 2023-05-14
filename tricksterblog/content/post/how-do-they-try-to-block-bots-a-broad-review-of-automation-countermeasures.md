@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "How do they (try to) block bots: a broad review of automation countermeasures"
 date = "2023-05-14"
-draft = true
 tags = ["security", "web-scraping", "automation"]
 +++
 
