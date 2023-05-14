@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "How do they (try to) block bots: a broad review of automation countermeasures"
-date = "2023-05-12"
+date = "2023-05-14"
 draft = true
 tags = ["security", "web-scraping", "automation"]
 +++
@@ -65,6 +65,8 @@ a reputable proxy provider.
 HTTPS level
 ===========
 
+The following techniques work at HTTP and TLS protocol levels.
+
 HTTP headers and cookies
 ------------------------
 
@@ -111,6 +113,9 @@ this topic in greater detail.
 
 Application level
 =================
+
+The following techniques deal with probing and client-side environment to
+detect and/or prevent automation.
 
 JS environment checking
 -----------------------
@@ -179,6 +184,10 @@ anything on the site.
 User level
 ==========
 
+The following techniques deal behavioural tracking of user activity, checking
+that the user is actually human and leveraging user identitities (accounts) to
+fight automation.
+
 CAPTCHA
 -------
 
@@ -190,15 +199,39 @@ invisible - they work in background tracking user activity (mouse movement, etc.
 to assess if it looks human or robotic. The puzzle UI is displayed only when
 there is a suspicion that user is a bot.
 
+The underlying idea for this is that certain tasks are difficult to do 
+programmatically, but easy to do for a person.
+
 Account-level throttling
 ------------------------
+
+A simple way to hinder automation is to rate-limit user activity per account.
+This is commonly done by social media platforms. If user activity exceeds the
+rate limits the site/app can simply reject the requests or even ban the account.
 
 Account banning
 ---------------
 
-Mouse activity monitoring
--------------------------
+No suprise here -  ban hammer is part of anti-automation arsenal as well. 
+Misbehaving accounts can be banned. This is of particular importance to social 
+media automation - an account ban can mean a setback or even outright failure 
+of social media growth hacking efforts.
 
 Making account creation difficult
 ---------------------------------
+
+Banning and throttling user accounts would not help much if it's possible to
+create a lot of them quickly. Thus making account creation difficult to automate
+(by requiring phone verification, integrating third party antibot solutions, 
+ making request flows hard to reproduce) is one more thing that sites/apps 
+can do to fight automation.
+
+Mouse activity monitoring
+-------------------------
+
+Client-side JS code can monitor mouse movements and submit them to some neural
+network running on the backend to assess if they look human or not. This is
+performed not only by some captcha solutions, but also antibot vendors as well.
+For example, Akamai Bot Manager phones back a sample of user's mouse movement
+as part of clearance cookie issuance flow.
 
