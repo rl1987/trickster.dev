@@ -87,6 +87,225 @@ class NikeProductItem(scrapy.Item):
 
 ```
 
+The Scrapy spider class I generated is named `NikecomSpider` and resides in
+nikecom.py file. Let's make this spider load the product list page and extract 
+some initial product data:
 
+```python
+class NikecomSpider(scrapy.Spider):
+    name = 'nikecom'
+    allowed_domains = ['nike.com', 'www.nike.com', 'api.nike.com']
+    start_urls = ['https://www.nike.com/w/mens-shoes-nik1zy7ok']
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url, callback=self.parse_first_page)
+
+    def convert_product_dict_into_item(self, product):
+        # Removed for brevity.
+
+    def parse_first_page(self, response):
+        next_data_json_str = response.xpath('//script[@id="__NEXT_DATA__"]/text()').get()
+
+        json_dict = json.loads(next_data_json_str)
+        props = json_dict.get("props")
+        page_props = props.get("pageProps")
+        initial_state = page_props.get("initialState")
+        wall = initial_state.get("Wall")
+        products = wall.get('products')
+
+        for product in products:
+            item = self.convert_product_dict_into_item(product)
+            yield item
+            # TODO: yield request to product page
+```
+
+I have created method `convert_product_dict_into_item()` that converts data from
+original JSON to Scrapy item object, but for now this code is not shown for the
+sake of brevity. Just keep in mind that it will be reused when we do API 
+scraping.
+
+Next thing we want to do in `parse_first_page()` method is to launch the first
+API request. We do this based on initial `endpoint` parameter value that 
+we extract from JSON string:
+
+```python
+        page_data = wall.get('pageData')
+        if page_data is not None:
+            next_page_link = page_data.get("next")
+            if next_page_link is not None and next_page_link != '':
+                yield self.create_feed_api_request(next_page_link)
+```
+
+Here we rely on another helper method to create the API request:
+
+```python
+    def create_feed_api_request(self, next_page_link):
+        params = {
+            'queryid': 'products',
+            'anonymousId': '7CC266B713D36CCC7275B33B6E4F9206', #XXX
+            'country': 'us',
+            'endpoint': next_page_link,
+            'language': 'en',
+            'localizedRangeStr': '{lowestPrice} — {highestPrice}'
+        }
+
+        url = 'https://api.nike.com/cic/browse/v2'
+
+        url = url + '?' + urlencode(params)
+
+        return scrapy.Request(url, callback=self.parse_product_feed)
+```
+
+In `parse_product_feed()` method we process the API response, create item objects
+and generate requests to product detail pages:
+
+```python
+    def parse_product_feed(self, response):
+        json_str = response.text
+
+        json_dict = json.loads(json_str)
+
+        products = json_dict.get('data', dict()).get('products', dict()).get('products', [])
+
+        for product in products:
+            item = self.convert_product_dict_into_item(product)
+            yield scrapy.Request(item['product_url'], meta={'item': item}, callback=self.parse_product_page)
+
+        next_page_link = json_dict.get('data', dict()).get('products', dict()).get('pages', dict()).get('next')
+        if next_page_link is not None and next_page_link != '':
+            yield self.create_feed_api_request(next_page_link)
+```
+
+Note that partially-filled item object is passed to the next callback via the
+`meta` dictionary. We modify the `parse_first_page()` method to do this as well,
+instead of just generating item object.
+
+In this sample project product detail page parsing is limited to extracting
+only a couple of fields from the HTML:
+
+```python
+    def parse_product_page(self, response):
+        item = response.meta.get('item')
+        
+        item['description'] = response.xpath('//div[contains(@class, "description-preview")]/p/text()').get()
+        item['image_urls'] = response.xpath('//picture/source/@srcset').getall()
+
+        yield item
+```
+
+This now generates the final item object, with product description and image 
+URLs.
+
+The final Scrapy spider code is as follows:
+
+```python
+import scrapy
+
+import json
+from urllib.parse import urlencode
+
+from nike.items import NikeProductItem
+
+class NikecomSpider(scrapy.Spider):
+    name = 'nikecom'
+    allowed_domains = ['nike.com', 'www.nike.com', 'api.nike.com']
+    start_urls = ['https://www.nike.com/w/mens-shoes-nik1zy7ok']
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url, callback=self.parse_first_page)
+
+    def convert_product_dict_into_item(self, product):
+        item = NikeProductItem()
+        
+        item['title'] = product.get("title")
+        item['subtitle'] = product.get("subtitle")
+        item['pid'] = product.get("pid")
+        
+        price_dict = product.get("price", dict())
+        if price_dict is not None:
+            item['current_price'] = price_dict.get("currentPrice")
+            item['empl_price'] = price_dict.get("employeePrice")
+            item['full_price'] = price_dict.get("fullPrice")
+
+        item['in_stock'] = product.get("inStock")
+        item['product_url'] = product.get('url')
+        if item['product_url'] is not None:
+            item['product_url'] = item['product_url'].replace("{countryLang}", "https://www.nike.com")
+
+        return item
+
+    def create_feed_api_request(self, next_page_link):
+        params = {
+            'queryid': 'products',
+            'anonymousId': '7CC266B713D36CCC7275B33B6E4F9206', #XXX
+            'country': 'us',
+            'endpoint': next_page_link,
+            'language': 'en',
+            'localizedRangeStr': '{lowestPrice} — {highestPrice}'
+        }
+
+        url = 'https://api.nike.com/cic/browse/v2'
+
+        url = url + '?' + urlencode(params)
+
+        return scrapy.Request(url, callback=self.parse_product_feed)
+
+    def parse_first_page(self, response):
+        next_data_json_str = response.xpath('//script[@id="__NEXT_DATA__"]/text()').get()
+
+        json_dict = json.loads(next_data_json_str)
+        props = json_dict.get("props")
+        page_props = props.get("pageProps")
+        initial_state = page_props.get("initialState")
+        wall = initial_state.get("Wall")
+        products = wall.get('products')
+
+        for product in products:
+            item = self.convert_product_dict_into_item(product)
+            if item.get('product_url') is not None:
+                yield scrapy.Request(item['product_url'], meta={'item': item}, callback=self.parse_product_page)
+
+        page_data = wall.get('pageData')
+        if page_data is not None:
+            next_page_link = page_data.get("next")
+            if next_page_link is not None and next_page_link != '':
+                yield self.create_feed_api_request(next_page_link)
+
+    def parse_product_page(self, response):
+        item = response.meta.get('item')
+        
+        item['description'] = response.xpath('//div[contains(@class, "description-preview")]/p/text()').get()
+        item['image_urls'] = response.xpath('//picture/source/@srcset').getall()
+
+        yield item
+
+    def parse_product_feed(self, response):
+        json_str = response.text
+
+        json_dict = json.loads(json_str)
+
+        products = json_dict.get('data', dict()).get('products', dict()).get('products', [])
+
+        for product in products:
+            item = self.convert_product_dict_into_item(product)
+            yield scrapy.Request(item['product_url'], meta={'item': item}, callback=self.parse_product_page)
+
+        next_page_link = json_dict.get('data', dict()).get('products', dict()).get('pages', dict()).get('next')
+        if next_page_link is not None and next_page_link != '':
+            yield self.create_feed_api_request(next_page_link)
+
+
+```
+
+Running this requires no proxies or anything to deal with antibots despite
+Nike being a customer of not one, but two antibot solutions - Kasada and Akamai
+Bot Manager. This provides an interesting example of how there are multiple levels
+to protection against automation. Automatically creating Nike accounts and/or
+placing order is known to be challenging thing to do, yet Nike allows a simple
+form of product data scraping without imposing any difficulty on doing that.
+What we developed here was a quite simple Scrapy project that was based on 
+some quite basic forms of reverse engineering. 
 
 
