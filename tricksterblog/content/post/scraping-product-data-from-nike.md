@@ -22,16 +22,25 @@ on the first load of the page. By searching for "Nike Air Max Pulse" we get
 some hits with this string being part of normal HTML, but more importantly
 we get a hit in the big JSON document that is embedded in the page. We can see
 that data on products (titles, prices, image URLs) is encoded into this JSON
-string as well. By scrolling up, we find that the JSON string is wrapped in
-a script element (due to frontend programming reasons):
+string as well. 
+
+[Screenshot 1](/2023-05-15_14.50.53.png)
+
+By scrolling up, we find that the JSON string is wrapped in a script element 
+(due to frontend programming reasons):
 
 ```html
 <script id="__NEXT_DATA__" type="application/json">
 ```
 
+[Screenshot 2](/2023-05-15_14.51.15.png)
+
 This is good for us, as we can extract the data we need from big JSON string and
 use it for our purposed. However, how does the infinite scroll work? How is the
 new data loaded? This can be explored in Network tab of Chrome DevTools.
+
+[Screenshot 3](/2023-05-15_14.58.45.png)
+[Screenshot 4](/2023-05-15_14.59.29.png)
 
 We can see that site launched an API call to api.nike.com every time new page of
 product list data is needed (i.e. you scroll to the bottom and trigger the 
@@ -45,6 +54,8 @@ page of data can also be found in the big JSON in the page source:
 ```
 "pageData":{"prev":"","next":"/product_feed/rollup_threads/v2?filter=marketplace%28US%29\u0026filter=language%28en%29\u0026filter=employeePrice%28true%29\u0026filter=attributeIds%2816633190-45e5-4830-a068-232ac7aea82c%2C0f64ecc7-d624-4e91-b171-b83a03dd8550%29\u0026anchor=24\u0026consumerChannelId=d9a5bc42-4b9c-4976-858a-f159cf99c647&count=24
 ```
+
+[Screenshot 5](/2023-05-15_15.03.12.png)
 
 This informs our general strategy for scraping:
 
@@ -303,7 +314,7 @@ Running this requires no proxies or anything to deal with antibots despite
 Nike being a customer of not one, but two antibot solutions - Kasada and Akamai
 Bot Manager. This provides an interesting example of how there are multiple levels
 to protection against automation. Automatically creating Nike accounts and/or
-placing order is known to be challenging thing to do, yet Nike allows a simple
+placing orders is known to be challenging thing to do, yet Nike allows a simple
 form of product data scraping without imposing any difficulty on doing that.
 What we developed here was a quite simple Scrapy project that was based on 
 some quite basic forms of reverse engineering. 
