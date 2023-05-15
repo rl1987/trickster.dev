@@ -206,7 +206,41 @@ only a couple of fields from the HTML:
 ```
 
 This now generates the final item object, with product description and image 
-URLs.
+URLs:
+
+```
+{'current_price': 130,
+ 'description': 'Nothing as fly, nothing as comfortable, nothing as proven. '
+                'The Nike Air Max 90 stays true to its OG running roots with '
+                'the iconic Waffle sole, stitched overlays and classic TPU '
+                'details. Classic colors celebrate your fresh look while Max '
+                'Air cushioning adds comfort to the journey.',
+ 'empl_price': 78,
+ 'full_price': 130,
+ 'image_urls': ['https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_640/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_640/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png',
+                'https://static.nike.com/a/images/f_auto,b_rgb:f5f5f5,w_440/wzitsrb4oucx9jukxsmc/air-max-90-mens-shoes-6n3vKB.png'],
+ 'in_stock': True,
+ 'pid': '12788919',
+ 'product_url': 'https://www.nike.com/t/air-max-90-mens-shoes-6n3vKB/CN8490-002',
+ 'subtitle': "Men's Shoes",
+ 'title': 'Nike Air Max 90'}
+```
 
 The final Scrapy spider code is as follows:
 
