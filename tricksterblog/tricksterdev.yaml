@@ -1,0 +1,21 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+domains:
+- domain: trickster.dev
+  type: PRIMARY
+- domain: www.trickster.dev
+  type: ALIAS
+name: tricksterdev
+region: sgp
+static_sites:
+- build_command: hugo -d public
+  environment_slug: hugo
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: rl1987/trickster.dev
+  name: trickster-dev-tricksterblog
+  routes:
+  - path: /
+  source_dir: tricksterblog
