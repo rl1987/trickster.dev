@@ -9,8 +9,8 @@ tags = ["scraping", "python", "scrapy", "sneakers"]
 Suppose you are looking to collect pricing data on male footwear from the
 official website of one of the industry leaders - Nike.com. There's a 
 [product list page](https://www.nike.com/w/mens-shoes-nik1zy7ok) that seems
-like a good place to start, but the infinite scroll feature might seems puzzling
-to budding web scraper developers. In this post we will go through developing 
+like a good place to start, but the infinite scroll feature might seem puzzling
+to budding web scraper developers. In this post, we will go through developing 
 a Scrapy project for scraping sneaker price data from this website. Some
 familiarity with Scrapy and web scraping in general is assumed.
 
@@ -353,4 +353,7 @@ form of product data scraping without imposing any difficulty on doing that.
 What we developed here was a quite simple Scrapy project that was based on 
 some quite basic forms of reverse engineering. 
 
-
+One last thing to note is the discounted employee price that we were able
+to scrape from API. This is a slightly hidden piece of information that regular
+web user is not supposed to see, but one can scrape it by knowing how to tap
+into the API.

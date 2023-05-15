@@ -218,7 +218,7 @@ rate limits the site/app can simply reject the requests or even ban the account.
 Account banning
 ---------------
 
-No suprise here -  ban hammer is part of anti-automation arsenal as well. 
+No suprise here - ban hammer is part of anti-automation arsenal as well. 
 Misbehaving accounts can be banned. This is of particular importance to social 
 media automation - an account ban can mean a setback or even outright failure 
 of social media growth hacking efforts.
