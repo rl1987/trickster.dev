@@ -130,5 +130,166 @@ true
 undefined
 ```
 
+So let us try to refactor this code bit by bit using Babel AST transformations.
 
+First transformation is for converting `[]["flat"]["constructor"]("return/false/")()`
+into `/false/`:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "simplify-false-regex", // not required
+    visitor: {
+      CallExpression(path) {
+		const callExpr = path.node;
+        if (callExpr.arguments.length != 0) return;
+        if (!t.isCallExpression(callExpr.callee)) return;
+        const calleeMemberExpr = callExpr.callee.callee;
+        if (!t.isMemberExpression(calleeMemberExpr)) return;
+        const memberExpr2 = calleeMemberExpr.object;
+        if (!t.isMemberExpression(memberExpr2)) return;
+        const arrayObj = memberExpr2.object;
+        if (!t.isArrayExpression(arrayObj)) return;
+        if (arrayObj.elements.length != 0) return;
+        const property1 = memberExpr2.property;
+        if (!t.isStringLiteral(property1)) return;
+        if (property1.value != "flat") return;
+        const property2 = calleeMemberExpr.property;
+        if (!t.isStringLiteral(property2)) return;
+        if (property2.value != "constructor") return;
+        if (callExpr.callee.arguments.length != 1) return;
+        const argStrLiteral = callExpr.callee.arguments[0];
+        if (!t.isStringLiteral(argStrLiteral)) return;
+        if (argStrLiteral.value != "return/false/") return;      
+        path.replaceWith(t.regExpLiteral('false', ''));
+      }
+    }
+  };
+}
+```
+
+Now we need to deal with regexp constructor thing that accepts a string argument.
+There's another transform for that:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "refactor-regex-constr", // not required
+    visitor: {
+      CallExpression(path) {
+        const callExpr = path.node;
+        if (callExpr.arguments.length != 1) return;
+        const argument = callExpr.arguments[0];
+        if (!t.isStringLiteral(argument)) return;
+        const calleeMemberExpr = callExpr.callee;
+        if (!t.isMemberExpression(calleeMemberExpr)) return;
+        if (!t.isRegExpLiteral(calleeMemberExpr.object)) return;
+        let property = calleeMemberExpr.property;
+        if (!t.isStringLiteral(property)) return;
+        if (property.value != "constructor") return;
+        
+        path.replaceWith(
+          t.regExpLiteral(argument.value.replace('/', '\\/'), '')
+        );
+      }
+    }
+  };
+}
+```
+
+Now we deal with addition of regular expression with empty array to stringify
+the regular expression object. Current code from part 1 deals with similar
+stuff, but is unable to cover what we have now. Thus we write one more
+small transformation to only cover this case:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "regex-str", // not required
+    visitor: {
+      BinaryExpression(path) {
+        const binExpr = path.node;
+        const left = binExpr.left;
+        if (!t.isRegExpLiteral(left)) return;
+        const right = binExpr.right;
+        if (!t.isArrayExpression(right)) return;
+        if (right.elements.length != 0) return;
+        
+        const regexStr = String(RegExp(left.pattern));
+        
+        path.replaceWith(t.stringLiteral(regexStr));
+      }
+    }
+  };
+}
+```
+
+To convert `[]["flat"]["constructor"]()` into `eval()` calls we develop the
+following transform:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "fix-eval", // not required
+    visitor: {
+      CallExpression(path) {
+        let node = path.node;
+        if (node.arguments.length != 1) return;
+        if (!t.isStringLiteral(node.arguments[0])) return;
+        let parent = path.parent;
+        if (!t.isCallExpression(parent)) return;
+        let callee = node.callee;
+        if (!t.isMemberExpression(callee)) return;
+        if (!t.isStringLiteral(callee.property)) return;
+        let key1 = callee.property.value;
+        if (!t.isMemberExpression(callee.object)) return;
+        if (!t.isStringLiteral(callee.object.property)) return;
+        let key2 = callee.object.property.value;
+        if (key1 === "constructor" && (key2 === "filter" || key2 === "flat")) {
+          let evalCallExpr = t.callExpression(t.identifier('eval'), node.arguments);
+          path.parentPath.replaceWith(evalCallExpr);
+        }
+      }
+    }
+  };
+}
+```
+
+To convert string-returning `eval()` calls into string literals we do one more
+transformation:
+
+```javascript
+export default function (babel) {
+  const { types: t } = babel;
+
+  return {
+    name: "eval-return-str", // not required
+    visitor: {
+      CallExpression(path) {
+        let node = path.node;
+        if (!t.isIdentifier(node.callee)) return;
+        if (node.callee.name != "eval") return;
+        if (node.arguments.length != 1) return;
+        if (!t.isStringLiteral(node.arguments[0])) return;
+        
+        let argStr = node.arguments[0].value;
+        
+        if (argStr.startsWith("return\"") && argStr.endsWith("\"")) {
+          argStr = argStr.substr("return\"".length);
+          argStr = argStr.substr(0, argStr.length-1);
+          path.replaceWith(t.stringLiteral(argStr));
+        }
+      }
+    }
+  };
+}
+```
 
