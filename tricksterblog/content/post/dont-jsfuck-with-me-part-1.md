@@ -236,7 +236,6 @@ We modify constant folding code into the following:
       "UnaryExpression|BinaryExpression"(path) {
         let result = path.evaluate();
         if (result.confident) {
-        if (result.confident) {
           let valueNode = t.valueToNode(result.value);
           if (t.isLiteral(valueNode)) {
             path.replaceWith(valueNode);
