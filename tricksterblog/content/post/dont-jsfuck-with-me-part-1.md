@@ -199,7 +199,7 @@ undefined
 
 Since at AST level this is `MemberExpression` with empty `ArrayExpression`s 
 at `object` and `property` fields we can target a `MemberExpression` nodes
-in our visitor, check bot fields for empty arrays and replace it with 
+in our visitor, check both fields for empty arrays and replace it with a
 node representing value `undefined`. 
 
 We add the following code to our AST transform:
