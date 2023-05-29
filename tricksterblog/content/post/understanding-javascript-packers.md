@@ -42,8 +42,8 @@ There are two aspects to JavaScript packing:
 
 1. Transforming the original code into a new (e.g. compressed, encoded, encrypted)
 form. This will be hardcoded into output code.
-2. Introducing a small amount of code that will unpack and execute the original
-code.
+2. Introducing a small amount of helper code that will unpack and execute the 
+original code.
 
 `eval(unescape())` is the minimum viable JS packing technique. Original code
 is converted into URL-encoded form, then put as an argument to `eval(unescape())`
@@ -64,15 +64,72 @@ $ node
 Welcome to Node.js v20.1.0.
 Type ".help" for more information.
 > unescape('%64%6f%63%75%6d%65%6e%74%2e%77%72%69%74%65%28%27%3c%61%20%68%72%65%66%3d%22%6d%61%69%6c%74%6f%3a%76%69%74%40%61%75%64%69%74%2d%69%74%2e%72%75%3f%73%75%62%6a%65%63%74%3d%25%44%30%25%41%31%25%44%30%25%42%31%25%44%30%25%42%35%25%44%31%25%38%30%25%44%30%25%42%45%25%44%30%25%42%43%25%44%30%25%42%35%25%44%31%25%38%32%25%44%31%25%38%30%22%3e%27%2b%28%6d%79%54%65%78%74%20%3f%20%6d%79%54%65%78%74%20%3a%20%27%76%69%74%40%61%75%64%69%74%2d%69%74%2e%72%75%27%29%2b%27%3c%2f%61%3e%27%29%3b')
-`document.write('<a href="[REDACTED]?subject=%D0%A1%D0%B1%D0%B5%D1%80%D0%BE%D0%BC%D0%B5%D1%82%D1%80">'+(myText ? myText : '[REDACTED]')+'</a>');`
+`document.write('<a href="mailto:[REDACTED]?subject=%D0%A1%D0%B1%D0%B5%D1%80%D0%BE%D0%BC%D0%B5%D1%82%D1%80">'+(myText ? myText : '[REDACTED]')+'</a>');`
 ```
 
 This turned out to be a simple trick to hide owner's email address from web
 scrapers that don't execute JavaScript and are not tailored to this specific
 site. 
 
+A more complex example would be [Dean Edwards packer](http://dean.edwards.name/packer/).
+Let us pack the following JavaScript snippet:
 
+```javascript
+let hello = "hello world";
+console.log(hello);
+```
 
+After checking both checkboxes and pressing "Pack" button we get the following
+packed code:
 
+```javascript
+eval(function(p,a,c,k,e,r){e=String;if(!''.replace(/^/,String)){while(c--)r[c]=k[c]||c;k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('1 0="0 2";3.4(0);',5,5,'hello|let|world|console|log'.split('|'),0,{}))
+```
 
+Using Beautifier.io to prettify (but not unpack at the moment - make sure all 
+checkboxes are unchecked) this code makes it slightly more readable:
+
+```javascript
+eval(function(p, a, c, k, e, r) {
+    e = String;
+    if(!''.replace(/^/, String)) {
+        while(c--) r[c] = k[c] || c;
+        k = [function(e) {
+            return r[e]
+        }];
+        e = function() {
+            return '\\w+'
+        };
+        c = 1
+    };
+    while(c--)
+        if(k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+    return p
+}('1 0="0 2";3.4(0);', 5, 5, 'hello|let|world|console|log'.split('|'), 0, {}))
+```
+
+In the outermost layer we see that `eval()` function is called with a value 
+returned by immediately invoked function with five parameters - `p`, `a`, `c`,
+`k`, `e` and `r`. The values for these arguments are related to original code
+snippet and in aggregate represent a packed representation. The innermost 
+function applies some regular expression magic to regenerate what the code 
+was originally, so that `eval()` could execute it.
+
+Like with the previous example, we can skip the `eval()` part and perform only
+the unpacking:
+
+```
+> let unpack = function(p,a,c,k,e,r){e=String;if(!''.replace(/^/,String)){while(c--)r[c]=k[c]||c;k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p};
+undefined
+> unpack('1 0="0 2";3.4(0);',5,5,'hello|let|world|console|log'.split('|'),0,{});
+'let hello="hello world";console.log(hello);'
+```
+
+We got the original code without newline in the middle. Like with other 
+obfuscation techniques, we are not necessarily able to recover the exact
+original code when reverse engineering.
+
+A lot of the online JS packer tools are some variations of Dean Edwards packer
+which was originally developed in C#. Thus it is useful to know how to revert
+what it does to the code.
 
