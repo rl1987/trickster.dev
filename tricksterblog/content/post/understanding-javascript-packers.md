@@ -15,8 +15,8 @@ are only meant to make the executable binaries smaller. More advanced packers
 apply machine code encryption to make reverse engineering harder. The key to 
 decrypt the machine code is hidden in a binary file and applied automatically 
 when program is launched, but the encryption layer introduces a barrier for
-disassebling or decompiling the machine code, which increases the effort that
-a reverse engineer has to invest to discover the inner workings of a program.
+disassebling or decompiling the machine code, which increases the effort 
+needed to reverse engineer the inner workings of a program.
 
 But that's old news. Nowadays a lot of software is web-based. But the thing is,
 the concept of packer is also applicable in JavaScript world. There are tools
@@ -26,17 +26,17 @@ I am not talking about simple code minification here. Instead, we're going to
 see some techniques that are similar to executable packing from the compiled 
 software world.
 
-Depending on what kind of hat the programmer wearing, there might be different
+Depending on what kind of hat the programmer is wearing, there might be different
 motivations to apply JS packing. One is simply to make JS code smaller, which
 helps performance. Lighter pages load faster, which leads to better user
 experience and may have a positive impact on search engine ranking. JS packing
 can also be applied to make things harder for web scraper developers, esp. if
-there's some non-trivial client side functionality involved. For instance
+there's some non-trivial client side functionality involved. For instance,
 Imperva (formely known as Incapsula) antibot solution is known to have used 
 [a simple JS packing technique](https://nerodesu017.github.io/antibots/programming/2021/05/07/antibots-part-3.html)
-for JS SDK code obfuscation. On the black hat side, JS packing is used to 
-evade detection of malicious code that is placed on compromised or fraudulent 
-websites for cybercrime purposes.
+as one layer of JS SDK code obfuscation. On the black hat side, JS packing is 
+used to evade detection of malicious code that is placed on compromised or 
+fraudulent websites for cybercrime purposes.
 
 There are two aspects to JavaScript packing:
 
@@ -130,6 +130,6 @@ obfuscation techniques, we are not necessarily able to recover the exact
 original code when reverse engineering.
 
 A lot of the online JS packer tools are some variations of Dean Edwards packer
-which was originally developed in C#. Thus it is useful to know how to revert
+that was originally developed in C#. Thus it is useful to know how to revert
 what it does to the code.
 
