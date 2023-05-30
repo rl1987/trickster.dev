@@ -130,30 +130,63 @@ don't make money from the thing they promote. Instead, they make money by
 promoting the thing they are promoting through ad revenue (esp. on Youtube), 
 affiliate offers and their own info products. During the Bitcoin bull
 run and NFT craze there was no shortage of characters talking loudly about how
-you have to "invest" into this or that thingy on the blockchain. I suspect 
+you have to "invest" into this or that thingy on the blockchain. I suspect the
 vast majority of them could not tell the difference between Base64 and AES. Now
 you have great deal of people talking the same way about AI (mostly LLMs). How
 many of these newly minted "AI experts" even know what the fuck a linear
 regression is?
 
+That is not to say that nobody ever gets rich doing gold rush. Some people swiftly
+grab a transient opportunity and milk it for what it's worth. Others do some
+equivalent of selling shovels and pick axes during the Wild West period. Some
+simply gamble and happen to be winning. Speaking about LLM-based SaaS apps 
+specifically, there's a certain problem. If you have some SaaS app that has
+OpenAI API as a hard, critical dependency that means your SaaS business is 
+essentially at the mercy of OpenAI. Right now, there are some important 
+questions that pertain to generative AI. What exactly should and
+should not it be allowed to generate? If some text is scraped to train the LLM
+what happens to copyrights related to that text? Depending on how things play
+out, your entire SaaS business could die overnight by being cut off from API
+access as it may turn out not be kosher anymore in the light of new legislation
+or newly introduced corporate policy. Remember that Twitter API was free and open
+in the early years. There were many companion apps for Twitter users built on
+that API - unofficial clients, automation tools and the like. But over time
+Twitter introduced many restrictions into the official API and most of them
+had to die. This is something that indie hackers who rely on the goodwill
+and interest alignment from OpenAI should keep in mind. 
+
+Furthermore, using an LLM that you don't self-host can be problematic from data
+security and privacy perspective, as you are literally telling some other
+entity about the specifics of your work. There was already a scandal of Samsung
+employees leaking trade secrets to OpenAI by using ChatGPT to help with their
+regularly scheduled programming. That is the reason why the usage of
+ChatGPT is explicitly banned in some corporations. A fundamental problem with
+information society is that many things are data driven, but we mostly don't have
+any control how data about people and companies is processed, stored, transferred. 
+Information functions by being always in motion and largely has a life of it's 
+own. If you tell your trade secrets to ChatGPT, can you trust ChatGPT not to 
+tell them to your competitor?
+
 Times are difficult now. We're only 3.5 years into 2020s and so far we had 
 a global pandemic, energy crisis, murderous Taliban psychos winning the 
 Afghan war, a new major conflict in Ukraine, inflation wave causing cost of
-living crisis and a tech downturn. But even now I advice everyone to keep their
-heads cool. It's unlikely that you can prompt your way into quick wealth, 
+living crisis, tech downturn and banks failing. But even now I advice everyone 
+to keep their heads cool. You probably cannot prompt your way into quick wealth, 
 especially if you're about average on coming up with LLM prompts. In economics
 there's a concept of alpha. It's a number quantifying how well an asset
-outperforms the overall market. To achieve exceptional results that greatly
-outperform most of the competition one must posses or do something exceptonal.
-The problem with doing easy things (e.g. generating basic ad copy) is that they
-don't stay easy for very long in a competitive environment. It is also unlikely
-that ChatGPT, GPT-4 and other AI systems will make everyone jobless due to 
-considerations I have discussed. These systems are merely tools subservient to
+outperforms the overall market. Dumb luck aside, to achieve exceptional results 
+that greatly outperform most of the competition one must posses or do something 
+exceptional. The problem with doing easy things (e.g. generating basic ad copy) 
+is that they don't stay easy for very long in a competitive environment. It is 
+also unlikely that ChatGPT, GPT-4 and other AI systems will make everyone jobless 
+due to considerations I have discussed. These systems are merely tools subservient to
 a human will and there will be a need for people working with them. Perhaps
 the daily reality of many occupations will change, perhaps some people will need
 to learn how to do something else, but I don't except the fully AI-driven world
 to happen anytime soon.
 
+We cannot know what the future will be like. In a sense, we don't even have a
+(predictable) future when things are so crazy, volatile and fucked up. All we 
+can do is hedge our bets and roll the dice.
 
-
-
+Keep calm and seek your alpha.
