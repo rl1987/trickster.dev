@@ -10,8 +10,8 @@ In the world of desktop software, the concept of packer is not new. A packer is
 a tool that takes a binary executable file as input, applies transformations
 (e.g. compression, encryption, introducing anti-debugging tricks) and outputs a
 new, modified executable file that is different at binary level, but retains the
-functionality of original program. Some packers, like [UPX](https://upx.github.io/)
-are only meant to make the executable binaries smaller. More advanced packers
+functionality of original program. Some packers, such as [UPX](https://upx.github.io/)
+are only meant to make the executable files smaller. More advanced packers
 apply machine code encryption to make reverse engineering harder. The key to 
 decrypt the machine code is hidden in a binary file and applied automatically 
 when program is launched, but the encryption layer introduces a barrier for
@@ -86,8 +86,9 @@ packed code:
 eval(function(p,a,c,k,e,r){e=String;if(!''.replace(/^/,String)){while(c--)r[c]=k[c]||c;k=[function(e){return r[e]}];e=function(){return'\\w+'};c=1};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p}('1 0="0 2";3.4(0);',5,5,'hello|let|world|console|log'.split('|'),0,{}))
 ```
 
-Using Beautifier.io to prettify (but not unpack at the moment - make sure all 
-checkboxes are unchecked) this code makes it slightly more readable:
+Using [Beautifier.io](https://beautifier.io/) to prettify (but not unpack at 
+the moment - make sure all checkboxes are unchecked) this code makes it slightly 
+more readable:
 
 ```javascript
 eval(function(p, a, c, k, e, r) {
@@ -108,7 +109,7 @@ eval(function(p, a, c, k, e, r) {
 }('1 0="0 2";3.4(0);', 5, 5, 'hello|let|world|console|log'.split('|'), 0, {}))
 ```
 
-In the outermost layer we see that `eval()` function is called with a value 
+In the outermost layer we see that `eval()` function takes a JS code string
 returned by immediately invoked function with five parameters - `p`, `a`, `c`,
 `k`, `e` and `r`. The values for these arguments are related to original code
 snippet and in aggregate represent a packed representation. The innermost 
