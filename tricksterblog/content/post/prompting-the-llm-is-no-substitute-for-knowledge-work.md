@@ -25,7 +25,7 @@ even believe in grayscale thinking. There is way too much complexity in the
 current social, technical, political and cultural realities to be sufficiently
 captured by mere notion of "goodness".
 
-So can the LLMs make you jobless by text-generating your job position away? Such
+Can the LLMs make you jobless by text-generating your job position away? Such
 question was posed to sci-fi author Cory Doctorow in 2020, during the Remote
 Chaos Experience conference. Back then, ChatGPT was not released, but GPT-3 was
 already available. His response was that only people who have very boring, 
@@ -144,8 +144,10 @@ specifically, there's a certain problem. If you have some SaaS app that has
 OpenAI API as a hard, critical dependency that means your SaaS business is 
 essentially at the mercy of OpenAI. Right now, there are some important 
 questions that pertain to generative AI. What exactly should and
-should not it be allowed to generate? If some text is scraped to train the LLM
-what happens to copyrights related to that text? Depending on how things play
+should not it be allowed to generate? If some data that is scraped to train 
+the LLM what happens to related copyrights? What will be done against 
+gray hat and black hat usage of LLMs, such as fake product review generation, 
+harassment, phishing, influence operations? Depending on how things play
 out, your entire SaaS business could die overnight by being cut off from API
 access as it may turn out not be kosher anymore in the light of new legislation
 or newly introduced corporate policy. Remember that Twitter API was free and open
@@ -153,7 +155,8 @@ in the early years. There were many companion apps for Twitter users built on
 that API - unofficial clients, automation tools and the like. But over time
 Twitter introduced many restrictions into the official API and most of them
 had to die. This is something that indie hackers who rely on the goodwill
-and interest alignment from OpenAI should keep in mind. 
+and interest alignment from OpenAI (or Anthropic, or Google...) should keep in 
+mind. 
 
 Furthermore, using an LLM that you don't self-host can be problematic from data
 security and privacy perspective, as you are literally telling some other
@@ -178,7 +181,7 @@ outperforms the overall market. Dumb luck aside, to achieve exceptional results
 that greatly outperform most of the competition one must posses or do something 
 exceptional. The problem with doing easy things (e.g. generating basic ad copy) 
 is that they don't stay easy for very long in a competitive environment. It is 
-also unlikely that ChatGPT, GPT-4 and other AI systems will make everyone jobless 
+also that ChatGPT, GPT-4 and other AI systems will make everyone jobless 
 due to considerations I have discussed. These systems are merely tools subservient to
 a human will and there will be a need for people working with them. Perhaps
 the daily reality of many occupations will change, perhaps some people will need
