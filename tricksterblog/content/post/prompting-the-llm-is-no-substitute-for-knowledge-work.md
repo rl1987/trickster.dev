@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Prompting the LLM is no substitute for knowledge work"
-date = "2023-06-01"
-draft = true
+date = "2023-05-31"
 tags = ["ai"]
 +++
 
@@ -144,7 +143,7 @@ specifically, there's a certain problem. If you have some SaaS app that has
 OpenAI API as a hard, critical dependency that means your SaaS business is 
 essentially at the mercy of OpenAI. Right now, there are some important 
 questions that pertain to generative AI. What exactly should and
-should not it be allowed to generate? If some data that is scraped to train 
+should not it be allowed to generate? If some data is scraped to train 
 the LLM what happens to related copyrights? What will be done against 
 gray hat and black hat usage of LLMs, such as fake product review generation, 
 harassment, phishing, influence operations? Depending on how things play
@@ -160,7 +159,7 @@ mind.
 
 Furthermore, using an LLM that you don't self-host can be problematic from data
 security and privacy perspective, as you are literally telling some other
-entity about the specifics of your work. There was already a scandal of Samsung
+entity the specifics of your work. There was already a scandal of Samsung
 employees leaking trade secrets to OpenAI by using ChatGPT to help with their
 regularly scheduled programming. That is the reason why the usage of
 ChatGPT is explicitly banned in some corporations. A fundamental problem with
