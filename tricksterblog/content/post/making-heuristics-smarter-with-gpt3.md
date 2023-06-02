@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Making heuristics smarter with GPT-3"
 date = "2022-10-09"
-tags = ["automation", "python"]
+tags = ["ai", "python"]
 +++
 
 Sometimes data being scraped is a little fuzzy - easy to understand for human mind,

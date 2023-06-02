@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "Automating Google Dorking"
 date = "2021-12-19"
-tags = ["automation", "python", "growth-hacking", "security", "bug-bounties"]
+tags = ["python", "osint", "security"]
 +++
 
 There is more to using Google than searching by keywords, phrases and natural language questions. Google
