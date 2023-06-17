@@ -293,3 +293,8 @@ export default function (babel) {
 }
 ```
 
+
+```
+-          path.replaceWith(t.stringLiteral(String(Array.prototype.entries)));
++          path.replaceWith(t.stringLiteral(String(String([]["entries"]()))));
+```
