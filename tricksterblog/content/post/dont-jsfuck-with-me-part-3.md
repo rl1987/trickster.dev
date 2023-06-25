@@ -6,7 +6,9 @@ date = "2023-05-31"
 tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
-Previously on Trickster Dev: [TODO: add links to parts 1 and 2]
+Previously on Trickster Dev:
+ * [Part 1](/post/dont-jsfuck-with-me-part-1/)
+ * [Part 2](/post/dont-jsfuck-with-me-part-2/)
 
 By using AST transforms developed so far, JSFuck output for character `@` can 
 be simplified to:
@@ -292,6 +294,7 @@ export default function (babel) {
   };
 }
 ```
+
 
 
 ```
