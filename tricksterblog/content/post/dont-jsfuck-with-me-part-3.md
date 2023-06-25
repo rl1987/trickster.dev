@@ -627,8 +627,8 @@ alert("HJKLPQVWXYZ!\'!#$*@^_`|~");
 -----------------------------------------------------------------
 ```
 
-So the deobfuscator works, more or less for small snippets. The deobfuscated line
-is the same that I entered into JSFuck web app. However for bigger snippet there
+So the deobfuscator works for small snippets. The deobfuscated line is the same 
+that I entered into JSFuck web app. However for bigger snippet there 
 is a problem. During the AST traversal Babel runs out of stack space and crashes
 with the the following error message on the first iteration of the loop:
 
