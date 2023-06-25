@@ -1,7 +1,6 @@
 +++
 author = "rl1987"
 title = "Don't JSFuck with me: Part 3"
-draft = true
 date = "2023-06-25"
 tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
