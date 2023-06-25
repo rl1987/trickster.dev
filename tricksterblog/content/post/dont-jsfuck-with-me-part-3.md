@@ -671,7 +671,8 @@ making:
 * [jsunfuck.py](https://github.com/VeNoMouS/cloudscraper/blob/master/cloudscraper/interpreters/jsunfuck.py) file in cloudscraper Python module.
 * [JSFuck Decoder](https://github.com/enkhee-Osiris/Decoder-JSFuck) - simple web app developed in vanilla JS/HTML.
 
-[TODO: screenshots]
+[Screenshot 1](/2023-06-25_15.39.24.png)
+[Screenshot 2](/2023-06-25_15.40.10.png)
 
 This is indeed an easier and better way to deal with JSFuck being used to
 obfuscate client-side JavaScript code. But one cannot become stronger and 
