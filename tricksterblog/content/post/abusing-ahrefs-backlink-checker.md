@@ -36,10 +36,13 @@ Value `0x4AAAAAAAAzi9ITzSN9xKMi` is a site key - a unique value that identifies
 this site in API interactions with Cloudflare. We will be passing it into the
 Anti-captcha API.
 
-[TODO: screenshots]
+[Screenshot 1](/2023-06-26_14.50.16.png)
 
 Once the site gets a captcha token from Cloudflare it launches a two HTTP POST
-requests to the API. We extract both of them as curl snippets.
+requests to the API. We extract both of them as curl snippets to be converted
+into Python code later.
+
+[Screenshot 2](/2023-06-27_11.48.40.png)
 
 Curl command for the first request is:
 
@@ -183,6 +186,8 @@ string in the response is something like this:
     }
 ]
 ```
+
+[Screenshot 3](/2023-06-26_14.51.36.png)
 
 Also notice that API calls made from client side JS code have 
 [`__cf_bm` cookie](https://developers.cloudflare.com/fundamentals/get-started/reference/cloudflare-cookies/#__cf_bm-cookie-for-cloudflare-bot-products)
@@ -396,4 +401,4 @@ https://www.trickster.dev/post/understanding-javascript-packers/,https://lampful
 https://www.trickster.dev/post/understanding-javascript-packers/,https://lr.relyma.com/r/javascript,trickster.dev,𝚓𝚊𝚟𝚊𝚜𝚌𝚛𝚒𝚙𝚝
 ```
 
-[TODO: screenshot from Numbers app]
+[Screenshot 4](/2023-06-27_13.10.17.png)
