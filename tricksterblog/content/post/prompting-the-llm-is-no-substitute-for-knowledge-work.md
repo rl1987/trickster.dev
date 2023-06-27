@@ -180,7 +180,7 @@ outperforms the overall market. Dumb luck aside, to achieve exceptional results
 that greatly outperform most of the competition one must posses or do something 
 exceptional. The problem with doing easy things (e.g. generating basic ad copy) 
 is that they don't stay easy for very long in a competitive environment. It is 
-also that ChatGPT, GPT-4 and other AI systems will make everyone jobless 
+unlikely that ChatGPT, GPT-4 and other AI systems will make everyone jobless 
 due to considerations I have discussed. These systems are merely tools subservient to
 a human will and there will be a need for people working with them. Perhaps
 the daily reality of many occupations will change, perhaps some people will need
