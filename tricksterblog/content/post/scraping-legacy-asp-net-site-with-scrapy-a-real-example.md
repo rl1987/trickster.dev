@@ -1315,7 +1315,7 @@ being scraped:
 <meta name='Copyright' content='Tyler Technologies Inc, Akanda Solutions, LLC'> 
 ```
 
-This points us to a product names iasWorld by a company called Tyler Technologies, Inc. That
+This points us to a product named iasWorld by a company called Tyler Technologies, Inc. That
 means there's more sites like this and we can reuse the above code to scrape them (some
 modifications will be needed).
 
