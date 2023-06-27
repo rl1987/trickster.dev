@@ -17,7 +17,7 @@ on the web as it would help traversing the data landscape. Major SEO SaaS apps
 crawling operations that build up a fairly complete maps of the web and thus 
 can be leveraged for this purpose. In this post we will go through an example 
 of abusing a free [Ahrefs Backlink Checker](https://ahrefs.com/backlink-checker) 
-to show how a SEO tool can be abused to scrape a list of backlinks.
+to show how a list of backlinks can be scraped from a SEO tool.
 
 Let us explore the request flow that happens when the user pastes an URL into
 the form and presses the "Check backlinks" button. We are dealing with
