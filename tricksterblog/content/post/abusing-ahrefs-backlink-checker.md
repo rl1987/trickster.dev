@@ -202,7 +202,7 @@ corners of the web.
 
 So we want to develop the script now. But Ahrefs is using at least one feature of
 Cloudflare CDN that is meant to prevent or at least hinder the exact thing we 
-want to do now. So I did some experimentation to get the details things right:
+want to do now. So I did some experimentation to get the details right:
 
 * For Turnstile part, both [proxied](https://anti-captcha.com/apidoc/task-types/TurnstileTask)
 and [proxyless](https://anti-captcha.com/apidoc/task-types/TurnstileTaskProxyless)
