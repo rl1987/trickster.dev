@@ -1,6 +1,6 @@
 +++
 author = "rl1987"
-title = "CodeQL: tooling installation and first steps"
+title = "Getting started with CodeQL"
 date = "2023-12-31"
 draft = true
 tags = ["codeql", "security"]
