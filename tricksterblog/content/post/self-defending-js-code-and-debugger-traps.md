@@ -44,6 +44,8 @@ On the obfuscator web UI we uncheck all checkboxes except "Self Defending" and
 function hi(){var _0x3298fd=(function(){var _0x3c6e04=!![];return function(_0x471481,_0x2bd7a3){var _0x14b95c=_0x3c6e04?function(){if(_0x2bd7a3){var _0xc92697=_0x2bd7a3['apply'](_0x471481,arguments);_0x2bd7a3=null;return _0xc92697;}}:function(){};_0x3c6e04=![];return _0x14b95c;};}());var _0x3a8b12=_0x3298fd(this,function(){return _0x3a8b12['toString']()['search']('(((.+)+)+)+$')['toString']()['constructor'](_0x3a8b12)['search']('(((.+)+)+)+$');});_0x3a8b12();console['log']('Hello\x20World!');console['log']('Hello\x20World!');console['log']('Hello\x20World!');console['log']('Hello\x20World!');console['log']('Hello\x20World!');console['log']('Hello\x20World!');console['log']('Hello\x20World!');}hi();
 ```
 
+[Screenshot 1](/2023-07-01_13.38.21.png)
+
 Undoing the minification makes it bit cleaner:
 
 ```javascript
@@ -150,7 +152,11 @@ a precomputed hash value. Anti-tampering countermeasures may involve throwing
 an expection to crash the code or redirecting the user to error page.
 
 To get an example of a debugger trap, we rerun the obfuscation with only a
-"Debug Protection" feature being activated. We get the following snippet:
+"Debug Protection" feature being activated. 
+
+[Screenshot 2](/2023-07-01_13.41.34.png)
+
+We get the following snippet:
 
 ```javascript
 function hi() {
@@ -223,8 +229,9 @@ function _0x4c804e(_0x203e97) {
 The injected code is somewhat obfuscated, but we have a small snippet here and
 can get an idea of what happens here. The obfuscator injected a code that 
 performs a classical anti-debugging trick - invoking `debugger` JS statement
-many times. This will disrupt an attempt to step through the code one line at 
-a time like in web browser dev tools panel and may even crash the entire browser.
+periodically. This will disrupt an attempt to step through the code one line at 
+a time like in web browser dev tools panel and may even crash the entire browser
+on a debugging attempt.
 
 None of the above techniques are silver bullets against reverse engineer looking
 to work out what exactly a malware sample does or how to defeat security
