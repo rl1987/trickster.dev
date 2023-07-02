@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Self-defending JS code and debugger traps"
 date = "2023-07-02"
-draft = true
-tags = ["security"]
+tags = ["security", "javascript"]
 +++
 
 Sometimes programmers really don't want their code to tampered with during runtime. 
