@@ -139,7 +139,7 @@ Uncaught Error [ERR_DEBUGGER_ERROR]: Can only perform operation while paused.
 
 We see that it crashed when attempting to match regular expression `(((.+)+)+)+$`
 on source code string of one of the nested functions. Since we undid the 
-minification and introduced white space characted into the code, this operation
+minification and introduced white space characters into the code, this operation
 overwhelms the regular expression engine by causing [catastrophic
 backtracking](https://stackoverflow.com/questions/64583150/how-does-javascript-self-defending-work-and-how-does-it-manage-to-enter-an-infin).
 
