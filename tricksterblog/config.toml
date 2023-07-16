@@ -1,5 +1,5 @@
 baseURL = "https://www.trickster.dev/"
-theme = "risotto"
+theme = "hugo.386"
 title = "Trickster Dev"
 author = "rl1987"
 #copyright = "© 2021 rl1987"
