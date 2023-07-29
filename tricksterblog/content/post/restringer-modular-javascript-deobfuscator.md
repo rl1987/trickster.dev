@@ -11,7 +11,7 @@ deobfuscation tool that attempts to autodetect and undo some common JS
 obfuscation techniques. This tool was developed by PerimeterX for malware
 analysis purposes. Besides CLI tool and a NPM module (for custom deobfuscator
 development), Restringer is also available as [web app](https://restringer.tech/). 
-We will be taking a look into the inner working of this tool for educational
+We will be taking a look into the inner workings of this tool for educational
 purposes.
 
 The underlying data model that Restringer operates on is not based on Babel
@@ -234,7 +234,7 @@ Let us unpack the predicate here. First, it checks if node type is `VariableDecl
 Then, it checks if node points to another node of type `ArrayExpression` at it's
 `init` property. Next, it calls `arrayHasMeaningfulContentLength()` function
 to check if array length is at least 2% of the entire flat AST. Lastly, it 
-performs a check to reject array that contain members that are not literals.
+performs a check to reject arrays containing members that are not literals.
 
 The other function, `arrayHasMinimumRequiredReferences()` checks for high
 enough reference count to array in question:
@@ -257,5 +257,114 @@ So if a candidate array has above 2%
 (`const minMeaningfulPercentageOfReferences = 2; // 2%`) of it's members 
 referenced via member expressions, the detector function consider it to be used 
 for string array mapping.
+
+At this point we are familiar with the building blocks for Restringer, so 
+let us take a look into Restringer itself. The code base exposes a number
+of modules that can be used for custom deobfucation development. The very
+same modules are into [src/restringer.js](https://github.com/PerimeterX/restringer/blob/main/src/restringer.js)
+file that implements the CLI tool. There are two kind of modules in Restringer:
+unsafe ones that rely on code evaluation inside isolated Node.JS VM sandbox
+and safe ones that do not need that. 
+
+One simple module implements dead code removal in 
+[src/modules/safe/removeDeadNodes.js](https://github.com/PerimeterX/restringer/blob/main/src/modules/safe/removeDeadNodes.js) file:
+
+```javascript
+const relevantParents = ['VariableDeclarator', 'AssignmentExpression', 'FunctionDeclaration', 'ClassDeclaration'];
+
+/**
+ * Remove nodes code which is only declared but never used.
+ * NOTE: This is a dangerous operation which shouldn't run by default, invokations of the so-called dead code
+ * may be dynamically built during execution. Handle with care.
+ * @param {Arborist} arb
+ * @param {Function} candidateFilter (optional) a filter to apply on the candidates list
+ * @return {Arborist}
+ */
+function removeDeadNodes(arb, candidateFilter = () => true) {
+	for (let i = 0; i < arb.ast.length; i++) {
+		const n = arb.ast[i];
+		if (n.type === 'Identifier' &&
+		relevantParents.includes(n.parentNode.type) &&
+		(!n?.declNode?.references?.length && !n?.references?.length) &&
+		candidateFilter(n)) {
+			const parent = n.parentNode;
+			// Do not remove root nodes as they might be referenced in another script
+			if (parent.parentNode.type === 'Program') continue;
+			arb.markNode(parent?.parentNode?.type === 'ExpressionStatement' ? parent.parentNode : parent);
+		}
+	}
+	return arb;
+}
+
+module.exports = removeDeadNodes;
+```
+
+This merely marks the AST nodes for removal. Applying the changes is left to 
+the caller.
+
+Each module is like a building block for deobfuscator development. However,
+PerimeterX also provides bigger constructs called processors, that 
+rely on at least one module to simplify code from a specific obfuscation solution
+(e.g. self-defending code from Obfuscator.io). There is not many of them -
+Restringer should primarily be considered a framework to develop custom deobfuscators
+instead of ready-made general purpose deobfuscator itself.
+
+In the `Restringer` class there's a `deobfuscate()` method that pretty much
+runs everything:
+
+```javascript
+	/**
+	 * Entry point for this class.
+	 * Determine obfuscation type and run the pre- and post- processors accordingly.
+	 * Run the deobfuscation methods in a loop until nothing more is changed.
+	 * Normalize script to make it more readable.
+	 * @param {boolean} clean (optional) Remove dead nodes after deobfuscation. Defaults to false.
+	 * @return {boolean} true if the script was modified during deobfuscation; false otherwise.
+	 */
+	deobfuscate(clean = false) {
+		this.determineObfuscationType();
+		this._runProcessors(this._preprocessors);
+		this._loopSafeAndUnsafeDeobfuscationMethods();
+		this._runProcessors(this._postprocessors);
+		if (this.modified && this.normalize) this.script = normalizeScript(this.script);
+		if (clean) this.script = runLoop(this.script, [removeDeadNodes]);
+		return this.modified;
+	}
+```
+
+The private method `_loopSafeAndUnsafeDeobfuscationMethods` is of particular
+interest, as this is where deobfuscation modules are applied. The implementation
+of this method is as follows:
+
+```javascript
+	/**
+	 * Make all changes which don't involve eval first in order to avoid running eval on probelmatic values
+	 * which can only be detected once part of the script is deobfuscated. Once all the safe changes are made,
+	 * continue to the unsafe changes.
+	 * Since the unsafe modification may be overreaching, run them only once and try the safe methods again.
+	 */
+	_loopSafeAndUnsafeDeobfuscationMethods() {
+		let modified, script;
+		do {
+			this.modified = false;
+			script = runLoop(this.script, this._safeDeobfuscationMethods());
+			script = runLoop(script, this._unsafeDeobfuscationMethods(), 1);
+			if (this.script !== script) {
+				this.modified = true;
+				this.script = script;
+			}
+			if (this.modified) modified = true;
+		} while (this.modified); // Run this loop until the deobfuscation methods stop being effective.
+		this.modified = modified;
+	}
+```
+
+We see that deobfuscation methods are being applied until they no longer change
+the code. Safe methods are prioritised over unsafe ones. The 
+[`runLoop()` function in another file](https://github.com/PerimeterX/restringer/blob/main/src/modules/utils/runLoop.js#L23)
+does the heavy lifting at flat AST level while also making sure that it does
+not get into the infinite loop.
+
+
 
 
