@@ -332,7 +332,7 @@ runs everything:
 	}
 ```
 
-The private method `_loopSafeAndUnsafeDeobfuscationMethods` is of particular
+The private method `_loopSafeAndUnsafeDeobfuscationMethods()` is of particular
 interest, as this is where deobfuscation modules are applied. The implementation
 of this method is as follows:
 
@@ -365,6 +365,130 @@ the code. Safe methods are prioritised over unsafe ones. The
 does the heavy lifting at flat AST level while also making sure that it does
 not get into the infinite loop.
 
+So how good is Restringer is practice? It is able to deobfuscate JSFuck output,
+but does not go much further without any customisations. 
 
+For example, it fails to completely cleanup the output of Obfuscator.io on the 
+"Low" preset:
 
+```
+$ restringer obfuscated.js 
+[+] Obfuscation type is Generic
+	[+] resolveProxyReferences committed 1 new changes!
+	[+] resolveFunctionConstructorCalls committed 1 new changes!
+[+] ==> Cycle 1 completed in 0.023 seconds with 2 changes (241 nodes)
+[+] ==> Cycle 2 completed in 0.001 seconds with 2 changes (241 nodes)
+	[+] resolveMinimalAlphabet committed 6 new changes!
+[+] ==> Cycle 3 completed in 5.058 seconds with 6 changes (233 nodes)
+	[+] resolveFunctionConstructorCalls committed 2 new changes!
+[+] ==> Cycle 4 completed in 0.006 seconds with 2 changes (224 nodes)
+[+] ==> Cycle 5 completed in 0 seconds with 2 changes (224 nodes)
+	[+] resolveMinimalAlphabet committed 1 new changes!
+[+] ==> Cycle 6 completed in 0.026 seconds with 1 changes (223 nodes)
+[+] ==> Cycle 7 completed in 0.001 seconds with no changes (223 nodes)
+[+] ==> Cycle 8 completed in 0.001 seconds with no changes (223 nodes)
+	[+] normalizeComputed committed 12 new changes!
+[+] ==> Cycle 9 completed in 0.007 seconds with 12 changes (223 nodes)
+[+] ==> Cycle 10 completed in 0 seconds with 12 changes (223 nodes)
+[+] Saved obfuscated.js-deob.js
+[!] Deobfuscation took 5.184 seconds.
+const _0x5d3fc2 = function () {
+  let _0x5e1813 = true;
+  return function (_0x4b42c2, _0x1f2986) {
+    const _0xab51ad = _0x5e1813 ? function () {
+      if (_0x1f2986) {
+        const _0x18ac9b = _0x1f2986.apply(_0x4b42c2, arguments);
+        _0x1f2986 = null;
+        return _0x18ac9b;
+      }
+    } : function () {
+    };
+    _0x5e1813 = false;
+    return _0xab51ad;
+  };
+}();
+(function () {
+  _0x5d3fc2(this, function () {
+    const _0x1c8f0b = new RegExp('function *\\( *\\)');
+    const _0x6cbb3 = new RegExp('\\+\\+ *(?:[a-zA-Z_$][0-9a-zA-Z_$]*)', 'i');
+    const _0x496fd6 = _0x4aeb94('init');
+    if (!_0x1c8f0b.test(_0x496fd6 + 'chain') || !_0x6cbb3.test(_0x496fd6 + 'input')) {
+      _0x496fd6('0');
+    } else {
+      _0x4aeb94();
+    }
+  })();
+}());
+const verseChoose = document.querySelector('select');
+const poemDisplay = document.querySelector('pre');
+verseChoose.addEventListener('change', () => {
+  const _0x4f5b1d = verseChoose.value;
+  updateDisplay(verseChoose.value);
+});
+function _0x4aeb94(_0x662129) {
+  function _0x9c1238(_0x2dfb67) {
+    if (typeof _0x2dfb67 === 'string') {
+      return function () {
+        while (true) {
+        }
+      }.apply('counter');
+    } else {
+      if (('' + _0x2dfb67 / _0x2dfb67).length !== 1 || _0x2dfb67 % 20 === 0) {
+        (function () {
+          debugge_;
+        }.call('action'));
+      } else {
+        (function () {
+          debugge_;
+        }.apply('stateObject'));
+      }
+    }
+    _0x9c1238(++_0x2dfb67);
+  }
+  try {
+    if (_0x662129) {
+      return _0x9c1238;
+    } else {
+      _0x9c1238(0);
+    }
+  } catch (_0x45a2e1) {
+  }
+}
+```
+
+Compare and contrast the output here with the original snippet before it was
+obfuscated:
+
+```javascript
+// https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Fetching_data
+const verseChoose = document.querySelector("select");
+const poemDisplay = document.querySelector("pre");
+
+verseChoose.addEventListener("change", () => {
+  const verse = verseChoose.value;
+  updateDisplay(verse);
+});
+```
+
+In this case Restringer really did not do much to undo what Obfuscator.io did.
+
+This can perhaps be explained by Restringer being a rather specialised piece of
+software that is primarily developed for malware analysis. Furthermore, 
+undoing code obfuscations is a problem of high inherent complexity. There's so
+many ways one can make the code confusing to read and an ideal deobfuscator
+would need to address all of them, which is a practical impossibility.
+
+However in my opinion using flat ASTs is interesting idea that deserves some
+attention. When developing software, it is of great importance to work out
+how exactly the underlying data structures will be organised, as it will 
+determine what kind of algorithms will be applicable to process the data.
+That will have its own ramifications on how hard will it be to write the 
+code and how fast it will run. In this particular case, choosing flat ASTs 
+enabled using elements of functional programming that would not be applicable
+for regular ASTs that Babel parses the code into.
+
+Further reading:
+
+* [Flattening ASTs (and Other Compiler Data Structures)](https://www.cs.cornell.edu/~asampson/blog/flattening.html)
+* [Defeating Javascript Obfuscation](https://www.humansecurity.com/tech-engineering-blog/defeating-javascript-obfuscation)
 
