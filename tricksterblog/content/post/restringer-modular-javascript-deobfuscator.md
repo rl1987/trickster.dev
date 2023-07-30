@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Restringer: modular JavaScript deobfuscator"
-date = "2023-07-31"
-draft = true
+date = "2023-07-30"
 tags = ["security", "reverse-engineering", "ast", "javascript"]
 +++
 
@@ -363,10 +362,10 @@ We see that deobfuscation methods are being applied until they no longer change
 the code. Safe methods are prioritised over unsafe ones. The 
 [`runLoop()` function in another file](https://github.com/PerimeterX/restringer/blob/main/src/modules/utils/runLoop.js#L23)
 does the heavy lifting at flat AST level while also making sure that it does
-not get into the infinite loop.
+not get into infinite loop.
 
-So how good is Restringer is practice? It is able to deobfuscate JSFuck output,
-but does not go much further without any customisations. 
+So how good is Restringer is in practice? Well, it is able to deobfuscate JSFuck 
+output, but does not go much further without any customisations. 
 
 For example, it fails to completely cleanup the output of Obfuscator.io on the 
 "Low" preset:
