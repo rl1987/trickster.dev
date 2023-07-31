@@ -135,10 +135,10 @@ you have great deal of people talking the same way about AI (mostly LLMs). How
 many of these newly minted "AI experts" even know what the fuck a linear
 regression is?
 
-That is not to say that nobody ever gets rich doing gold rush. Some people swiftly
-grab a transient opportunity and milk it for what it's worth. Others do some
-equivalent of selling shovels and pick axes during the Wild West period. Some
-simply gamble and happen to be winning. Speaking about LLM-based SaaS apps 
+That is not to say that nobody ever gets rich during a gold rush. Some people 
+swiftly grab a transient opportunity and milk it for what it's worth. Others do 
+some equivalent of selling shovels and pick axes during the Wild West period. 
+Some simply gamble and happen to be winning. Speaking about LLM-based SaaS apps 
 specifically, there's a certain problem. If you have some SaaS app that has
 OpenAI API as a hard, critical dependency that means your SaaS business is 
 essentially at the mercy of OpenAI. Right now, there are some important 
