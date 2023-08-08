@@ -34,7 +34,7 @@ $ docker run --rm -ti fathyb/carbonyl https://trickster.dev
 [TODO: screenshots]
 
 It works quite well with simpler sites, but it can run into issues when you 
-trip something up in anti-automation solutions. One limitation is that you
+trip something up in anti-automation solutions. Another limitation is that you
 cannot watch vidoes with sound.
 
 ag, ripgrep - the new grep(1)
@@ -62,7 +62,7 @@ But we can go even further. [Bottom](https://github.com/ClementTsang/bottom)
 pseudo-graphics with a process list.
 
 [btop](https://github.com/aristocratos/btop) and 
-[glances](https://github.com/aristocratos/btop) are another program similar to 
+[glances](https://github.com/nicolargo/glances) are another programs similar to 
 Bottom. 
 
 Terminal Image Viewer (tiv)
@@ -136,10 +136,38 @@ But what if you want something like Wireshark GUI, but in terminal?
 [TermShark](https://termshark.io/) is a TUI wrapper for TShark that renders
 a user interface similar to that of Wireshark.
 
-* mitmproxy
-* neovim
-* Github CLI tool
-* mapscii
+mitmproxy
+---------
+
+When doing exploration of web and mobile apps for security or automation purposes
+one may want to intercept API traffic to see what conversations are going on 
+between the app and the remote servers. [mitmproxy](https://mitmproxy.org/) is 
+an interactive TUI program that works as HTTP(S) proxys server meant to capture 
+and inspect the HTTP(S) requests. 
+
+neovim
+------
+
+[Neovim](https://neovim.io/) is a modernised and more extensible addition to
+the vi/VIM text editor timeline with features like Language Server Protocol
+support, Lua scripting interface, improved usability, RPC API, system clipboard
+integration, built-in terminal emulator and so on.
+
+Github CLI tool
+---------------
+
+There's git(1), and there's Github. The former is CLI tool and the latter is
+web-based platform. To bridge the gap between the two there's a Github
+[CLI tool](https://cli.github.com/) for doing tasks like working with tickets,
+managing pull requests and configuring the CI system. This can be helpful
+when doing devops work to automate various aspects of software development
+lifecycle.
+
+mapscii
+-------
+
+WRITEME
+
 * Rich (https://github.com/Textualize/rich)
 * Textual (https://github.com/Textualize/textual)
 * Radare2
