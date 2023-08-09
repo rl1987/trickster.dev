@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Back to the terminal: the new era of CLI and TUI software"
 date = "2023-08-09"
-draft = true
-tags = ["automation", "off-topic"]
+tags = []
 +++
 
 With desktop GUI apps becoming generally becoming increasingly bloated and
