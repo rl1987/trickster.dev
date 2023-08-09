@@ -3,7 +3,7 @@ author = "rl1987"
 title = "Back to the terminal: the new era of CLI and TUI software"
 date = "2023-08-09"
 draft = true
-tags = ["scraping", "osint", "security"]
+tags = ["automation", "off-topic"]
 +++
 
 With desktop GUI apps becoming generally becoming increasing bloated and
@@ -139,17 +139,18 @@ a user interface similar to that of Wireshark.
 mitmproxy
 ---------
 
-When doing exploration of web and mobile apps for security or automation purposes
-one may want to intercept API traffic to see what conversations are going on 
-between the app and the remote servers. [mitmproxy](https://mitmproxy.org/) is 
-an interactive TUI program that works as HTTP(S) proxys server meant to capture 
-and inspect the HTTP(S) requests. 
+When doing exploration of web and mobile apps for security research or 
+automation one may want to intercept API traffic to see what conversations 
+between the app and remote servers. [mitmproxy](https://mitmproxy.org/) is 
+an interactive TUI program that works as HTTP(S) proxy server meant to capture 
+and inspect the HTTP(S) requests. It's a simpler alternative to Burp Suite GUI
+app that you can also customise with you own plugin code.
 
 neovim
 ------
 
 [Neovim](https://neovim.io/) is a modernised and more extensible addition to
-the vi/VIM text editor timeline with features like Language Server Protocol
+the vi/VIM text editor lineage with features like Language Server Protocol
 support, Lua scripting interface, improved usability, RPC API, system clipboard
 integration, built-in terminal emulator and so on.
 
@@ -166,9 +167,53 @@ lifecycle.
 mapscii
 -------
 
-WRITEME
+But what if you want to see some maps in your terminal? That is possible with
+[mapscii](https://github.com/rastapasta/mapscii) - a Node.JS program that
+renders OpenStreetMap data in terminal environment with mouse support. If you
+don't want to install it via NPM you can access a test instance via telnet 
+protocol:
 
-* Rich (https://github.com/Textualize/rich)
-* Textual (https://github.com/Textualize/textual)
-* Radare2
-* Visidata
+```
+$ telnet mapscii.me  
+```
+
+Visidata
+--------
+
+In scraping and automation it is very common to deal with tabular data in formats
+such as CSV files, Excel spreadsheets, SQLite databases and so on. 
+[Visidata](https://www.visidata.org/) is TUI application for doing exactly that.
+It does a good subset of what Excel can do - data filtering, rendering some 
+charts (for example, Shift-F quickly renders a histogram of values in the current
+column), lettting you edit cells and so on. 
+
+Since Visidata is developed in Python you can install it via PIP. It is also 
+available on packet managers of some Linux systems.
+
+Radare2
+-------
+
+[Radare2](https://rada.re/n/) is a programmable binary reverse engineering 
+toolkit for low-level hackers. Besides the main TUI program it also ships
+`r2pipe` - a Python module for scripting binary analysis workflows (disassembly,
+binary code analysis, runtime debugging).
+
+Rich and Textual
+----------------
+
+These are all nice examples, but what if you want to develop something like
+this yourself? Writing ncurses-based C programs is not the most productive
+way to spend time in 2023. When it comes to Python CLI/TUI programming, there
+are two inter-related projects of interest:
+
+* [Rich](https://github.com/Textualize/rich) - a library for enhanced text
+formatting.
+* [Textual](https://github.com/Textualize/textual) - a TUI programming framework,
+based on Rich (with CSS support).
+
+To get a glimpse of what it can do, you can run:
+
+```
+$ python3 -m textual
+```
+
