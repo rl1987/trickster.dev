@@ -6,8 +6,8 @@ draft = true
 tags = ["automation", "off-topic"]
 +++
 
-With desktop GUI apps becoming generally becoming increasing bloated and
-sluggish over time (largely thanks to increasing popularity of Electron.js) some
+With desktop GUI apps becoming generally becoming increasingly bloated and
+sluggish over time (largely thanks to growing popularity of Electron.js) some
 technical users are turning back to sofware using the simpler and leaner user 
 interfaces - command line and pseudo-GUIs being rendered in ASCII/Unicode (text
 user interfaces). CLI tools have the additional benefit of being relatively easy
@@ -35,7 +35,7 @@ $ docker run --rm -ti fathyb/carbonyl https://trickster.dev
 
 It works quite well with simpler sites, but it can run into issues when you 
 trip something up in anti-automation solutions. Another limitation is that you
-cannot watch vidoes with sound.
+cannot watch videos with sound.
 
 ag, ripgrep - the new grep(1)
 -----------------------------
@@ -117,7 +117,7 @@ jq - CLI tool and DSL for JSON processing
 -----------------------------------------
 
 If pretty-printing the JSON is not enough, you can use [jq](https://jqlang.github.io/jq/) -
-a tool that provides an entire Domain Specific Language for JSON wrangling.
+a CLI tool that provides an entire Domain Specific Language for JSON wrangling.
 
 tshark - CLI equivalent of Wireshark
 ------------------------------------
@@ -132,7 +132,7 @@ purposes.
 TermShark
 ---------
 
-But what if you want something like Wireshark GUI, but in terminal?
+But what if you want something like Wireshark GUI in your terminal environment?
 [TermShark](https://termshark.io/) is a TUI wrapper for TShark that renders
 a user interface similar to that of Wireshark.
 
@@ -154,10 +154,10 @@ the vi/VIM text editor lineage with features like Language Server Protocol
 support, Lua scripting interface, improved usability, RPC API, system clipboard
 integration, built-in terminal emulator and so on.
 
-Github CLI tool
+GitHub CLI tool
 ---------------
 
-There's git(1), and there's Github. The former is CLI tool and the latter is
+There's git(1), and there's GitHub. The former is CLI tool and the latter is
 web-based platform. To bridge the gap between the two there's a Github
 [CLI tool](https://cli.github.com/) for doing tasks like working with tickets,
 managing pull requests and configuring the CI system. This can be helpful
@@ -167,7 +167,7 @@ lifecycle.
 mapscii
 -------
 
-But what if you want to see some maps in your terminal? That is possible with
+But what if you want to see some maps in your terminal? You can do that with
 [mapscii](https://github.com/rastapasta/mapscii) - a Node.JS program that
 renders OpenStreetMap data in terminal environment with mouse support. If you
 don't want to install it via NPM you can access a test instance via telnet 
