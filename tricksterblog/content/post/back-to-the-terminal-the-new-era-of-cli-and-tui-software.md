@@ -41,7 +41,7 @@ ag, ripgrep - the new grep(1)
 -----------------------------
 
 You use grep(1) when you want to search something in source code or text file(s).
-[The Silver Search](https://github.com/ggreer/the_silver_searcher) (ag) is 
+[The Silver Search](https://github.com/ggreer/the_silver_searcher) (`ag`) is 
 a tool similar to grep, but designed to search for substrings in source code
 and optimised for that end.
 
