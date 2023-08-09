@@ -31,7 +31,8 @@ easily try it out:
 $ docker run --rm -ti fathyb/carbonyl https://trickster.dev
 ```
 
-[TODO: screenshots]
+[Screenshot 1](/2023-08-08_14.36.27.png)
+[Screenshot 2](/2023-08-08_14.41.51.png)
 
 It works quite well with simpler sites, but it can run into issues when you 
 trip something up in anti-automation solutions. Another limitation is that you
@@ -61,6 +62,8 @@ But we can go even further. [Bottom](https://github.com/ClementTsang/bottom)
 (`btm`) is a Rust program that renders resource consumption graphs in Unicode
 pseudo-graphics with a process list.
 
+[Screenshot 3](/2023-08-08_14.56.57.png)
+
 [btop](https://github.com/aristocratos/btop) and 
 [glances](https://github.com/nicolargo/glances) are another programs similar to 
 Bottom. 
@@ -74,6 +77,11 @@ images and it's bit of pain to use scp(1) or sftp(1) to download them from
 the server in order to preview them. [Terminal Image Viewer](https://github.com/stefanhaustein/TerminalImageViewer)
 is a C++ program that relies on features of modern terminals for actually
 quite good image rendering.
+
+[Screenshot 4](/2023-08-09_10.32.36.png)
+
+Note however that this does not work on default Terminal app on macOS - you 
+will need iTerm for this.
 
 HTTPie - command line API client
 --------------------------------
@@ -136,6 +144,8 @@ But what if you want something like Wireshark GUI in your terminal environment?
 [TermShark](https://termshark.io/) is a TUI wrapper for TShark that renders
 a user interface similar to that of Wireshark.
 
+[Screenshot 5](/2023-08-09_14.40.29.png)
+
 mitmproxy
 ---------
 
@@ -177,6 +187,8 @@ protocol:
 $ telnet mapscii.me  
 ```
 
+[Screenshot 6](/2023-08-09_13.27.37.png)
+
 Visidata
 --------
 
@@ -186,6 +198,9 @@ such as CSV files, Excel spreadsheets, SQLite databases and so on.
 It does a good subset of what Excel can do - data filtering, rendering some 
 charts (for example, Shift-F quickly renders a histogram of values in the current
 column), lettting you edit cells and so on. 
+
+[Screenshot 7](/2023-08-09_13.39.44.png)
+[Screenshot 8](/2023-08-09_13.40.02.png)
 
 Since Visidata is developed in Python you can install it via PIP. It is also 
 available on packet managers of some Linux systems.
@@ -216,4 +231,6 @@ To get a glimpse of what it can do, you can run:
 ```
 $ python3 -m textual
 ```
+
+[Screenshot 9](/2023-08-09_14.15.42.png)
 
