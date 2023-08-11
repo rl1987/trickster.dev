@@ -184,7 +184,7 @@ unlikely that ChatGPT, GPT-4 and other AI systems will make everyone jobless
 due to considerations I have discussed. These systems are merely tools subservient to
 a human will and there will be a need for people working with them. Perhaps
 the daily reality of many occupations will change, perhaps some people will need
-to learn how to do something else, but I don't except the fully AI-driven world
+to learn how to do something else, but I don't expect the fully AI-driven world
 to happen anytime soon.
 
 We cannot know what the future will be like. In a sense, we don't even have a
