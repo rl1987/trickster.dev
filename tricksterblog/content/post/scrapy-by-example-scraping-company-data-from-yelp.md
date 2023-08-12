@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Scrapy by example: scraping company data from Yelp"
 date = "2023-08-12"
-draft = true
 tags = ["scraping", "python", "scrapy"]
 +++
 
@@ -17,6 +16,7 @@ extract data from Yelp web pages.
 Let us do some planning and strategy work first. This entails browsing the page
 with Chrome DevTools open, taking some notes and also loading some pages via
 Scrapy shell, e.g: 
+
 ```
 $ scrapy shell "https://www.yelp.com/search?find_desc=Pizza&find_loc=San+Francisco%2C+CA%2C+United+States"
 2023-08-11 14:06:14 [scrapy.utils.log] INFO: Scrapy 2.8.0 started (bot: scrapybot)
