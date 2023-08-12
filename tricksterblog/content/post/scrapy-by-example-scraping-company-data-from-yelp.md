@@ -80,6 +80,8 @@ See the documentation of the 'REQUEST_FINGERPRINTER_IMPLEMENTATION' setting for 
 Note the sucessfull request here - it means we're not blocked by any security
 mechanism (yet).
 
+[Screenshot 1](/2023-08-11_13.54.33.png)
+
 Like many other websites in yellow pages world, Yelp has search feature with 
 pagination and links to company detail pages.  There's also a map on he right 
 hand side. If we wanted to get the map annotation coordinates we could extract 
@@ -120,6 +122,8 @@ Out[2]: 'https://www.yelp.com/search?find_desc=Pizza&find_loc=San%20Francisco%2C
 
 ```
 
+[Screenshot 2](/2023-08-11_14.16.47.png)
+
 Now we can explore the company details page. Let us also load it in Scrapy shell:
 
 ```
@@ -143,11 +147,16 @@ In [6]: response.xpath('//img[contains(@src, "maps.googleapis.com")]/@src').get(
 Out[6]: 'https://maps.googleapis.com/maps/api/staticmap?size=315x150&sensor=false&client=gme-yelp&language=en&scale=1&zoom=15&center=37.800084%2C-122.409429&markers=scale%3A1%7Cicon%3Ahttps%3A%2F%2Fyelp-images.s3.amazonaws.com%2Fassets%2Fmap-markers%2Fannotation_32x43.png%7C37.800084%2C-122.409429&signature=IGF-J6T8eel638VQaoUG3pY1BtA='
 ```
 
+[Screenshot 3](/2023-08-11_14.25.44.png)
+[Screenshot 4](/2023-08-11_14.26.27.png)
+
 The little map from Google Maps is not interactive. It's a static image generated
 by Google Maps API. The URL usually (but not always) has a `center` parameter
 with company location coordinates. In some cases this little map shows the
 service coverage area. We will be extracting company coordinates from the image
 source URL when possible.
+
+[Screenshot 5](/2023-08-11_14.34.31.png)
 
 We run the following two commands to generate a Scrapy project with spider
 boilerplate:
