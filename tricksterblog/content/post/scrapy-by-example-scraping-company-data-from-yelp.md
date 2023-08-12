@@ -327,7 +327,9 @@ class YelpSpider(scrapy.Spider):
 This spider is parametrised by location(s) and search queries that can be 
 passed via CLI. Since both can include commas in their values we expect the
 user to use pipe symbol as separator. This aspect is accomplished in the 
-constructor method (`__init__`). 
+constructor method (`__init__`). Note that Yelp limits the amount of search
+results per query-location pair, which makes search space sharding potentially
+applicable here.
 
 In `start_requests()`, a standard Scrapy spider method, we iterate across
 both values of both parameters in nested loops to generate requests to 
