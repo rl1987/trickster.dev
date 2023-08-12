@@ -436,7 +436,7 @@ concurrently.
 Lastly, I disabled cookie handling, because we don't need cookies to scrape 
 this site:
 
-```
+```python
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
 ```
@@ -448,7 +448,8 @@ So if we wanted to scrape data about coffee shops and pizza places in both
 San Francisco, CA and New York City we could run the Scrapy project like this:
 
 ```
-[TODO: add a command example]
+$ scrapy runspider -a "locations=San Francisco, CA|New York, NY" \
+  -a "queries=pizza|coffee" recon/spiders/yelp.py -O yelp.csv
 ```
 
 
