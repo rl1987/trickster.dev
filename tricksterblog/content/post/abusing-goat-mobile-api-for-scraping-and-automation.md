@@ -102,9 +102,10 @@ endpoint `/api/v1/product_templates/.../show_v2` that takes product URL slug
 (e.g. `terrex-swift-r2-mid-gtx-triple-black-cm7500`) as part of URL path
 and gives the app a numeric product template ID to be used in some of the 
 further API calls. It also provides some data is common across all product 
-variants.  Our code will reproduce this API call with slug value that it got 
-from search API to find out the `productTemplateID` value. Like we did with 
-search API request, we export this one to curl snippet:
+variants. To scrape it, our code will reproduce this API call with slug value 
+it got from search API.
+
+Like we did with search API request, we export this one to curl snippet:
 
 ```bash
 curl -H 'x-px-authorization: 3' -H 'accept: application/json' -H 'authorization: Token token=""' --compressed -H 'accept-language: en-GB,en;q=0.9' -H 'x-emb-st: 1691934124434' -H 'user-agent: GOAT/2.62.0 (iPhone; iOS 16.6; Scale/2.00) Locale/en' -H 'x-emb-id: A131256965044D838D97E9AEC3CC32DE' -H 'x-px-original-token: 3:7b9f8feffc454bb265869bb69319201a10c0733ded5f64415904867ca6015448:V3kOFKugd0IYEzhYfgTK4QOh8dWCzZH04C4uoGYEfOekVmjMvCYLle7yVImUv8bSOoVChlY3FPELVmFZLboPxA==:1000:V6naWWAGfhIA54bPIFXyWPSpd7e9WmoWghqXoB1xwiAb0TVePEULt5nHoZFhWkpg1E4ZjMtwt1N9yfV2HCYOklHUqUy+oaAlYkACXQLwqsD21d70W55yb0UY9qHQHxY9zQcr6th//3ckUVLU/v1yWhZt/GV9jNyf6EesLG9fw+gqMWPhrpi8bDT1j5eeTR9BLmWMqrY3hmQSYRc9C7K5pQ==' -H 'cookie: __cf_bm=SHyG5WOKr777DofsXNbK3U29rw2zT0.FAfklx3N4xlA-1691934028-0-AUJcAbBlN7VoM9Sv8KU4ADRc7kRMROE5dN8u/rsVpl+cxdtwaLQTX/D/tIGlWKDEjaZfMbkE+PaMCzCrlGheIbI=' -H 'cookie: currency=EUR' https://www.goat.com/api/v1/product_templates/terrex-swift-r2-mid-gtx-triple-black-cm7500/show_v2
@@ -142,12 +143,12 @@ response = requests.get(
 For the sake of example, we will save product name, main image URL and SKU from
 the API response here.
 
-We also want to save some price data. The part of UI that shows prices and last
-sale amounts is populated by the `/api/v2/product_variants/buy_bar_data`
+We also want to save some price data and availability data. The part of UI that 
+shows prices and last sale amounts is populated by the `/api/v2/product_variants/buy_bar_data`
 endpoint. We extract the curl snippet from mitmproxy again:
 
 ```bash
-curl -H 'x-px-authorization: 3' -H 'accept: application/json' -H 'authorization: Token token=""' --compressed -H 'accept-language: en-GB,en;q=0.9' -H 'x-emb-st: 1691934124855' -H 'user-agent: GOAT/2.62.0 (iPhone; iOS 16.6; Scale/2.00) Locale/en' -H 'x-emb-id: 9E8BF79CF66F4912A122C3C38F872E0E' -H 'x-px-original-token: 3:7b9f8feffc454bb265869bb69319201a10c0733ded5f64415904867ca6015448:V3kOFKugd0IYEzhYfgTK4QOh8dWCzZH04C4uoGYEfOekVmjMvCYLle7yVImUv8bSOoVChlY3FPELVmFZLboPxA==:1000:V6naWWAGfhIA54bPIFXyWPSpd7e9WmoWghqXoB1xwiAb0TVePEULt5nHoZFhWkpg1E4ZjMtwt1N9yfV2HCYOklHUqUy+oaAlYkACXQLwqsD21d70W55yb0UY9qHQHxY9zQcr6th//3ckUVLU/v1yWhZt/GV9jNyf6EesLG9fw+gqMWPhrpi8bDT1j5eeTR9BLmWMqrY3hmQSYRc9C7K5pQ==' -H 'cookie: __cf_bm=SHyG5WOKr777DofsXNbK3U29rw2zT0.FAfklx3N4xlA-1691934028-0-AUJcAbBlN7VoM9Sv8KU4ADRc7kRMROE5dN8u/rsVpl+cxdtwaLQTX/D/tIGlWKDEjaZfMbkE+PaMCzCrlGheIbI=' -H 'cookie: currency=EUR' 'https://www.goat.com/api/v1/product_variants/buy_bar_data?countryCode=LT&productTemplateId=terrex-swift-r2-mid-gtx-triple-black-cm7500'
+curl -H 'x-px-authorization: 3' -H 'accept: application/json' -H 'authorization: Token token=""' --compressed -H 'accept-language: en-GB,en;q=0.9' -H 'x-emb-st: 1691934124855' -H 'user-agent: GOAT/2.62.0 (iPhone; iOS 16.6; Scale/2.00) Locale/en' -H 'x-emb-id: 9E8BF79CF66F4912A122C3C38F872E0E' -H 'x-px-original-token: 3:7b9f8feffc454bb265869bb69319201a10c0733ded5f64415904867ca6015448:V3kOFKugd0IYEzhYfgTK4QOh8dWCzZH04C4uoGYEfOekVmjMvCYLle7yVImUv8bSOoVChlY3FPELVmFZLboPxA==:1000:V6naWWAGfhIA54bPIFXyWPSpd7e9WmoWghqXoB1xwiAb0TVePEULt5nHoZFhWkpg1E4ZjMtwt1N9yfV2HCYOklHUqUy+oaAlYkACXQLwqsD21d70W55yb0UY9qHQHxY9zQcr6th//3ckUVLU/v1yWhZt/GV9jNyf6EesLG9fw+gqMWPhrpi8bDT1j5eeTR9BLmWMqrY3hmQSYRc9C7K5pQ==' -H 'cookie: __cf_bm=SHyG5WOKr777DofsXNbK3U29rw2zT0.FAfklx3N4xlA-1691934028-0-AUJcAbBlN7VoM9Sv8KU4ADRc7kRMROE5dN8u/rsVpl+cxdtwaLQTX/D/tIGlWKDEjaZfMbkE+PaMCzCrlGheIbI=' -H 'cookie: currency=EUR' 'https://www.goat.com/api/v1/product_variants/buy_bar_data?countryCode=US&productTemplateId=terrex-swift-r2-mid-gtx-triple-black-cm7500'
 ```
 
 The corresponding Python snippet is:
@@ -185,9 +186,232 @@ response = requests.get(
 )
 ```
 
+Quick experiment shows that removing `__cf_bm` cookie does not cause the requests
+to be blocked. However a default currency is set via another cookie, which we 
+probably want to keep.
+
+Since PerimeterX blocks requests based on source autonomous systems and IP 
+reputation we need to route the requests through a proxy pool. I find that
+ISP proxies from BrightData are good enough for this.
+
 One last thing to note is that some APIs are meant to be used after login 
 and thus don't provide any data at this point.
 
+A simple Python script to implement GOAT mobile API scraping is as follows:
+
+```python
+#!/usr/bin/python3
+
+import csv
+import sys
+from pprint import pprint
+from urllib.parse import quote
+import time
+
+import requests
+
+# ISP proxy URL
+PROXY_URL = "[REDACTED]"
+
+COUNTRY_CODE = "US"
+CURRENCY = "USD"
+
+FIELDNAMES = [
+    "template_id",
+    "slug",
+    "name",
+    "img_url",
+    "brand",
+    "sku",
+    "box_condition",
+    "shoe_condition",
+    "size",
+    "stock_status",
+    "lowest_price",
+]
+
+RETRIES = 5
+
+def create_session():
+    session = requests.Session()
+
+    session.headers = {
+        "x-px-authorization": "3",
+        "accept": "application/json",
+        "authorization": 'Token token=""',
+        "accept-language": "en-GB,en;q=0.9",
+        "x-emb-st": "1691934124434",
+        "user-agent": "GOAT/2.62.0 (iPhone; iOS 16.6; Scale/2.00) Locale/en",
+        "x-emb-id": "A131256965044D838D97E9AEC3CC32DE",
+        "x-px-original-token": "3:7b9f8feffc454bb265869bb69319201a10c0733ded5f64415904867ca6015448:V3kOFKugd0IYEzhYfgTK4QOh8dWCzZH04C4uoGYEfOekVmjMvCYLle7yVImUv8bSOoVChlY3FPELVmFZLboPxA==:1000:V6naWWAGfhIA54bPIFXyWPSpd7e9WmoWghqXoB1xwiAb0TVePEULt5nHoZFhWkpg1E4ZjMtwt1N9yfV2HCYOklHUqUy+oaAlYkACXQLwqsD21d70W55yb0UY9qHQHxY9zQcr6th//3ckUVLU/v1yWhZt/GV9jNyf6EesLG9fw+gqMWPhrpi8bDT1j5eeTR9BLmWMqrY3hmQSYRc9C7K5pQ==",
+    }
+
+    session.proxies = {"http": PROXY_URL, "https": PROXY_URL}
+
+    session.cookies.set("currency", CURRENCY)
+
+    return session
+
+
+def get_product_template_data(session, product_slug):
+    url = "https://www.goat.com/api/v1/product_templates/{}/show_v2".format(product_slug)
+
+    resp = session.get(url)
+    print(resp.url)
+
+    return resp.json()
+
+def get_buy_bar_data(session, product_slug):
+    url = "https://www.goat.com/api/v1/product_variants/buy_bar_data"
+
+    params = {
+        'countryCode': COUNTRY_CODE,
+        'productTemplateId': product_slug
+    }
+
+    tries_left = RETRIES
+
+    while tries_left > 0:
+        resp = session.get(url, params=params)
+        print(resp.url)
+
+        if resp.status_code == 200:
+            break
+        
+        tries_left -= 1
+        time.sleep(1)
+
+    if resp.status_code == 200:
+        return resp.json()
+    else:
+        return None
+
+def scrape_search(session, search_query):
+    page = 1
+
+    url = "https://goat.cnstrc.com/search/" + quote(search_query)
+
+    params = {
+        "key": "key_XT7bjdbvjgECO5d8",
+        "page": str(page),
+        "fmt_options[hidden_fields]": "gp_instant_ship_lowest_price_cents_2",
+        "fmt_options[hidden_facets]": "gp_instant_ship_lowest_price_cents_2",
+        "features[display_variations]": "true",
+        "feature_variants[display_variations]": "matched",
+        "variations_map": '{"dtype":"object","group_by":[{"name":"product_condition","field":"data.product_condition"},{"name":"box_condition","field":"data.box_condition"}],"values":{"min_regional_instant_ship_price":{"field":"data.gp_instant_ship_lowest_price_cents_2","aggregation":"min"},"min_regional_price":{"field":"data.gp_lowest_price_cents_2","aggregation":"min"}}}',
+    }
+    
+    while True:
+        resp = session.get(url, params=params)
+        print(resp.url)
+
+        json_dict = resp.json()
+
+        per_page = json_dict.get("request", dict()).get("num_results_per_page")
+
+        results = json_dict.get("response", dict()).get("results", [])
+
+        for result_dict in results:
+            slug = result_dict.get("data", dict()).get("slug")
+            
+            yield slug
+
+        if len(results) < per_page:
+            break
+
+        page += 1
+
+        params['page'] = str(page)
+
+def main():
+    if len(sys.argv) != 2:
+        print("Usage:")
+        print("{} <query>".format(sys.argv[0]))
+        return
+
+    query = sys.argv[1]
+
+    session = create_session()
+
+    out_f = open("results.csv", "w", encoding="utf-8")
+
+    csv_writer = csv.DictWriter(out_f, fieldnames=FIELDNAMES, lineterminator="\n")
+    csv_writer.writeheader()
+
+    for slug in scrape_search(session, query):
+        print(slug)
+
+        template_data = get_product_template_data(session, slug)
+
+        template_id = template_data.get("id")
+        name = template_data.get("name")
+        img_url = template_data.get("mainPictureUrl")
+        brand = template_data.get("sizeBrand")
+        sku = template_data.get("sku")
+
+        buy_bar_data = get_buy_bar_data(session, slug)
+
+        for buy_bar_dict in buy_bar_data:
+            box_condition = buy_bar_dict.get("boxCondition")
+            shoe_condition = buy_bar_dict.get("shoeCondition")
+            size = buy_bar_dict.get("sizeOption", dict()).get("value")
+            stock_status = buy_bar_dict.get("stockStatus")
+            lowest_price = buy_bar_dict.get("lowestPriceCents", dict()).get("amount")
+            if type(lowest_price) == int:
+                lowest_price = lowest_price / 100.0
+
+            row = {
+                "template_id": template_id,
+                "slug": slug,
+                "name": name,
+                "img_url": img_url,
+                "brand": brand,
+                "sku": sku,
+                "box_condition": box_condition,
+                "shoe_condition": shoe_condition,
+                "size": size,
+                "stock_status": stock_status,
+                "lowest_price": lowest_price
+            }
+
+            pprint(row)
+
+            csv_writer.writerow(row)
+
+    out_f.close()
+
+if __name__ == "__main__":
+    main()
+
+```
+
+Let us go through the code. The script gets the search query via CLI parameter
+(`sys.argv[1]`) and uses that to scrape URL slugs from the search API. This
+is done in `scrape_search()` function. The code here is based on the first 
+Python snippet we got earlier. We implement page traversal by incrementing
+`page` parameter until the current page has less results that a full page
+would (threshold value is in `request.num_results_per_page`). This function is
+a generator function - by using `yield` instead of `return` we make it so
+that search API requests are done on as-needed basis and the function call 
+can be iterated upon (which we do in `main()`, as technically the return
+value is an iterable [generator object](/post/understanding-python-generators-for-scraping-and-automation)).
+
+When we get the slug, scrape the two other endpoints for product template and
+pricing/availability/product condition data (a `requests.Session` object 
+is used to keep the HTTP headers and proxy settings between requests). Since
+GOAT is a two-sided marketplace that allows reselling of used or defective
+shoes we also grab the fields about shoe and box condition. Data is merged into
+Python `dict` and written out into CSV file.
+
+Now, there is PerimeterX SDK being integrated into GOAT mobile app. But as long
+we generate our traffic through good-enough proxies and reproduce the original
+headers we can scrape the data just fine, more or less. One problem is that
+sometimes 5 retries are not enough to get the data from `buy_bar_data` endpoint
+when PerimeterX starts asking for captcha solution. Modifying `get_buy_bar_data()`
+function to force proxy rotation on failed request is left as an exercise for 
+the reader. But the larger point here is that anti-automation security measures 
+on mobile app APIs are often not very tight and can be easily defeated even for
+prominent, well funded targets such as GOAT.
 
 
 
