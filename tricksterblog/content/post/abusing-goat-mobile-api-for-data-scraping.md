@@ -1,6 +1,6 @@
 +++
 author = "rl1987"
-title = "Abusing GOAT mobile API for scraping and automation"
+title = "Abusing GOAT mobile API for data scraping"
 date = "2023-08-14"
 draft = true
 tags = ["scraping", "automation"]
@@ -19,9 +19,8 @@ page in Scrapy shell gives us a Cloudflare error.
 
 So we have to proceed differently. One trick from grayhat automation arsenal is
 to MITM mobile app traffic to work out the exact API calls being done against 
-the backend system, then replay them programmatically. A first example will be
-a simple API scraping to extract data. Another will be demonstrating how mobile
-API can be abused to automate user actions.
+the backend system, then replay them programmatically. Our example will be
+a simple API scraping to extract data. 
 
 We will be using [mitmproxy](https://mitmproxy.org/) to intercept GOAT API
 traffic. The setup in question is described in 
@@ -398,8 +397,8 @@ value is an iterable [generator object](/post/understanding-python-generators-fo
 
 When we get the slug, scrape the two other endpoints for product template and
 pricing/availability/product condition data (a `requests.Session` object 
-is used to keep the HTTP headers and proxy settings between requests). Since
-GOAT is a two-sided marketplace that allows reselling of used or defective
+is used to keep the HTTP headers, cookies and proxy settings between requests). 
+Since GOAT is a two-sided marketplace that allows reselling of used or defective
 shoes we also grab the fields about shoe and box condition. Data is merged into
 Python `dict` and written out into CSV file.
 
@@ -411,7 +410,5 @@ when PerimeterX starts asking for captcha solution. Modifying `get_buy_bar_data(
 function to force proxy rotation on failed request is left as an exercise for 
 the reader. But the larger point here is that anti-automation security measures 
 on mobile app APIs are often not very tight and can be easily defeated even for
-prominent, well funded targets such as GOAT.
-
-
-
+prominent, well funded targets such as GOAT. To be fair it is harder to scrape
+behind login, but that's a topic for another post.
