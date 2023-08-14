@@ -15,7 +15,7 @@ is developing GOAT don't want us to do that. GOAT is one of the websites that
 proactively fight automated traffic. For example, merely trying load the front 
 page in Scrapy shell gives us a Cloudflare error.
 
-[TODO: screenshot]
+[Screenshot 1](/2023-08-13_14.31.05.png)
 
 So we have to proceed differently. One trick from grayhat automation arsenal is
 to MITM mobile app traffic to work out the exact API calls being done against 
@@ -28,27 +28,40 @@ traffic. The setup in question is described in
 version is used on the iPhone. 
 
 When we run the app and press "Start browsing" button we see quite a bit of
-traffic in mitmproxy TUI. Some things to notice here:
+traffic in mitmproxy TUI. 
+
+[Screenshot 2](/2023-08-13_14.52.12.png)
+
+Some things to notice here:
 
 * Early in the app lifecycle it sends a request to PerimeterX API. This means
 that PerimeterX is also used to fight automation.
+
+[Screenshot 3](/2023-08-13_15.00.16.png)
+
 * Some requests have `x-px-authorization` and `x-px-original-token` headers
 that are related to PerimeterX. Furthermore, `__cf_bm` cookie is present on
 some requests.
 * There's `authorization` header with empty value. We expect this value to
 be set when app is being used after logging in.
+
+[Screenshot 4](/2023-08-13_15.17.22.png)
+
 * Some requests go to goat.cnstrc.com domain and are not covered by PX/CF.
+
+[Screenshot 5](/2023-08-13_15.19.17.png)
 
 Let us start with the simple stuff first. Product data scraping is a common
 thing that web scraper developers do. So let's do that, but through the mobile
 API. On the mobile GUI we access the Search tab, type in a search query, press
 `z` to clean the flows captured by mitmproxy and then press the search button.
 
-[TODO: screenshots]
+[Screenshot 5](/IMG_C85AF3496598-1.jpeg)
+[Screesnhot 6](/IMG_60458540AC4D-1.jpeg)
 
 We see one request to goat.cnstrc.com and some more requests to images.goat.com.
 
-[TODO: screenshot]
+[Screenshot 7](/2023-08-13_15.31.10.png)
 
 The first one is of primary interest to us, as it seems to return some subset
 of product data in the JSON payload. Last component of the URL path is the
@@ -95,6 +108,8 @@ provided by Embrace Mobile, Inc.
 The next step is getting some product details via API. When we tap on one of the
 search results we see a bunch of HTTPS requests, most of them being made to
 subdomains of goat.com domain.
+
+[Screenshot 8](/2023-08-13_16.41.08.png)
 
 Let us explore what we have here. There's a request to product template
 endpoint `/api/v1/product_templates/.../show_v2` that takes product URL slug
@@ -149,6 +164,9 @@ endpoint. We extract the curl snippet from mitmproxy again:
 ```bash
 curl -H 'x-px-authorization: 3' -H 'accept: application/json' -H 'authorization: Token token=""' --compressed -H 'accept-language: en-GB,en;q=0.9' -H 'x-emb-st: 1691934124855' -H 'user-agent: GOAT/2.62.0 (iPhone; iOS 16.6; Scale/2.00) Locale/en' -H 'x-emb-id: 9E8BF79CF66F4912A122C3C38F872E0E' -H 'x-px-original-token: 3:7b9f8feffc454bb265869bb69319201a10c0733ded5f64415904867ca6015448:V3kOFKugd0IYEzhYfgTK4QOh8dWCzZH04C4uoGYEfOekVmjMvCYLle7yVImUv8bSOoVChlY3FPELVmFZLboPxA==:1000:V6naWWAGfhIA54bPIFXyWPSpd7e9WmoWghqXoB1xwiAb0TVePEULt5nHoZFhWkpg1E4ZjMtwt1N9yfV2HCYOklHUqUy+oaAlYkACXQLwqsD21d70W55yb0UY9qHQHxY9zQcr6th//3ckUVLU/v1yWhZt/GV9jNyf6EesLG9fw+gqMWPhrpi8bDT1j5eeTR9BLmWMqrY3hmQSYRc9C7K5pQ==' -H 'cookie: __cf_bm=SHyG5WOKr777DofsXNbK3U29rw2zT0.FAfklx3N4xlA-1691934028-0-AUJcAbBlN7VoM9Sv8KU4ADRc7kRMROE5dN8u/rsVpl+cxdtwaLQTX/D/tIGlWKDEjaZfMbkE+PaMCzCrlGheIbI=' -H 'cookie: currency=EUR' 'https://www.goat.com/api/v1/product_variants/buy_bar_data?countryCode=US&productTemplateId=terrex-swift-r2-mid-gtx-triple-black-cm7500'
 ```
+
+[Screenshot 9](/IMG_0893.PNG)
+[Screenshot 10](/2023-08-13_17.31.33.png)
 
 The corresponding Python snippet is:
 
@@ -401,6 +419,8 @@ is used to keep the HTTP headers, cookies and proxy settings between requests).
 Since GOAT is a two-sided marketplace that allows reselling of used or defective
 shoes we also grab the fields about shoe and box condition. Data is merged into
 Python `dict` and written out into CSV file.
+
+[Screenshot 11](/2023-08-14_17.45.23.png)
 
 Now, there is PerimeterX SDK being integrated into GOAT mobile app. But as long
 we generate our traffic through good-enough proxies and reproduce the original
