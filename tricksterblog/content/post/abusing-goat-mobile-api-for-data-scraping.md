@@ -2,8 +2,7 @@
 author = "rl1987"
 title = "Abusing GOAT mobile API for data scraping"
 date = "2023-08-14"
-draft = true
-tags = ["scraping", "automation"]
+tags = ["scraping", "python"]
 +++
 
 GOAT is an online platform for retail sale and reselling of certain consumer
