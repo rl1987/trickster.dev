@@ -35,7 +35,7 @@ By scrolling up, we find that the JSON string is wrapped in a script element
 [Screenshot 2](/2023-05-15_14.51.15.png)
 
 This is good for us, as we can extract the data we need from big JSON string and
-use it for our purposed. However, how does the infinite scroll work? How is the
+use it for our purposes. However, how does the infinite scroll work? How is the
 new data loaded? This can be explored in Network tab of Chrome DevTools.
 
 [Screenshot 3](/2023-05-15_14.58.45.png)
