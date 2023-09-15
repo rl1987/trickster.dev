@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Solving a simple JS challenge with sandboxing"
-date = "2023-09-07"
+date = "2023-09-15"
 draft = true
 tags = ["scraping", "reverse-engineering", "python", "javascript"]
 +++
@@ -158,7 +158,7 @@ function go() {
 }
 ```
 
-Asides from some random computations with random numbers, there are two things
+Aside from some random computations with random numbers, there are two things
 to notice here. First are checks for symptoms of automation on the top of 
 `leastFactor()` function:
 
@@ -188,10 +188,8 @@ challenge we got here.
 So if we want to scrape the site we need to manufacture the cookie based on
 JS challenge code we're getting without triggering checks for traces of 
 automation. Is it trivial to pass the first check as PhantomJS is dead as of
-2023. We can tamper with the code bit more and remove the check for NodeJS
-modules. Furthermore, we can replace page reload statement with `console.log()`
-or something else that communicates the cookie value to the code running 
-the sandbox. This will entail a bit of cheating, as generally JS challenges are
+2023. We could tamper with the code bit more and remove the check for NodeJS
+modules, but this would entail a bit of cheating, as generally JS challenges are
 obfuscated in more advanced way than what we see here.
 
 Some options to create sandbox environment are:
@@ -199,7 +197,73 @@ Some options to create sandbox environment are:
 * NodeJS `vm` API
 * [`vm2`](https://github.com/patriksimek/vm2) module from NPM (recently discontinued)
 * [`isolated-vm`](https://github.com/laverdet/isolated-vm) NPM module
+* [JSDOM](https://github.com/jsdom/jsdom) - a lightweight emulator for
+browser-like JS environment.
+* Using an actual browser and controlling it programmatically.
 
+We will keep it simple here and show a simple example based on the first option.
+We save the challenge code into in.js. The following few lines of JS will read 
+it and execute the challenge code in a sandbox environment to get the cookie:
 
+```javascript
+const fs = require("fs");
+const vm = require("vm");
 
+let js = fs.readFileSync("in.js", "utf-8");
 
+const script = new vm.Script(js);
+const mapperContext = { window: {}, document: {
+  location: {
+    reload: function(){}
+  }
+}};
+
+const sandbox = vm.createContext(mapperContext);
+script.runInContext(sandbox);
+vm.runInContext('go();', sandbox);
+
+console.log(sandbox.document.cookie);
+```
+
+We save this code into sandbox.js file.
+
+Note that when creating a VM context (a sandbox) we provide an object called
+`mapperContext` with some things that JS code expects to be there stubbed out.
+For instance, to prevent the challenge code from crashing we provide an
+empty implementation for `document.location.reload()` function. This ensures
+that prerequisites for challenge code execution are met.
+
+Next, there's `script.runInContext(sandbox);`. This statement "runs" the code
+in VM, but since the original code contains only the two function declarations
+without any call expression, we get it going in next line by calling `go()`
+function in the sandbox environment. Lastly, we retrieve and print the
+`document.cookie` value from the sandbox.
+
+It turned out modifying the original code in any way was not necessary and
+that it can be sandboxed as-is.
+
+The following Bash script shows the entire steps to get the challenge, solve
+it with sandboxing and using the cookie value to retrieve a proper page:
+
+```bash
+#!/bin/bash
+
+set -x
+
+curl "https://opencorporates.com" | \
+    xmllint --html --xpath '//script/text()' - | \
+    tail +2 > in.js # Deleting "<![CDATA[<!--" line
+
+curl "https://opencorporates.com" -H "cookie: $(node sandbox.js)"
+```
+
+More advanced examples of JS sandboxing from and outside grayhat space are:
+
+* [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr) - a CloudFlare 
+solver API server that relies on 
+[undected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
+to solve CF challenges in modified browser environment.
+* Google allows running some subset of JS language in Google Tag Manager
+templates to enable further customisation. See the 
+[Sandboxed JavaScript](https://developers.google.com/tag-platform/tag-manager/templates/sandboxed-javascript)
+page.
