@@ -158,6 +158,8 @@ function go() {
 }
 ```
 
+[Screenshot](/2023-09-09_19.05.00.png)
+
 Aside from some random computations with random numbers, there are two things
 to notice here. First are checks for symptoms of automation on the top of 
 `leastFactor()` function:
