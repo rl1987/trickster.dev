@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Solving a simple JS challenge with sandboxing"
 date = "2023-09-15"
-draft = true
 tags = ["scraping", "reverse-engineering", "python", "javascript"]
 +++
 
@@ -263,7 +262,7 @@ More advanced examples of JS sandboxing from and outside grayhat space are:
 
 * [FlareSolverr](https://github.com/FlareSolverr/FlareSolverr) - a CloudFlare 
 solver API server that relies on 
-[undected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
+[undetected-chromedriver](https://github.com/ultrafunkamsterdam/undetected-chromedriver)
 to solve CF challenges in modified browser environment.
 * Google allows running some subset of JS language in Google Tag Manager
 templates to enable further customisation. See the 
