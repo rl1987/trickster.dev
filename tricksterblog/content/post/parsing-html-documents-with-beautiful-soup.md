@@ -27,6 +27,56 @@ quite lenient for bad HTML.
 * `html5lib` - Pure Python HTML5 parser that is slow, but can deal with some
 pretty messed up pages.
 
-Let us explore how to use Beautiful Soup for web scraping.
+Let us explore how to use Beautiful Soup for web scraping. We start by using
+the lxml parser on a simple HTML document.
 
-WRITEME
+```
+$ python3
+Python 3.11.5 (main, Aug 24 2023, 15:09:45) [Clang 14.0.3 (clang-1403.0.22.14.1)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from bs4 import BeautifulSoup
+>>> soup = BeautifulSoup(html_str, 'lxml')
+>>> soup
+<html><head><title>Title!</title></head><body><h1>The Title</h1></body></html>
+>>> type(soup)
+<class 'bs4.BeautifulSoup'>
+```
+
+We can regenerate the HTML document in a pretty-printed form:
+
+```
+>>> print(soup.prettify())
+<html>
+ <head>
+  <title>
+   Title!
+  </title>
+ </head>
+ <body>
+  <h1>
+   The Title
+  </h1>
+ </body>
+</html>
+```
+
+We can use object properties to traverse across the tree structure and extract
+stuff we may want to parse:
+
+```
+>>> soup.title
+<title>Title!</title>
+>>> soup.title.text
+'Title!'
+>>> soup.title.name
+'title'
+>>> soup.body.h1.text
+'The Title'
+```
+
+To provide an example on how to run queries, let us have a bigger HTML document
+to parse:
+
+```
+TODO
+```
