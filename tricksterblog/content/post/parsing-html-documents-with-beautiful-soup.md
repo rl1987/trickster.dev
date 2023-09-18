@@ -77,6 +77,51 @@ stuff we may want to parse:
 To provide an example on how to run queries, let us have a bigger HTML document
 to parse:
 
+```html
+<html>
+    <head>
+        <title>Product list</title>
+    </head>
+    <body>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Product name</th>
+                    <th>Price</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="productname" class="productname">Jordan 4 Retro</td>
+                    <td id="price">$269</td>
+                    <td><a id="pdpurl" href="https://stockx.com/air-jordan-4-retro-red-cement">link</a></td>
+                </tr>
+                <tr>
+                    <td id="productname" class="productname">adidas Yeezy Boost 350 V2 Static (Non-Reflective) (2018/2023)</td>
+                    <td id="price">$195</td>
+                    <td><a id="pdpurl" href="https://stockx.com/adidas-yeezy-boost-350-v2-static">link</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
 ```
-TODO
+
+Now we can use `find()` method to find a single result or `find_all()` to find
+multiple results:
+
 ```
+>>> in_f = open("test.html", "r")
+>>> html_str = in_f.read()
+>>> in_f.close()
+>>> soup = BeautifulSoup(html_str, "lxml")
+>>> soup.find('title')
+<title>Product list</title>
+>>> soup.find_all(class_='productname')
+[<td class="productname" id="productname">Jordan 4 Retro</td>, <td class="productname" id="productname">adidas Yeezy Boost 350 V2 Static (Non-Reflective) (2018/2023)</td>]
+>>> soup.find_all(id='price')
+[<td id="price">$269</td>, <td id="price">$195</td>]
+```
+
+
