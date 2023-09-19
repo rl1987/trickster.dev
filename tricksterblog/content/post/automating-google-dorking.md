@@ -66,7 +66,7 @@ Another way is to use one of the many SERP scraping SaaS solutions, like:
 * [ZenSerp](https://zenserp.com/)
 * [SerpAPI](https://serpapi.com/)
 * [DataForSEO](https://dataforseo.com/)
-* [BrightData Search Engine Crawler](https://brightdata.com/products/search-engine-crawler)
+* [Bright Data Search Engine Crawler](https://brightdata.com/products/search-engine-crawler)
 
 These options are fairly obvious to developers working with scraping and automation projects. However, there is
 a third, relatively obscure option. The little known fact is that Google search has an API, kind of. They call this

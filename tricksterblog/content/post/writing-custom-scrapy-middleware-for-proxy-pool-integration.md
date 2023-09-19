@@ -31,9 +31,9 @@ implement our own [`process_request()`](https://docs.scrapy.org/en/latest/topics
 at `proxy` key. If not, we leave it as-is. Either way we don't need to return anything
 from this method.
 
-For example, we may want to integrate BrightData proxy pool in a way that forces exit IP
+For example, we may want to integrate Bright Data proxy pool in a way that forces exit IP
 randomisation. The following code implements a simple downloader middleware that
-takes BrightData zone credentials from settings, appends session ID to the user name,
+takes Bright Data zone credentials from settings, appends session ID to the user name,
 generates proxy URL and puts it into `meta` dictionary:
 
 ```python

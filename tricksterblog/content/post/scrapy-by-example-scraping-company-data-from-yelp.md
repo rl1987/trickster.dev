@@ -404,11 +404,11 @@ class BrightDataDownloaderMiddleware:
 
 ```
 
-Since I use BrightData, this entails a little vendor lock-in. This is updated
+Since I use Bright Data, this entails a little vendor lock-in. This is updated
 version of middleware code from the 
 [previous post](/post/writing-custom-scrapy-middleware-for-proxy-pool-integration/).
 Note that `-session-` string and a random number is appended to proxy zone
-username. This approach is based on sample code from BrightData.
+username. This approach is based on sample code from Bright Data.
 
 To integrate this middleware into the Scrapy project, we have to edit the
 settings.py file as follows:

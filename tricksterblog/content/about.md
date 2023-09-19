@@ -21,7 +21,7 @@ superpowers.
 
 If you like the content please consider using following affiliate links:
 
-* [BrightData](https://get.brightdata.com/pa7d0cd) - world's largest proxy
+* [Bright Data](https://get.brightdata.com/pa7d0cd) - world's largest proxy
 pool and web data platform.
 * [Looking for a cheap domain name? Get it from Namecheap! Prices start at $3.98/year](https://www.jdoqocy.com/click-100969061-11429053)
 * [Wise](https://wise.prf.hn/click/camref:1101lGnmf) - multi-currency online

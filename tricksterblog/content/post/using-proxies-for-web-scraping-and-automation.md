@@ -37,7 +37,7 @@ on your proxy provider, you may need to go through more complicated verification
 coming from real phone of real user. It might be solution similar to [Proxidize](https://proxidize.com/) that entails some
 setup with cellular modems and SIM cards. Mobile proxies provide significant blocking evasion capacity and are used for social media
 automation in a post-Cambridge Analytica world.
-* Lastly, there's advanced proxies like [BrightData Web Unlocker](https://brightdata.com/products/web-unlocker) and [Zyte
+* Lastly, there's advanced proxies like [Bright Data Web Unlocker](https://brightdata.com/products/web-unlocker) and [Zyte
 Smart Proxy Manager](https://www.zyte.com/smart-proxy-manager/) (formerly known as Crawlera). These proxy services implement
 proprietary advanced blocking evasion techniques and can be used to scrape sites protected by anti-botting solutions like
 PerimeterX. However there is one drawback - for the purpose of blocking evasion they might overtake cookie management, which
@@ -54,7 +54,7 @@ through HTTP headers.
 
 Some proxy providers you may want to check out are:
 
-* [BrightData](https://brightdata.com/)
+* [Bright Data](https://brightdata.com/)
 * [OxyLabs](https://oxylabs.io/)
 * [PacketStream](https://packetstream.io/)
 * [ScraperAPI](https://www.scraperapi.com/)
@@ -64,7 +64,7 @@ Some proxy providers you may want to check out are:
 
 There's also many more. Due your research to find the best option for your budget and use case.
 
-How would we use proxies in our code? BrightData provides the following Python snippet for simple use case of their proxy service.
+How would we use proxies in our code? Bright Data provides the following Python snippet for simple use case of their proxy service.
 
 ```python
 #!/usr/bin/env python
@@ -91,7 +91,7 @@ if sys.version_info[0]==3:
 ```
 
 If you are using requests module for making HTTP requests (as you should) you can simply copy the proxy URL from the snippet
-BrightData provides and either set `HTTPS_PROXY` environment variable with that, or create a proxies dictionary and use it for
+Bright Data provides and either set `HTTPS_PROXY` environment variable with that, or create a proxies dictionary and use it for
 requests like this:
 
 ```python
@@ -105,7 +105,7 @@ resp = requests.get(url, proxies=proxies)
 
 See the [official documentation](https://2.python-requests.org/en/master/user/advanced/#proxies) to read more about this.
 
-There is one more snippet on BrightData dashboard that is of interest to us - the "High-perf parallel requests" example:
+There is one more snippet on Bright Data dashboard that is of interest to us - the "High-perf parallel requests" example:
 
 ```python
 #!/usr/bin/env python
@@ -210,7 +210,7 @@ requests through the proxy pool enables us to benefit from performance improveme
 still being able to evade blocking.
 
 Furthermore, I would like to direct attention to `SingleSessionRetriever._reset_session()` method. We see that a random session
-ID value is being generated and appended to proxy user name, which is BrightData's way to let us have sticky sessions. However, 
+ID value is being generated and appended to proxy user name, which is Bright Data's way to let us have sticky sessions. However, 
 in this case it is also being used to force exit IP randomisation every 10 requests. That might be necessary to avoid getting
 rate-limited or other forms of blocking when scraping some sites.
 

@@ -214,7 +214,7 @@ if __name__ == "__main__":
 ```
 
 This code expects `HTTPS_PROXY` environment variable with proxy URL. For this purpose, we can
-create a SERP proxy zone on BrightData.
+create a SERP proxy zone on Bright Data.
 
 Note that Google is constantly updating it's frontend, which may cause the code to break.
 For example, you may need to update XPath queries for parts of page being extracted.

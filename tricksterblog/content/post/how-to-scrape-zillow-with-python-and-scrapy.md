@@ -92,8 +92,8 @@ In summary, we will be using a hybrid approach that starts with scraping a small
 piece of information from HTML page to bootstrap private API scraping.
 
 One last thing to consider is blocking evasion. As of 2022, Zillow uses PerimeterX for
-scraping countermeasures. This can be bypassed by using ISP proxies from BrightData.
-We cannot use advanced proxies (such as Web Unlocker from BrightData) here because
+scraping countermeasures. This can be bypassed by using ISP proxies from Bright Data.
+We cannot use advanced proxies (such as Web Unlocker from Bright Data) here because
 they overtake cookie management and would not allow us to pass the cookie we received
 early in the flow.
 

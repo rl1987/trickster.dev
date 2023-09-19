@@ -50,7 +50,7 @@ site:tiktok.com -site:effecthouse.tiktok.com -site:business.tiktok.com -site:www
 This is performed until there are no more new subdomains. There's
 [recon-ng module](https://github.com/lanmaster53/recon-ng-marketplace/blob/master/modules/recon/domains-hosts/google_site_web.py)
 based on this trick to automatically scrape subdomains from Google SERPs.
-One can also use BrightData Search Engine Crawler or similar product
+One can also use Bright Data Search Engine Crawler or similar product
 to outsource search engine scraping via API. Furthermore, Bing and
 other search engines can also be used for finding subdomains.
 

@@ -208,7 +208,7 @@ probably want to keep.
 
 Since PerimeterX blocks requests based on source autonomous systems and IP 
 reputation we need to route the requests through a proxy pool. I find that
-ISP proxies from BrightData are good enough for this.
+ISP proxies from Bright Data are good enough for this.
 
 One last thing to note is that some APIs are meant to be used after login 
 and thus don't provide any data at this point.
