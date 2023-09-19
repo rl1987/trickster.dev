@@ -13,7 +13,7 @@ the structure of DOM tree, but has properties and methods related to
 accessing data and running queries. 
 
 We can install it via PIP as `beautifulsoup4`. Furthermore, some operating 
-systems ship Beautiful Soup it in via their package managers. For example, 
+systems ship Beautiful Soup in their package managers. For example, 
 there's `python3-bs4` package on Debian APT.
 
 Beautiful Soup does not perform parsing on it's own. Instead, it uses a lower
@@ -122,6 +122,43 @@ multiple results:
 [<td class="productname" id="productname">Jordan 4 Retro</td>, <td class="productname" id="productname">adidas Yeezy Boost 350 V2 Static (Non-Reflective) (2018/2023)</td>]
 >>> soup.find_all(id='price')
 [<td id="price">$269</td>, <td id="price">$195</td>]
+>>> soup.find_all(attrs={'class':'productname', 'id':'productname'})
+[<td class="productname" id="productname">Jordan 4 Retro</td>, <td class="productname" id="productname">adidas Yeezy Boost 350 V2 Static (Non-Reflective) (2018/2023)</td>]
 ```
 
+To extract text recursively from a (sub)tree we can use `get_text()` method:
+
+```
+>>> print(soup.get_text())
+
+
+Product list
+
+
+
+
+
+Product name
+Price
+URL
+
+
+
+
+Jordan 4 Retro
+$269
+link
+
+
+adidas Yeezy Boost 350 V2 Static (Non-Reflective) (2018/2023)
+$195
+link
+
+
+
+
+
+
+
+```
 
