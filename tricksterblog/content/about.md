@@ -23,6 +23,8 @@ If you like the content please consider using following affiliate links:
 
 * [Bright Data](https://get.brightdata.com/pa7d0cd) - world's largest proxy
 pool and web data platform.
+* [Bright Data SERP Crawler](https://get.brightdata.com/msjgbf) - API for 
+scraping search engine pages.
 * [Looking for a cheap domain name? Get it from Namecheap! Prices start at $3.98/year](https://www.jdoqocy.com/click-100969061-11429053)
 * [Wise](https://wise.prf.hn/click/camref:1101lGnmf) - multi-currency online
 wallet with virtual and physical debit cards.
