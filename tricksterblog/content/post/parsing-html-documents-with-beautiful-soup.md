@@ -27,6 +27,10 @@ quite lenient for bad HTML.
 * `html5lib` - Pure Python HTML5 parser that is slow, but can deal with some
 pretty messed up pages.
 
+Since Beautiful Soup is an abstraction over these HTML/XML parsers we have
+some flexibility when choosing the underlying parser while keeping the
+same data model. 
+
 Let us explore how to use Beautiful Soup for web scraping. We start by using
 the lxml parser on a simple HTML document.
 
@@ -162,3 +166,50 @@ link
 
 ```
 
+Let us fetch a more complex page for more advanced example (Bright Data Web
+Unlocker is used here):
+
+```
+>>> import requests
+>>> proxy_url = "[REDACTED]"
+>>> resp = requests.get("https://clutch.co/directory/iphone-application-developers", proxies={'https': proxy_url})
+>>> resp = requests.get("https://clutch.co/directory/iphone-application-developers", proxies={'https': proxy_url}, verify=False)
+/opt/homebrew/lib/python3.11/site-packages/urllib3/connectionpool.py:1045: InsecureRequestWarning: Unverified HTTPS request is being made to host 'brd.superproxy.io'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/1.26.x/advanced-usage.html#ssl-warnings
+  warnings.warn(
+>>> resp
+<Response [200]>
+```
+
+By inspecting the page we see that list items are children of `<ul>` element
+with class `directory-list`.
+
+[TODO: screenshots]
+
+Now, let us try to parse it and extract some data based on structure we see 
+when inspecting the page:
+
+```
+>>> soup = BeautifulSoup(resp.text, 'html.parser')
+>>> ul = soup.find('ul', class_='directory-list')
+>>> list_items = ul.find_all('li')
+>>> li = list_items[0]
+>>> title = li.find(attrs={'data-link_text': 'Profile Title'})
+>>> title
+<a class="company_title directory_profile" data-link_text="Profile Title" href="/profile/naked-development" target="_blank">
+                            Naked Development
+                        </a>
+>>> title = li.find(attrs={'data-link_text': 'Profile Title'}).text
+>>> title
+'\n                            Naked Development\n                        '
+>>> title = title.strip()
+>>> title
+'Naked Development'
+>>> li.find(class_="company_info__wrap").text
+'Creative Development Agency'
+>>> li.find(attrs={'data-link_text': 'Profile Title'}).attrs['href']
+'/profile/naked-development'
+>>> li.find(class_="website-link__item").attrs['href']
+'https://app.nakeddev.com/application?utm_source=clutch.co&utm_medium=referral&utm_campaign=directory-iphone-application-developers'
+```
+
+Happy scraping!
