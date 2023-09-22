@@ -183,7 +183,9 @@ Unlocker is used here):
 By inspecting the page we see that list items are children of `<ul>` element
 with class `directory-list`.
 
-[TODO: screenshots]
+[Screenshot 1](/2023-09-21_13.24.39.png)
+[Screenshot 2](/2023-09-21_13.24.49.png)
+[Screenshot 3](/2023-09-21_14.05.38.png)
 
 Now, let us try to parse it and extract some data based on structure we see 
 when inspecting the page:
