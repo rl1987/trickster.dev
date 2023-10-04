@@ -57,15 +57,26 @@ If you have desktop GUI environment running the IP address will be available
 through network setting app as well.
 
 Let us do the setup on iPhone side. Make sure you are connected to the right
-network and go to the Settings app. Press Wi-Fi cell in the table view and tap
-the `(i)` button next to the name of Wi-Fi network you are connected to. In the
-next screen go to the bottom of the table and tap "Configure Proxy" cell. 
+network and go to the Settings app. 
+
+[Screenshot 1](/IMG_1695.PNG)
+
+Press Wi-Fi cell in the table view and tap the `(i)` button next to the name of 
+Wi-Fi network you are connected to. 
+
+[Screenshot 2](/IMG_1696.PNG)
+
+In the next screen go to the bottom of the table and tap "Configure Proxy" cell. 
+
+[Screenshot 3](/IMG_1697.PNG)
 
 Choose "Manual" from the available options and fill the little form here:
 
 * In "Server" cell enter the IP address of your computer you have determined 
 earlier.
 * In "Port" field enter proxy port number - 8080.
+
+[Screenshot 4](/IMG_1698.PNG)
 
 Press the "Save" button on the top of UI. 
 
@@ -74,20 +85,34 @@ Safari (specifically Safari - not some other browser) and navigate to mitm.it.
 Press the green button under "iOS" heading. Allow the browser to download the
 file into your system.
 
+[Screenshot 5](/IMG_1699.PNG)
+[Screenshot 6](/IMG_1700.PNG)
+
 Install the certificate through Settings app: go to General, then to "VPN &
-Device Management". You will find "mitmproxy" entry under "Downloaded Profile"
+Device Management". 
+
+[Screenshot 7](/IMG_1701.PNG)
+
+You will find "mitmproxy" entry under "Downloaded Profile"
 label. Tap it and press Install button in the modal view. Since this is a 
 sensitive action, iOS will ask for PIN code and additional verification. If all
 goes well, a "Verified" label with a checkmark will appear on the GUI.
+
+[Screenshot 8](/IMG_1702.PNG)
 
 But this is not enough. We installed the certificate, but we also need to trust
 it. Go back to General section of settings, then go to About and choose
 "Certificate Trust Settings" at the bottom. Turn on the switch for the 
 mitmproxy certificate. 
 
+[Screenshot 9](/IMG_1706.PNG)
+
 Now let us verify that it works correctly. Go back to Safari and open some 
-website that is protected by TLS (which most modern websites do). You should
+website that is protected by TLS (which most modern websites use). You should
 see HTTPS requests related to the site displayed in mitmproxy TUI.
+
+[Screenshot 10](/IMG_1707.PNG)
+[Screenshot 11](/2023-10-04_13.22.21.png)
 
 If this does not work right away you may want to set your iPhone to airplane
 mode for a brief period of time and make it reconnect to Wi-Fi network. That
@@ -95,6 +120,9 @@ used to help in earlier versions of iOS.
 
 If you don't like the TUI version of mitmproxy you can try mitmweb. It also ships
 with mitmproxy, but presents data in web interface.
+
+[Screenshot 12](/2023-10-04_13.27.41.png)
+[Screenshot 13](/2023-10-04_13.28.28.png)
 
 Another thing that ships with mitmproxy is mitmdump - a tool similar to
 tcpdump, but based on mitmproxy machinery and made to primarily intercept
@@ -124,5 +152,3 @@ $ mitmdump
 
 When you no longer want the traffic to be intercepted, go back to "Configure
 Proxy" table in iPhone settings and disable the proxying there.
-
-[TODO: add screenshots]
