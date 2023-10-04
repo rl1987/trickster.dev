@@ -11,9 +11,9 @@ meant for interception, capture and analysis of network traffic for purposes suc
 as penetration testing, debugging, troubleshooting, reverse engineering and
 privacy analysis. A common use case of this tool is to explore mobile application
 communications (typically API calls over HTTPS) for API scraping, automation and
-security testing purposes. Earlier in the blog I have covered how to set up 
+security testing. Earlier in the blog I have covered how to set up 
 mitmproxy with mobile device that run iOS 15. Today iOS 17.1 beta 2 is available
-for testing and thus we will go through the process of setting it up with 
+for end users and thus we will go through the process of setting it up with 
 mitmproxy.
 
 Let us start with installing mitmproxy itself. There are several ways to do
