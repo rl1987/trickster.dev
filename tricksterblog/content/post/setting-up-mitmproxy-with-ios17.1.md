@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Setting up mitmproxy with iOS 17.1"
 date = "2023-10-04"
-draft = true
 tags = ["automation", "security", "mitmproxy"]
 +++
 
