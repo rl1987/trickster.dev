@@ -145,4 +145,16 @@ search results. For that purpose we should be using the [Scroll API](https://www
 that is designed to provide a paginated access to search results after the 
 first Search API request is performed.
 
+WRITEME
+
+Since we have access to the API of elasticsearch database, we can use it to 
+develop unofficial/adversarial integrations by either doing the API calls
+directly as in above example of by using on of the elasticsearch client libraries.
+There are two official options for Python:
+
+* [elasticsearch-py](https://github.com/elastic/elasticsearch-py) for bridging
+the gap between ES API construct and Python modules.
+* [elasticsearch-dsl-py](https://github.com/elastic/elasticsearch-dsl-py) for a
+higher order API that provides a more convenient way to work with database while
+not straying too far from the JSON-based API.
 
