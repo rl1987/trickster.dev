@@ -149,8 +149,8 @@ WRITEME
 
 Since we have access to the API of elasticsearch database, we can use it to 
 develop unofficial/adversarial integrations by either doing the API calls
-directly as in above example of by using on of the elasticsearch client libraries.
-There are two official options for Python:
+directly as in above example of by using one of the elasticsearch client 
+libraries. There are two official options for Python:
 
 * [elasticsearch-py](https://github.com/elastic/elasticsearch-py) for bridging
 the gap between ES API construct and Python modules.
