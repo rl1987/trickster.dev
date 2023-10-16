@@ -23,8 +23,6 @@ with web browser we see a list of of various objects being presented with search
 icon on the upper right corner of the page. Loading this page relies on 
 elasticsearch API, as can be seen in Network tab of Chrome DevTools.
 
-[TODO: screenshots]
-
 For instance, the following request (represented by curl snippet) fetches
 the first page worth of data:
 
@@ -49,6 +47,9 @@ curl 'https://collection.carnegieart.org/api/cmoa_objects/_msearch?' \
   --data-raw $'{"preference":"results"}\n{"query":{"bool":{"must":[{"bool":{"must":[{"bool":{"must":[{"term":{"images.permitted":true}},{"exists":{"field":"images.filename"}}]}}]}}]}},"size":24,"sort":[{"acquisition_date":{"order":"desc"}}]}\n' \
   --compressed
 ```
+
+[Screenshot 1](/2023-10-04_18.16.04.png)
+[Screenshot 2](/2023-10-04_18.16.15.png)
 
 Some things are notable here. A `content-type` header is `application/x-ndjson` 
 which means Newline-Delimited JSON is provided in the POST request payload. 
@@ -111,6 +112,8 @@ data that we can access through elasticsearch API. The entire dataset of
 Carnegie Museum of Art object catalog can be gathered solely by doing API 
 scraping.
 
+[Screenshot 3](/2023-10-04_18.16.34.png)
+
 There is also the `authorization` header here with Base64-encoded API 
 credentials. This does not add any security as we can simply decode the 
 encoded part of the header and recover username/password that frontend code uses:
@@ -121,7 +124,7 @@ collections:o41KG!MmJQ$A66
 ```
 
 Now, if we uncheck the "Has Image" checkbox the second line in the request
-payload becomes even simples:
+payload becomes even simpler:
 
 ```json
 {
@@ -139,9 +142,12 @@ payload becomes even simples:
 }
 ```
 
+[Screenshot 4](/2023-10-04_18.47.47.png)
+
 Now the query covers all the data (91668 results). But there's a little problem -
 the elasticsearch Search API that is used here is not meant to provide all the
-search results. For that purpose we should be using the [Scroll API](https://www.elastic.co/guide/en/elasticsearch/reference/current/scroll-api.html)
+search results. For that purpose we should be using the 
+[Scroll API](https://www.elastic.co/guide/en/elasticsearch/reference/current/scroll-api.html)
 that is designed to provide a paginated access to search results after the 
 first Search API request is performed.
 
