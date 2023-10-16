@@ -2,14 +2,13 @@
 author = "rl1987"
 title = "Extracting data from elasticsearch API"
 date = "2023-10-16"
-draft = true
 tags = ["scraping", "python"]
 +++
 
 [Elasticsearch](https://github.com/elastic/elasticsearch) is open 
 source server software that acts both as database and search engine, based on 
-Apache Lucene library. It can be used to build distributed clusters for 
-indexing and searching Enterprise-level amounts of data. 
+[Apache Lucene](https://lucene.apache.org/) library. It can be used to build 
+distributed clusters for indexing and searching Enterprise-level amounts of data. 
 Some sites that present large, searchable, mostly-textual datasets to
 the end user are based on elasticsearch as their backend data store and have
 frontend code talking directly to the API of elasticsearch. If the frontend
