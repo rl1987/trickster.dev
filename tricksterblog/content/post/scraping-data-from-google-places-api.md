@@ -43,3 +43,12 @@ Let us review what we have here to work with.
 
 In addition to that, there's two helper endpoints to assist searches via 
 autocompletion.
+
+For a complete list of data fields one can get, see 
+[Place Data Fields](https://developers.google.com/maps/documentation/places/web-service/place-data-fields)
+page. Note that business emails are not provided via Places API, but phone 
+numbers and website URLs are. If API scraping is done for lead generation 
+purposes, the gap could be bridged by doing opportunistic scraping of company
+websites or by performing data enrichment via services like Hunter or PDL.
+
+
