@@ -51,4 +51,9 @@ numbers and website URLs are. If API scraping is done for lead generation
 purposes, the gap could be bridged by doing opportunistic scraping of company
 websites or by performing data enrichment via services like Hunter or PDL.
 
+Place Search endpoints have one limitation that must be noted and addressed. One
+search query can return at most 60 results (3 pages, 20 results each). That may
+pose a problem if we want to collect non-trivial amounts of data. The solution to
+this is to compute a grid of locations and run many search queries to cover the
+territory.
 
