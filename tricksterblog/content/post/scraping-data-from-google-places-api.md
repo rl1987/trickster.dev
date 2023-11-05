@@ -249,5 +249,21 @@ if __name__ == "__main__":
 
 ```
 
+When launched, this script asks to things to be entered into standard input:
+location name and search query to be used with Text Search API endpoint. The
+API key is found in the gplaces.ini file that is parsed with a 
+`configparser` module. Location name is used to find the overall territory 
+and retrieve it's bounding box in `make_grid()` function, then split the bounding
+box into list of grid elements by doing some basic geometric computations. The
+`make_grid()` function returns not only list of grid elements in a form that
+can be used for Place Search `locationBias` parameter, but also the boundaries
+of the overall bounding box for some sanity checks to be done later.
 
-
+Once we have that, we can retrieve the POI data - one grid element at a time.
+To remove duplicates, we keep `place_id` value in `seen_place_ids` set and
+skip duplicate POIs. We also skip POIs with coordinates outside the bounding
+box (remember that Text Search endpoint supports biasing, but not filtering
+search results towards a given location). For each result that passes the 
+filtering, we call the Place Details API (via `.place()` method of API client)
+to get two additional fields: `international_phone_number` and `website`. The
+resulting scraped data is written to a CSV file.
