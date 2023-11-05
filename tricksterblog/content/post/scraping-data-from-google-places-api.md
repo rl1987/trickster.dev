@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Scraping data from Google Places API"
 date = "2023-11-05"
-draft = true
 tags = ["scraping", "osint", "python"]
 +++
 
@@ -62,8 +61,8 @@ this is to compute a grid of locations and run many search queries to cover the
 territory.
 
 But first we need to get the API key from Google. To proceed, you need a Google
-Cloud account with billing setup completed. Follow the instructions on two Google 
-Developer portal pages:
+Cloud account with billing setup completed. Follow the instructions on these two 
+Google Developer portal pages:
 
 1. [Set up your Google Cloud project](https://developers.google.com/maps/documentation/places/web-service/cloud-setup)
 2. [Use API Keys with Places API](https://developers.google.com/maps/documentation/places/web-service/get-api-key)
