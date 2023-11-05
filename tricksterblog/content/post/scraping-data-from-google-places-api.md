@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Scraping data from Google Places API"
-date = "2023-10-30"
+date = "2023-11-05"
 draft = true
 tags = ["scraping", "osint", "python"]
 +++
@@ -21,7 +21,7 @@ this still violates the [platform terms](https://cloud.google.com/maps-platform/
 but it's pretty much the least shady and most convenient way to extract some of 
 the data from Google Maps Platform as it relies on the official API.
 
-Let us review what we have here to work with. 
+Let us review what we have here to work with:
 
 * Place Search functionality is implemented via three endpoints:
   * Find Place (`/api/place/findplacefromtext/`) to search by place name, 
@@ -44,6 +44,10 @@ Let us review what we have here to work with.
 In addition to that, there's two helper endpoints to assist searches via 
 autocompletion.
 
+At the time of writing Google has launched a set of next generation APIs that
+you may need to enable via Google Cloud console and switch to if the old API
+gets deprecated. 
+
 For a complete list of data fields one can get, see 
 [Place Data Fields](https://developers.google.com/maps/documentation/places/web-service/place-data-fields)
 page. Note that business emails are not provided via Places API, but phone 
@@ -56,4 +60,35 @@ search query can return at most 60 results (3 pages, 20 results each). That may
 pose a problem if we want to collect non-trivial amounts of data. The solution to
 this is to compute a grid of locations and run many search queries to cover the
 territory.
+
+But first we need to get the API key from Google. To proceed, you need a Google
+Cloud account with billing setup completed. Follow the instructions on two Google 
+Developer portal pages:
+
+1. [Set up your Google Cloud project](https://developers.google.com/maps/documentation/places/web-service/cloud-setup)
+2. [Use API Keys with Places API](https://developers.google.com/maps/documentation/places/web-service/get-api-key)
+
+Now we have the API key. We can verify that everything works by doing a single 
+request with curl:
+
+```
+$ curl -s "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJj61dQgK6j4AR4GeTYWZsKWw&fields=id,name,international_phone_number&key=[REDACTED]" | jq
+{
+  "html_attributions": [],
+  "result": {
+    "international_phone_number": "+1 650-253-0000",
+    "name": "Googleplex"
+  },
+  "status": "OK"
+}
+```
+
+We will use the official [Google Maps Python module](https://github.com/googlemaps/google-maps-services-python) 
+to benefit from the Pythonic API wrapper it provides. Furthermore, we will use the 
+[`haversine`](https://github.com/mapado/haversine) module to help us 
+compute a grid (since Earth is not flat the geospatial software community uses 
+[Haversine formula](https://en.wikipedia.org/wiki/Haversine_formula)
+that this module implements for computing distances between points on the globe).
+
+
 
