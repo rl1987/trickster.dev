@@ -16,12 +16,24 @@ WRITEME: DTrace?
 
 WRITEME: Grapher
 
-WRITEME: Digital Color Meter
+Digital Colour Meter
+--------------------
+
+Digital Colour Meter is a GUI app to measure the exact RGB color values of the
+pixel under the cursor. This is helpful for GUI or frontend programming tasks
+that require reproducing the exact colors from the design images.
 
 WRITEME: Automator and AppleScript
 
-WRITEME: Font Book
+Font Book
+---------
 
-WRITEME: /usr/share/calendar
+Font Book is a viewer for all the fonts installed on your macOS system that also
+allows installing optional or custom fonts.
+
+/usr/share/calendar
+-------------------
+
+WRITEME
 
 WRITEME: objdump, nm?
