@@ -153,7 +153,7 @@ automation one may want to intercept API traffic to see what conversations
 between the app and remote servers. [mitmproxy](https://mitmproxy.org/) is 
 an interactive TUI program that works as HTTP(S) proxy server meant to capture 
 and inspect the HTTP(S) requests. It's a simpler alternative to Burp Suite GUI
-app that you can also customise with you own plugin code.
+app that you can also customise with your own plugin code.
 
 neovim
 ------
