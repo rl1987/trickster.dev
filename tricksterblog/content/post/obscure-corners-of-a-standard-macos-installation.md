@@ -14,14 +14,20 @@ WRITEME: screen(1)
 
 WRITEME: DTrace?
 
-WRITEME: Grapher
+Grapher
+-------
+
+Grapher is a simple GUI tool to draw 2D and 3D graphs of mathematical functions.
+It supports various coordinate systems such as classical, spheral, logarithmic,
+cylindrical. Both regular and differential equations are supported.
 
 Digital Colour Meter
 --------------------
 
 Digital Colour Meter is a GUI app to measure the exact RGB color values of the
 pixel under the cursor. This is helpful for GUI or frontend programming tasks
-that require reproducing the exact colors from the design images.
+that require reproducing the exact colors from the design images. Command-L 
+makes it (un)lock on a point on the screen.
 
 WRITEME: Automator and AppleScript
 
