@@ -1,14 +1,42 @@
 +++
 author = "rl1987"
 title = "Obscure corners of a standard macOS installation"
-date = "2023-11-07"
+date = "2023-11-10"
 draft = true
 tags = ["macos"]
 +++
 
 WRITEME: Apache httpd
 
-WRITEME: say(1) and TTS in Edit menu
+say(1) and TTS in Edit menu
+---------------------------
+
+macOS has built-in text-to-speech capabilities. To make your Mac speak out some
+text, pipe it to the say(1) program:
+
+```
+$ echo "colorless green ideas sleep furiously" | say
+```
+
+You can also pass the text as via CLI arguments:
+
+```
+$ say "hello world"
+```
+
+Running it with `-v "?"` prints a list of voices available. Multiple languages
+are supported and there are some fun novelty voices. You can choose a 
+voice by passing voice name through `-v`:
+
+```
+$ say "hello world" -v Bells
+```
+
+say(1) program can be used as TTS component in your shell scripts, cronjobs
+or other automations.
+
+For most of macOS GUI programs you can highlight some text on the screen and make
+it spoken through Edit -> Speech -> Start Speaking.
 
 WRITEME: screen(1)
 
