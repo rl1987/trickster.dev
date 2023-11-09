@@ -38,7 +38,15 @@ or other automations.
 For most of macOS GUI programs you can highlight some text on the screen and make
 it spoken through Edit -> Speech -> Start Speaking.
 
-WRITEME: screen(1)
+screen(1)
+---------
+
+There's no tmux in a standard macOS install, but older equivalent of tmux - 
+GNU screen - is shipped with macOS. It will be less convenient, but it still
+gives you an option to make CLI tools run in the background without keeping an
+active terminal session. Like tmux, it supports terminal session multiplexing
+with pseudo-window manager features like splitting the terminal into multiple
+panes. Read the screen(1) manpage for further information.
 
 WRITEME: DTrace?
 
