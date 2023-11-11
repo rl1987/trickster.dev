@@ -176,3 +176,22 @@ Nov 13 	Paul Simon born, 1942
 Nov 13 	St. Augustine of Hippo born in Numidia, Algeria, 354
 Nov 13 	Robert Louis Stevenson born, 1850
 ```
+
+pbcopy(1) and pbpaste(1)
+------------------------
+
+These two tools integrate macOS pasteboard into terminal workflows. Piping
+text into `pbcopy` copies it and running `pbpaste` outputs text from pasteboard
+into standard output:
+
+```
+$ echo "crypto stands for cryptography" | pbcopy
+$ pbpaste
+crypto stands for cryptography
+```
+
+networkQuality
+--------------
+
+`networkQuality` is CLI tool to measure UL/DL bandwidth and latency of your 
+network connection.
