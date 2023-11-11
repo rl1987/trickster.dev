@@ -6,7 +6,14 @@ draft = true
 tags = ["macos"]
 +++
 
-WRITEME: Apache httpd
+Apache httpd
+------------
+
+A little known fact is that macOS ships with Apache httpd. You can launch it
+by running `sudo apachectl start`. Configuration files are available in
+/etc/apache2 directory and default `DocumentRoot` is /Library/WebServer/Documents.
+Note however that macOS no longer ships PHP/Ruby/Perl so you will need to install
+a scripting language separately to 
 
 say(1) and TTS in Edit menu
 ---------------------------
@@ -48,8 +55,6 @@ active terminal session. Like tmux, it supports terminal session multiplexing
 with pseudo-window manager features like splitting the terminal into multiple
 panes. Read the screen(1) manpage for further information.
 
-WRITEME: DTrace?
-
 Grapher
 -------
 
@@ -64,8 +69,6 @@ Digital Colour Meter is a GUI app to measure the exact RGB color values of the
 pixel under the cursor. This is helpful for GUI or frontend programming tasks
 that require reproducing the exact colors from the design images. Command-L 
 makes it (un)lock on a point on the screen.
-
-WRITEME: Automator and AppleScript
 
 Font Book
 ---------
@@ -173,5 +176,3 @@ Nov 13 	Paul Simon born, 1942
 Nov 13 	St. Augustine of Hippo born in Numidia, Algeria, 354
 Nov 13 	Robert Louis Stevenson born, 1850
 ```
-
-WRITEME: objdump, nm?
