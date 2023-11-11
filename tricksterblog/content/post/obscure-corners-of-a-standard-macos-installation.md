@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Obscure corners of a standard macOS installation"
-date = "2023-11-15"
-draft = true
+date = "2023-11-11"
 tags = ["macos"]
 +++
 
