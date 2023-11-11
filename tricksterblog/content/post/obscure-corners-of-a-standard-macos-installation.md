@@ -12,8 +12,11 @@ Apache httpd
 A little known fact is that macOS ships with Apache httpd. You can launch it
 by running `sudo apachectl start`. Configuration files are available in
 /etc/apache2 directory and default `DocumentRoot` is /Library/WebServer/Documents.
-Note however that macOS no longer ships PHP/Ruby/Perl so you will need to install
-a scripting language separately to 
+Note however that macOS no longer ships PHP/Ruby/Perl/etc. so you will need to 
+install a scripting language separately to do any kind of dynamic web 
+development.
+
+[Screenshot 1](/2023-11-11_11.20.37.png)
 
 say(1) and TTS in Edit menu
 ---------------------------
@@ -62,6 +65,8 @@ Grapher is a simple GUI tool to draw 2D and 3D graphs of mathematical functions.
 It supports various coordinate systems such as classical, spheral, logarithmic,
 cylindrical. Both regular and differential equations are supported.
 
+[Screenshot 2](/2023-11-07_10.41.24.png)
+
 Digital Colour Meter
 --------------------
 
@@ -70,11 +75,15 @@ pixel under the cursor. This is helpful for GUI or frontend programming tasks
 that require reproducing the exact colors from the design images. Command-L 
 makes it (un)lock on a point on the screen.
 
+[Screenshot 3](/2023-11-07_10.38.58.png)
+
 Font Book
 ---------
 
 Font Book is a viewer for all the fonts installed on your macOS system that also
 allows installing optional or custom fonts.
+
+[Screenshot 4](/2023-11-07_10.48.54.png)
 
 /usr/share/calendar and calendar(1)
 -----------------------------------
