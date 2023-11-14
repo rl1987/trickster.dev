@@ -2,7 +2,7 @@
 author = "rl1987"
 title = "You don't typically need Selenium for scraping and automation"
 date = "2022-01-18"
-tags = ["python", "scraping", "automation"]
+tags = ["scraping", "automation", "selenium"]
 +++
 
 First, let us presume that we want to develop code to extract structured information from web pages that
