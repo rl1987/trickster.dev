@@ -32,7 +32,7 @@ application-level protocol streams based on what it received in Server Hello mes
 what it has computed before sending the Client Hello.
 
 This description greatly oversimplifies all the details. The reader is encouraged to at least
-skim [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446.txt) to apreciate the complexity of
+skim [RFC 8446](https://www.rfc-editor.org/rfc/rfc8446.txt) to appreciate the complexity of
 the protocol.
 
 TLS 1.2 used to have a fairly elaborate dance between client and server to establish the connection.
