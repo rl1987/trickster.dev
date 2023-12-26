@@ -14,8 +14,8 @@ pages from Wayback Machine can be used to gather historical data for data scienc
 purposes. To look into Iowa inmate population trends, we will be scraping historical 
 snapshots of Iowa Department of Corrections [inmate statistics page](https://doc-search.iowa.gov/dailystatistics). 
 Data of interest is in "Current Count" and "Institution" columns of the table. 
-For scraping we will use Python with requests and lxml modules. For dataviz we 
-will use Jupyter, Pandas and Matplotlib.
+We will do data scraping, wrangling and visualisation in Python with open source
+libraries and tooling.
 
 To quickly view the available snapshots for this page we search it through 
 [Archive.org front page](https://archive.org). But there seems to be a little
@@ -125,7 +125,76 @@ as path component between `https://web.archive.org/web/` and the original URL:
 
 Each snapshot is the original HTML page with some extra stuff injected to help
 us navigate the history of the page. Thus we can scrape it by using all the
-usual web scraping techniques.
+usual web scraping techniques. Furthermore, the old pages we want to scrape
+present the data in the basic HTML `<table>` element, which makes it easy
+to scrape by using Pandas [`read_html()` function](https://pandas.pydata.org/docs/reference/api/pandas.read_html.html#pandas-read-html):
+
+```
+>>> dfs = pd.read_html("https://web.archive.org/web/20210303210751/https://doc.iowa.gov/daily-statistics")
+>>> stats_df = dfs[1]
+>>> stats_df
+                      Institution Current Count  Capacity  Medical/Segregation
+0                         Anamosa           943     911.0                171.0
+1                        Clarinda           962     750.0                 46.0
+2                      Fort Dodge          1151    1162.0                 75.0
+3                   Mitchellville           486     654.0                114.0
+4                Minimum Live-Out            99     120.0                  0.0
+5                         Oakdale           818     585.0                142.0
+6   Forensic Psychiatric Hospital             9       0.0                 28.0
+7                    Fort Madison           708     612.0                153.0
+8                  Mount Pleasant           815     776.0                 80.0
+9                   Newton-Medium           853     762.0                197.0
+10                        Minimum           175     252.0                  6.0
+11                  Rockwell City           432     245.0                 18.0
+12          MPCF Minimum Live-Out            86     104.0                  0.0
+13           INSTITUTIONAL TOTALS          7537    6933.0               1030.0
+14               % overcrowded by         8.71%       NaN                  NaN
+```
+
+To clean up the data, let us drop the last two columns and last two rows:
+
+```
+>>> stats_df = stats_df[['Institution', 'Current Count']]
+>>> stats_df = stats_df[:-2]
+>>> stats_df
+                      Institution Current Count
+0                         Anamosa           943
+1                        Clarinda           962
+2                      Fort Dodge          1151
+3                   Mitchellville           486
+4                Minimum Live-Out            99
+5                         Oakdale           818
+6   Forensic Psychiatric Hospital             9
+7                    Fort Madison           708
+8                  Mount Pleasant           815
+9                   Newton-Medium           853
+10                        Minimum           175
+11                  Rockwell City           432
+12          MPCF Minimum Live-Out            86
+```
+
+Lastly, let us tweak names of some sub-entries:
+
+```
+>>> stats_df.loc[stats_df['Institution'] == "Forensic Psychiatric Hospital", 'Institution'] = "Oakdale - Forensic Psychiatric Hospital"
+>>> stats_df.loc[stats_df['Institution'] == "Minimum", 'Institution'] = "Newton-Minimum"
+>>> stats_df.loc[stats_df['Institution'] == "Minimum Live-Out", 'Institution'] = "Mitchellville - Minimum Live-Out"
+>>> stats_df
+                                Institution Current Count
+0                                   Anamosa           943
+1                                  Clarinda           962
+2                                Fort Dodge          1151
+3                             Mitchellville           486
+4          Mitchellville - Minimum Live-Out            99
+5                                   Oakdale           818
+6   Oakdale - Forensic Psychiatric Hospital             9
+7                              Fort Madison           708
+8                            Mount Pleasant           815
+9                             Newton-Medium           853
+10                           Newton-Minimum           175
+11                            Rockwell City           432
+12                    MPCF Minimum Live-Out            86
+```
 
 Some open source projects relying on Internet Archive API:
 
