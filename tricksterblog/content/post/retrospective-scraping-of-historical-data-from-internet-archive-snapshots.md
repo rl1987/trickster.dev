@@ -14,8 +14,7 @@ pages from Wayback Machine can be used to gather historical data for data scienc
 purposes. To look into Iowa inmate population trends, we will be scraping historical 
 snapshots of Iowa Department of Corrections [inmate statistics page](https://doc-search.iowa.gov/dailystatistics). 
 Data of interest is in "Current Count" and "Institution" columns of the table. 
-We will do data scraping, wrangling and visualisation in Python with open source
-libraries and tooling.
+We will do data scraping and wrangling in Python with Pandas dataframe library.
 
 To quickly view the available snapshots for this page we search it through 
 [Archive.org front page](https://archive.org). But there seems to be a little
@@ -194,6 +193,96 @@ Lastly, let us tweak names of some sub-entries:
 10                           Newton-Minimum           175
 11                            Rockwell City           432
 12                    MPCF Minimum Live-Out            86
+```
+
+By now we have prototyped finding and parsing page snapshots in Python REPL 
+environment. Let us put everything together into a Python script:
+
+```python
+#!/usr/bin/python3
+
+from urllib.parse import urlencode
+import time
+import sys
+
+import pandas as pd
+
+ORIG_URL = "https://doc.iowa.gov/daily-statistics"
+
+
+def get_snapshot_urls():
+    params = {"url": ORIG_URL, "output": "json", "filter": "statuscode:200"}
+
+    cdx_url = "http://web.archive.org/cdx/search/cdx" + "?" + urlencode(params)
+
+    print(cdx_url)
+
+    df = pd.read_json(cdx_url)
+
+    headers = df.iloc[0]
+    df = pd.DataFrame(df.values[1:], columns=headers)
+
+    df["snapshot_url"] = df["timestamp"].apply(
+        lambda ts: "https://web.archive.org/web/" + ts + "/https://doc.iowa.gov/"
+    )
+
+    return df["snapshot_url"].to_list()
+
+
+def scrape_stats_table(url):
+    dfs = pd.read_html(
+        "https://web.archive.org/web/20210303210751/https://doc.iowa.gov/daily-statistics"
+    )
+
+    print(url)
+
+    stats_df = dfs[1]
+    stats_df = stats_df[["Institution", "Current Count"]]
+    stats_df = stats_df[:-2]
+    stats_df.loc[
+        stats_df["Institution"] == "Forensic Psychiatric Hospital", "Institution"
+    ] = "Oakdale - Forensic Psychiatric Hospital"
+    stats_df.loc[stats_df["Institution"] == "Minimum", "Institution"] = "Newton-Minimum"
+    stats_df.loc[
+        stats_df["Institution"] == "Minimum Live-Out", "Institution"
+    ] = "Mitchellville - Minimum Live-Out"
+    stats_df["url"] = url
+
+    print(stats_df)
+
+    return stats_df
+
+
+def main():
+    snapshot_urls = get_snapshot_urls()
+
+    print("Found {} snapshots".format(len(snapshot_urls)))
+
+    result_dfs = []
+
+    for url in snapshot_urls:
+        try:
+            stats_df = scrape_stats_table(url)
+        except KeyboardInterrupt:
+            sys.exit(1)
+        except:
+            time.sleep(5)
+            try:
+                stats_df = scrape_stats_table(url)
+            except KeyboardInterrupt:
+                sys.exit(1)
+            except:
+                continue
+
+        result_dfs.append(stats_df)
+
+    result_df = pd.concat(result_dfs)
+    result_df.to_csv("iowa_doc.csv", index=False)
+
+
+if __name__ == "__main__":
+    main()
+
 ```
 
 Some open source projects relying on Internet Archive API:
