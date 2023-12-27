@@ -21,6 +21,8 @@ To quickly view the available snapshots for this page we search it through
 complication. Only two snapshots are available, which would not be sufficient 
 for our purposes.
 
+[Screenshot 1](/2023-12-26_14.35.17.png)
+
 Thus we must backtrack a little. Searching for the domain - `doc-search.iowa.gov` -
 on Wayback Machine gives us only 5 snapshots. It seems this domain is pointing
 to fairly new (sub)site that is primarily meant for looking up prisoners in
@@ -30,6 +32,9 @@ for this site reveals that until some time in 2023 it had a statistics page
 at following URL:
 
 * https://doc.iowa.gov/daily-statistics
+
+[Screenshot 2](/2023-12-26_14.39.23.png)
+[Screenshot 3](/2023-12-26_14.42.49.png)
 
 We are after data on all available snapshots of this page.
 
@@ -292,4 +297,3 @@ sources, including Internet Archive.
 * Bellingcat's [wayback-google-analytics](https://github.com/bellingcat/wayback-google-analytics)
 is OSINT tool to dig up Google Analytics identifiers for finding associations
 between websites.
-
