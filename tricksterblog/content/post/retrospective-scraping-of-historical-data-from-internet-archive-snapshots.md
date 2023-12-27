@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Retrospective scraping of historical data from Internet Archive snapshots"
 date = "2023-12-27"
-draft = true
 tags = ["scraping", "osint", "python"]
 +++
 
