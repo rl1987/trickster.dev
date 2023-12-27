@@ -235,9 +235,7 @@ def get_snapshot_urls():
 
 
 def scrape_stats_table(url):
-    dfs = pd.read_html(
-        "https://web.archive.org/web/20210303210751/https://doc.iowa.gov/daily-statistics"
-    )
+    dfs = pd.read_html(url)
 
     print(url)
 
@@ -288,6 +286,27 @@ def main():
 if __name__ == "__main__":
     main()
 
+```
+
+We don't store the timestamp directly in the scraped data as we can trivially
+recover it from the URL:
+
+```python
+from datetime import datetime
+
+import pandas as pd
+
+def convert_timestamp(timestamp):
+    return datetime(year=int(timestamp[0:4]), 
+                    month=int(timestamp[4:6]), 
+                    day=int(timestamp[6:8]), 
+                    hour=int(timestamp[8:10]), 
+                    minute=int(timestamp[10:12]), 
+                    second=int(timestamp[12:14]))
+
+df = pd.read_csv('iowa_doc.csv')
+df['timestamp'] = df['url'].apply(lambda url: url.split('/')[4])
+df['timestamp'] = df['timestamp'].apply(convert_timestamp)
 ```
 
 Some open source projects relying on Internet Archive API:
