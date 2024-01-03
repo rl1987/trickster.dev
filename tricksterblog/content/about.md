@@ -19,13 +19,3 @@ cypherpunk movement, etc.) we're here to provide a subversive take on seeking
 wealth and freedom in a world that is increasingly dominated by technopolitical 
 superpowers.
 
-If you like the content please consider using following affiliate links:
-
-* [Bright Data](https://get.brightdata.com/pa7d0cd) - world's largest proxy
-pool and web data platform.
-* [Bright Data SERP Crawler](https://get.brightdata.com/msjgbf) - API for 
-scraping search engine pages.
-* [Looking for a cheap domain name? Get it from Namecheap! Prices start at $3.98/year](https://www.jdoqocy.com/click-100969061-11429053)
-
-[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%201.svg)](https://www.digitalocean.com/?refcode=1ff2f82a3ad8&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
-
