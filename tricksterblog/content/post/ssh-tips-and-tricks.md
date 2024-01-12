@@ -6,7 +6,12 @@ draft = true
 tags = ["devops", "security", "automation"]
 +++
 
-WRITEME: intro
+SSH is well established protocol for securely accessing remote systems over the 
+network for administration and devops purposes. A widely deployed OpenSSH 
+software suite implements this protocol. But there is more to the SSH technology
+than reaching a remote shell over ssh(1) or copying files via scp(1)/sftp(1).
+We will go through some lesser known, somewhat advanced tricks and use cases
+that could be valuable in your daily work.
 
 WRITEME: SSH escape sequences
 
