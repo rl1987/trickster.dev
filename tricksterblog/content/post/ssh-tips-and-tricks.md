@@ -13,21 +13,42 @@ than reaching a remote shell over ssh(1) or copying files via scp(1)/sftp(1).
 We will go through some lesser known, somewhat advanced tricks and use cases
 that could be valuable in your daily work.
 
-WRITEME: SSH escape sequences
+SSH escape sequences
+--------------------
 
-WRITEME: run a command via ssh(1)
+WRITEME
 
-WRITEME: 2FA on SSH login
+Single command through SSH
+--------------------------
 
-WRITEME: SSH tunneling (`ssh -L`)
+Sometimes you want to run just a single OS shell command via SSH connection
+and get the output. That can be done with a standard SSH client by launching it
+with `-t` and passing your command as last argument:
 
-WRITEME: SSH connection as local SOCKS proxy
+```
+$ ssh -t root@167.172.24.25 "date -R"    
+Sun, 14 Jan 2024 16:52:37 +0000
+Connection to 167.172.24.25 closed.
+```
 
-WRITEME: SSH as poor man's VPN
+2FA on SSH login
+-----------------
 
-WRITEME: reach SSH server behind NAT via Tor Onion Service
+SSH tunneling with `-L`
+-----------------------
 
-WRITEME: mount FS subtree via sshfs
+SSH connection as local SOCKS proxy
+-----------------------------------
 
-WRITEME: use SSH programmatically with paramiko
+SSH-based Virtual Private Network
+---------------------------------
+
+Reaching SSH server behind nat via Tor Onion Service
+----------------------------------------------------
+
+Mounting directory subtree via sshfs
+------------------------------------
+
+Using SSH programmatically via paramiko
+---------------------------------------
 
