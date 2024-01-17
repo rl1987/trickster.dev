@@ -138,7 +138,7 @@ Do you want to enable rate-limiting? (y/n) y
 ```
 
 We were given the option to either scan the QR code rendered on the terminal in
-colored blocks or to Google chart feature to render it for us in the browser.
+colored blocks or to have it displayed in the browser.
 
 Once we do all of this, we will be asked both one time key and the password 
 when logging in via SSH:
@@ -152,8 +152,76 @@ $ ssh root@178.62.232.185
 SSH tunneling with `-L`
 -----------------------
 
+Sometimes you have some networked software running on remote system with listener
+socket being bound to localhost or otherwise restricted network interface. 
+
+One example is the situation in [Jupyter notebook VPS](https://marketplace.digitalocean.com/apps/jupyter-notebook).
+Once you instantiate the VPS image you can run notebook.sh script in the 
+home directory of `ubuntu` user to start the Jupyter lab webapp which will
+bind to localhost for security purposes. However, we are instructed to use
+`ssh -L` to access it through SSH tunnel:
+
+```
+$ bash notebook.sh start
+JupyterLab started.
+See the logs under ~/notebook.log.
+
+Use 'notebook list' to view the URL.
+
+Remember that you need to create a tunnel to access the notebook from your localhost.
+On another terminal, use ssh root@<ip> -L 8888:localhost:8888 to create the tunnel. Then you can access the notebook from your local browser.
+
+
+```
+
+Running the provided command on client-side shell gives another SSH session
+with the added benefit of Jupyter web app being available locally at port 8888.
+
+As another example, a Linux server running LAMP stack may allow HTTP and SSH 
+access on public network, but make MySQL listen for incoming connections on 
+127.0.0.1. That poses an inconvenience if we want to connect to the MySQL server 
+over the network. In cases like this, SSH tunneling - i.e. wrapping non-SSH 
+traffic in SSH connection can be quite useful. 
+
 SSH connection as local SOCKS proxy
 -----------------------------------
+
+SSH tunneling enables us to access a single network daemon that otherwise
+would not be reached. But what if we want to reach everything that can be
+reached from the server? In that case we can set up SSH connection as local
+SOCKS proxy with command like:
+
+```
+$ ssh -D 1080 root@64.23.163.194  
+```
+
+Here 1080 is the TCP port on local network interface we want to open as SOCKS
+proxy.
+
+By using curl, we can verify that it works as intended:
+
+```
+$ curl -s -x socks5://localhost:1080 https://lumtest.com/myip.json | jq
+{
+  "ip": "64.23.163.194",
+  "country": "US",
+  "asn": {
+    "asnum": 14061,
+    "org_name": "DIGITALOCEAN-ASN"
+  },
+  "geo": {
+    "city": "Santa Clara",
+    "region": "CA",
+    "region_name": "California",
+    "postal_code": "95054",
+    "latitude": 37.3931,
+    "longitude": -121.962,
+    "tz": "America/Los_Angeles",
+    "lum_city": "santaclara",
+    "lum_region": "ca"
+  }
+}
+```
 
 SSH-based Virtual Private Network
 ---------------------------------
