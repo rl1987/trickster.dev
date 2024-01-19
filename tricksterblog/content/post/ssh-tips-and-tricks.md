@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "SSH tips and tricks"
-date = "2024-01-15"
+date = "2024-01-30"
 draft = true
 tags = ["devops", "security", "automation"]
 +++
@@ -232,6 +232,26 @@ Reaching SSH server behind nat via Tor Onion Service
 Mounting directory subtree via sshfs
 ------------------------------------
 
-Using SSH programmatically via paramiko
----------------------------------------
+[SSHFS](https://github.com/libfuse/sshfs) is a program that mounts a remote
+file system subtree to local one over SFTP connection. It is part of FUSE 
+project that ships a framework for developing custom file systems.
 
+Using SSH programmatically via Paramiko/Fabric
+----------------------------------------------
+
+[Paramiko](https://www.paramiko.org/) is a Python module that implements
+SSH protocol. It provides a somewhat low level API for automating SSH tasks. 
+For example, connecting to remote SSH server and running a command can be done
+in few lines of code:
+
+```python
+
+```
+
+[Fabric](https://www.fabfile.org/) is Python module that wraps Paramiko to
+provide a more abstract, higher level API. Let us rewrite the above snippet
+to use Fabric:
+
+```python
+
+```
