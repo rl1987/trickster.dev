@@ -23,7 +23,7 @@ mode = "dark-mode"
 # Sidebar: about/bio
 [params.about]
 title = "Trickster Dev"
-description = "Code level discussion of web scraping, gray hat automation, growth hacking and bounty hunting\n\nAffiliate links:\n\n[Bright Data](https://get.brightdata.com/pa7d0cd)\n\n[Bright Data SERP Crawler](https://get.brightdata.com/msjgbf)\n\n[Looking for a cheap domain name? Get it from Namecheap! Prices start at $3.98/year](https://www.jdoqocy.com/click-100969061-11429053)\n\n[DigitalOcean - free $200 credit](https://m.do.co/c/1ff2f82a3ad8)"
+description = "Code level discussion of web scraping, gray hat automation, growth hacking and bounty hunting"
 
 
 #logo = "images/rice.svg"
