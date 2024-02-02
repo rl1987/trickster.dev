@@ -226,8 +226,15 @@ $ curl -s -x socks5://localhost:1080 https://lumtest.com/myip.json | jq
 SSH-based Virtual Private Network
 ---------------------------------
 
-Reaching SSH server behind nat via Tor Onion Service
+Reaching SSH server behind NAT via Tor Onion Service
 ----------------------------------------------------
+
+Tor is a well-known distributed system for anonymous communications that allows
+for a convenient secondary use case: NAT traversal via Onion Services. Typically 
+this is done to expose a website or web app to be reachable via Tor Browser, 
+but since Tor works at TCP connection level nothing is stopping us from setting 
+up Onion Service for some TCP-based application other than HTTP - i.e. we
+can also use it with SSH.
 
 Mounting directory subtree via sshfs
 ------------------------------------
