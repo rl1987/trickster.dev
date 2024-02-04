@@ -155,7 +155,8 @@ SSH tunneling with `-L`
 Sometimes you have some networked software running on remote system with listener
 socket being bound to localhost or otherwise restricted network interface. 
 
-One example is the situation in [Jupyter notebook VPS](https://marketplace.digitalocean.com/apps/jupyter-notebook).
+One example is the situation in 
+[Jupyter notebook VPS](https://marketplace.digitalocean.com/apps/jupyter-notebook).
 Once you instantiate the VPS image you can run notebook.sh script in the 
 home directory of `ubuntu` user to start the Jupyter lab webapp which will
 bind to localhost for security purposes. However, we are instructed to use
@@ -223,8 +224,13 @@ $ curl -s -x socks5://localhost:1080 https://lumtest.com/myip.json | jq
 }
 ```
 
-SSH-based Virtual Private Network
----------------------------------
+This can also done via the "secret" SSH command line (`~C`) during an in-progress
+SSH session:
+
+```
+ssh> -D 1080
+Forwarding port.
+```
 
 SSH server behind NAT via Tor Onion Service
 -------------------------------------------
@@ -334,6 +340,17 @@ the directory we have created:
 ```
 $ umount /mnt/droplet 
 ```
+
+SSHFS is mostly supported on Linux. For other platforms there are some alternative
+solutions:
+
+* [macFUSE](https://osxfuse.github.io/) project ships it's own version of
+sshfs for macOS.
+* [sshfs-win](https://github.com/winfsp/sshfs-win) is somewhat limit port of 
+sshfs for Windows that relies on [WinFsp](https://github.com/winfsp/winfsp) -
+an equivalent of FUSE for Windows.
+
+Your mileage may vary.
 
 Using SSH programmatically via Paramiko/Fabric
 ----------------------------------------------
