@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "SSH tips and tricks"
 date = "2024-02-04"
-draft = true
 tags = ["devops", "security", "automation"]
 +++
 
