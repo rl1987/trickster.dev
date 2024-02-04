@@ -140,6 +140,8 @@ Do you want to enable rate-limiting? (y/n) y
 We were given the option to either scan the QR code rendered on the terminal in
 colored blocks or to have it displayed in the browser.
 
+[Screenshot 1](/2024-01-17_17.34.40.png)
+
 Once we do all of this, we will be asked both one time key and the password 
 when logging in via SSH:
 
@@ -177,6 +179,8 @@ On another terminal, use ssh root@<ip> -L 8888:localhost:8888 to create the tunn
 
 Running the provided command on client-side shell gives another SSH session
 with the added benefit of Jupyter web app being available locally at port 8888.
+
+[Screenshot 2](/2024-01-17_18.40.09.png)
 
 As another example, a Linux server running LAMP stack may allow HTTP and SSH 
 access on public network, but make MySQL listen for incoming connections on 
