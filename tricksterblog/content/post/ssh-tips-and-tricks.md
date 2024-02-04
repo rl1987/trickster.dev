@@ -307,6 +307,34 @@ Mounting directory subtree via sshfs
 file system subtree to local one over SFTP connection. It is part of FUSE 
 project that ships a framework for developing custom file systems.
 
+The following is assuming you are using Debian 12 on client side of the connection.
+
+Install sshfs via APT:
+
+```
+# apt-get update
+# apt-get install -y sshfs
+```
+
+On client side create the new directory to be used via sshfs:
+
+```
+$ mkdir /mnt/droplet
+```
+
+To mount a remote FS subtree via sshfs now we can run a command like:
+
+```
+$ sshfs root@209.97.131.201:/etc /mnt/droplet
+```
+
+When we no longer need access to remove directory we can use umount(1) to unmount
+the directory we have created:
+
+```
+$ umount /mnt/droplet 
+```
+
 Using SSH programmatically via Paramiko/Fabric
 ----------------------------------------------
 
@@ -316,13 +344,39 @@ For example, connecting to remote SSH server and running a command can be done
 in few lines of code:
 
 ```python
+#!/usr/bin/python3
 
+import sys
+
+import paramiko
+
+
+def main():
+    if len(sys.argv) != 5:
+        print("{} <hostname> <username> <password> <command>".format(sys.argv[0]))
+        return
+
+    hostname = sys.argv[1]
+    username = sys.argv[2]
+    password = sys.argv[3]
+    command = sys.argv[4]
+
+    client = paramiko.client.SSHClient()
+
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(hostname, username=username, password=password)
+
+    _, stdout, _ = client.exec_command(command)
+
+    output = stdout.read().decode("utf-8")
+
+    print(output)
+
+
+if __name__ == "__main__":
+    main()
 ```
 
 [Fabric](https://www.fabfile.org/) is Python module that wraps Paramiko to
-provide a more abstract, higher level API. Let us rewrite the above snippet
-to use Fabric:
+provide a more abstract, higher level API. 
 
-```python
-
-```
