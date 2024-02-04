@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "SSH tips and tricks"
-date = "2024-01-30"
+date = "2024-02-04"
 draft = true
 tags = ["devops", "security", "automation"]
 +++
@@ -226,8 +226,8 @@ $ curl -s -x socks5://localhost:1080 https://lumtest.com/myip.json | jq
 SSH-based Virtual Private Network
 ---------------------------------
 
-Reaching SSH server behind NAT via Tor Onion Service
-----------------------------------------------------
+SSH server behind NAT via Tor Onion Service
+-------------------------------------------
 
 Tor is a well-known distributed system for anonymous communications that allows
 for a convenient secondary use case: NAT traversal via Onion Services. Typically 
@@ -235,6 +235,70 @@ this is done to expose a website or web app to be reachable via Tor Browser,
 but since Tor works at TCP connection level nothing is stopping us from setting 
 up Onion Service for some TCP-based application other than HTTP - i.e. we
 can also use it with SSH.
+
+For example, on Debian 12 server we could do as follows.
+
+We start by installing Tor:
+
+```
+# apt-get update
+# apt-get install -y tor
+```
+
+Let us create a directory somewhere in file system to store the cryptographic
+keys and metadata:
+
+```
+# mkdir /var/onionservice
+```
+
+Limit the access to this directory so that only owner can fully access it:
+
+```
+# chmod 700 /var/onionservice/
+```
+
+Edit your torrc file (on Debian it's available at /etc/tor/torrc) to add the
+following directives:
+
+```
+HiddenServiceDir /var/onionservice
+HiddenServicePort 22 127.0.0.1:22
+```
+
+Restart or launch the tor daemon (e.g `systemctl restart tor`). If all is good
+the Onion Service directory will have some files, including the one named 
+hostname:
+
+```
+# cat /var/onionservice/hostname 
+iyqklkzlvieyehybr44yqyfqavcvhepdltumngxfje7x36ewx2li3hyd.onion
+```
+
+Now we need to tunnel the SSH connection over Tor at client side. This can be 
+done via program named [torsocks](https://github.com/dgoulet/torsocks):
+
+```
+$ torsocks ssh root@iyqklkzlvieyehybr44yqyfqavcvhepdltumngxfje7x36ewx2li3hyd.onion
+```
+
+The caveat of this approach it that the extra latency Tor introduces can make
+the shell work very laggy and slow. This can be particulary bad for touch typers
+who rely on visual feedback to fix typos as they happen. A possible improvement 
+is making your Onion Service use only one hop into Tor network by adding the
+following directive into torrc:
+
+```
+HiddenServiceNonAnonymousMode 1
+HiddenServiceSingleHopMode 1
+```
+
+However it must be noted that this essentially removes the server hiding aspect
+(which is fine if NAT traversal all you need). This is also incompatible with
+SOCKS interface being open on Tor instance at your server.
+
+Torsocks is available via package managers on some Linux/Unix systems (e.g. 
+Debian Linux, macOS).
 
 Mounting directory subtree via sshfs
 ------------------------------------
