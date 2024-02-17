@@ -51,7 +51,7 @@ So the cookies that are necessary seem to be:
 
 1. `CookieConsent`
 2. `__cf_bm`
-3. `__cf_clearance`
+3. `cf_clearance`
 
 The latter two are directly related to Cloudflare's antibot products and are 
 of prime importance to our objective.
