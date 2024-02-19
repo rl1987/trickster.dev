@@ -13,8 +13,8 @@ Clutch is fighting scraping attempts by using Cloudflare antibot service -
 naively fetching a page from this site gives us a 403 response with JS challenge.
 So what do we do?
 
-Some would say to use anti-detect browser as foundation for the scraper, but let
-us not rush to that. Instead, let's work out what makes or breaks a request 
+Some would suggest using anti-detect browser as foundation for the scraper, but 
+let us not rush to that. Instead, let's work out what makes or breaks a request 
 here. Open the site in Chrome, accept the cookies and let it pass the JS challenge. 
 Now, by using "Copy as cURL" feature in Chrome DevTools we can get something like 
 the following curl(1) command:
@@ -55,5 +55,13 @@ So the cookies that are necessary seem to be:
 
 The latter two are directly related to Cloudflare's antibot products and are 
 of prime importance to our objective.
+
+We need to get these cookies somehow. Let us try using Bright Data's
+[Scraping Browser](https://help.brightdata.com/hc/en-us/sections/13350440041873-Scraping-Browser) - 
+a programmatically controllable web browser hosted for us in blocking-resistant
+setup. Despite being hosted in the cloud it can be integrated with the usual
+suspects of browser automation - Selenium, Playwright, Puppeteer. But we don't
+need to implement the entire scraping flow with browser automation - we merely
+need to use Playwright/Selenium/Puppeteer just enough to get the CF cookies.
 
 
