@@ -1,14 +1,16 @@
 +++
 author = "rl1987"
 title = "Scraping Clutch for B2B company data"
-date = "2024-02-29"
+date = "2024-03-07"
 draft = true
 tags = ["python", "web-scraping"]
 +++
 
 [Clutch.co](https://clutch.co/) is a web portal serving as B2B service company
 directory. One may want to scrape it to make a list of companies within a
-service niche to target them with some form of outreach. But the thing is, 
+service niche to target them with some form of outreach. Company name, website 
+URL, phone number and maybe coordinates from the embedded map widget could
+be fields of the dataset we would create by scraping this site. But the thing is, 
 Clutch is fighting scraping attempts by using Cloudflare antibot service - 
 naively fetching a page from this site gives us a 403 response with JS challenge.
 So what do we do?
@@ -62,6 +64,12 @@ a programmatically controllable web browser hosted for us in blocking-resistant
 setup. Despite being hosted in the cloud it can be integrated with the usual
 suspects of browser automation - Selenium, Playwright, Puppeteer. But we don't
 need to implement the entire scraping flow with browser automation - we merely
-need to use Playwright/Selenium/Puppeteer just enough to get the CF cookies.
+have to use it just enough to get the CF cookies.
 
+Let us rework the sample code from [documentation page](https://docs.brightdata.com/scraping-automation/scraping-browser/configuration)
+to suit our objective:
+
+```python
+# TODO
+```
 
