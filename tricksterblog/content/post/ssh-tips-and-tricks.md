@@ -157,11 +157,11 @@ Sometimes you have some networked software running on remote system with listene
 socket being bound to localhost or otherwise restricted network interface. 
 
 One example is the situation in 
-[Jupyter notebook VPS](https://marketplace.digitalocean.com/apps/jupyter-notebook).
-Once you instantiate the VPS image you can run notebook.sh script in the 
-home directory of `ubuntu` user to start the Jupyter lab webapp which will
-bind to localhost for security purposes. However, we are instructed to use
-`ssh -L` to access it through SSH tunnel:
+[Jupyter notebook VPS](https://marketplace.digitalocean.com/apps/jupyter-notebook)
+on Digital Ocean. Once you instantiate the VPS image you can run notebook.sh
+ script in the home directory of `ubuntu` user to start the Jupyter lab webapp 
+which will bind to localhost for security purposes. However, we are instructed 
+to use `ssh -L` to access it through SSH tunnel:
 
 ```
 $ bash notebook.sh start
@@ -303,7 +303,7 @@ HiddenServiceSingleHopMode 1
 ```
 
 However it must be noted that this essentially removes the server hiding aspect
-(which is fine if NAT traversal all you need). This is also incompatible with
+(which is fine if NAT traversal is all you need). This is also incompatible with
 SOCKS interface being open on Tor instance at your server.
 
 Torsocks is available via package managers on some Linux/Unix systems (e.g. 
