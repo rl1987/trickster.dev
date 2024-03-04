@@ -73,3 +73,12 @@ to suit our objective:
 # TODO
 ```
 
+Once we got the cookies, we can proceed with scraping the data. There are three
+levels to the scraping process we are going to implement:
+
+1. Grabbing a list of business categories.
+2. Traversing this list will give us bunch of links for company pages.
+3. Scraping each company page will gives us an item - a unit of data that is
+to be saved into CSV file.
+
+
