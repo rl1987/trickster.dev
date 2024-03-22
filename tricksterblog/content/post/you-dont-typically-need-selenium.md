@@ -45,8 +45,8 @@ to use "Copy as curl" feature in Network tab of DevTools. This copies a curl(1) 
 paste into small shell script or into tool like [curlconverter](https://curlconverter.com) to convert
 it to code snippet. Next, you may want to experiment with removing various cookies, headers and parameters
 to establish which components of request are necessary to have it successfully handled by the server.
-Do this kind of analysis and experimentation across the entire flow you are interested and you will
-be able to reproduce it in you own code without involving JS execution. 
+Do this kind of analysis and experimentation across the entire flow you are interested in and you will
+be able to reproduce it in your own code without involving JS execution. 
 
 Does this take some time and effort? Well, of course it does. However, tediously fighting crash bugs
 in your Selenium-based code that result from race conditions also takes time and effort. I would
