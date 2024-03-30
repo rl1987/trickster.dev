@@ -1,9 +1,9 @@
 +++
 author = "rl1987"
 title = "Scraping Clutch for B2B company data"
-date = "2024-03-21"
+date = "2024-04-04"
 draft = true
-tags = ["python", "web-scraping"]
+tags = ["python", "web-scraping", "b2b"]
 +++
 
 [Clutch.co](https://clutch.co/) is a web portal serving as B2B service company
