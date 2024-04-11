@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Scraping Clutch for B2B company data"
-date = "2024-04-04"
+date = "2024-04-12"
 draft = true
 tags = ["python", "web-scraping", "b2b"]
 +++
@@ -152,8 +152,200 @@ Once we got the cookies, we can proceed with scraping the data. There are three
 levels to the scraping process we are going to implement:
 
 1. Grabbing a list of business categories.
-2. Traversing this list will give us bunch of links for company pages.
+2. Traversing this list will give us bunch of links for company pages (each 
+category URL points to a paged list of companies within a category - we have
+to account for some overlap between categories).
 3. Scraping each company page will gives us an item - a unit of data that is
 to be saved into CSV file.
 
+Since this involves cookies that we have to reuse between requests we want to
+set up a requests session to use for scraping and recreate it when needed.
+However there is a little complication - in this case TLS fingerprint is
+also being checked, thus we need to use TLS client library to reproduce a 
+fingerprint that looks realistic - like the one coming from real browser. We thus
+use Playwright together with open source TLS client (`tls-client` from PIP) to 
+prepare an equivalent of `requests.Session` object:
+
+```python
+import tls_client
+from playwright.sync_api import sync_playwright, Playwright
+
+USERNAME = "[REDACTED]"
+PASSWORD = "[REDACTED]"
+PROXY_URL = "[REDACTED]"
+
+AUTH = USERNAME + ":" + PASSWORD
+SBR_WS_CDP = f"wss://{AUTH}@brd.superproxy.io:9222"
+
+
+def get_cookies(page_url):
+    cookies = None
+
+    with sync_playwright() as pw:
+        browser = pw.chromium.connect_over_cdp(SBR_WS_CDP)
+        try:
+            page = browser.new_page()
+            page.goto(page_url, timeout=1 * 60 * 1000)
+            cookies = page.context.cookies()
+            print("Got cookies:", cookies)
+        except Exception as e:
+            print(e)
+        finally:
+            browser.close()
+
+    return cookies
+
+
+def create_session(page_url):
+    session = tls_client.Session(
+        client_identifier="chrome120", random_tls_extension_order=True
+    )
+
+    session.headers = {
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+        "cache-control": "no-cache",
+        "pragma": "no-cache",
+        "sec-ch-ua": '"Google Chrome";v="123", "Not:A-Brand";v="8", "Chromium";v="123"',
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": '"macOS"',
+        "sec-fetch-dest": "document",
+        "sec-fetch-mode": "navigate",
+        "sec-fetch-site": "none",
+        "sec-fetch-user": "?1",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.234 Safari/537.36",
+    }
+
+    cookies = get_cookies(page_url)
+
+    for cookie in cookies:
+        session.cookies.set(
+            cookie.get("name"), cookie.get("value"), domain=cookie.get("domain")
+        )
+
+    session.proxies = {"http": PROXY_URL, "https": PROXY_URL}
+
+    return session
+```
+
+When creating session we also set browser-like HTTP headers and integrate a proxy
+service - in this case DC proxies are sufficient as long as we have the proper
+cookies. Nobody seems to care that CF challenge was solved from different IP than
+the requests we generate later (up to a point - sometimes we need to redo the
+session creation step to proceed with scraping).
+
+I elected to break down the scraping process into two scripts. The first one
+sources list of companies by first scraping [Sitemap page](https://clutch.co/sitemap), 
+then traversing the company lists to make a deduplicated list of profile URLs.
+Not much to see there if you have read more of the posts on this blog. The second
+script goes through profile URLs and scrapes some information from profile pages:
+
+```python
+#!/usr/bin/python3
+
+import csv
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from pprint import pprint
+from urllib.parse import unquote
+import time
+import threading
+
+from lxml import html
+
+from tls_session import create_session, safe_get
+
+sessions = dict()
+
+def prepare_thread_session():
+    sessions[threading.current_thread()] = create_session("https://clutch.co")
+
+def scrape_company_page(company_url):
+    session = sessions[threading.current_thread()]
+    resp = safe_get(session, company_url)
+    if resp is None or resp.status_code == 403:
+        print("Retrying: {}".format(company_url))
+        prepare_thread_session()
+        session = sessions[threading.current_thread()]
+        resp = safe_get(session, company_url)
+
+    if resp is None:
+        return None
+
+    print(resp.url, resp.status_code)
+
+    if resp.status_code != 200:
+        return None
+
+    tree = html.fromstring(resp.text)
+
+    company_name = tree.xpath("//h1/a/text()")
+    if len(company_name) == 1:
+        company_name = company_name[0].strip()
+    else:
+        company_name = None
+
+    # ...
+
+    row = {
+        "company_name": company_name,
+        # ...
+    }
+
+    return row
+
+FIELDNAMES = [
+    "company_name",
+    # ...
+]
+
+
+def main():
+    company_urls = []
+
+    in_f = open("lists.csv", "r")
+    
+    csv_reader = csv.DictReader(in_f)
+
+    for row in csv_reader:
+        company_urls.append(row['company_url'])
+
+    in_f.close()
+    
+    out_f = open("pages.csv", "w+", encoding="utf-8")
+    
+    csv_writer = csv.DictWriter(out_f, fieldnames=FIELDNAMES, lineterminator='\n')
+    csv_writer.writeheader()
+
+    with ThreadPoolExecutor(16, initializer=prepare_thread_session) as executor:
+        for row in executor.map(scrape_company_page, company_urls):
+            if row is None:
+                continue
+            pprint(row)
+            csv_writer.writerow(row)
+
+    out_f.close()
+
+if __name__ == "__main__":
+    main()
+
+```
+
+Some things to note here:
+
+* `ThreadPoolExecutor` object from `concurrent.futures` was used to create and 
+run a thread pool to make the scraping concurrent.
+* For each thread we need a session that we initially create in thread initializer
+function and also recreate on as-needed basis. The `sessions` dictionary is keyed
+by the thread which allows each thread to unambiguously access the session it
+created.
+* Sometimes HTTPS requests fail with some exception (e.g. connection times out).
+To prevent this from crashing the entire script we use `safe_get()` helper 
+function. 
+
+By using rather simple code I was able to scrape over 307 000 rows of company 
+data with pretty trivial opex and not much development effort. The scraping
+can be done overnight in a small VPS despite the first script being 
+single-threaded and the second one using only 16 threads.
 
