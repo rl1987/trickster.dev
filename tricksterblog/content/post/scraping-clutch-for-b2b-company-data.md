@@ -9,7 +9,7 @@ tags = ["python", "web-scraping", "b2b"]
 [Clutch.co](https://clutch.co/) is a web portal serving as B2B service company
 directory. One may want to scrape it to make a list of companies within a
 service niche to target them with some form of outreach. Company name, website 
-URL, phone number and maybe coordinates from the embedded map widget could
+URL, phone number, hourly rate, project size, social media URLs would
 be fields of the dataset we would create by scraping this site. But the thing is, 
 Clutch is fighting scraping attempts by using Cloudflare antibot service - 
 naively fetching a page from this site gives us a 403 response with JS challenge.
@@ -43,11 +43,11 @@ curl 'https://clutch.co/profile/testmatick' \
 
 Running this command in the shell does indeed give us a proper page, so it
 seems neither TLS nor HTTP/2 fingerprinting is used. We see some browser-specific
-headers here and we see some cookies being used. To narrow down what exactly is 
-needed, we can remove some headers and relaunch the request - we discover that
-only cookies and `user-agent` header is necessary. Now we can remove cookies one
-by one and repeat the same kind of experiment. We find that both of `exp_` 
-cookies can be removed without triggering the antibot.
+headers here and we see some cookies being used (at least not to block cURL). 
+To narrow down what exactly is needed, we can remove some headers and relaunch 
+the request - we discover that only cookies and `user-agent` header is necessary. 
+Now we can remove cookies one by one and repeat the same kind of experiment. 
+We find that both of `exp_` cookies can be removed without triggering the antibot.
 
 So the cookies that are necessary seem to be:
 
@@ -66,7 +66,9 @@ suspects of browser automation - Selenium, Playwright, Puppeteer. But we don't
 need to implement the entire scraping flow with browser automation - we merely
 have to use it just enough to get the CF cookies.
 
-Let us rework the sample code from [documentation page](https://docs.brightdata.com/scraping-automation/scraping-browser/configuration)
+Assuming we have Scraping Browser configured on Bright Data customer UI let us 
+rework the sample code from 
+[documentation page](https://docs.brightdata.com/scraping-automation/scraping-browser/configuration)
 to suit our objective:
 
 ```python
@@ -155,15 +157,16 @@ levels to the scraping process we are going to implement:
 2. Traversing this list will give us bunch of links for company pages (each 
 category URL points to a paged list of companies within a category - we have
 to account for some overlap between categories).
-3. Scraping each company page will gives us an item - a unit of data that is
+3. Scraping each company page will give us an item - a unit of data that is
 to be saved into CSV file.
 
 Since this involves cookies that we have to reuse between requests we want to
 set up a requests session to use for scraping and recreate it when needed.
-However there is a little complication - in this case TLS fingerprint is
-also being checked, thus we need to use TLS client library to reproduce a 
-fingerprint that looks realistic - like the one coming from real browser. We thus
-use Playwright together with open source TLS client (`tls-client` from PIP) to 
+However there is a little complication - it turned out that TLS fingerprint is
+actually being checked, thus we need to use TLS client library to reproduce a 
+fingerprint that looks realistic - like the one coming from real browser, not
+from Python requests library (we got lucky with curl earlier). We thus use 
+Playwright together with open source TLS client (`tls-client` from PIP) to 
 prepare an equivalent of `requests.Session` object:
 
 ```python
@@ -349,3 +352,6 @@ data with pretty trivial opex and not much development effort. The scraping
 can be done overnight in a small VPS despite the first script being 
 single-threaded and the second one using only 16 threads.
 
+Scraped data can be further enriched via automated Google dorking or enrichment
+APIs to build contact lists for lead generation. One can also do some some 
+additional scraping to extract company emails from their websites.
