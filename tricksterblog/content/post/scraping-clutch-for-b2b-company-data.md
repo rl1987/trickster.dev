@@ -2,7 +2,6 @@
 author = "rl1987"
 title = "Scraping Clutch for B2B company data"
 date = "2024-04-12"
-draft = true
 tags = ["python", "web-scraping", "b2b"]
 +++
 
