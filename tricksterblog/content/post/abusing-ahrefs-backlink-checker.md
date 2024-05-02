@@ -37,7 +37,7 @@ Anti-captcha API.
 
 [Screenshot 1](/2023-06-26_14.50.16.png)
 
-Once the site gets a captcha token from Cloudflare it launches a two HTTP POST
+Once the site gets a captcha token from Cloudflare it launches two HTTP POST
 requests to the API. We extract both of them as curl snippets to be converted
 into Python code later.
 
