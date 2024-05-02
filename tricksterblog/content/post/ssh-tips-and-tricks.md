@@ -349,7 +349,7 @@ solutions:
 
 * [macFUSE](https://osxfuse.github.io/) project ships it's own version of
 sshfs for macOS.
-* [sshfs-win](https://github.com/winfsp/sshfs-win) is somewhat limit port of 
+* [sshfs-win](https://github.com/winfsp/sshfs-win) is somewhat limited port of 
 sshfs for Windows that relies on [WinFsp](https://github.com/winfsp/winfsp) -
 an equivalent of FUSE for Windows.
 
