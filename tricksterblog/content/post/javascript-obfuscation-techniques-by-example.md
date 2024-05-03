@@ -151,7 +151,7 @@ defined and called in a single statement. This function has two statements:
 If we read the code of function `a()` we can see that the second parameter is ignored and 
 that the only code path it can possibly take leads to `console.log()` statement with our 
 message. Around that there's quite a bit of code that can never be executed - some functions
-nested deep in a `switch` statement and also `try/catch` without any expections being possible.
+nested deep in a `switch` statement and also `try/catch` without any exceptions being possible.
 Furthemore, it declares couple of variables in the beginning that will never be used because
 the code will never take the paths where they are being accessed after being declared.
 
