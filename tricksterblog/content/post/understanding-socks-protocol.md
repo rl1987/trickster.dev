@@ -49,7 +49,7 @@ send a version ID/method selection message with the following wire format:
 
 There are two auth methods that are of interest for us: no auth (0x00) and 
 username/password auth (0x02). There's also GSSAPI being technically required, 
-but let's no go there now.
+but let's not go there now.
 
 So the following are valid examples of this message:
 
@@ -84,7 +84,7 @@ format:
 5. `PASSWD` - password.
 
 Upon receipt of this message, server checks the credentials and responds with
-this kind of response:
+this kind of response (fields are 1 byte each): 
 
 1. `VER` - must be 1 again.
 2. `STATUS` - 0 iff auth succeeded, some other value otherwise.
@@ -92,5 +92,70 @@ this kind of response:
 Server closes the connection if client does not provide credentials that check
 out.
 
+Now we are ready to the real deal - establishing a connection to the remote
+via proxy server. The client sends a request of the following wire format:
 
+1. `VER` (1 octet) - protocol version (5).
+2. `CMD` (1 octet) - command to the server (0x01 if we want to proxy a TCP
+connection).
+3. `RSV` (1 octet) - reserved, must be 0x00.
+4. `ATYP` - address type:
+   * 0x01 - IPv4
+   * 0x03 - DNS hostname.
+   * 0x04 - IPv6
+5. `DST.ADDR` - destination address (in NBO); size depends on `ATYP`.
+6. `DST.PORT` (2 octets) - destination port (in NBO).
 
+The server will attempt to service the request. In typical use case `CMD` will
+be 0x01 and that will be a CONNECT request asking the proxy to establish TCP
+connection to remote host and bridge (splice) the TCP streams. 
+
+When SOCKS server succeeds (or fails) to handle the request it will give one
+last response:
+
+1. `VER` - 0x05.
+2. `REP` - reply field; 0x00 on success, error code on failure.
+3. `RSV` - reserved, must be 0x00.
+4. `ATYP` - address type.
+5. `BND.ADDR` - address the server is bound to (e.g. exit IP of outbound 
+connection).
+6. `BND.PORT` - port of outbound connection.
+
+If CONNECT request succeeded the client can now use the resulting two-legged 
+connection as if it was a regular TCP connection - for all the remote server
+knows it just got a fresh connection from a client and is ready to talk TLS or
+some other protocol that is based on TCP transport. Furthermore, if remote
+server is another SOCKS server it is possible to do a new SOCKS handshake for the
+purpose of proxy chaining - extending the connection via one more proxy.
+
+Besides the outbound TCP connection support, there are couple more slightly 
+esoteric features SOCKS protocol has. One is BIND command (0x02) that lets
+the client use SOCKS server for a secondary incoming connection. In that case
+`BND.ADDR` and `BND.PORT` fields in the reply tell the client where in the 
+network the port has been opened.
+
+It is meant to be used with legacy FTP servers that work in active mode by 
+establishing the second connection to transfer contents (files, directory 
+listings) while leaving the original connection user originated available for 
+new commands. Since the RFC requires the initial primary connection to be 
+present for the lifetime of secondary connection this feature is not very useful
+for anything else.
+
+Second interesting, but not very used SOCKS feature is UDP support. If a client
+sends UDP ASSOCIATE command (`CMD` = 0x03) the server may bind UDP port and setup
+relaying of UDP datagrams. Since there is no such thing as connection at UDP level
+and because it is desirable to retain the original port numbers in UDP datagrams
+they are encapsulated in a wrapper message (defined in Section 7 of 
+RFC 1928) when transferred between proxy and the client. 
+
+Software projects supporting (subset of) SOCKS protocol:
+
+* [Tor](https://www.torproject.org/) - overlay network for anonymous 
+communications.
+* [OpenSSH](https://www.openssh.com/) - SOCKS can be used over SSH tunnel. See
+my previous post on SSH tips and tricks.
+* [Curl](https://curl.se/) - see `--socks5`, `--proxy`, `--socks5-basic` CLI
+options.
+* Python requests module if [pysocks](https://github.com/Anorov/PySocks) is 
+installed.
+* Mitmproxy can be used in SOCKS5 mode (e.g. `mitmdump --mode socks5`).
