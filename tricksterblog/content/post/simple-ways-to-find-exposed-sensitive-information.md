@@ -55,6 +55,43 @@ security implications. Furthermore, service-based businesses should take care
 not to expose their lead list spreadsheet on the public web as they can
 potentially be found by some growth hacker working for the competition.
 
+Another way to look for more technical sensitive data exposures is to search on
+Github. 
+
+For example, the following query (Github dork) looks for instances of Git 
+credentials file being accidentally commited to public repos:
+
+```
+path:**/.git-credentials
+```
+
+We can also look for API keys to paid or private services. Github search query
+can be derived from sample code related to the API. Let me give you a real
+example. Google maps iOS SDK sample code repo contains the follow code
+in [MapsAndPlacesDemo/MapsAndPlacesDemo/ApiKeys.swift](https://github.com/googlemaps-samples/maps-sdk-for-ios-samples/blob/main/MapsAndPlacesDemo/MapsAndPlacesDemo/ApiKeys.swift)
+file: 
+
+```swift
+/// API keys needed for this project
+public enum ApiKeys {
+    #error("Register for API keys and enter them below; then, delete this line")
+    static let mapsAPI = ""
+    static let placesAPI = ""
+}
+```
+
+Now there is a chance that some people trying out the GMaps iOS SDK filled in
+the API keys and commited the code to public repository. Indeed, the following
+Github dork gives us what seem to be some real API keys to Places API:
+
+```
+"static let placesAPI"
+```
+
+However, it must be noted that Github has [secret scanning automation](https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning)
+running to warn users about accidentally publishing API keys for a growing list
+of partner services, which makes this trick less viable as time goes on.
+
 WRITEME: code-level searches on Github, PublicWWW, etc.
 
 WRITEME: open S3 buckets
