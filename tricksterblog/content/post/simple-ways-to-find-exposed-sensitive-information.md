@@ -90,9 +90,26 @@ Github dork gives us what seem to be some real API keys to Places API:
 
 However, it must be noted that Github has [secret scanning automation](https://docs.github.com/en/code-security/secret-scanning/about-secret-scanning)
 running to warn users about accidentally publishing API keys for a growing list
-of partner services, which makes this trick less viable as time goes on.
+of partner services (and revoke leaked ones), which makes this trick less 
+viable as time goes on. 
 
-WRITEME: code-level searches on Github, PublicWWW, etc.
+But what if we want to find API keys and other sensitive pieces of information
+on websites running in production? In this case [PublicWWW](https://publicwww.com/) - 
+a code-level search engine - can be helpful. To look for some API keys hardcoded
+into client-side JS snippets we can run queries like:
+
+```
+"api_key" depth:all
+"apiKey" depth:all
+```
+
+Again, not everything you will find like this is going to be sensitive data.
+Some API keys are not meant to be kept secret.
+
+Like with Google, we can use `site:` operator to limit the results to given 
+domain. However, PublicWWW results are limited to users without paid account
+and one must pay up to get the full results. Paying users can also search for
+stuff via API.
 
 WRITEME: open S3 buckets
 
