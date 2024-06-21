@@ -1,8 +1,7 @@
 +++
 author = "rl1987"
 title = "Simple ways to find exposed sensitive information"
-date = "2024-05-31"
-draft = true
+date = "2024-06-21"
 tags = ["scraping", "osint", "security"]
 +++
 
@@ -126,8 +125,8 @@ API key lead to exposure of internal system statistics.
 
 Like with Google, we can use `site:` operator to limit the results to given 
 domain. However, PublicWWW results are limited to users without paid account
-and one must pay up to get the full results. Paying users can also search for
-stuff via API.
+and one must pay up to get the full results. Users with paid plan can also 
+search for stuff via API.
 
 Some sites heavily reliant on client side JavaScript may use preloaded state - a
 JSON document or JavaScript object with some initial data to be shown on the 
@@ -158,5 +157,5 @@ talks about this:
 * [DEF CON 31 Packet Hacking Village - Death by 1000 Likes - Will Kay](https://media.defcon.org/DEF%20CON%2031/DEF%20CON%2031%20villages/DEF%20CON%2031%20-%20WoS%20-%20Death%20by%201000%20Likes%20-%20How%20Much%20Do%20You%20Really%20Leak%20in%20Social%20Media%20-%20Will%20Kay.mp4)
 
 Remember: once you tell something to the world you no longer control that 
-information. Loose lips sink ships, says the ancient wisdom.
+information. "Loose lips sink ships" says the ancient wisdom.
 
