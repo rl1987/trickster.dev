@@ -58,7 +58,7 @@ Real examples of sensitive, private information ending up findable via Google
 dorking:
 
 * H1 report [644358](https://hackerone.com/reports/644358) - PDF files with 
-SSNs and family data related US military personnel.
+SSNs and family data related to US military personnel.
 * H1 report [672629](https://hackerone.com/reports/672629) - searching for
 `site:*.mil ext:ppt intext:password` would lead to US DoD training materials
 with usernames/password being available.
