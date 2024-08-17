@@ -22,4 +22,14 @@ WRITEME: `statistics`
 
 WRITEME: `zipapp`
 
-WRITEME: `webbrowser`
+You may sometimes want to open web browser from your Python code. Since Python
+is portable and multiplatform language this may be bit of hassle due to 
+differences between platforms and setups. To make this easier Python ships a
+`webbrowser` module with simple API to make a browser show a page. For example,
+we can call `open_new()` function with URL:
+
+```
+>>> import webbrowser
+>>> webbrowser.open_new('https://trickster.dev')
+True
+```
