@@ -6,4 +6,20 @@ tags = ["python"]
 draft = true
 +++
 
-WRITEME
+WRITEME: `collections` 
+
+WRITEME: `contextlib` 
+
+WRITEME: `decimal`, `fractions`
+
+WRITEME: `dis`
+
+WRITEME: `graphlib`
+
+WRITEME: `itertools`
+
+WRITEME: `statistics`
+
+WRITEME: `zipapp`
+
+WRITEME: `webbrowser`
