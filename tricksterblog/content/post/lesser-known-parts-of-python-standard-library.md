@@ -1,13 +1,14 @@
 +++
 author = "rl1987"
 title = "Lesser known parts of Python standard library"
-date = "2024-08-31"
+date = "2024-08-19"
 tags = ["python"]
-draft = true
 +++
 
 In this article we will explore some lesser known, but interesting and useful
 corners of Python standard library.
+
+---
 
 Python dictionaries and lists are bread and butter for many applications, but
 might be too simple for more advanced data organisation. To provide more 
