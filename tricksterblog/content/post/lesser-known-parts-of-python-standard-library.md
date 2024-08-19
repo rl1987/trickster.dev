@@ -46,27 +46,97 @@ with open("results.txt", "w") as out_f:
 
 `contextlib` module provide helpers to work with context managers in your code.
 For example, you can use `@contextmanager` annotation to turn your own function
-into one that could be use via `with` syntax.
+into one that could be used via `with` syntax.
 
 API reference: https://docs.python.org/3/library/contextlib.html
 
 ---
 
-WRITEME: `decimal`, `fractions`
+Due to technical reality of how floating point number are represented, 
+floating point computations can have some weird results:
+
+```
+>>> 0.1 + 0.1 + 0.1 - 0.3
+5.551115123125783e-17
+>>> 1.2 + 2.2
+3.4000000000000004
+```
+
+This is mathematically incorrect and a deal breaker for some applications, such
+as those dealing with money. To address this problem, Python ships `decimal` 
+module that allows us represent decimal numbers as Python objects with operator
+overloading. Computations are adjusted so that we get we get the correct result
+(within a configurable level of precision):
+
+```
+>>> from decimal import *
+>>> one_point_two = Decimal('1.2')
+>>> one_point_two
+Decimal('1.2')
+>>> two_point_two = Decimal('2.2')
+>>> two_point_two
+Decimal('2.2')
+>>> one_point_two + two_point_two
+Decimal('3.4')
+```
+
+API reference: https://docs.python.org/3/library/decimal.html
 
 ---
+
+Likewise, we can run into problem when dealing with fractions - one third is 
+not exactly equal to 0.333... Python ships with `fractions` module to represent
+them as Python objects with operator overloading:
+
+
+```
+>>> import fractions
+>>> one_third = fractions.Fraction(numerator=1, denominator=3)
+>>> 2 * one_third
+Fraction(2, 3)
+```
+
+API reference: https://docs.python.org/3/library/fractions.html
+
+
+---
+
+Python interpreter is implemented as [stack machine](https://en.wikipedia.org/wiki/Stack_machine)
+internally. When you run some Python code it is compiled to Python-specific 
+bytecode that Python VM executes. For debugging or performance optimisation 
+purposes it might be desirable to disassemble Python bytecode into instruction.
+The standard Python installation ships with `dis` module that takes Python
+code units (e.g. a function) and disassembles the code into a kind of 
+pseudo-assembler:
+
+```
+>>> import dis
+>>> def add(a, b):
+...     return a+b
+... 
+>>> dis.dis(add)
+  1           0 RESUME                   0
+
+  2           2 LOAD_FAST                0 (a)
+              4 LOAD_FAST                1 (b)
+              6 BINARY_OP                0 (+)
+             10 RETURN_VALUE
+```
 
 API reference: https://docs.python.org/3/library/dis.html
 
 ---
 
-WRITEME: `graphlib`
+Python `statistics` module provides a small toolkit of statistical algorithms
+for relatively simple applications where it is an overkill to use Pandas or
+Numpy: standard deviation, several kinds of average of numeric data, linear
+regression, correlation, normal distribution and others. For people eager to 
+join the AI/ML revolution it provides Naive Bayes classifier - an algorithm
+that can be considered a minimum viable example of machine learning.
 
-WRITEME: `itertools`
+API reference: https://docs.python.org/3/library/statistics.html
 
-WRITEME: `statistics`
-
-WRITEME: `zipapp`
+---
 
 You may sometimes want to open web browser from your Python code. Since Python
 is portable and multiplatform language this may be bit of hassle due to 
@@ -91,3 +161,17 @@ True
 ```
 
 API reference: https://docs.python.org/3/library/webbrowser.html
+
+---
+
+Distributing Python programs in source code form can be problematic if there's 
+some non-technical users at the receiving end. Even if they have Python installed
+there can be lacking dependencies, version conflicts and other runtime issues. 
+To make this less terrible Python ships `zipapp` module with CLI tool and Python
+API to package Python code into single file packages. This provides an interesting
+midpoint between using virtual environments and solutions like PyInstaller to 
+compile the app into platform-specific form - code remains portable, but
+Python interpreter has to be there to run it.
+
+API reference: https://docs.python.org/3/library/zipapp.html
+
