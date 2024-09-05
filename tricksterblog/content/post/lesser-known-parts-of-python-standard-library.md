@@ -66,7 +66,7 @@ floating point computations can have some weird results:
 This is mathematically incorrect and a deal breaker for some applications, such
 as those dealing with money. To address this problem, Python ships `decimal` 
 module that allows us represent decimal numbers as Python objects with operator
-overloading. Computations are adjusted so that we get we get the correct result
+overloading. Computations are adjusted so that we get the correct result
 (within a configurable level of precision):
 
 ```
