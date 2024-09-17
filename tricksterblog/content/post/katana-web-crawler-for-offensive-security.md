@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "Katana: web crawler for offensive security"
-date = "2024-08-31"
+date = "2024-09-25"
 tags = ["security", "web-scraping"]
 draft = true
 +++
@@ -16,6 +16,15 @@ Internet Archive Wayback Machine, CommonCrawl and Alien Vault OTX.
 Since mapping out site pages and APIs is useful for security research activities
 (e.g bug bounty hunting) Katana is designed to fit into larger automation 
 workflows, esp. when used together with other tooling from Project Discovery.
+
+On macOS Katana is available through Homebrew and there is also [official 
+Docker image](https://hub.docker.com/r/projectdiscovery/katana) on Docker Hub.
+
+If you have Golang development environment you can install it via Go CLI:
+
+```
+$ go install github.com/projectdiscovery/katana/cmd/katana@latest
+```
 
 If we simply want to see a list of pages a site has we only have to pass the 
 site URL via `-u` parameter:
@@ -139,4 +148,12 @@ Strict-Transport-Security: max-age=0; includeSubDomains; preload
 		today: "днес",
 		suffix: [],
 ```
+
+WRITEME: opportunistic scraping of contacts
+
+WRITEME: contact form spamming
+
+WRITEME: discovering API endpoints?
+
+WRITEME: using Katana as library + some sample code
 
