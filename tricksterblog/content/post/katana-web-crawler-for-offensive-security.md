@@ -1,8 +1,8 @@
 +++
 author = "rl1987"
 title = "Katana: web crawler for offensive security"
-date = "2024-09-25"
-tags = ["security", "web-scraping"]
+date = "2024-10-01"
+tags = ["security", "web-scraping", "automation"]
 draft = true
 +++
 
@@ -18,7 +18,8 @@ Since mapping out site pages and APIs is useful for security research activities
 workflows, esp. when used together with other tooling from Project Discovery.
 
 On macOS Katana is available through Homebrew and there is also [official 
-Docker image](https://hub.docker.com/r/projectdiscovery/katana) on Docker Hub.
+Docker image](https://hub.docker.com/r/projectdiscovery/katana) on Docker Hub
+that includes a Chromium browser.
 
 If you have Golang development environment you can install it via Go CLI:
 
@@ -149,11 +150,81 @@ Strict-Transport-Security: max-age=0; includeSubDomains; preload
 		suffix: [],
 ```
 
-WRITEME: opportunistic scraping of contacts
+Katana is not primarily designed to extract information from web pages - it is 
+crawling, not scraping tool. For those in need of a comprehensive web scraping 
+framework [Colly](https://go-colly.org/) and [Scrapy](https://scrapy.org/) are
+well established options. However, it is is possible to do regex-based data 
+extraction by putting regular expressions in YAML file like the following
+example from the README.md file:
+
+```yaml
+- name: email
+  type: regex
+  regex:
+  - '([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'
+  - '([a-zA-Z0-9+._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'
+
+- name: phone
+  type: regex
+  regex:
+  - '\d{3}-\d{8}|\d{4}-\d{7}'
+```
+
+This enables Katana to be used for opportunistic contact data (email and phone
+number) scraping across a list of websites. For example, one could source a list
+of companies within a niche by Google dorking or scraping a business directory
+website, then run Katana with the above custom field configuration to traverse
+the list of websites and grab emails and phone numbers whenever they happen to
+be somewhere on the page. Contacts most likely will be generic to the entire
+company, but this is significantly cheaper than running the domain list through 
+enrichment API. Some growth hackers are using Scrapebox, a proprietary Windows 
+desktop program to do this, but Katana requires no GUI environment if you want
+to run it on the server and is 100% open source.
+
 
 WRITEME: contact form spamming
 
-WRITEME: discovering API endpoints?
+If you run Katana with `-js-crawl` CLI argument it will download JavaScript
+files and parse them to find API endpoints:
+
+```
+$ katana -u https://allbirds.com -js-crawl
+
+   __        __                
+  / /_____ _/ /____ ____  ___ _
+ /  '_/ _  / __/ _  / _ \/ _  /
+/_/\_\\_,_/\__/\_,_/_//_/\_,_/							 
+
+		projectdiscovery.io
+
+[INF] Current katana version v1.1.0 (latest)
+[INF] Started standard crawling for => https://allbirds.com
+https://allbirds.com
+https://www.allbirds.com/js.iterable.com/analytics.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/homepage.a1ce3f2b8cdbde6e27e6.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/44.1560197b842f08b3fe77.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/34.390ec96b64c918e7a51f.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/33.f428389d95947b0ea31f.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/32.c205e74564192b41988c.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/35.aec7b6810f22105211fb.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/43.8f8d6489f56adf20dcff.chunk.js
+https://www.allbirds.com/cdn/shopifycloud/shopify/assets/shop_events_listener-61fa9e0a912c675e178777d2b27f6cbd482f8912a6b0aa31fa3515985a8cd626.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/29.81f74e37a33dc7fbe9dd.chunk.js
+https://www.allbirds.com/cdn/shop/t/2473/assets/42.b0afa4f09987aaabeeaf.chunk.js
+https://www.allbirds.com/filter.json
+https://www.allbirds.com/reviews.json
+https://www.allbirds.com/cdn/s/trekkie.storefront.d0db9c6b604f2af4af0875dc118feaf816931b65.min.js
+https://www.allbirds.com/graphql.json
+...
+```
+
+To take it a bit further and potentially find more APIs one may add 
+`-jsluice` argument that enables JS parsing with 
+[jsluice](https://github.com/BishopFox/jsluice) library (at the cost of 
+increased RAM consumption).
+
+This may be useful when exploring a website for API scraping or security
+assessment purposes.
 
 WRITEME: using Katana as library + some sample code
 
