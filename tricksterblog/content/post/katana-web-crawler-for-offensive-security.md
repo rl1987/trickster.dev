@@ -155,34 +155,60 @@ crawling, not scraping tool. For those in need of a comprehensive web scraping
 framework [Colly](https://go-colly.org/) and [Scrapy](https://scrapy.org/) are
 well established options. However, it is is possible to do regex-based data 
 extraction by putting regular expressions in YAML file like the following
-example from the README.md file:
+example from the README.md file (simplified for brevity):
 
 ```yaml
 - name: email
   type: regex
   regex:
   - '([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'
-  - '([a-zA-Z0-9+._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'
-
-- name: phone
-  type: regex
-  regex:
-  - '\d{3}-\d{8}|\d{4}-\d{7}'
 ```
 
-This enables Katana to be used for opportunistic contact data (email and phone
+Once we have fields configured, we can run Katana to extract some data:
+
+```
+$ katana -u https://allbirds.com -f email -flc field-config.yaml 
+
+
+   __        __                
+  / /_____ _/ /____ ____  ___ _
+ /  '_/ _  / __/ _  / _ \/ _  /
+/_/\_\\_,_/\__/\_,_/_//_/\_,_/							 
+
+		projectdiscovery.io
+
+[INF] Current katana version v1.1.0 (latest)
+[INF] Started standard crawling for => https://allbirds.com
+help@allbirds.com
+help@allbirds.com
+help@allbirds.com
+help@allbirds.com
+help@allbirds.com
+help@allbirds.com
+help@allbirds.com
+help@allbirds.com
+privacy@allbirds.com
+privacy@allbirds.com
+privacy@allbirds.com
+privacy@allbirds.com
+privacy@allbirds.com
+...
+```
+
+This enables Katana to be used for opportunistic contact data (email and/or phone
 number) scraping across a list of websites. For example, one could source a list
 of companies within a niche by Google dorking or scraping a business directory
 website, then run Katana with the above custom field configuration to traverse
-the list of websites and grab emails and phone numbers whenever they happen to
-be somewhere on the page. Contacts most likely will be generic to the entire
-company, but this is significantly cheaper than running the domain list through 
-enrichment API. Some growth hackers are using Scrapebox, a proprietary Windows 
+the list of websites and grab emails whenever they happen to be somewhere on the 
+page. Contacts most likely will be generic to the entire company, but this is 
+significantly cheaper than running the domain list through enrichment API. 
+Some growth hackers are using Scrapebox, a proprietary Windows 
 desktop program to do this, but Katana requires no GUI environment if you want
 to run it on the server and is 100% open source.
 
-
-WRITEME: contact form spamming
+However, regular expressions should be used sparingly for web scraping and 
+one [should refrain](https://stackoverflow.com/a/1732454) from trying to parse 
+HTML with them. Consider that an anti-pattern.
 
 If you run Katana with `-js-crawl` CLI argument it will download JavaScript
 files and parse them to find API endpoints:
@@ -226,5 +252,104 @@ increased RAM consumption).
 This may be useful when exploring a website for API scraping or security
 assessment purposes.
 
-WRITEME: using Katana as library + some sample code
+When used from Go code, Katana is used like framework, not a library - you 
+have to configure it to run the crawl for you and it will keep calling 
+the callback function you provide on each page it goes through. See the
+following snippet that was made by extending the sample code Katana project
+provides:
+
+```go
+package main
+
+import (
+	"bytes"
+	"log"
+	"math"
+	"strconv"
+
+	"github.com/goccy/go-graphviz"
+	"github.com/goccy/go-graphviz/cgraph"
+	"github.com/projectdiscovery/gologger"
+	"github.com/projectdiscovery/katana/pkg/engine/standard"
+	"github.com/projectdiscovery/katana/pkg/output"
+	"github.com/projectdiscovery/katana/pkg/types"
+)
+
+func main() {
+	g := graphviz.New()
+	graph, _ := g.Graph()
+	defer func() {
+		graph.Close()
+		g.Close()
+	}()
+
+	nodes := map[string]*cgraph.Node{}
+
+	options := &types.Options{
+		MaxDepth:     3,               // Maximum depth to crawl
+		FieldScope:   "rdn",           // Crawling Scope Field
+		BodyReadSize: math.MaxInt,     // Maximum response size to read
+		Timeout:      10,              // Timeout is the time to wait for request in seconds
+		Concurrency:  10,              // Concurrency is the number of concurrent crawling goroutines
+		Parallelism:  10,              // Parallelism is the number of urls processing goroutines
+		Delay:        0,               // Delay is the delay between each crawl requests in seconds
+		RateLimit:    150,             // Maximum requests to send per second
+		Strategy:     "breadth-first", // Visit strategy (depth-first, breadth-first)
+		OnResult: func(result output.Result) { // Callback function to execute for result
+			referer := result.Request.Source
+
+			if referer != "" {
+				gologger.Info().Msg(referer + " -> " + result.Request.URL)
+			} else {
+				gologger.Info().Msg(result.Request.URL)
+			}
+
+			node, _ := graph.CreateNode(result.Request.URL)
+			nodes[result.Request.URL] = node
+			prevNode := nodes[referer]
+
+			if prevNode != nil {
+				e, _ := graph.CreateEdge("", prevNode, node)
+				e.SetLabel(strconv.Itoa(result.Response.StatusCode))
+			}
+		},
+	}
+	crawlerOptions, err := types.NewCrawlerOptions(options)
+	if err != nil {
+		gologger.Fatal().Msg(err.Error())
+	}
+	defer crawlerOptions.Close()
+	crawler, err := standard.New(crawlerOptions)
+	if err != nil {
+		gologger.Fatal().Msg(err.Error())
+	}
+	defer crawler.Close()
+	var input = "https://public-firing-range.appspot.com/"
+	err = crawler.Crawl(input)
+	if err != nil {
+		gologger.Warning().Msgf("Could not crawl %s: %s", input, err.Error())
+	}
+
+	var buf bytes.Buffer
+	if err := g.Render(graph, "dot", &buf); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := g.RenderFilename(graph, graphviz.SVG, "katana.svg"); err != nil {
+		log.Fatal(err)
+	}
+
+}
+
+```
+
+Here we use Graphviz wrapper library to keep track of what links were followed 
+between pages as crawling was in progress and render the resulting graph into SVG
+file. The end result of this is admittedly not very interesting, but the above
+code can be viewed as example of some greater points:
+
+1. One must first set up Katana configuration structures with many of parameters
+that apply when Katana is used as CLI tool.
+2. It is possible to do custom stuff in your callback function, such as registering
+the HTTP metadata and/or content somewhere for further processing.
 
