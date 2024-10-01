@@ -3,7 +3,6 @@ author = "rl1987"
 title = "Katana: web crawler for offensive security and web exploration"
 date = "2024-10-01"
 tags = ["security", "web-scraping", "automation"]
-draft = true
 +++
 
 [Katana](https://github.com/projectdiscovery/katana) is CLI tool and Go library
