@@ -1,6 +1,6 @@
 +++
 author = "rl1987"
-title = "Katana: web crawler for offensive security"
+title = "Katana: web crawler for offensive security and web exploration"
 date = "2024-10-01"
 tags = ["security", "web-scraping", "automation"]
 draft = true
@@ -196,7 +196,8 @@ privacy@allbirds.com
 ```
 
 This enables Katana to be used for opportunistic contact data (email and/or phone
-number) scraping across a list of websites. For example, one could source a list
+number) scraping across a list of websites (which can be passed to Katana one 
+per line via standard input). For example, one could source a list
 of companies within a niche by Google dorking or scraping a business directory
 website, then run Katana with the above custom field configuration to traverse
 the list of websites and grab emails whenever they happen to be somewhere on the 
@@ -251,6 +252,11 @@ increased RAM consumption).
 
 This may be useful when exploring a website for API scraping or security
 assessment purposes.
+
+By default Katana prints results to standard output. You can use `-silent` option
+to disable the ASCII art logo or `-o` to provide a file the output is to be 
+written. Furthermore, `-jsonl` option formats each line into JSONL format
+that can be further processed programmatically.
 
 When used from Go code, Katana is used like framework, not a library - you 
 have to configure it to run the crawl for you and it will keep calling 
