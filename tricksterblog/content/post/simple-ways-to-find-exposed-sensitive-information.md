@@ -75,7 +75,7 @@ path:**/.git-credentials
 
 We can also look for API keys to paid or private services. Github search query
 can be derived from sample code related to the API. Let me give you a real
-example. Google maps iOS SDK sample code repo contains the follow code
+example. Google maps iOS SDK sample code repo contains the following code
 in [MapsAndPlacesDemo/MapsAndPlacesDemo/ApiKeys.swift](https://github.com/googlemaps-samples/maps-sdk-for-ios-samples/blob/main/MapsAndPlacesDemo/MapsAndPlacesDemo/ApiKeys.swift)
 file: 
 
