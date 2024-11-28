@@ -132,8 +132,9 @@ Python `statistics` module provides a small toolkit of statistical algorithms
 for relatively simple applications where it is an overkill to use Pandas or
 Numpy: standard deviation, several kinds of average of numeric data, linear
 regression, correlation, normal distribution and others. For people eager to 
-join the AI/ML revolution it provides Naive Bayes classifier - an algorithm
-that can be considered a minimum viable example of machine learning.
+join the AI/ML revolution the docs provide a sample code for making Naive 
+Bayes classifier - an algorithm that can be considered a minimum viable 
+example of machine learning.
 
 API reference: https://docs.python.org/3/library/statistics.html
 
