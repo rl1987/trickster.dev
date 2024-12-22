@@ -81,7 +81,7 @@ First, you need to set up a Custom Search Engine at
 [Programmable Search control panel](https://programmablesearchengine.google.com/create/new).
 Don't worry too much about what to put into "Sites to search" textfield, as you will be able to edit them later.
 If you have a particular domain for a site you want to search (e.g. from a bug bounty platform) it would be useful
-to limit results to that. Alternative, you can put in bunch of wildcard entries for multiple popular TLDs:
+to limit results to that. Alternatively, you can put in bunch of wildcard entries for multiple popular TLDs:
 
 ```
 *.gov
