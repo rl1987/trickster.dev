@@ -21,4 +21,13 @@ tool. Like AWK, it is also a Turing-complete domain specific language that lets
 you implement arbitrarily complex (within limits of computability) JSON document
 processing scripts.
 
+WRITEME: how to install, jqplay.org
+
+WRITEME: basic syntax
+
+WRITEME: standard jq functions
+
+WRITEME: simple API scraping example
+
+WRITEME: using jq as a library - bindings for Python and other languages
 
