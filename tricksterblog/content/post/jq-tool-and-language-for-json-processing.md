@@ -35,11 +35,47 @@ official Docker image with jq one can run `docker pull ghcr.io/jqlang/jq:latest`
 There is also [jqplay.org](https://jqplay.org/) - a web playground for playing
 with jq language without installing anything.
 
-WRITEME: basic syntax
+The syntax of jq has similarities with JSON syntax. The very simplest thing one
+can do in jq is pretty printing the input:
+
+```
+$ echo '{"x": 1, "y": 2}' | jq '.'
+{
+  "x": 1,
+  "y": 2
+}
+```
+
+By default jq makes output colored for easier reading. We used jq identity
+statement as the first argument.
+
+To extract a single field from JSON object we can use object identifier-index 
+syntax - dot character with field name:
+
+```
+$ echo '{"x": 1, "y": 2}' | jq '.x'
+1
+```
+
+This can be done across multiple levels:
+
+```
+$ echo '{"coord": {"x": 1, "y": 2}}' | jq '.coord.y'
+2
+```
+
+Like other programming languages, JSON arrays can be indexed:
+
+```
+$ echo '{"coords": [{"x": 1.1, "y": 2.5}]}' | jq '.coords[0].y'
+2.5
+```
 
 WRITEME: standard jq functions
 
 WRITEME: simple API scraping example
+
+https://hypebeastbaltics.com/products.json
 
 WRITEME: using jq as a library - bindings for Python and other languages
 
