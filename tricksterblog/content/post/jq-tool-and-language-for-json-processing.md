@@ -7,7 +7,10 @@ draft = true
 +++
 
 Since JSON is the dominant data representation format for most of the modern 
-RESTful APIs parsing, generation, modification and analysis of JSON documents 
+RESTful APIs. Some automation and devops tools (Terraform, AWS CLI, kubectl, 
+etc.) optionally output data in JSON format to make it machine readable. Some
+datasets (e.g. MRFs from health insurance companies) are available as JSON files.
+For these reasons parsing, generation, modification and analysis of JSON documents 
 is nothing new for many explorers of cyberspace. Indeed, there are libraries
 and tools to wrangle JSONified data in pretty much all popular general purpose 
 programming languages. But what about shell scripts? When one is programming
@@ -16,7 +19,7 @@ parts of API response, but your standard Unix text processing tools - awk(1),
 sed(1), grep(1) and others largely predate JSON popularity and are not designed
 with nested data trees in mind. [jq](https://jqlang.github.io/jq/) is CLI tool
 that was designed to fill the gap here and address the need of making JSON
-wrangling easier within the Unix/Linux environment. But jq is not merely a CLI
+wrangling easier within the Unix/Linux environment. But it is not merely a CLI
 tool. Like AWK, it is also a Turing-complete domain specific language that lets
 you implement arbitrarily complex (within limits of computability) JSON document
 processing scripts.
@@ -69,6 +72,38 @@ Like other programming languages, JSON arrays can be indexed:
 ```
 $ echo '{"coords": [{"x": 1.1, "y": 2.5}]}' | jq '.coords[0].y'
 2.5
+```
+
+JSON data types have the same syntax in jq language as in JSON notation:
+
+```
+$ jq --null-input 'null'
+
+$ jq --null-input '1.2'   
+1.2
+$ jq --null-input '"str"' 
+"str"
+$ jq --null-input 'false'
+false
+$ jq --null-input '{"latitude": 1.1, "longitude": 2.2}' 
+{
+  "latitude": 1.1,
+  "longitude": 2.2
+}
+$ jq --null-input '["a", "b", "c"]' 
+[
+  "a",
+  "b",
+  "c"
+]
+```
+
+Like in Unix environment, pipe character can be used to build pipelines of
+operations:
+
+```
+$ jq --null-input '{"latitude": 1.1, "longitude": 2.2} | .latitude'
+1.1
 ```
 
 WRITEME: standard jq functions
