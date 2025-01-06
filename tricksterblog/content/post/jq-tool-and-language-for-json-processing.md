@@ -74,11 +74,39 @@ $ echo '{"coords": [{"x": 1.1, "y": 2.5}]}' | jq '.coords[0].y'
 2.5
 ```
 
+Like in Python, arrays can be sliced by index range:
+
+```
+$ echo '[1,2,3,4,5]' | jq '.[1:3]'
+[
+  2,
+  3
+]
+```
+
+If used without indices, `[]` is iterator - it returns all values within the 
+input list or object:
+
+```
+$ echo '[1,2,3,4,5]' | jq '.[]'   
+1
+2
+3
+4
+5
+$ echo '{"a": 1, "b": 2}' | jq '.[]'
+1
+2
+```
+
+Note that first index in the range is inclusive, but not the second one - second
+index tells jq to extract values *up to* that index.
+
 JSON data types have the same syntax in jq language as in JSON notation:
 
 ```
-$ jq --null-input 'null'
-
+$ jq --monochrome-output --null-input 'null'   
+null
 $ jq --null-input '1.2'   
 1.2
 $ jq --null-input '"str"' 
@@ -104,6 +132,28 @@ operations:
 ```
 $ jq --null-input '{"latitude": 1.1, "longitude": 2.2} | .latitude'
 1.1
+```
+
+Comma character can be used to concatenate outputs from two or more operations
+into single stream:
+
+```
+$ jq --null-input '{"latitude": 1.1, "longitude": 2.2} | .latitude, .longitude'  
+1.1
+2.2
+```
+
+Furthermore, jq language allows using question mark character as optional 
+operator. Like in Swift programming language, this allows for parts of input
+(e.g. a subtree in JSON document) to be missing without crashing the program.
+If something is not missing, further operations will be executed. If it is 
+missing, the entire chain of operations will return null value:
+
+```
+$ echo '{"coords": [{"x": 1.1, "y": 2.5}]}' | jq '.coords?[0].y'
+2.5
+$ echo '{"coords": [{"x": 1.1, "y": 2.5}]}' | jq '.coordinates?[0].y'
+null
 ```
 
 WRITEME: standard jq functions
