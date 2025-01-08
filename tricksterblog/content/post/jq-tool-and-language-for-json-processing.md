@@ -156,7 +156,48 @@ $ echo '{"coords": [{"x": 1.1, "y": 2.5}]}' | jq '.coordinates?[0].y'
 null
 ```
 
-WRITEME: standard jq functions
+Like all the proper programming languages, jq has operators for basic math
+operations:
+
+```
+$ jq --null-input '1 + 1'
+2
+$ jq --null-input '1 - 1'
+0
+$ jq --null-input '1 * 2'
+2
+$ jq --null-input '1 / 2'
+0.5
+$ jq --null-input '5 % 2' 
+1
+```
+
+Multiplication operator can also be used to make repeated string:
+
+```
+$ jq --null-input '"cyber" * 3'
+"cybercybercyber"
+```
+
+Furthermore, jq has some built-in functions for common computations and data
+processing operations. For example, `length` is equivalent to Python's `len()`
+function:
+
+```
+$ echo '"abc"' | jq 'length'   
+3
+$echo '[1, 2, 3, 4]' | jq 'length'
+4
+```
+
+
+In jq language `map` is equivalent to `map()` in Python and `select` is
+equivalent to `filter()`. This allows do implement data processing in FP-like 
+manner. There is IEEE754 double precision floating point number support and you 
+can do trigonometry and stuff. 
+
+See the [documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
+for a list of built-in functions available.
 
 WRITEME: simple API scraping example
 
