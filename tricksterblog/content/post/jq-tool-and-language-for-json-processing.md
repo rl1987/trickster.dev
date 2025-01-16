@@ -186,7 +186,7 @@ function:
 ```
 $ echo '"abc"' | jq 'length'   
 3
-$echo '[1, 2, 3, 4]' | jq 'length'
+$ echo '[1, 2, 3, 4]' | jq 'length'
 4
 ```
 
@@ -196,12 +196,29 @@ equivalent to `filter()`. This allows do implement data processing in FP-like
 manner. There is IEEE754 double precision floating point number support and you 
 can do trigonometry and stuff. 
 
+WRITEME: fizzbuzz in jq?
+
 See the [documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
 for a list of built-in functions available.
+
+WRITEME: how to declare functions and write bigger programs
 
 WRITEME: simple API scraping example
 
 https://hypebeastbaltics.com/products.json
 
-WRITEME: using jq as a library - bindings for Python and other languages
+The jq codebase is in C, but the underlying "backend" of the language can be
+used as a shared library - libjq. This would enable using it as DSL outside shell
+scripts. But the thing is, unless what you do is in the realm of 
+systems programming you probably do not want to use 
+[libjq C API](https://github.com/jqlang/jq/wiki/C-API:-jv) in your own code.
+For our convenience there are wrappers in higher level languages:
+
+* [`jq` for Python](https://pypi.org/project/jq/) - available from PIP.
+* [`jq-rs` for Rust](https://crates.io/crates/jq-rs)
+* [`node-jq` for Node.js](https://www.npmjs.com/package/node-jq)
+* [JSON::JQ for Perl](https://metacpan.org/pod/JSON::JQ)
+
+[Gojq project](https://github.com/itchyny/gojq) reimplements the language in
+pure Go and does not rely on the C codebase.
 
