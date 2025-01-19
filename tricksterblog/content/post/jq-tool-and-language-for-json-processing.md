@@ -190,11 +190,47 @@ $ echo '[1, 2, 3, 4]' | jq 'length'
 4
 ```
 
-
 In jq language `map` is equivalent to `map()` in Python and `select` is
 equivalent to `filter()`. This allows do implement data processing in FP-like 
 manner. There is IEEE754 double precision floating point number support and you 
 can do trigonometry and stuff. 
+
+If we don't want to use `select` we can use regular if-then-else control flow
+feature of jq:
+
+```
+$ echo "9001" | jq 'if . > 9000 then "over nine thousand" else "below 9000" end'
+"over nine thousand"
+```
+
+The jq language does not have for or while loops. Instead, we are supposed to
+use two brackets (`[]`) - iteration operator and/or `range` function:
+
+```
+$ jq --null-input 'range(100)'
+0
+1
+2
+3
+4
+...
+96
+97
+98
+99
+100
+$ jq --null-input '[range(100)]' | jq '.[] | . + 1000' | head
+1000
+1001
+1002
+1003
+1004
+1005
+1006
+1007
+1008
+1009
+```
 
 WRITEME: fizzbuzz in jq?
 
