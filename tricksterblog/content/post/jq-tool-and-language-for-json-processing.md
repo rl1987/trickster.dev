@@ -241,8 +241,6 @@ WRITEME: how to declare functions and write bigger programs
 
 WRITEME: simple API scraping example
 
-https://hypebeastbaltics.com/products.json
-
 The jq codebase is in C, but the underlying "backend" of the language can be
 used as a shared library - libjq. This would enable using it as DSL outside shell
 scripts. But the thing is, unless what you do is in the realm of 
@@ -255,6 +253,17 @@ For our convenience there are wrappers in higher level languages:
 * [`node-jq` for Node.js](https://www.npmjs.com/package/node-jq)
 * [JSON::JQ for Perl](https://metacpan.org/pod/JSON::JQ)
 
+For example, jq Python module makes API scraping code less tedious:
+
+```
+>>> import requests
+>>> import jq
+>>> resp = requests.get("https://hypebeastbaltics.com/products.json")
+>>> jq.compile(".products[].title").input(text=resp.text).all()
+['Used Arc`Teryx Bird Head Toque Beanie Red', 'Used Bape Blue Shark Silver Zip Tee', 'Used Supreme crew 96 tee khaki', 'Used Minus Two Cargo Pants Black Purple', 'Used Bape Blue Shark hoodie', 'Used Air Jordan 1 Low Grey Camo', 'Used Nike Air Force 1 Low Supreme Baroque Brown', 'Used Jordan 4 Retro University Blue', "Used Moncler Women's Blue Puffer Jacket with High Collar", 'Used Nike SB Dunk Low City of Love Burgundy Crush', 'Used adidas Yeezy Slide Bone (2022/2023 Restock)', 'Air Jordan 3 Retro Black Cat (2025)', "Used Moncler Guerledan Women's Fur Vest", 'Adidas Campus 80s Bape Brown', 'Used Yeezy Boost 380 Azure', 'Supreme Burberry Box Logo Tee White', 'Used Jordan 1 Mid SE Ice Blue (2023)', 'Used Nike SB Dunk Low April Skateboards', 'Used C.P. COMPANY DIAGONAL RAISED GOGGLE ZIP HOODIE', 'Used Stone Island Blue Button Up Shirt', 'Used Nike Dunk Low White Grey Navy Aqua Mini Swoosh', 'Used Jordan 1 Mid Multi-Color Swoosh Black', 'Used Nike Blazer Mid 77 Vintage Summit White Pink', 'Used  Nike Blazer Mid 77 Vintage Malachite Green', 'Used Nike Blazer Mid 77 White Volt', 'Used Nike Blazer Mid 77 LX White', 'Nike Dunk High AMBUSH Flash Lime', 'adidas Yeezy Foam RNNR Ochre', 'Air Jordan 1 Retro Low OG SP Travis Scott Velvet Brown', 'Timberland 6 Inch Zip Boot A-COLD-WALL Black']
+```
+
 [Gojq project](https://github.com/itchyny/gojq) reimplements the language in
-pure Go and does not rely on the C codebase.
+pure Go and does not rely on the C codebase. It can be used as CLI tool and 
+integrated into other software as library.
 
