@@ -52,6 +52,25 @@ $ echo '{"x": 1, "y": 2}' | jq '.'
 By default jq makes output colored for easier reading. We used jq identity
 statement as the first argument.
 
+We may want to create JSON object or list in jq language. Syntax to do so
+is very similar to JSON notation:
+
+```
+$ jq --null-input '{a: 1, b: 2}'
+{
+  "a": 1,
+  "b": 2
+}
+$ jq --null-input '[1,3,5,7,11]'
+[
+  1,
+  3,
+  5,
+  7,
+  11
+]
+```
+
 To extract a single field from JSON object we can use object identifier-index 
 syntax - dot character with field name:
 
@@ -190,19 +209,6 @@ $ echo '[1, 2, 3, 4]' | jq 'length'
 4
 ```
 
-In jq language `map` is equivalent to `map()` in Python and `select` is
-equivalent to `filter()`. This allows do implement data processing in FP-like 
-manner. There is IEEE754 double precision floating point number support and you 
-can do trigonometry and stuff. 
-
-If we don't want to use `select` we can use regular if-then-else control flow
-feature of jq:
-
-```
-$ echo "9001" | jq 'if . > 9000 then "over nine thousand" else "below 9000" end'
-"over nine thousand"
-```
-
 The jq language does not have for or while loops. Instead, we are supposed to
 use two brackets (`[]`) - iteration operator and/or `range` function:
 
@@ -232,10 +238,38 @@ $ jq --null-input '[range(100)]' | jq '.[] | . + 1000' | head
 1009
 ```
 
+In jq language `map` is equivalent to `map()` in Python and `select` is
+equivalent to `filter()`. 
+
+This allows do implement data processing in FP-like manner: 
+
+```
+$ echo "[1000, 2000, 3000, 5000, 9001, 10240]" | jq '.[] | select(. > 9000)'
+9001
+10240
+$ echo '["corpothieves", "must", "die"]' | jq 'map(length)'
+[
+  12,
+  4,
+  3
+]
+```
+
+If we don't want to use `select` we can use regular if-then-else control flow
+feature of jq:
+
+```
+$ echo "9001" | jq 'if . > 9000 then "over nine thousand" else "below 9000" end'
+"over nine thousand"
+```
+
+There is also IEEE754 double precision floating point number support and you 
+can do trigonometry and stuff. See the 
+[documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
+for a list of built-in functions available.
+
 WRITEME: fizzbuzz in jq?
 
-See the [documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
-for a list of built-in functions available.
 
 WRITEME: how to declare functions and write bigger programs
 
