@@ -18,7 +18,7 @@ in Bash or Zsh it might be necessary to run some curl(1) snippet and extract
 parts of API response, but your standard Unix text processing tools - awk(1), 
 sed(1), grep(1) and others largely predate JSON popularity and are not designed
 with nested data trees in mind. [jq](https://jqlang.github.io/jq/) is CLI tool
-that was designed to fill the gap here and address the need of making JSON
+that was designed to fill the gap here and addresses the need of making JSON
 wrangling easier within the Unix/Linux environment. But it is not merely a CLI
 tool. Like AWK, it is also a Turing-complete domain specific language that lets
 you implement arbitrarily complex (within limits of computability) JSON document
@@ -39,7 +39,8 @@ There is also [jqplay.org](https://jqplay.org/) - a web playground for playing
 with jq language without installing anything.
 
 The syntax of jq has similarities with JSON syntax. The very simplest thing one
-can do in jq is pretty printing the input:
+can do in jq is pretty printing the input for readability (this can be turned 
+off with `--compact-output` or `-c`):
 
 ```
 $ echo '{"x": 1, "y": 2}' | jq '.'
@@ -270,8 +271,10 @@ for a list of built-in functions available.
 
 WRITEME: fizzbuzz in jq?
 
-
-WRITEME: how to declare functions and write bigger programs
+Many programming languages provide a way to develop reusable pieces of code that
+can be accessed via API. We already tried some jq functions that are shipped with
+standard installation. To define jq module we must create file with `.jq`
+extension and write one more jq functions in there. TODO: provide example.
 
 WRITEME: simple API scraping example
 
