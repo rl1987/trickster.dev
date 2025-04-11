@@ -304,3 +304,11 @@ For example, jq Python module makes API scraping code less tedious:
 pure Go and does not rely on the C codebase. It can be used as CLI tool and 
 integrated into other software as library.
 
+Some interesting codebases using jq language:
+
+* [jnv](https://github.com/ynqa/jnv) - interactive tool to browse JSON data 
+and prototype jq one-liners in a terminal.
+* [jqview](https://github.com/fiatjaf/jqview) - Qt-based GUI app based on Gojq.
+* [tq](https://github.com/jdolitsky/tq) - tool to manipulate Terraform objects
+with jq language.
+
