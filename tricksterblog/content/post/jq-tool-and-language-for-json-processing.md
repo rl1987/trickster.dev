@@ -1,28 +1,28 @@
 +++
 author = "rl1987"
 title = "jq: tool and language for JSON processing"
-date = "2025-01-31"
+date = "2025-04-30"
 tags = []
 draft = true
 +++
 
-Since JSON is the dominant data representation format for most of the modern 
-RESTful APIs. Some automation and devops tools (Terraform, AWS CLI, kubectl, 
+JSON is the dominant data representation format for most of the modern
+RESTful APIs and certain automation/devops tools (Terraform, AWS CLI, kubectl,
 etc.) optionally output data in JSON format to make it machine readable. Some
-datasets (e.g. MRFs from health insurance companies) are available as JSON files.
-For these reasons parsing, generation, modification and analysis of JSON documents 
-is nothing new for many explorers of cyberspace. Indeed, there are libraries
-and tools to wrangle JSONified data in pretty much all popular general purpose 
-programming languages. But what about shell scripts? When one is programming
-in Bash or Zsh it might be necessary to run some curl(1) snippet and extract 
-parts of API response, but your standard Unix text processing tools - awk(1), 
-sed(1), grep(1) and others largely predate JSON popularity and are not designed
-with nested data trees in mind. [jq](https://jqlang.github.io/jq/) is CLI tool
-that was designed to fill the gap here and addresses the need of making JSON
-wrangling easier within the Unix/Linux environment. But it is not merely a CLI
-tool. Like AWK, it is also a Turing-complete domain specific language that lets
-you implement arbitrarily complex (within limits of computability) JSON document
-processing scripts.
+datasets (e.g. service price lists from health insurance companies) are
+available primarily as JSON files. For these reasons parsing, generation,
+modification and analysis of JSON documents is nothing new for many explorers
+of cyberspace. Indeed, there are libraries and tools to wrangle JSONified data
+in pretty much all popular general purpose programming languages. But what
+about shell scripts? When one is programming in Bash or Zsh it might be
+necessary to run some curl(1) snippet and extract parts of API response, but
+your standard Unix text processing tools - awk(1), sed(1), grep(1) and others
+largely predate JSON popularity and are not designed with nested data trees in
+mind. [jq](https://jqlang.github.io/jq/) is CLI tool that was designed to fill
+the gap here and addresses the need of making JSON wrangling easier within the
+Unix/Linux environment. But it is not merely a CLI tool. Like AWK, it is also a
+Turing-complete domain specific language that lets you implement arbitrarily
+complex (within limits of computability) JSON document processing scripts.
 
 One can install jq via the usual package managers:
 
@@ -264,7 +264,7 @@ $ echo "9001" | jq 'if . > 9000 then "over nine thousand" else "below 9000" end'
 "over nine thousand"
 ```
 
-There is also IEEE754 double precision floating point number support and you 
+There is also IEEE754 double precision floating point number support so you 
 can do trigonometry and stuff. See the 
 [documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
 for a list of built-in functions available.
