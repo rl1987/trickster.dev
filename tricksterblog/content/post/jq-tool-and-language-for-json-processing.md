@@ -264,12 +264,29 @@ $ echo "9001" | jq 'if . > 9000 then "over nine thousand" else "below 9000" end'
 "over nine thousand"
 ```
 
+I asked Google Gemini 2.5 to write Fizzbuzz code in jq language. Take a look:
+
+```
+# fizzbuzz_standard.jq
+range(1; 101) | # Generate numbers from 1 to 100
+if . % 15 == 0 then "FizzBuzz" # Check divisibility by 15 first
+elif . % 3 == 0 then "Fizz"     # Then by 3
+elif . % 5 == 0 then "Buzz"     # Then by 5
+else .                          # Otherwise, output the number
+end
+```
+
+It can be launched with following command:
+
+```
+$ jq -n -r -f fizzbuzz_standard.jq
+```
+
 There is also IEEE754 double precision floating point number support so you 
 can do trigonometry and stuff. See the 
 [documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
 for a list of built-in functions available.
 
-WRITEME: fizzbuzz in jq?
 
 Many programming languages provide a way to develop reusable pieces of code that
 can be accessed via API. We already tried some jq functions that are shipped with
