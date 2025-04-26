@@ -287,11 +287,41 @@ can do trigonometry and stuff. See the
 [documentation](https://jqlang.github.io/jq/manual/#builtin-operators-and-functions)
 for a list of built-in functions available.
 
-
 Many programming languages provide a way to develop reusable pieces of code that
 can be accessed via API. We already tried some jq functions that are shipped with
 standard installation. To define jq module we must create file with `.jq`
 extension and write one more jq functions in there. TODO: provide example.
+
+Now it's time for a real-worldish example of using jq for data extraction. But 
+first, let me show you a trick. Pretty much all Shopify stores that don't use
+custom frontend expose some APIs with product data. First, `/products.json`
+endpoint provides a product list. It acts as paginated PLP API with parameters
+`page` for page number (starting with 1) and `limit` for page size (can be up
+to 250). See the following examples:
+
+* https://hypebeastbaltics.com/products.json
+* https://hypebeastbaltics.com/products.json?limit=10&page=1
+* https://hypebeastbaltics.com/products.json?limit=10&page=2
+
+It should be noted that sometimes primary store domain cannot be used and
+should be replaced with .myshopify subdomain that can be found in page source.
+For our example store that would be online-hypebeastbaltics.myshopify.com.
+
+[Screenshot 1](/2025-04-26_15.57.30.png)
+
+If you want individual product data from the store that can be retrieved by
+appending `.js.` or `.json` to PDP URL path. This will give you slightly
+different versions of the data and, depending on the target, fields regarding 
+inventory or product availability might be present in one form, but not in 
+another. For example the following URLs can be used for API scraping:
+
+* https://hypebeastbaltics.com/products/nike-air-force-1-low-supreme-white.js
+* https://hypebeastbaltics.com/products/nike-air-force-1-low-supreme-white.json
+
+It is also possible to retrieve products from collection, e.g.:
+
+* https://hypebeastbaltics.com/collections/clothing-1/products.json
+* https://hypebeastbaltics.com/collections/clothing-1/products.json?limit=5&page=2
 
 WRITEME: simple API scraping example
 
