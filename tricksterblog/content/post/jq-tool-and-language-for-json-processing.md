@@ -323,6 +323,12 @@ It is also possible to retrieve products from collection, e.g.:
 * https://hypebeastbaltics.com/collections/clothing-1/products.json
 * https://hypebeastbaltics.com/collections/clothing-1/products.json?limit=5&page=2
 
+This can be used to gather data programmatically at PLP and PDP levels from 
+Shopify store with little to no HTML page scraping. Since the response data
+format is JSON, we can use jq to extract the interesting parts. We will still
+need something else to implement the remaining parts of API scraping code. In
+this can we will use Bash scripting language.
+
 WRITEME: simple API scraping example
 
 The jq codebase is in C, but the underlying "backend" of the language can be
