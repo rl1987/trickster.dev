@@ -348,9 +348,44 @@ For example, jq Python module makes API scraping code less tedious:
 ```
 >>> import requests
 >>> import jq
+>>> from pprint import pprint
 >>> resp = requests.get("https://hypebeastbaltics.com/products.json")
->>> jq.compile(".products[].title").input(text=resp.text).all()
-['Used Arc`Teryx Bird Head Toque Beanie Red', 'Used Bape Blue Shark Silver Zip Tee', 'Used Supreme crew 96 tee khaki', 'Used Minus Two Cargo Pants Black Purple', 'Used Bape Blue Shark hoodie', 'Used Air Jordan 1 Low Grey Camo', 'Used Nike Air Force 1 Low Supreme Baroque Brown', 'Used Jordan 4 Retro University Blue', "Used Moncler Women's Blue Puffer Jacket with High Collar", 'Used Nike SB Dunk Low City of Love Burgundy Crush', 'Used adidas Yeezy Slide Bone (2022/2023 Restock)', 'Air Jordan 3 Retro Black Cat (2025)', "Used Moncler Guerledan Women's Fur Vest", 'Adidas Campus 80s Bape Brown', 'Used Yeezy Boost 380 Azure', 'Supreme Burberry Box Logo Tee White', 'Used Jordan 1 Mid SE Ice Blue (2023)', 'Used Nike SB Dunk Low April Skateboards', 'Used C.P. COMPANY DIAGONAL RAISED GOGGLE ZIP HOODIE', 'Used Stone Island Blue Button Up Shirt', 'Used Nike Dunk Low White Grey Navy Aqua Mini Swoosh', 'Used Jordan 1 Mid Multi-Color Swoosh Black', 'Used Nike Blazer Mid 77 Vintage Summit White Pink', 'Used  Nike Blazer Mid 77 Vintage Malachite Green', 'Used Nike Blazer Mid 77 White Volt', 'Used Nike Blazer Mid 77 LX White', 'Nike Dunk High AMBUSH Flash Lime', 'adidas Yeezy Foam RNNR Ochre', 'Air Jordan 1 Retro Low OG SP Travis Scott Velvet Brown', 'Timberland 6 Inch Zip Boot A-COLD-WALL Black']
+>>> titles = jq.compile(".products[].title").input(text=resp.text).all()
+>>> pprint(titles)
+['Denver Broncos fitted hat brown corduroy 7 3/4',
+ 'Denver Broncos fitted hat Black 8',
+ 'Dallas Cowboys Superbowl fitted hat navy 7 1/8',
+ 'Minnesota Vikings fitted hat pink 7 1/4',
+ 'San Diego Padres fitted hat white green 7 1/2',
+ 'San Francisco 49ers fitted hat  7 3/8',
+ 'Los Angeles Rams fitted hat white 7 3/8',
+ 'San Antonio Spurs fitted hat Grey 7 3/8',
+ 'New York Yankees fitted hat Navy 6 3/8',
+ 'CDG Polka Dot With Upside Down Heart T-Shirt White',
+ 'Used adidas Yeezy Boost 350 V2 Cream',
+ 'Used Adidas Ultra Boost 4.0 Bape Camo',
+ 'Used Adidas Yeezy Boost 350 V2 Earth',
+ 'Used Yeezy 500 Utility Black',
+ 'Used adidas Yeezy Boost 350 V2 MX Oat',
+ 'Used Yeezy 700 V3 Clay Brown',
+ 'Used Yves Saint Laurent Leather high trainers',
+ 'Used Louis Vuitton Boxing High Top Triple Black',
+ 'Pop Mart Labubu The Monsters Lazy Yoga Series Figures Blind Box',
+ 'Pop Mart The Monsters Labubu Zimomo Angel in Clouds Figure (No Tote)',
+ 'Nike x Jacquemus Le Polo Off-White',
+ 'Nike x NOCTA NRG Knit Long Sleeve Top Cobalt Bliss/Dark Obsidian',
+ 'COMING 6TH JUNE Pop Mart Labubu The Monsters Have a Seat Vinyl Plush Sealed '
+ 'Case (6 Blind Boxes)',
+ 'COMING 6TH JUNE Pop Mart Labubu The Monsters Tasty Macarons Vinyl Plush '
+ 'Pendant Single Blind Box',
+ 'Corteiz Olympic Shuku Nigeria Jacket Green/White',
+ 'Nike x NOCTA NRG Short Cobalt Bliss/White',
+ 'Pop Mart Labubu The Monsters Big into Energy Series Vinyl Plush Pendant '
+ 'Sealed Case (6 Blind Boxes)',
+ 'COMING 6TH JUNE Pop Mart Labubu The Monsters Exciting Macarons Vinyl Face '
+ 'Blind Box Whole Set',
+ 'Used Supreme Bandana Tarp Side Bag',
+ 'Used Carolina Panthers Fitted Cap']
 ```
 
 [Gojq project](https://github.com/itchyny/gojq) reimplements the language in
