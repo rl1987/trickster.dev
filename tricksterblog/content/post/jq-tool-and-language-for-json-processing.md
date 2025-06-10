@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "jq: tool and language for JSON processing"
-date = "2025-04-30"
+date = "2025-05-12"
 tags = []
 draft = true
 +++
@@ -267,13 +267,16 @@ $ echo "9001" | jq 'if . > 9000 then "over nine thousand" else "below 9000" end'
 I asked Google Gemini 2.5 to write Fizzbuzz code in jq language. Take a look:
 
 ```
-# fizzbuzz_standard.jq
-range(1; 101) | # Generate numbers from 1 to 100
-if . % 15 == 0 then "FizzBuzz" # Check divisibility by 15 first
-elif . % 3 == 0 then "Fizz"     # Then by 3
-elif . % 5 == 0 then "Buzz"     # Then by 5
-else .                          # Otherwise, output the number
-end
+range(1; 101) |
+  if . % 15 == 0 then
+    "\(.) FizzBuzz"
+  elif . % 3 == 0 then
+    "\(.) Fizz"
+  elif . % 5 == 0 then
+    "\(.) Buzz"
+  else
+    .
+  end
 ```
 
 It can be launched with following command:
@@ -327,7 +330,7 @@ This can be used to gather data programmatically at PLP and PDP levels from
 Shopify store with little to no HTML page scraping. Since the response data
 format is JSON, we can use jq to extract the interesting parts. We will still
 need something else to implement the remaining parts of API scraping code. In
-this can we will use Bash scripting language.
+this case we will use Bash scripting language.
 
 WRITEME: simple API scraping example
 
