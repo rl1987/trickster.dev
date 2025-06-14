@@ -36,7 +36,8 @@ Furthermore, jq project ships ready-to-use binary files as part of their
 official Docker image with jq one can run `docker pull ghcr.io/jqlang/jq:latest`.
 
 There is also [jqplay.org](https://jqplay.org/) - a web playground for playing
-with jq language without installing anything.
+with jq language without installing anything (but not for processing large 
+JSON documents).
 
 The syntax of jq has similarities with JSON syntax. The very simplest thing one
 can do in jq is pretty printing the input for readability (this can be turned 
@@ -242,7 +243,7 @@ $ jq --null-input '[range(100)]' | jq '.[] | . + 1000' | head
 In jq language `map` is equivalent to `map()` in Python and `select` is
 equivalent to `filter()`. 
 
-This allows do implement data processing in FP-like manner: 
+This allows us to implement data processing in FP-like manner: 
 
 ```
 $ echo "[1000, 2000, 3000, 5000, 9001, 10240]" | jq '.[] | select(. > 9000)'
@@ -269,11 +270,11 @@ I asked Google Gemini 2.5 to write Fizzbuzz code in jq language. Take a look:
 ```
 range(1; 101) |
   if . % 15 == 0 then
-    "\(.) FizzBuzz"
+    "FizzBuzz"
   elif . % 3 == 0 then
-    "\(.) Fizz"
+    "Fizz"
   elif . % 5 == 0 then
-    "\(.) Buzz"
+    "Buzz"
   else
     .
   end
@@ -299,9 +300,9 @@ extension and write one more jq functions in there like it is done in
 Now it's time for a real-worldish example of using jq for data extraction. But 
 first, let me show you a trick. Pretty much all Shopify stores that don't use
 custom frontend expose some APIs with product data. First, `/products.json`
-endpoint provides a product list. It acts as paginated PLP API with parameters
-`page` for page number (starting with 1) and `limit` for page size (can be up
-to 250). See the following examples:
+endpoint provides a product list. It acts as paginated Product List Page (PLP) 
+API with parameters `page` for page number (starting with 1) and `limit` for 
+page size (can be up to 250). See the following examples:
 
 * https://hypebeastbaltics.com/products.json
 * https://hypebeastbaltics.com/products.json?limit=10&page=1
@@ -314,7 +315,7 @@ For our example store that would be online-hypebeastbaltics.myshopify.com.
 [Screenshot 1](/2025-04-26_15.57.30.png)
 
 If you want individual product data from the store that can be retrieved by
-appending `.js.` or `.json` to PDP URL path. This will give you slightly
+appending `.js` or `.json` to PDP URL path. This will give you slightly
 different versions of the data and, depending on the target, fields regarding 
 inventory or product availability might be present in one form, but not in 
 another. For example the following URLs can be used for API scraping:
@@ -328,8 +329,8 @@ It is also possible to retrieve products from collection, e.g.:
 * https://hypebeastbaltics.com/collections/clothing-1/products.json?limit=5&page=2
 
 This can be used to gather data programmatically at PLP and PDP levels from 
-Shopify store with little to no HTML page scraping. Since the response data
-format is JSON, we can use jq to extract the interesting parts. We will still
+Shopify store with little to no need for HTML page scraping. Since the response 
+data format is JSON, we can use jq to extract the interesting parts. We will still
 need something else to implement the remaining parts of API scraping code. In
 this case we will use Bash scripting language.
 
@@ -367,7 +368,7 @@ For our convenience there are wrappers in higher level languages:
 * [`node-jq` for Node.js](https://www.npmjs.com/package/node-jq)
 * [JSON::JQ for Perl](https://metacpan.org/pod/JSON::JQ)
 
-For example, jq Python module makes API scraping code less tedious:
+For example, the Python module makes API scraping code less tedious:
 
 ```
 >>> import requests
