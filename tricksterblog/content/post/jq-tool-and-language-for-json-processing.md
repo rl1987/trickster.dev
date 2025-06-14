@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
 title = "jq: tool and language for JSON processing"
-date = "2025-05-12"
-tags = []
-draft = true
+date = "2025-05-14"
+tags = ["jq", "scraping", "tools"]
 +++
 
 JSON is the dominant data representation format for most of the modern
