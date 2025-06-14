@@ -1,7 +1,7 @@
 +++
 author = "rl1987"
 title = "jq: tool and language for JSON processing"
-date = "2026-05-14"
+date = "2025-05-14"
 tags = ["jq", "scraping", "tools"]
 +++
 
