@@ -311,7 +311,7 @@ It should be noted that sometimes primary store domain cannot be used and
 should be replaced with .myshopify subdomain that can be found in page source.
 For our example store that would be online-hypebeastbaltics.myshopify.com.
 
-[Screenshot 1](/2026-04-26_15.57.30.png)
+[Screenshot 1](/2025-04-26_15.57.30.png)
 
 If you want individual product data from the store that can be retrieved by
 appending `.js` or `.json` to PDP URL path. This will give you slightly
