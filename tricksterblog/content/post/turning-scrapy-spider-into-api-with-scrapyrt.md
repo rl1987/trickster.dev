@@ -256,7 +256,7 @@ ENTRYPOINT ["scrapyrt", "-i", "0.0.0.0"]
 
 To learn more about ScrapyRT, see the [official documentation](https://scrapyrt.readthedocs.io/en/stable/).
 
-Key limitatation to keep in mind is that ScrapyRT is not designed to support
+Key limitation to keep in mind is that ScrapyRT is not designed to support
 long crawls. It is meant to be used to help software outside Scrapy to scrape
 a single page or small number of pages. This solution effectively turns web
 sites into RESTful APIs. However if you need a way to launch large scraping
