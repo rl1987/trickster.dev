@@ -157,10 +157,6 @@ the certificate downloaded from MITM proxy server. Once that is done, we can
 go to some random website via Google Chrome and verify that HTTP traffic
 can be inspected via mitmproxy.
 
-However, if we open Google search app and try running a query that will fail.
-In mitmproxy UI we see a warning the a certificate is not trusted on client side.
-We will try to tackle this problem with Frida.
-
 So it's time to install Frida. There are two parts to Frida: 1) Python tooling
 to be launched in the host system and 2) binary server running under root user
 within Android system. Architecture of binary part has to match your emulator 
@@ -172,4 +168,141 @@ Python part of Frida can be install via PIP:
 $ pip3 install frida-tools
 ```
 
+Let us download Frida server binary, decompress it and rename the binary file
+for our convenience.
+
+```
+$ wget https://github.com/frida/frida/releases/download/17.2.17/frida-server-17.2.17-android-arm64.xz
+$ unxz frida-server-17.2.17-android-arm64.xz 
+$ mv frida-server-17.2.17-android-arm64 frida-server
+```
+
+Now we can push the Frida server via ADB and launch it under root (keep this
+running in terminal session):
+
+```
+$ adb push frida-server /data/local/tmp
+frida-server: 1 file pushed, 0 skipped. 226.4 MB/s (52019048 bytes in 0.219s)
+$ adb shell
+emu64a:/ $ su
+emu64a:/ # chmod +x /data/local/tmp/frida-server                               
+emu64a:/ # /data/local/tmp/frida-server                                        
+```
+
+One of the Android apps that implement TLS cert pinning is Hollister Co. app.
+You can download the APK file from [third party 
+source](https://hollister.en.uptodown.com/android/download) and install it by
+dragging the APK file into emulator window. Now everything comes together.
+We are going to use generalised [Bypass SSL Pinning](https://codeshare.frida.re/@Q0120S/bypass-ssl-pinning/)
+script that covers a variety of ways certificate pinning can be implemented 
+and attempts to disable them.
+
+```
+$ frida -U --codeshare Q0120S/bypass-ssl-pinning -f com.abercrombie.hollister
+     ____
+    / _  |   Frida 17.2.16 - A world-class dynamic instrumentation toolkit
+   | (_| |
+    > _  |   Commands:
+   /_/ |_|       help      -> Displays the help system
+   . . . .       object?   -> Display information about 'object'
+   . . . .       exit/quit -> Exit
+   . . . .
+   . . . .   More info at https://frida.re/docs/home/
+   . . . .
+   . . . .   Connected to Android Emulator 5554 (id=emulator-5554)
+Spawned `com.abercrombie.hollister`. Resuming main thread!              
+[Android Emulator 5554::com.abercrombie.hollister ]-> ---
+Unpinning Android app...
+[+] SSLPeerUnverifiedException auto-patcher
+[+] HttpsURLConnection (setDefaultHostnameVerifier)
+[+] HttpsURLConnection (setSSLSocketFactory)
+[+] HttpsURLConnection (setHostnameVerifier)
+[+] SSLContext
+[+] TrustManagerImpl
+[ ] OkHTTPv3 (list)
+[ ] OkHTTPv3 (cert)
+[ ] OkHTTPv3 (cert array)
+[ ] OkHTTPv3 ($okhttp)
+[ ] Trustkit OkHostnameVerifier(SSLSession)
+[ ] Trustkit OkHostnameVerifier(cert)
+[ ] Trustkit PinningTrustManager
+[ ] Appcelerator PinningTrustManager
+[ ] OpenSSLSocketImpl Conscrypt
+[ ] OpenSSLEngineSocketImpl Conscrypt
+[ ] OpenSSLSocketImpl Apache Harmony
+[ ] PhoneGap sslCertificateChecker
+[ ] IBM MobileFirst pinTrustedCertificatePublicKey (string)
+[ ] IBM MobileFirst pinTrustedCertificatePublicKey (string array)
+[ ] IBM WorkLight HostNameVerifierWithCertificatePinning (SSLSocket)
+[ ] IBM WorkLight HostNameVerifierWithCertificatePinning (cert)
+[ ] IBM WorkLight HostNameVerifierWithCertificatePinning (string string)
+[ ] IBM WorkLight HostNameVerifierWithCertificatePinning (SSLSession)
+[ ] Conscrypt CertPinManager
+[ ] CWAC-Netsecurity CertPinManager
+[ ] Worklight Androidgap WLCertificatePinningPlugin
+[ ] Netty FingerprintTrustManagerFactory
+[ ] Squareup CertificatePinner (cert)
+[ ] Squareup CertificatePinner (list)
+[ ] Squareup OkHostnameVerifier (cert)
+[ ] Squareup OkHostnameVerifier (SSLSession)
+[+] Android WebViewClient (SslErrorHandler)
+[ ] Android WebViewClient (WebResourceError)
+[ ] Apache Cordova WebViewClient
+[ ] Boye AbstractVerifier
+[ ] Appmattus (CertificateTransparencyInterceptor)
+[ ] Appmattus (CertificateTransparencyTrustManager)
+Unpinning setup completed
+---
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing Trustmanager (Android < 7) request
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+  --> Bypassing TrustManagerImpl checkTrusted 
+```
+
+Hollister Co. app now can be operated successfully and we can also see the 
+HTTP flows being intercepted in mitmproxy.
+
+If we look through the script we just used, we see some JavaScript code with
+many try-catch blocks, for example:
+
+```javascript
+        // OpenSSLSocketImpl Conscrypt
+        try {
+            const OpenSSLSocketImpl = Java.use('com.android.org.conscrypt.OpenSSLSocketImpl');
+            OpenSSLSocketImpl.verifyCertificateChain.implementation = function (certRefs, JavaObject, authMethod) {
+                console.log('  --> Bypassing OpenSSLSocketImpl Conscrypt');
+            };
+            console.log('[+] OpenSSLSocketImpl Conscrypt');
+        } catch (err) {
+            console.log('[ ] OpenSSLSocketImpl Conscrypt');
+        }
+```
+
+We can see that this piece of code attacks one of the possible cert pinning
+implementations by replacing exact code to verify certificate chain with 
+small function that only prints a debug log. This is an example of dynamic 
+instrumentation concept that Frida project centers around.
 
