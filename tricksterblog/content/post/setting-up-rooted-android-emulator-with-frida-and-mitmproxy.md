@@ -1,15 +1,16 @@
 +++
 author = "rl1987"
 title = "Setting up rooted Android emulator with Frida and mitmproxy "
-date = "2025-09-30"
+date = "2025-09-12"
 draft = true
-tags = ["security", "android", "mitmproxy"]
+tags = ["security", "android", "mitmproxy", "reversing"]
 +++
 
 Previously I have covered how to set up [mitmproxy](https://www.mitmproxy.org/) 
-with [Android emulator](/post/setting-up-mitmproxy-with-android/) or iOS device
+with [Android emulator](/post/setting-up-mitmproxy-with-android/) or 
+[iOS device](/post/setting-up-mitmproxy-with-ios17.1/)
 for the purposes of mobile app traffic interception. However, there is more to
-mobile app hacking than that. Not all apps allow their API calls to be 
+mobile app hacking, as not all apps allow their API calls to be 
 hijacked by the simple setup I have described earlier. Some of the more secure
 apps implement a security mechanism called X.509 certificate pinning that entails
 checking if certificate on the server matches the expected one, thus requiring
@@ -317,7 +318,7 @@ many try-catch blocks, for example:
 ```
 
 We can see that this piece of code attacks one of the possible cert pinning
-implementations by replacing exact code to verify certificate chain with 
-small function that only prints a debug log. This is an example of dynamic 
-instrumentation concept that Frida project centers around.
+implementations by replacing (at runtime!) the exact code to verify certificate 
+chain with small function that only prints a debug log. This is an example of the
+dynamic instrumentation concept that Frida project centers around.
 
