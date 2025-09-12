@@ -67,8 +67,13 @@ and XR headsets are supported. Depending on the option you choose, you may
 need to download additional system images and SDKs to get it running (in that
 case Android studio will walk you through the process).
 
+[Screenshot 1](/2025-09-11_13.08.38.png)
+[Screenshot 2](/2025-09-11_13.08.57.png)
+
 For the sake of simplicity, let us pick Small Phone with Play Store and latest
 version of Android. We launch the emulator and let it boot.
+
+[Screenshot 3](/2025-09-11_13.29.53.png)
 
 Another way to create an emulator is to use avdmanager CLI tool. While this
 tool comes with Android Studio, it may not be loaded in your shell 
@@ -139,6 +144,8 @@ additional menu in Virtual Device Manager window. You will see that Magisk app
 is available on the virtual phone. It will require some additional setup
 and one more reboot of the emulator.
 
+[Screenshot 4](/2025-09-11_14.09.22.png)
+
 Now, if we try gaining root access via ADB again, Magisk GUI will ask us to
 approve it for the first time, but we will be able to get it:
 
@@ -149,6 +156,8 @@ emu64a:/ # whoami
 root
 ```
 
+[Screenshot 5](/2025-09-11_14.10.47.png)
+
 Now we can launch mitmproxy and go through procedure described in my 
 [older post](/post/setting-up-mitmproxy-with-android/) up until the point where
 we need to trust a certificate. On modern Android we need to go to Settings app,
@@ -156,6 +165,10 @@ search for "CA certificate" and go through the simple flow to install and trust
 the certificate downloaded from MITM proxy server. Once that is done, we can 
 go to some random website via Google Chrome and verify that HTTP traffic
 can be inspected via mitmproxy.
+
+[Screenshot 6](/Screenshot_1757575694.png)
+[Screenshot 7](/Screenshot_1757575715.png)
+[Screenshot 8](/Screenshot_1757575721.png)
 
 So it's time to install Frida. There are two parts to Frida: 1) Python tooling
 to be launched in the host system and 2) binary server running under root user
@@ -284,6 +297,8 @@ Unpinning setup completed
 
 Hollister Co. app now can be operated successfully and we can also see the 
 HTTP flows being intercepted in mitmproxy.
+
+[Screenshot 9](/2025-09-11_16.09.49.png)
 
 If we look through the script we just used, we see some JavaScript code with
 many try-catch blocks, for example:
