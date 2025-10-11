@@ -1,4 +1,4 @@
-// https://www.rockyourcode.com/til-how-to-create-full-text-rss-feed-for-hugo/
+<!-- https://www.rockyourcode.com/til-how-to-create-full-text-rss-feed-for-hugo/ -->
 {{- $pctx := . -}}
 {{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
 {{- $pages := slice -}}
