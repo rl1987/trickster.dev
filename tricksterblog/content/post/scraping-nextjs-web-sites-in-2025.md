@@ -35,7 +35,16 @@ Rendering (SSR). The latter will become important for our purposes in a moment.
 In addition to all of that, Next.js provides some tooling for easier deployment 
 and nicer developer experience.
 
-* `__NEXT_DATA__`
+Those of us who work in web scraping have seen that many sites tend to have pages
+with `<script id="__NEXT_DATA__" type="application/json">` tag that contains
+a large JSON document with all kinds of juicy data we can parse out of there.
+This is related to concept called hydration - embedding data within HTML
+document during server-side rendering so that it could be attached to React
+data model when bootstrapping all the React client-side machinery that makes
+the page interactive. For example, the first page of the product list is 
+fetched with this `__NEXT_DATA__` shebang, but if you go to the next page of the
+product list, REST API call will be initiated to fetch further data.
+
 * `self.__next_f.push` / Next.js flight data
 * njsparser
 
