@@ -45,6 +45,10 @@ the page interactive. For example, the first page of the product list is
 fetched with this `__NEXT_DATA__` shebang, but if you go to the next page of the
 product list, REST API call will be initiated to fetch further data.
 
+One simple way to browse this data is to type `__NEXT_DATA__` into Console tab
+of browser dev tools panel. You will be presented with tree structure UI to
+explore it. 
+
 * `self.__next_f.push` / Next.js flight data
 * njsparser
 
