@@ -11,7 +11,9 @@ that contain a lot of data represented in JSONesque (but not quite JSON) format
 passed to `self.__next_f.push()` Javascript function calls. What's going on 
 here and how do we parse this stuff? To understand what this is about, we must
 go through a little journey across the technological landscape of the modern
-web.
+web. Note that I am not a frontend developer and don't aspire to be. For the
+most part, I extract data from web apps and web sites, not develop them. The
+following is what I managed to understand from reading around.
 
 So, it's widely known that [React](https://react.dev/) is a very prominent 
 frontend framework to develop web apps in JavaScript. Altough one can develop
