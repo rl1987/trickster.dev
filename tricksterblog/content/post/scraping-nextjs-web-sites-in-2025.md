@@ -51,6 +51,19 @@ One simple way to browse this data is to type `__NEXT_DATA__` into Console tab
 of browser dev tools panel. You will be presented with tree structure UI to
 explore it. 
 
+In some newer React/Next.js websites another approach is used to hydrate the
+pages. If React Server Components is used, that involves splitting the initial
+data into chunks, serializing it to React-specific wire format and including
+it into the page through those `self.__next_f.push()` calls. That may or may
+not make the pages smaller (see Next.js 
+[discussion #42170](https://github.com/vercel/next.js/discussions/42170)) and
+from a distance it looks like they're making already complicated systems even
+more complicated. But as web scrapers developers we primarily care about 
+extracting data from this mess. So how do we do that?
+
+Serialised stuff in `self.__next_f.push()` calls is known as Next.js flight 
+data.
+
 * `self.__next_f.push` / Next.js flight data
 * njsparser
 
