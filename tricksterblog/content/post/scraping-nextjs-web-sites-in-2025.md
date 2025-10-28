@@ -62,8 +62,9 @@ more complicated. But as web scrapers developers we primarily care about
 extracting data from this mess. So how do we do that?
 
 Serialised stuff in `self.__next_f.push()` calls is known as Next.js flight 
-data.
+data. We need to parse it somehow. We could read through React.js/Next.js 
+framework code and try to work it out, but fortunately someone already did the
+hard part for us. There's [njsparser](https://github.com/novitae/njsparser)
+Python module that we can use to scrape pages with Next.js flight data. 
 
-* `self.__next_f.push` / Next.js flight data
-* njsparser
 
