@@ -7,7 +7,7 @@ tags = ["scraping"]
 +++
 
 When looking into some targets for web scraping, you may come across pages
-that contain a lot of data represented in JSONesque (but not quite JSON) format
+that contain a lot of data represented in JSON-like (but not quite JSON) format
 passed to `self.__next_f.push()` Javascript function calls. What's going on 
 here and how do we parse this stuff? To understand what this is about, we must
 go through a little journey across the technological landscape of the modern
@@ -16,7 +16,7 @@ most part, I extract data from web apps and web sites, not develop them. The
 following is what I managed to understand from reading around.
 
 So, it's widely known that [React](https://react.dev/) is a very prominent 
-frontend framework to develop web apps in JavaScript. Altough one can develop
+frontend framework to develop web apps in JavaScript. Although one can develop
 web apps with the very basics - HTML, CSS and vanilla JavaScript, doing so is
 too simple for enterprise software teams and tech startups drunk on that sweet
 VC funding. They need more powerful abstractions, such as reusable components,
@@ -53,7 +53,9 @@ explore it. [An older post](/post/scrapy-simplified-developing-a-single-file-web
 gives an example of parsing real data from `__NEXT_DATA__` JSON document.
 
 In some newer React/Next.js websites another approach is used to hydrate the
-pages. If React Server Components is used, that involves splitting the initial
+pages that relies on something called React Server Components - a new feature
+of React that moves even more computation back to the backend side.
+If React Server Components is used, that involves splitting the initial
 data into chunks, serializing it to React-specific wire format and including
 it into the page through those `self.__next_f.push()` calls. That may or may
 not make the pages smaller (see Next.js 
@@ -104,11 +106,9 @@ import requests
 import njsparser
 from pprint import pprint
 
-# Here I get my page's html
-
 proxy_url = input("Proxy URL: ")
 
-if proxy_url.strip == "":
+if proxy_url.strip() == "":
     proxy_url = None
 
 proxies = {
@@ -117,7 +117,7 @@ proxies = {
 
 url = input("Page URL: ")
 
-response = requests.get(url, proxies, verify=False)
+response = requests.get(url, proxies=proxies, verify=False)
 print(response.url, response.status_code)
 
 fd = njsparser.BeautifulFD(response.text)
@@ -295,4 +295,7 @@ Pages:
 - https://www.nike.com/t/[slug]
 - https://www.nike.com/t/[slug]/[styleColor]
 ```
+
+To conclude, we learned about Next.js flight data and how to use an open source
+Python library to make it tractable within web scrapers written in Python.
 
