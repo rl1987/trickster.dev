@@ -1,9 +1,8 @@
 +++
 author = "rl1987"
-draft = true
 title = "Scraping Next.js web sites in 2025"
 date = "2025-10-31"
-tags = ["scraping"]
+tags = ["scraping", "python", "next.js", "javascript"]
 +++
 
 When looking into some targets for web scraping, you may come across pages
