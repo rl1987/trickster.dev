@@ -47,18 +47,26 @@ the page interactive. For example, the first page of the product list is
 fetched with this `__NEXT_DATA__` shebang, but if you go to the next page of the
 product list, REST API call will be initiated to fetch further data.
 
+[Screenshot 1](/2025-10-31_19.08.28.png)
+
 One simple way to browse this data is to type `__NEXT_DATA__` into Console tab
 of browser dev tools panel. You will be presented with tree structure UI to
 explore it. [An older post](/post/scrapy-simplified-developing-a-single-file-web-scraper)
 gives an example of parsing real data from `__NEXT_DATA__` JSON document.
+
+[Screenshot 2](/2025-10-31_19.09.30.png)
+[Screenshot 3](/2025-10-31_19.09.44.png)
 
 In some newer React/Next.js websites another approach is used to hydrate the
 pages that relies on something called React Server Components - a new feature
 of React that moves even more computation back to the backend side.
 If React Server Components is used, that involves splitting the initial
 data into chunks, serializing it to React-specific wire format and including
-it into the page through those `self.__next_f.push()` calls. That may or may
-not make the pages smaller (see Next.js 
+it into the page through those `self.__next_f.push()` calls. 
+
+[Screenshot 4](/2025-10-31_19.14.26.png)
+
+That may or may not make the pages smaller (see Next.js 
 [discussion #42170](https://github.com/vercel/next.js/discussions/42170)) and
 from a distance it looks like they're making already complicated systems even
 more complicated. But as web scrapers developers we primarily care about 
