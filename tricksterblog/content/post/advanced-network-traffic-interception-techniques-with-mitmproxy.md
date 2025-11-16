@@ -16,5 +16,51 @@ programmable DNS server and even as a virtual network interface on Linux. In
 this article we will go through some of the lesser known mitmproxy features
 for uncovering what goes on between servers and clients.
 
+## Reverse proxy mode
 
+...
+
+## Transparent proxy mode
+
+...
+
+## mitmproxy as Wireguard VPN server
+
+...
+
+## SOCKS proxy mode
+
+```
+$ mitmproxy --mode socks5
+```
+
+This will launch mimtproxy as SOCKS5 server, bound to a standard port - 1080.
+We can try it with curl:
+
+```
+$ curl --socks5 localhost --head https://nike.com -k -v
+* Host localhost:1080 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:1080...
+* Host nike.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 13.226.69.50, 13.226.69.57, 13.226.69.98, 13.226.69.103
+* SOCKS5 connect to 13.226.69.50:443 (locally resolved)
+* SOCKS5 request granted.
+* Connected to localhost () port 1080
+<...>
+```
+
+## mitmproxy as DNS server
+
+...
+
+## Passing traffic to upstream proxy
+
+...
+
+## mitmproxy virtual network interface
+
+...
 
