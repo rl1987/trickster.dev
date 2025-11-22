@@ -18,7 +18,13 @@ for uncovering what goes on between servers and clients.
 
 ## Reverse proxy mode
 
-...
+In some cases you have a server that you want to spy on, or for some reason
+setting up proxy configuration and X.509 cert is not viable for your use case.
+To cover situations like this, mitmproxy allows you to run in reverse proxy mode.
+Client would access mitmproxy as if it was a real server, but mitmproxy would
+act as a spy in the middle between client and the server being "protected". This
+is similar to a common use case of nginx server, except that it is being done
+for the purpose of network interception.
 
 ## Transparent proxy mode
 
@@ -58,7 +64,8 @@ $ curl --socks5 localhost --head https://nike.com -k -v
 
 ## Passing traffic to upstream proxy
 
-...
+In some case, such as dealing with georestricted APIs, one may want to introduce
+a second hop to some other proxy and pass the requests there. 
 
 ## mitmproxy virtual network interface
 
