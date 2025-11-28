@@ -65,7 +65,14 @@ $ curl --socks5 localhost --head https://nike.com -k -v
 ## Passing traffic to upstream proxy
 
 In some case, such as dealing with georestricted APIs, one may want to introduce
-a second hop to some other proxy and pass the requests there. 
+a second hop to some other proxy and pass the requests there. For example:
+
+```
+$ mitmproxy --mode upstream:http://brd.superproxy.io:33335 --upstream-auth [REDACTED]:[REDACTED]
+```
+
+Value for `--upstream-auth` (username and password) is formatted in the same
+way as `--proxy-auth` of curl.
 
 ## mitmproxy virtual network interface
 
