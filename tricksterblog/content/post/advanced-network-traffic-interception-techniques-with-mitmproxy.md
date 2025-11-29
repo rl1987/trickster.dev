@@ -61,11 +61,27 @@ site and have HTTP flows intercepted for further analysis.
 
 ## Transparent proxy mode
 
-...
+Transparent mode involves rerouting traffic at network (IP) layer so that 
+applications without any way to configure network proxying can be covered by
+traffic interception. Instructions on how to do this are provided on 
+[mitmproxy documentation page](https://docs.mitmproxy.org/stable/howto/transparent/).
 
 ## mitmproxy as Wireguard VPN server
 
-...
+Easiest way to use Wireguard mode is to choose mitmproxy web UI option:
+
+```
+$ mitmweb --mode wireguard
+```
+
+In Capture tab we will have QR code we can scan with the official WireGuard 
+app, which will guide us through a flow of setting it up on a mobile device.
+However, before you do that it is best to have X.509 certificate installed by
+going through the default mode setup procedure or some other way, so that TLS
+flows can be properly intercepted. 
+
+But if you want to use TUI the WireGuard configuration will be available at
+`~/.mitmproxy/wireguard.conf`.
 
 ## SOCKS proxy mode
 
