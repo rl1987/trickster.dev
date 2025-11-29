@@ -92,7 +92,7 @@ covering DNS and some other protocols.
 $ mitmproxy --mode socks5
 ```
 
-This will launch mimtproxy as SOCKS5 server, bound to a standard port - 1080.
+This will launch mitmproxy as SOCKS5 server, bound to a standard port - 1080.
 We can try it with curl:
 
 ```
