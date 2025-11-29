@@ -12,7 +12,7 @@ desktop computer, then configure proxy settings and install X.509 certificate
 on a client device (e.g. smart phone). But there is more to mitmproxy than that.
 It can also be used as reverse proxy, transparent proxy (on Linux and macOS),
 Wireguard VPN server that also intercepts network traffic, SOCKS proxy server,
-programmable DNS server and even as a virtual network interface on Linux. In 
+customisable DNS server and even as a virtual network interface on Linux. In 
 this article we will go through some of the lesser known mitmproxy features
 for uncovering what goes on between servers and clients.
 
@@ -78,10 +78,13 @@ In Capture tab we will have QR code we can scan with the official WireGuard
 app, which will guide us through a flow of setting it up on a mobile device.
 However, before you do that it is best to have X.509 certificate installed by
 going through the default mode setup procedure or some other way, so that TLS
-flows can be properly intercepted. 
+flows can be properly intercepted.
 
 But if you want to use TUI the WireGuard configuration will be available at
 `~/.mitmproxy/wireguard.conf`.
+
+This mode has an added benefit of capturing not only HTTP(S) flows, but also
+covering DNS and some other protocols.
 
 ## SOCKS proxy mode
 
@@ -109,7 +112,30 @@ $ curl --socks5 localhost --head https://nike.com -k -v
 
 ## mitmproxy as DNS server
 
-...
+We can also use mitmproxy as a simple DNS server that implements a subset of
+the protocol (only A and AAAA queries) by running it in DNS mode:
+
+```
+$ mitmproxy --mode dns@5333
+```
+
+We can test it by using [dnsx](https://github.com/projectdiscovery/dnsx) from 
+ProjectDiscovery:
+
+```
+$ echo "google.com" | dnsx -resp -a -resolver "127.0.0.1:5333"    
+
+      _             __  __
+   __| | _ __   ___ \ \/ /
+  / _' || '_ \ / __| \  / 
+ | (_| || | | |\__ \ /  \ 
+  \__,_||_| |_||___//_/\_\
+
+		projectdiscovery.io
+
+[INF] Current dnsx version 1.2.2 (latest)
+google.com [A] [172.217.25.78]
+```
 
 ## Passing traffic to upstream proxy
 
@@ -125,5 +151,20 @@ way as `--proxy-auth` of curl.
 
 ## mitmproxy virtual network interface
 
-...
+This one will require Linux system with root access. It entails creating a 
+virtual network interface that intercepts all traffic it passes through.
+For example:
+
+```
+$ mitmproxy --mode tun
+```
+
+Some programs, such as curl will let you specify a network interface it will
+use:
+
+```
+$ curl --interface tun0 --head https://nike.com -v -k
+```
+
+For others you will need to modify a routing table to make interception happen.
 
