@@ -36,7 +36,7 @@ If you run mitmproxy server locally `--set block_global=false` is not needed.)
 
 However, there are things that we still must do on client side. First, we must
 override DNS name of the proxied target so that it resolves to proxy IP address.
-On Linux and Unix systems the simplest way to so is to add a single line to 
+On Linux and Unix systems the simplest way to do so is to add a single line to 
 /etc/hosts file, such as:
 
 ```
@@ -58,7 +58,7 @@ A modal view will present information about certificate. In Details tab we
 can verify that it is indeed issued for the target domain and press "Export..."
 button to download it. 
 
-[Screeshot 3](/2025-11-29_17.55.57.png)
+[Screenshot 3](/2025-11-29_17.55.57.png)
 
 Now we need to go to `chrome://certificate-manager`,
 press the "Installed by you..." table row, then press the "Import" button next
@@ -80,7 +80,7 @@ traffic interception. Instructions on how to do this are provided on
 
 ## mitmproxy as Wireguard VPN server
 
-Easiest way to use Wireguard mode is to choose mitmproxy web UI option:
+The easiest way to use Wireguard mode is to choose mitmproxy web UI option:
 
 ```
 $ mitmweb --mode wireguard
@@ -95,7 +95,7 @@ flows can be properly intercepted.
 [Screenshot 6](/2025-11-29_18.34.37.png)
 [Screenshot 7](/2025-11-29_18.40.04.png)
 
-But if you want to use TUI the WireGuard configuration will be available at
+Ff you want to use TUI instead, the WireGuard configuration will be available at
 `~/.mitmproxy/wireguard.conf`.
 
 This mode has an added benefit of capturing not only HTTP(S) flows, but also
@@ -156,7 +156,7 @@ google.com [A] [172.217.25.78]
 
 ## Passing traffic to upstream proxy
 
-In some case, such as dealing with georestricted APIs, one may want to introduce
+In some cases, such as dealing with georestricted APIs, one may want to introduce
 a second hop to some other proxy and pass the requests there. For example:
 
 ```
