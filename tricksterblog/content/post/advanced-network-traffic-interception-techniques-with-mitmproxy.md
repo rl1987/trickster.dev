@@ -152,6 +152,8 @@ $ echo "google.com" | dnsx -resp -a -resolver "127.0.0.1:5333"
 google.com [A] [172.217.25.78]
 ```
 
+[Screenshot 8](/2025-11-29_19.30.00.png)
+
 ## Passing traffic to upstream proxy
 
 In some case, such as dealing with georestricted APIs, one may want to introduce
@@ -183,3 +185,4 @@ $ curl --interface tun0 --head https://nike.com -v -k
 
 For others you will need to modify a routing table to make interception happen.
 
+[Screenshot 9](/2025-11-29_19.43.38.png)
